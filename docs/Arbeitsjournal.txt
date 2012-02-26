@@ -1,0 +1,4 @@
+Arbeitsjournal
+==============
+
+24.02.2012:	Gruppe gebildet, Game definiert (Khet-Clone), Analyse begonnen, GitHub aufgesetzt

@@ -1,0 +1,73 @@
+Zusammengefasste Anleitung des Spiels KHET 2.0
+(Bitte nicht abänderen -> Evtl. für unser Game kopieren & änderen)
+
+
+Figuren
+=======
+
+1 Sphinx:  Laserquelle
+[Unzerstörbar, Nicht verschiebbar, nur in 2 Richtungen ausrichtbar]
+
+1 Pharaoh: König
+
+2 Anubis:  Beschützer
+[Kann nur von Hinten oder den Seiten zerstört werden]
+
+7 Pyramid: Einseitiger Spiegel
+[Zerstörbar auf 2 Seiten]
+
+2 Scarab:  Doppelseitiger Spiegel
+[Unzerstörbar, Auch Platztausch möglich mit Pyramid oder Anubis (Farben egal)]
+
+
+Optionale Figur
+===============
+(Bei Verwendung wird wahrscheinlich ein Scarab wehniger verwendet)
+
+1 Horus:   Laser-Aufteiler
+[Unzerstörbar]
+
+
+Spielzug
+========
+
+Ein Spielzug ist EINER der folgenden Bewegungen eines Spielers:
+-Rotation einer eigenen Figur um 90° (incl. Sphinx)
+-Verschiebung einer eigenen Figur um 1 Feld (auch Diagonal möglich)
+
+
+Ablauf
+======
+
+1. Start Aufstellung Einfach/Normal/Schwer.
+
+2. Spieler 1 macht einen Spielzug.
+3. Sphinx/Laser von Spieler 1 wird aktiviert.
+   Wird eine Figur richtig getroffen, so wird sie zerstört.
+   Sphinx/Laser wird wieder deaktiviert.
+4. Spieler 2 macht einen Spielzug.
+5. Sphinx/Laser von Spieler 2 wird aktiviert.
+   Wird eine Figur richtig getroffen, so wird sie zerstört.
+   Sphinx/Laser wird wieder deaktiviert.
+
+6. Schritt 2-5 wird solange wiederholt, bis ein Pharao getroffen wird.
+7. Der Spieler mit dem überlebenden Pharao gewinnt.
+
+Weiteres
+========
+
+-Spielzüge können nicht rückgängig gemacht werden (Ausprobieren nicht erlaubt).
+-Eigene Figuren können nicht auf Felder der gegnerischen Farbe verschoben werden.
+-Wenn die gleiche Brettanordnung im selben Spiel das 3. Mal auftritt,
+ d.h. di gleichen Figuren mit den gleichen Farben die gleichen Felder mit den
+ gleichen Orientationen besetzen, kann der Spieler, der an der Reihe ist, das
+ Spiel für unentschieden erklären.
+
+
+
+
+
+
+
+
+
