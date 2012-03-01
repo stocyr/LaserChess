@@ -131,7 +131,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
    }
 
    /* initialize and open the graphic window */
-   InitGraphic(600, 400);
+   InitGraphic(600, 400); // 600*400 pixels window
    //InitGraphic(-1, -1);  /* Negative Values gives full-screen window */
 
    /* Fill the whole area with grey */
