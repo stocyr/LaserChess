@@ -31,6 +31,19 @@ Links
 
 * the git book: http://progit.org/book/
 
-# Git
+
+Git
+-----------
 
 * Editor auf Notepad++ ändern: git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+
+* Vereinfachte schematische Darstellung des Git Version Control Systems:
+
+![Git system 1](http://de.whygitisbetterthanx.com/images/local-remote.png)
+
+Hier ist zu beachten: Anstatt mit `git fetch` das Repository herunter zu laden und dann mit `git merge` mit dem Arbeitsverzeichnis zu synchronisieren,
+nutzen wir den Befehl `git pull`, der macht das auf einmal.
+
+* Mit `git add .` können sämtliche Änderungen (ausser Files löschen und hinzufügen) auf einmal zur *staging area* hinzugefügt werden.
+
+* Mit `git commit -a -m 'bemerkung zu diesem commit'` kann direkt vom Arbeitsverzeichnis ein commit gemacht werden (ohne `git add`).
