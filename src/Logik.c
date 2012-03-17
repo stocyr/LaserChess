@@ -36,7 +36,9 @@
 /*                                                                           */
 /*  Input Para :                                                             */
 /*                                                                           */
-/*  Output     :                                                             */
+/*  Output     : if a wall was hit: 0. If a king was hit: -1 for player_red, */
+/*               -2 for player_blue. If a mirror was hit: +1 for player_red, */
+/*               +2 for player_blue                                          */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /*                                                                           */
@@ -44,7 +46,71 @@
 /*                                                                           */
 /*****************************************************************************/
 
-int laser(location pos, Direction dir)
+int laser(enum location pos, enum Direction dir)
 {
-    // here comes the ultimate true recursive laser-processing function
+    enum location next_pos = pos;
+    
+    switch(dir)
+    {
+        case RIGHT:
+            next_pos.x++;
+            break;
+        
+        case UP:
+            next_pos.y++;
+            break;
+        
+        case LEFT:
+            next_pos.x--;
+            break;
+        
+        case DOWN:
+            next_pos.y--;
+            break;
+    }
+    
+    
+    if(!is_inside_map(next_pos))
+    {
+        // wenn nicht mehr im spielfeld, in eine wand gefahren. -> return 0
+        return 0;
+    }
+    else
+    {
+        pawn *next_pawn = map[next_pos.x][next_pos.y]
+    
+        if(next_pawn == NULL)
+        {
+            int return_value;
+            // wenn ein leeres Feld, linie zeichnen
+            return_value = laser(next_pos, dir);
+            // linie wieder auslöschen
+            return return_value;
+        }
+        else
+        {
+            // wenn eine Figur: was für eine?
+            switch(next_pawn->TYPE)
+            {
+                case KING:
+                    // König getroffen: Player negativ zurückgeben
+                    return -(next_pawn->PLAYER)
+                    break;
+                
+                case MIRROR:
+                    // Spiegel getroffen: reflektion?
+                    
+                    // Reflektion berechnen, dir ändern
+                    int return_value;
+                    // gewinkelte linie zeichnen
+                    return_value = laser(next_pos, dir);
+                    // linie wieder auslöschen
+                    return return_value;
+                    
+                    // wenn keine reflektion: Spiegel positiv zurückgeben
+                    return next_pawn->PLAYER
+                    break;
+            }
+        }
+    }
 }
