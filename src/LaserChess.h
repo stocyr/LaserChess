@@ -22,9 +22,6 @@
 /*****************************************************************************/
 
 
-#include <stdio.h>
-#include <stdlib.h>
-
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
 enum Species {KING, MIRROR, SPLITTER, WALL};
 enum Orientation {TOP_RIGHT, TOP_LEFT, BOTTOM_LEFT, BOTTOM_RIGHT};
