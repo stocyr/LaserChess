@@ -27,7 +27,8 @@
 
 enum Affiliation {PLAYER_RED, PLAYER_BLUE};
 enum Species {KING, MIRROR, SPLITTER, WALL};
-enum Orientation {TR, TB, BL, BR};
+enum Orientation {TOP_RIGHT, TOP_LEFT, BOTTOM_LEFT, BOTTOM_RIGHT};
+enum Direction {LEFT, UP, RIGHT, DOWN}
 
 
 #define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
