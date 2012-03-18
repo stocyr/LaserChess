@@ -46,9 +46,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-int laser(enum location pos, enum Direction dir)
+int laser(location pos, enum Direction dir)
 {
-    enum location next_pos = pos;
+    location next_pos = pos;
     
     switch(dir)
     {
@@ -77,14 +77,15 @@ int laser(enum location pos, enum Direction dir)
     }
     else
     {
-        pawn *next_pawn = map[next_pos.x][next_pos.y]
+        pawn *next_pawn = map[next_pos.x][next_pos.y];
+        int return_value, reflection;
     
         if(next_pawn == NULL)
         {
-            int return_value;
-            // wenn ein leeres Feld, linie zeichnen
+            // Leeres Feld: Linie zeichnen, sich selbst ausführen, linie wieder löschen
+            draw_laser(next_pos, dir);
             return_value = laser(next_pos, dir);
-            // linie wieder auslöschen
+            draw_empty_field(next_pos);
             return return_value;
         }
         else
@@ -94,22 +95,49 @@ int laser(enum location pos, enum Direction dir)
             {
                 case KING:
                     // König getroffen: Player negativ zurückgeben
-                    return -(next_pawn->PLAYER)
+                    // evtl. noch eine animation?
+                    return -(next_pawn->PLAYER);
                     break;
                 
                 case MIRROR:
                     // Spiegel getroffen: reflektion?
-                    
-                    // Reflektion berechnen, dir ändern
-                    int return_value;
-                    // gewinkelte linie zeichnen
-                    return_value = laser(next_pos, dir);
-                    // linie wieder auslöschen
-                    return return_value;
-                    
-                    // wenn keine reflektion: Spiegel positiv zurückgeben
-                    return next_pawn->PLAYER
-                    break;
+                    reflection = NORM(dir - next_pawn->DIR);
+                    switch(reflection)
+                    {
+                        case 0:
+                        case 1:
+                            // zerstörung: Spiegel positiv zurückgeben
+                            draw_mirror_destroyed(next_pawn);
+                            return next_pawn->PLAYER
+                            break;
+                        
+                        case 2:
+                            // Reflektion um 90° nach rechts (CW)
+                            ROTATE_RIGHT(dir);
+                            // Linie zeichnen, angle = -1 (CW)
+                            draw_angled_laser(next_pos, dir, -1);
+                            
+                            // sich selbst ausführen und danach linie wieder löschen
+                            return_value = laser(next_pos, dir);
+                            draw_empty_field(next_pos);
+                            draw_figure(next_pawn);
+                            return return_value;
+                            break;
+                        
+                        case 3:
+                            // Reflektion um 90° nach links (CCW)
+                            ROTATE_LEFT(dir);
+                            // Linie zeichnen, angle = +1 (CCW)
+                            draw_angled_laser(next_pos, dir, 1);
+                            
+                            // sich selbst ausführen und danach linie wieder löschen
+                            return_value = laser(next_pos, dir);
+                            draw_empty_field(next_pos);
+                            draw_figure(next_pawn);
+                            return return_value;
+                            break;
+                    }
+                }
             }
         }
     }
