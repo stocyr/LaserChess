@@ -21,13 +21,10 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
-
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "Grafik.h"
 #include "Logik.h"
 #include "LaserChess.h"
+#include "window.h"
 
 
 /*****************************************************************************/
@@ -99,7 +96,7 @@ int laser(location pos, enum Direction dir)
                     // König getroffen: Player negativ zurückgeben
                     draw_king_destroyed(next_pawn);
                     // SLEEP ca 2sek!
-                    Sleep(2); // -> aus Ivos library?
+                    WaitMs(2000);
                     return -(next_pawn->PLAYER);
                     break;
 
@@ -115,7 +112,7 @@ int laser(location pos, enum Direction dir)
                             // zerstörung: Spiegel positiv zurückgeben
                             draw_mirror_destroyed(next_pawn);
                             // SLEEP ca 2sek!
-                            Sleep(2); // -> aus Ivos library?
+                            WaitMs(2000);
                             return next_pawn->PLAYER;
                             break;
 
@@ -149,4 +146,71 @@ int laser(location pos, enum Direction dir)
     }
 
     return 0;
+}
+
+
+/*****************************************************************************/
+/*  Function   : is_inside_map                                  Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : checks if the given coordinates are inside the array        */
+/*                                                                           */
+/*  Input Para : given coordinates                                           */
+/*                                                                           */
+/*  Output     : if inside map (means, inside the range [0 - 7][0 - 5], then */
+/*               it returns 1. Otherwise it returns 0.                       */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+int is_inside_map(location pos)
+{
+    // wenn innerhalb der definierten Array-grenzen:
+    if(pos.x < PLAYGROUND_X_MAX && pos.x > 0
+       pos.y < PLAYGROUND_Y_MAX && pos.y > 0)
+    {
+        // true zurückgeben
+        return 1;
+    }
+    else
+    {
+        // false zurückgeben
+        return 0;
+    }
+    
+    // Python:
+    // return 1 if (0 < pos.x < PLAYGROUND_X_MAX) and (0 < pos.y < PLAYGROUND_Y_MAX) else 0
+    // # - just sayin'
+}
+
+
+/*****************************************************************************/
+/*  Function   : move_figure                                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : moves a figure to the given location                        */
+/*                                                                           */
+/*  Input Para :                                                             */
+/*                                                                           */
+/*  Output     : none                                                        */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void move_figure(*pawn figure, location new_pos)
+{
+    // clearing the new field:
+    draw_empty_field(new_pos);
+    
+    // changing the new location in the figure struct
+    figure->POS = new_pos;
+    
+    // drawing the figure there:
+    draw_figure(figure);
 }
