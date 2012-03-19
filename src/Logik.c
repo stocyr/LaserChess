@@ -92,13 +92,16 @@ int laser(location pos, enum Direction dir)
             // wenn eine Figur: was für eine?
             switch(next_pawn->TYPE)
             {
+                case WALL:
+                    // Mauer getroffen: aufhören, wie bei is_inside_map = 0
+                    return 0;
+                
                 case KING:
                     // König getroffen: Player negativ zurückgeben
                     draw_king_destroyed(next_pawn);
                     // SLEEP ca 2sek!
                     WaitMs(2000);
                     return -(next_pawn->PLAYER);
-                    break;
 
                 case MIRROR:
                     // Spiegel getroffen: reflektion?
@@ -114,7 +117,6 @@ int laser(location pos, enum Direction dir)
                             // SLEEP ca 2sek!
                             WaitMs(2000);
                             return next_pawn->PLAYER;
-                            break;
 
                         case 2:
                             // Reflektion um 90° nach rechts (CW)
@@ -126,7 +128,6 @@ int laser(location pos, enum Direction dir)
                             return_value = laser(next_pos, dir);
                             draw_figure(next_pawn);
                             return return_value;
-                            break;
 
                         case 3:
                             // Reflektion um 90° nach links (CCW)
@@ -139,8 +140,42 @@ int laser(location pos, enum Direction dir)
                             draw_empty_field(next_pos);
                             draw_figure(next_pawn);
                             return return_value;
-                            break;
                     }
+                    break;
+                
+                case SPLITTER:
+                    // Splitter getroffen: welche Reflektion? (keine zerstörung möglich)
+                    reflection = dir - next_pawn->DIR;
+                    NORM(reflection);
+
+                    switch(reflection)
+                    {
+                        case 0:
+                        case 2:
+                            // Reflektion um 90° nach rechts (CW)
+                            ROTATE_RIGHT(dir);
+                            // Linie zeichnen, angle = -1 (CW)
+                            draw_angled_laser(next_pos, dir, -1);
+
+                            // sich selbst ausführen und danach linie wieder löschen
+                            return_value = laser(next_pos, dir);
+                            draw_figure(next_pawn);
+                            return return_value;
+
+                        case 1:
+                        case 3:
+                            // Reflektion um 90° nach links (CCW)
+                            ROTATE_LEFT(dir);
+                            // Linie zeichnen, angle = +1 (CCW)
+                            draw_angled_laser(next_pos, dir, 1);
+
+                            // sich selbst ausführen und danach linie wieder löschen
+                            return_value = laser(next_pos, dir);
+                            draw_empty_field(next_pos);
+                            draw_figure(next_pawn);
+                            return return_value;
+                    }
+                    break;
             }
         }
     }
