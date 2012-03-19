@@ -1,4 +1,4 @@
-#ifndef GRAFIK_H
+#ifndef GRAFIK_h
 #define GRAFIK_h
 /*****************************************************************************/
 /*  o o o o      Berner Fachhochschule                                       */

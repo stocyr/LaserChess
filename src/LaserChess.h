@@ -1,3 +1,6 @@
+#ifndef LASERCHESS_H
+#define LASERCHESS_H
+
 /*****************************************************************************/
 /*	o o o o      Berner Fachhochschule										 */
 /*		  :...o  Technik und Informatik										 */
@@ -25,7 +28,7 @@
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
 enum Species {KING, MIRROR, SPLITTER, WALL};
 enum Orientation {TOP_RIGHT, TOP_LEFT, BOTTOM_LEFT, BOTTOM_RIGHT};
-enum Direction {LEFT, UP, RIGHT, DOWN}
+enum Direction {LEFT, UP, RIGHT, DOWN};
 
 
 #define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
@@ -46,3 +49,10 @@ typedef struct {
 	enum Orientation DIR;
 	location Pos;
 }pawn;
+
+// Globale Variable
+
+pawn *map[8][6];
+
+
+#endif
