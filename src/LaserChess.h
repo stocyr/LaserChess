@@ -52,7 +52,7 @@ typedef struct {
 
 // Globale Variable
 
-pawn *map[8][6];
+pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
 
 
 #endif
