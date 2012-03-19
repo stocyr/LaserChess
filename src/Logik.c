@@ -97,7 +97,9 @@ int laser(location pos, enum Direction dir)
             {
                 case KING:
                     // König getroffen: Player negativ zurückgeben
-                    // evtl. noch eine animation?
+                    draw_king_destroyed(next_pawn);
+                    // SLEEP ca 2sek!
+                    Sleep(2); // -> aus Ivos library?
                     return -(next_pawn->PLAYER);
                     break;
 
@@ -112,6 +114,8 @@ int laser(location pos, enum Direction dir)
                         case 1:
                             // zerstörung: Spiegel positiv zurückgeben
                             draw_mirror_destroyed(next_pawn);
+                            // SLEEP ca 2sek!
+                            Sleep(2); // -> aus Ivos library?
                             return next_pawn->PLAYER;
                             break;
 
@@ -123,7 +127,6 @@ int laser(location pos, enum Direction dir)
 
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value = laser(next_pos, dir);
-                            draw_empty_field(next_pos);
                             draw_figure(next_pawn);
                             return return_value;
                             break;
