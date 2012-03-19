@@ -26,6 +26,9 @@
 
 
 /* imports */
+#include <stdio.h>
+#include <stdlib.h>
+#include "window.h"
 
 /* module constant declaration  */
 
