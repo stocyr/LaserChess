@@ -25,29 +25,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-enum Affiliation {PLAYER_RED, PLAYER_BLUE};
-enum Species {KING, MIRROR, SPLITTER, WALL};
-enum Orientation {TR, TB, BL, BR};
-
-
-#define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
-
-#define ROTATE_LEFT(a) a++; NORM(a)
-#define ROTATE_RIGHT(a) a--; NORM(a)
-
-// Map Koordinaten, 0,0 ist unten links
-typedef struct {
-	int x;
-	int y;
-} location;
-
-// Deklaration der Spielfigur
-typedef struct {
-	enum Affiliation PLAYER;
-	enum Species TYPE;
-	enum Orientation DIR;
-	location Pos;
-}pawn;
+#include "Grafik.h"
+#include "LaserChess.h"
+#include "Logik.h"
 
 // Definition aller Spielfiguren
 pawn figure[10] = {
@@ -94,7 +74,7 @@ pawn figure[10] = {
 };
 
 
-	pawn *(map[8][6]);
+pawn *(map[8][6]);
 
 int main(void) {
 	map[0][0] = &figure[0];
