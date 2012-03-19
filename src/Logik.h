@@ -38,7 +38,7 @@
 /*                                                                           */
 /*  Function   :                                                             */
 /*                                                                           */
-/*  Input Para :                                                             */
+/*  Input Para : position and direction of this laser line.                  */
 /*                                                                           */
 /*  Output     : if a wall was hit: 0. If a king was hit: -1 for player_red, */
 /*               -2 for player_blue. If a mirror was hit: +1 for player_red, */
