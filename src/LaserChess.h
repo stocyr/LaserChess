@@ -26,7 +26,7 @@
 
 
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
-enum Species {KING, MIRROR, SPLITTER, WALL};
+enum Species {KING, MIRROR, SPLITTER, WALL, LASER};
 enum Orientation {TOP_RIGHT, TOP_LEFT, BOTTOM_LEFT, BOTTOM_RIGHT};
 enum Direction {LEFT, UP, RIGHT, DOWN};
 
@@ -36,6 +36,7 @@ enum Direction {LEFT, UP, RIGHT, DOWN};
 #define ROTATE_LEFT(a) a++; NORM(a)
 #define ROTATE_RIGHT(a) a--; NORM(a)
 
+#define ANZ_FIGURES		14
 // Map Koordinaten, 0,0 ist unten links
 typedef struct {
 	int x;
@@ -52,7 +53,7 @@ typedef struct {
 
 // Globale Variable
 
-pawn *map[8][6];
+pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
 
 
 #endif
