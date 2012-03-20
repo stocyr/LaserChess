@@ -10,7 +10,7 @@
 /*                                                                           */
 /*  Function   : Contains several logic and helper functions                 */
 /*                                                                           */
-/*  Procedures : laser(), is_inside_map(), move_figure, spiel()              */
+/*  Procedures : laser(), is_inside_map(), is_figure, move_figure, spiel()   */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /* 																			 */
@@ -29,6 +29,6 @@
 int laser(location pos, enum Direction dir);
 int is_inside_map(location pos);
 int is_figure(location pos);
-void move_figure(*pawn figure, location new_pos);
+void move_figure(pawn *figure, location new_pos);
 
 #endif
