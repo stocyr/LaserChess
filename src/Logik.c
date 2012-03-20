@@ -21,13 +21,10 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
-
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "Grafik.h"
 #include "Logik.h"
 #include "LaserChess.h"
+#include "window.h"
 
 
 /*****************************************************************************/
@@ -82,7 +79,7 @@ int laser(location pos, enum Direction dir)
         pawn *next_pawn = map[next_pos.x][next_pos.y];
         int return_value, reflection;
 
-        if(next_pawn == NULL)
+        if(!is_figure(next_pawn))
         {
             // Leeres Feld: Linie zeichnen, sich selbst ausführen, linie wieder löschen
             draw_laser(next_pos, dir);
@@ -95,13 +92,16 @@ int laser(location pos, enum Direction dir)
             // wenn eine Figur: was für eine?
             switch(next_pawn->TYPE)
             {
+                case WALL:
+                    // Mauer getroffen: aufhören, wie bei is_inside_map = 0
+                    return 0;
+                
                 case KING:
                     // König getroffen: Player negativ zurückgeben
                     draw_king_destroyed(next_pawn);
                     // SLEEP ca 2sek!
-                    Sleep(2); // -> aus Ivos library?
+                    WaitMs(2000);
                     return -(next_pawn->PLAYER);
-                    break;
 
                 case MIRROR:
                     // Spiegel getroffen: reflektion?
@@ -115,9 +115,8 @@ int laser(location pos, enum Direction dir)
                             // zerstörung: Spiegel positiv zurückgeben
                             draw_mirror_destroyed(next_pawn);
                             // SLEEP ca 2sek!
-                            Sleep(2); // -> aus Ivos library?
+                            WaitMs(2000);
                             return next_pawn->PLAYER;
-                            break;
 
                         case 2:
                             // Reflektion um 90° nach rechts (CW)
@@ -129,7 +128,6 @@ int laser(location pos, enum Direction dir)
                             return_value = laser(next_pos, dir);
                             draw_figure(next_pawn);
                             return return_value;
-                            break;
 
                         case 3:
                             // Reflektion um 90° nach links (CCW)
@@ -142,11 +140,145 @@ int laser(location pos, enum Direction dir)
                             draw_empty_field(next_pos);
                             draw_figure(next_pawn);
                             return return_value;
-                            break;
                     }
+                    break;
+                
+                case SPLITTER:
+                    // Splitter getroffen: welche Reflektion? (keine zerstörung möglich)
+                    reflection = dir - next_pawn->DIR;
+                    NORM(reflection);
+
+                    switch(reflection)
+                    {
+                        case 0:
+                        case 2:
+                            // Reflektion um 90° nach rechts (CW)
+                            ROTATE_RIGHT(dir);
+                            // Linie zeichnen, angle = -1 (CW)
+                            draw_angled_laser(next_pos, dir, -1);
+
+                            // sich selbst ausführen und danach linie wieder löschen
+                            return_value = laser(next_pos, dir);
+                            draw_figure(next_pawn);
+                            return return_value;
+
+                        case 1:
+                        case 3:
+                            // Reflektion um 90° nach links (CCW)
+                            ROTATE_LEFT(dir);
+                            // Linie zeichnen, angle = +1 (CCW)
+                            draw_angled_laser(next_pos, dir, 1);
+
+                            // sich selbst ausführen und danach linie wieder löschen
+                            return_value = laser(next_pos, dir);
+                            draw_empty_field(next_pos);
+                            draw_figure(next_pawn);
+                            return return_value;
+                    }
+                    break;
             }
         }
     }
 
     return 0;
+}
+
+
+/*****************************************************************************/
+/*  Function   : is_inside_map                                  Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : checks if the given coordinates are inside the array        */
+/*                                                                           */
+/*  Input Para : given coordinates                                           */
+/*                                                                           */
+/*  Output     : if inside map (means, inside the range [0 - 7][0 - 5], then */
+/*               it returns 1. Otherwise it returns 0.                       */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+int is_inside_map(location pos)
+{
+    // wenn innerhalb der definierten Array-grenzen:
+    if(pos.x < PLAYGROUND_X_MAX && pos.x > 0
+       pos.y < PLAYGROUND_Y_MAX && pos.y > 0)
+    {
+        // true zurückgeben
+        return 1;
+    }
+    else
+    {
+        // false zurückgeben
+        return 0;
+    }
+    
+    // Python:
+    // return 1 if (0 < pos.x < PLAYGROUND_X_MAX) and (0 < pos.y < PLAYGROUND_Y_MAX) else 0
+    // # - just sayin'
+}
+
+
+/*****************************************************************************/
+/*  Function   : is_figure                                      Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : checks if the given coordinates contains a figure           */
+/*                                                                           */
+/*  Input Para : given coordinates                                           */
+/*                                                                           */
+/*  Output     : if there is a figure, returns 1, if its an empty field,     */
+/*               returns 0. (a wall is treatened as a figure)                */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+int is_figure(location pos)
+{
+    // wenn map dort einen NULL pointer enthält (= keine figure):
+    if(map[pos.x][pos-y] == NULL)
+    {
+        // false zurückgeben
+        return 0;
+    }
+    else
+    {
+        // true zurückgeben
+        return 1;
+    }
+}
+
+
+/*****************************************************************************/
+/*  Function   : move_figure                                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : moves a figure to the given location                        */
+/*                                                                           */
+/*  Input Para :                                                             */
+/*                                                                           */
+/*  Output     : none                                                        */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void move_figure(*pawn figure, location new_pos)
+{
+    // clearing the new field:
+    draw_empty_field(new_pos);
+    
+    // changing the new location in the figure struct
+    figure->POS = new_pos;
+    
+    // drawing the figure there:
+    draw_figure(figure);
 }
