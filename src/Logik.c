@@ -79,7 +79,7 @@ int laser(location pos, enum Direction dir)
         pawn *next_pawn = map[next_pos.x][next_pos.y];
         int return_value, reflection;
 
-        if(next_pawn == NULL)
+        if(!is_figure(next_pawn))
         {
             // Leeres Feld: Linie zeichnen, sich selbst ausführen, linie wieder löschen
             draw_laser(next_pos, dir);
@@ -219,6 +219,39 @@ int is_inside_map(location pos)
     // Python:
     // return 1 if (0 < pos.x < PLAYGROUND_X_MAX) and (0 < pos.y < PLAYGROUND_Y_MAX) else 0
     // # - just sayin'
+}
+
+
+/*****************************************************************************/
+/*  Function   : is_figure                                      Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : checks if the given coordinates contains a figure           */
+/*                                                                           */
+/*  Input Para : given coordinates                                           */
+/*                                                                           */
+/*  Output     : if there is a figure, returns 1, if its an empty field,     */
+/*               returns 0. (a wall is treatened as a figure)                */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+int is_figure(location pos)
+{
+    // wenn map dort einen NULL pointer enthält (= keine figure):
+    if(map[pos.x][pos-y] == NULL)
+    {
+        // false zurückgeben
+        return 0;
+    }
+    else
+    {
+        // true zurückgeben
+        return 1;
+    }
 }
 
 

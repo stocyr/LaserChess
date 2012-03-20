@@ -26,28 +26,9 @@
 
 #include "LaserChess.h"
 
-
-/*****************************************************************************/
-/*  Function   : laser                                          Version 1.0  */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   :                                                             */
-/*                                                                           */
-/*  Input Para : position from which the laser line is moving AWAY. And the  */
-/*               And the direction.                                          */
-/*                                                                           */
-/*  Output     : if a wall was hit: 0. If a king was hit: -1 for player_red, */
-/*               -2 for player_blue. If a mirror was hit: +1 for player_red, */
-/*               +2 for player_blue                                          */
-/*                                                                           */
-/*  Author     : C. Stoller                                                  */
-/*                                                                           */
-/*  Email      : stolc2@bfh.ch                                               */
-/*                                                                           */
-/*****************************************************************************/
-
 int laser(location pos, enum Direction dir);
 int is_inside_map(location pos);
+int is_figure(location pos);
 void move_figure(*pawn figure, location new_pos);
 
 #endif
