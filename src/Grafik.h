@@ -33,7 +33,7 @@
 /* module constant declaration  */
 
 // Grundsätzliche Grafik Definitionen
-#define FIELD 100
+#define FIELD_SIZE 100
 #define PLAYGROUND_X_MAX 8
 #define PLAYGROUND_Y_MAX 6
 
