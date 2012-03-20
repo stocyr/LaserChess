@@ -17,13 +17,9 @@ Release history:
 Links
 -----------
 
-# Game
-
 * Game: http://www.khet.com/
 
-* Anleitung: http://www.khet.com/rules_english.pdf
-
-# GitHub
+* Game Anleitung: http://www.khet.com/rules_english.pdf
 
 * set up *git*: http://help.github.com/win-set-up-git/
 
@@ -35,7 +31,7 @@ Links
 Git
 -----------
 
-* Editor auf Notepad++ ändern: git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+* Editor auf Notepad++ ï¿½ndern: git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
 
 * Vereinfachte schematische Darstellung des Git Version Control Systems:
 
@@ -44,6 +40,6 @@ Git
 Hier ist zu beachten: Anstatt mit `git fetch` das Repository herunter zu laden und dann mit `git merge` mit dem Arbeitsverzeichnis zu synchronisieren,
 nutzen wir den Befehl `git pull`, der macht das auf einmal.
 
-* Mit `git add .` können sämtliche Änderungen (ausser Files löschen und hinzufügen) auf einmal zur *staging area* hinzugefügt werden.
+* Mit `git add .` kï¿½nnen sï¿½mtliche ï¿½nderungen (ausser Files lï¿½schen und hinzufï¿½gen) auf einmal zur *staging area* hinzugefï¿½gt werden.
 
 * Mit `git commit -a -m 'bemerkung zu diesem commit'` kann direkt vom Arbeitsverzeichnis ein commit gemacht werden (ohne `git add`).
