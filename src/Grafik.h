@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "window.h"
+#include "LaserChess.h"
 
 /* module constant declaration  */
 
@@ -36,6 +37,9 @@
 #define FIELD_SIZE 100
 #define PLAYGROUND_X_MAX 8
 #define PLAYGROUND_Y_MAX 6
+#define FOCUS_IDENT 5			//für das Einrücken der Pixel bei der Focusfunktion (identation = einrückung)
+#define FIELD_BORDER_WIDTH 1	//Breite des Spielfeldrandes
+#define FIELD_LINE_WIDTH 3		//Breite der Spielfeldlinien
 
 /* module macro declaration  */
 
