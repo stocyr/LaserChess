@@ -11,11 +11,11 @@
 /*                                                                           */
 /*  Procedures :                                                             */
 /*                                                                           */
-/*  Author     : C. Stoller                                                  */
+/*  Author     : J. Haldemann + N. Käser                                     */
 /*                                                                           */
-/*  Email      : stolc2@bfh.ch                                               */
+/*  Email      : haldj3@bfh.ch                                               */
 /*                                                                           */
-/*  Creation   : 17.03.2012                                                  */
+/*  Creation   : xx.03.2012                                                  */
 /*                                                                           */
 /*  File       : Grafik.h                                                    */
 /*                                                                           */
@@ -23,33 +23,31 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
-
-
-/* imports */
+/*imports*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "window.h"
 #include "LaserChess.h"
 
-/* module constant declaration  */
+/*Grundsätzliche Grafik Definitionen*/
+#define FIELD_SIZE 100				//Feldbreite
+#define PLAYGROUND_X_MAX 8			//Anzahl Felder - Breite
+#define PLAYGROUND_Y_MAX 6			//Anzahl Felder - Höhe
+#define PLAYGROUND_COL COL_BLACK	//Spielfeldfarbe
+#define LINE_COL COL_GREY			//Linienfarbe
+#define FIELD_LINE_WIDTH 3			//Breite der Spielfeldlinien
+#define FOCUS_COL COL_GREEN			//Fokusfarbe
+#define FOCUS_IDENT 5				//Einzurückende Pixel der Focusfunktion (identation = einrückung)
 
-// Grundsätzliche Grafik Definitionen
-#define FIELD_SIZE 100
-#define PLAYGROUND_X_MAX 8
-#define PLAYGROUND_Y_MAX 6
-#define FOCUS_IDENT 5			//für das Einrücken der Pixel bei der Focusfunktion (identation = einrückung)
-#define FIELD_BORDER_WIDTH 1	//Breite des Spielfeldrandes
-#define FIELD_LINE_WIDTH 3		//Breite der Spielfeldlinien
+/*module macro declaration*/
 
-/* module macro declaration  */
+/*module type declaration*/
 
-/* module type declaration      */
+/*module data declaration*/
 
-/* module data declaration      */
+/*module procedure declaration*/
 
-/* module procedure declaration */
-
-// ALLE PROTOTYPEN DER KGRAFIKFUNKTIONEN
+/*ALLE PROTOTYPEN DER GRAFIKFUNKTIONEN*/
 
 /*****************************************************************************/
 /*  End Header  : ErrorHandler                                               */

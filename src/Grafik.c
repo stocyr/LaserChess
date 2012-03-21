@@ -9,11 +9,11 @@
 /*                                                                           */
 /*  Procedures :                                                             */
 /*                                                                           */
-/*  Author     : C. Stoller                                                  */
+/*  Author     : J. Haldemann + N. Käser                                     */
 /*                                                                           */
-/*  Email      : stolc2@bfh.ch                                               */
+/*  Email      : haldj3@bfh.ch                                               */
 /*                                                                           */
-/*  Creation   : 17.03.2012                                                  */
+/*  Creation   : xx.03.2012                                                  */
 /*                                                                           */
 /*  File       : Grafik.c                                                    */
 /*                                                                           */
@@ -21,6 +21,7 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
+/*imports*/
 #include "Grafik.h"
 
 /*Umrechnung Windowskoord. zu Mapposition*/
@@ -39,7 +40,6 @@ location pixel_to_map(location Mapkoordinaten)	//bekommt windowskoordinaten gibt
 		Mapkoordinaten.y = -1;
 		return Mapkoordinaten;			//!!! Bärtschi - need to know oder so :p !!!
 	}
-
 }
 
 /*Umrechnung Mapkoord. zu Windowskoord. ECKE LINKS UNTEN!*/
@@ -54,18 +54,18 @@ location map_to_pixel(location Windowskoordinaten)	//bekommt mapkoordinaten gibt
 void draw_playground()
 {
 	int i;		//Anzahl verschobene Felder
-	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE);	//initialisiert und öffnet ein 800*600 Grafikfenster
-	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE,COL_BLACK, FIELD_BORDER_WIDTH);	//zeichnet das schwarze Spielfeld
-	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE,COL_GREY, FIELD_BORDER_WIDTH);	//zeichnet die Spielfeldumrandung
+	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE+2*FIELD_LINE_WIDTH, PLAYGROUND_Y_MAX*FIELD_SIZE+2*FIELD_LINE_WIDTH);	//initialisiert und öffnet ein 806*606 Grafikfenster
+	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
+	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet die Spielfeldumrandung
 
 	for(i = 1; i < PLAYGROUND_X_MAX; i++)
 	{
-		DrawLine(0, FIELD_SIZE*i, PLAYGROUND_X_MAX*FIELD_SIZE, FIELD_SIZE*i, COL_GREY, FIELD_LINE_WIDTH);	//zeichnet die 5 grauen Horizontal-Linien
+		DrawLine(0, FIELD_SIZE*i, PLAYGROUND_X_MAX*FIELD_SIZE, FIELD_SIZE*i, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet die 5 grauen Horizontal-Linien
 	}
 
 	for(i = 1; i < PLAYGROUND_Y_MAX; i++)
 	{
-		DrawLine(FIELD_SIZE*i, 0, FIELD_SIZE*i, PLAYGROUND_Y_MAX, COL_GREY, FIELD_LINE_WIDTH);				//zeichnet die 7 grauen Vertikal-Linien
+		DrawLine(FIELD_SIZE*i, 0, FIELD_SIZE*i, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet die 7 grauen Vertikal-Linien
 	}
 }
 
@@ -74,6 +74,6 @@ void draw_focus(location Field) //bekommt Mapkoordinaten und schreibt sie ins st
 {
 	location Punkt;					//initialisieren: struct location Punkt
 	Punkt = map_to_pixel(Field);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links unten des ausgew. Feldes)
-	DrawEmptyRectangle(Punkt.x+FOCUS_IDENT, Punkt.y-FOCUS_IDENT, PLAYGROUND_X_MAX-2*FOCUS_IDENT, PLAYGROUND_Y_MAX-2*FOCUS_IDENT, COL_GREEN, 2*FOCUS_IDENT);	//um 5 Pixel einrücken (x-5,y-5,90,90,Grün,5)
+	DrawEmptyRectangle(Punkt.x+FOCUS_IDENT, Punkt.y+FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FOCUS_COL, 2*FOCUS_IDENT);	//um 5 Pixel einrücken (x-5,y-5,90,90,Grün,2*5)
 }
 
