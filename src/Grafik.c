@@ -23,6 +23,7 @@
 
 /*imports*/
 #include "Grafik.h"
+#include "Logik.h"
 
 /*Umrechnung Windowskoord. zu Mapposition*/
 location pixel_to_map(location Mapkoordinaten)	//bekommt windowskoordinaten gibt mapkoordinaten zurück

@@ -24,12 +24,11 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
-
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
 enum Species {KING, MIRROR, SPLITTER, WALL, LASER};
 enum Orientation {TOP_RIGHT, TOP_LEFT, BOTTOM_LEFT, BOTTOM_RIGHT};
 enum Direction {LEFT, UP, RIGHT, DOWN};
-
+enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 
 #define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
 
@@ -37,6 +36,11 @@ enum Direction {LEFT, UP, RIGHT, DOWN};
 #define ROTATE_RIGHT(a) a--; NORM(a)
 
 #define ANZ_FIGURES		14
+
+// Figurearray zuerst rot dann blau, umrechnen
+#define RED_FIG(i) (i/2)
+#define BLUE_FIG(i)	((i/2)+7)
+
 // Map Koordinaten, 0,0 ist unten links
 typedef struct {
 	int x;
@@ -53,7 +57,7 @@ typedef struct {
 
 // Globale Variable
 
-pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
-
+//pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
+pawn *map[8][6];
 
 #endif

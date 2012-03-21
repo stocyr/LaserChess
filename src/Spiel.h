@@ -1,35 +1,29 @@
-#ifndef LOGIK_H
-#define LOGIK_H
+#ifndef SPIEL_H
+#define SPIEL_H
 
 /*****************************************************************************/
 /*	o o o o      Berner Fachhochschule										 */
 /*		  :...o  Technik und Informatik										 */
 /*****************************************************************************/
-/*  Header     : LaserChess/Logik                               Version 1.0  */
+/*  Module     : Spiel                                          Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Contains several logic and helper functions                 */
+/*  Function   : Steuert den Spielverlauf                                    */
 /*                                                                           */
-/*  Procedures : laser(), is_inside_map(), is_figure, move_figure, spiel()   */
+/*  Procedures : spiel()                                                     */
 /*                                                                           */
-/*  Author     : C. Stoller                                                  */
+/*  Author     : M. Bärtschi 												 */
 /* 																			 */
-/*  Email	   : stolc2@bfh.ch  						                     */
+/*  Email	   : bartm9@bfh.ch  						                     */
 /*                                                                           */
-/*  History    : 19.03.2012  File created                                    */
+/*  History    : 21.03.2012  File created                                    */
 /*                                                                           */
-/*  File       : Logik.h                                                     */
+/*  File       : Spiel.c                                                     */
 /*                                                                           */
 /*****************************************************************************/
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
-#include "LaserChess.h"
-
-int laser(location pos, enum Direction dir);
-int is_inside_map(location pos);
-int is_figure(location pos);
-void move_figure(pawn *figure, location new_pos);
-location mouseclick_to_map(void);
+void spiel(void);
 
 #endif

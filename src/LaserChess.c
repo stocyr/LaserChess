@@ -28,7 +28,8 @@
 #include "Grafik.h"
 #include "window.h"
 #include "LaserChess.h"
-//#include "Logik.h"
+#include "Spiel.h"
+#include "Logik.h"
 
 
 /*****************************************************************************/
@@ -132,44 +133,7 @@ pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stell
 /*  End Function: create_figures()                                           */
 /*****************************************************************************/
 
-/*****************************************************************************/
-/*  Function   : mouseclick_to_map()                            Version 1.0  */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   : Get Mose-Clicks and returns the Mapcoordinate.              */
-/*                                                                           */
-/*  Input Para :                                                             */
-/*                                                                           */
-/*  Output     : Returns location struct, of the field who was hit or -1     */
-/*               when the click was beyond the map                           */
-/*  Author     : M. Bärtschi                                                 */
-/*                                                                           */
-/*  Email      : bartm9@bfh.ch                                               */
-/*                                                                           */
-/*****************************************************************************/
-location mouseclick_to_map(void)
-{
-	MouseInfoType MouseEvent;
-	//Get and analyze mouse-events
-	MouseEvent = GetMouseEvent();
-	location pos;
 
-	if(MouseEvent.ButtonState & W_BUTTON_PRESSED)
-	{
-		/* Get Click-position */
-		pos.x   = MouseEvent.MousePosX;
-		pos.y   = MouseEvent.MousePosY;
-	}
-	else
-	{
-		pos.x = -1;
-		pos.y = -1;
-	}
-	return /*pixel_to_map*/(pos);
-}
-/*****************************************************************************/
-/*  End Function: mouseclick_to_map()                                        */
-/*****************************************************************************/
 
 
 /*****************************************************************************/
@@ -188,31 +152,35 @@ location mouseclick_to_map(void)
 /*                                                                           */
 /*****************************************************************************/
 
-void menu(void)
+enum Spielmodus menu(void)
 {
+	enum Spielmodus MODE = NORMALMODE;
 	int a = 0;
+	printf ("#                                    #####                              \n"
+			"#         ##    ####  ###### #####  #     # #    # ######  ####   ####  \n"
+			"#        #  #  #      #      #    # #       #    # #      #      #      \n"
+			"#       #    #  ####  #####  #    # #       ###### #####   ####   ####  \n"
+			"#       ######      # #      #####  #       #    # #           #      # \n"
+			"#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n"
+			"####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n");
 
-	printf("#                                    #####                              \n"
-		   "#         ##    ####  ###### #####  #     # #    # ######  ####   ####  \n"
-		   "#        #  #  #      #      #    # #       #    # #      #      #      \n"
-		   "#       #    #  ####  #####  #    # #       ###### #####   ####   ####  \n"
-		   "#       ######      # #      #####  #       #    # #           #      # \n"
-		   "#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n"
-		   "####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n");
 	printf("Welcome to Laserchess\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit ");
 	scanf("%d",&a);
 	switch(a)
 	{
 	case 1:
-
+		MODE = NORMALMODE;
 		break;
 	case 2:
+		MODE = SETMODE;
 		break;
 	case 3:
+		MODE = EXIT;
 		break;
 	default:
 		break;
 	}
+	return MODE;
 }
 /*****************************************************************************/
 /*  End Function: menu                                                       */
@@ -240,32 +208,65 @@ void set_figure_positions(pawn *figure)
 {
 	int i = 0;
 	location mouse_pos;
+	MouseInfoType MouseEvent;
+
 	enum Affiliation PLAYER = PLAYER_RED;
+	enum Zustand {READ_POS, ROTATE} STATE;
+	STATE = READ_POS;
+
 	while(i < ANZ_FIGURES)
 	{
-		switch (PLAYER)
+		switch (STATE)
 		{
-		case PLAYER_RED:
+		case READ_POS:
+			//Holt Maus Status
 			mouse_pos = mouseclick_to_map();
 			if(mouse_pos.x >= 0)
 			{
-				figure[(i/2)].Pos.x = mouse_pos.x;
-				figure[(i/2)].Pos.y = mouse_pos.y;
-				i++;
-				PLAYER = PLAYER_BLUE;
+				//Playerunterscheiden wegen unterschiedlicher Addressierung im Figurearray
+				if(PLAYER == PLAYER_RED)
+				{
+					figure[RED_FIG(i)].Pos.x = mouse_pos.x;
+					figure[RED_FIG(i)].Pos.y = mouse_pos.y;
+				}
+				else
+				{
+					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
+					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
+				}
+				draw_figure(&figure[i]);
+				STATE = ROTATE;
 			}
 			break;
-		case PLAYER_BLUE:
-			mouse_pos = mouseclick_to_map();
-			if(mouse_pos.x >= 0)
+		case ROTATE:
+			//Wenn 2. Mal auf die Figur gedrückt wird, ist der Zug beendet
+			MouseEvent = GetMouseEvent();
+			if(MouseEvent.ButtonState & W_BUTTON_PRESSED)
 			{
-				figure[(i/2)+7].Pos.x = mouse_pos.x;
-				figure[(i/2)+7].Pos.y = mouse_pos.y;
+				//Player toggeln
+				if(PLAYER == PLAYER_RED)
+				{
+					PLAYER = PLAYER_BLUE;
+				}
+				else
+				{
+					PLAYER = PLAYER_RED;
+				}
+				STATE = READ_POS;
 				i++;
-				PLAYER = PLAYER_RED;
+			}
+			else
+			{
+				//Wenn rechte Maustaste gedrückt, dreht es rechts
+				if(MouseEvent.ButtonState & W_BUTTON_RIGHT)
+				{
+					figure->DIR = ROTATE_RIGHT(figure->DIR);
+					draw_figure(&figure[i]);
+				}
 			}
 			break;
 		}
+
 	}
 }
 
@@ -274,30 +275,39 @@ void set_figure_positions(pawn *figure)
 /*****************************************************************************/
 
 
-void init_game(pawn *figure)
+void init_game(pawn *figure, enum Spielmodus MODE)
 {
 	int i = 0;
 	draw_playground();
-	//if(SETMODE)			//noch definieren im menu
+	if(MODE == SETMODE)
 	{
 		set_figure_positions(figure);
 	}
-	for(i = 0; i < ANZ_FIGURES; i++)
+	else
 	{
-		map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
-		printf("*%d*", figure[i].Pos.x);
-		draw_figure(figure[i]);
+		for(i = 0; i < ANZ_FIGURES; i++)
+		{
+			map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
+			draw_figure(figure[i]);
+		}
 	}
 }
 
 int main(void) {
 
 	//////////////////////////////////
-
+	enum Spielmodus MODE = menu();
+	if(MODE == EXIT)
+	{
+		printf("Tschüss");
+		system("pause");
+		return EXIT_SUCCESS;
+	}
 	pawn *figure = create_figures();
 
-	init_game(figure);
+	init_game(figure, MODE);
 
+	spiel();
 
 
 
@@ -319,6 +329,5 @@ int main(void) {
 
 	printf("%d\n", figure[3].DIR);
 	*/
-	system("pause");
 	return EXIT_SUCCESS;
 }

@@ -40,7 +40,10 @@
 #define FOCUS_IDENT 5				//Einzurückende Pixel der Focusfunktion (identation = einrückung)
 
 /*module macro declaration*/
-
+location pixel_to_map(location Mapkoordinaten);
+location map_to_pixel(location Windowskoordinaten);
+void draw_playground();
+void draw_focus(location Field);
 /*module type declaration*/
 
 /*module data declaration*/

@@ -79,7 +79,7 @@ int laser(location pos, enum Direction dir)
         pawn *next_pawn = map[next_pos.x][next_pos.y];
         int return_value, reflection;
 
-        if(!is_figure(next_pawn))
+        if(!is_figure(next_pawn->Pos))
         {
             // Leeres Feld: Linie zeichnen, sich selbst ausführen, linie wieder löschen
             draw_laser(next_pos, dir);
@@ -95,7 +95,7 @@ int laser(location pos, enum Direction dir)
                 case WALL:
                     // Mauer getroffen: aufhören, wie bei is_inside_map = 0
                     return 0;
-                
+
                 case KING:
                     // König getroffen: Player negativ zurückgeben
                     draw_king_destroyed(next_pawn);
@@ -142,7 +142,7 @@ int laser(location pos, enum Direction dir)
                             return return_value;
                     }
                     break;
-                
+
                 case SPLITTER:
                     // Splitter getroffen: welche Reflektion? (keine zerstörung möglich)
                     reflection = dir - next_pawn->DIR;
@@ -204,8 +204,8 @@ int laser(location pos, enum Direction dir)
 int is_inside_map(location pos)
 {
     // wenn innerhalb der definierten Array-grenzen:
-    if(pos.x < PLAYGROUND_X_MAX && pos.x > 0
-       pos.y < PLAYGROUND_Y_MAX && pos.y > 0)
+    if((pos.x < PLAYGROUND_X_MAX && pos.x > 0) &&
+       (pos.y < PLAYGROUND_Y_MAX && pos.y > 0))
     {
         // true zurückgeben
         return 1;
@@ -215,7 +215,7 @@ int is_inside_map(location pos)
         // false zurückgeben
         return 0;
     }
-    
+
     // Python:
     // return 1 if (0 < pos.x < PLAYGROUND_X_MAX) and (0 < pos.y < PLAYGROUND_Y_MAX) else 0
     // # - just sayin'
@@ -242,7 +242,7 @@ int is_inside_map(location pos)
 int is_figure(location pos)
 {
     // wenn map dort einen NULL pointer enthält (= keine figure):
-    if(map[pos.x][pos-y] == NULL)
+    if(map[pos.x][pos.y] == NULL)
     {
         // false zurückgeben
         return 0;
@@ -271,14 +271,53 @@ int is_figure(location pos)
 /*                                                                           */
 /*****************************************************************************/
 
-void move_figure(*pawn figure, location new_pos)
+void move_figure(pawn *figure, location new_pos)
 {
     // clearing the new field:
     draw_empty_field(new_pos);
-    
+
     // changing the new location in the figure struct
-    figure->POS = new_pos;
-    
+    figure->Pos = new_pos;
+
     // drawing the figure there:
     draw_figure(figure);
 }
+
+/*****************************************************************************/
+/*  Function   : mouseclick_to_map()                            Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Get Mosue-Clicks and returns the Mapcordinate.              */
+/*                                                                           */
+/*  Input Para :                                                             */
+/*                                                                           */
+/*  Output     : Returns location struct, of the field who was hit or -1     */
+/*               when the click was beyond the map or there was no click.    */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+location mouseclick_to_map(void)
+{
+	MouseInfoType MouseEvent;
+	//Get and analyze mouse-events
+	MouseEvent = GetMouseEvent();
+	location pos;
+
+	if(MouseEvent.ButtonState & W_BUTTON_PRESSED)
+	{
+		/* Get Click-position */
+		pos.x   = MouseEvent.MousePosX;
+		pos.y   = MouseEvent.MousePosY;
+	}
+	else
+	{
+		pos.x = -1;
+		pos.y = -1;
+	}
+	return pixel_to_map(pos);
+}
+/*****************************************************************************/
+/*  End Function: mouseclick_to_map()                                        */
+/*****************************************************************************/
