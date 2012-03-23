@@ -235,7 +235,7 @@ void set_figure_positions(pawn *figure)
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
 				}
-	//			draw_figure(figure[i]);
+//				draw_figure(figure[i]);
 				STATE = ROTATE;
 			}
 			break;
@@ -301,7 +301,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	enum Spielmodus MODE = menu();
 	if(MODE == EXIT)
 	{
-		printf("Tschüss");
+		printf("Tschüss\n");
 		system("pause");
 		return EXIT_SUCCESS;
 	}
