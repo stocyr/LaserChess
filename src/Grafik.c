@@ -87,6 +87,12 @@ void draw_angled_laser(location pos, int dir, int angle)
 void draw_figure(pawn *figure)
 {}
 void draw_mirror_destroyed(pawn *figure)
-{}
+{
+	draw_empty_field(figure.location); //Feld löschen
+	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
+}
 void draw_king_destroyed(pawn *figure)
-{}
+{
+	draw_empty_field(figure.location); //Feld löschen
+	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
+}
