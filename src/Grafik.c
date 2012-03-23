@@ -59,12 +59,12 @@ void draw_playground()
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet die Spielfeldumrandung
 
-	for(i = 1; i < PLAYGROUND_X_MAX; i++)
+	for(i = 1; i < PLAYGROUND_Y_MAX; i++)
 	{
 		DrawLine(0, FIELD_SIZE*i, PLAYGROUND_X_MAX*FIELD_SIZE, FIELD_SIZE*i, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet die 5 grauen Horizontal-Linien
 	}
 
-	for(i = 1; i < PLAYGROUND_Y_MAX; i++)
+	for(i = 1; i < PLAYGROUND_X_MAX; i++)
 	{
 		DrawLine(FIELD_SIZE*i, 0, FIELD_SIZE*i, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet die 7 grauen Vertikal-Linien
 	}
