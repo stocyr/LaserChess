@@ -71,7 +71,7 @@ void DestroyImageMap(ImageMapType * ImageMap);
 /*  History     : 02.04.2002  IO  Created                                    */
 /*                                                                           */
 /*****************************************************************************/
-int gfxmain(int argc, char* argv[], const char *ApplicationPath)
+int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
    /* procedure data */
    int x = 0;

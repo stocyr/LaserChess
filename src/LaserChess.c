@@ -164,7 +164,7 @@ enum Spielmodus menu(void)
 			"#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n"
 			"####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n");
 
-	printf("Welcome to Laserchess\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit ");
+	printf("Welcome to Laserchess\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
 	scanf("%d",&a);
 	switch(a)
 	{
@@ -178,6 +178,7 @@ enum Spielmodus menu(void)
 		MODE = EXIT;
 		break;
 	default:
+		MODE = EXIT;
 		break;
 	}
 	return MODE;
@@ -234,7 +235,7 @@ void set_figure_positions(pawn *figure)
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
 				}
-				draw_figure(&figure[i]);
+	//			draw_figure(figure[i]);
 				STATE = ROTATE;
 			}
 			break;
@@ -288,12 +289,13 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
 			map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
-			draw_figure(figure[i]);
+			draw_figure(&figure[i]);
 		}
 	}
 }
 
-int main(void) {
+int gfxmain(int argc, char* argv[], const char *ApplicationPath)
+{
 
 	//////////////////////////////////
 	enum Spielmodus MODE = menu();

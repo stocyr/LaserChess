@@ -39,11 +39,18 @@
 #define FOCUS_COL COL_GREEN			//Fokusfarbe
 #define FOCUS_IDENT 5				//Einzurückende Pixel der Focusfunktion (identation = einrückung)
 
-/*module macro declaration*/
+/*Prototypen*/
 location pixel_to_map(location Mapkoordinaten);
 location map_to_pixel(location Windowskoordinaten);
 void draw_playground();
 void draw_focus(location Field);
+void draw_empty_field(location pos);
+void draw_laser (location pos, int dir);
+void draw_angled_laser(location pos, int dir, int angle);
+void draw_figure(pawn *figure);
+void draw_mirror_destroyed(pawn *figure);
+void draw_king_destroyed(pawn *figure);
+
 /*module type declaration*/
 
 /*module data declaration*/

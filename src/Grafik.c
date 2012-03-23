@@ -78,3 +78,15 @@ void draw_focus(location Field) //bekommt Mapkoordinaten und schreibt sie ins st
 	DrawEmptyRectangle(Punkt.x+FOCUS_IDENT, Punkt.y+FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FOCUS_COL, 2*FOCUS_IDENT);	//um 5 Pixel einrücken (x-5,y-5,90,90,Grün,2*5)
 }
 
+void draw_empty_field(location pos)
+{}
+void draw_laser (location pos, int dir)
+{}
+void draw_angled_laser(location pos, int dir, int angle)
+{}
+void draw_figure(pawn *figure)
+{}
+void draw_mirror_destroyed(pawn *figure)
+{}
+void draw_king_destroyed(pawn *figure)
+{}
