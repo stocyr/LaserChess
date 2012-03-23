@@ -85,14 +85,72 @@ void draw_laser (location pos, int dir)
 void draw_angled_laser(location pos, int dir, int angle)
 {}
 void draw_figure(pawn *figure)
-{}
+{
+	/*****************************************************************************/
+	/*  Function   : draw_figure                                    Version 1.0  */
+	/*****************************************************************************/
+	/*                                                                           */
+	/*  Function   : Draws figure at its location with its rotation/direction    */
+	/*                                                                           */
+	/*  Input Para : pawn *figure                                                */
+	/*                                                                           */
+	/*  Output     : -                                                           */
+	/*                                                                           */
+	/*  Author     : N. Kaeser                                                   */
+	/*                                                                           */
+	/*  Email      : kasen1@bfh.ch                                               */
+	/*                                                                           */
+	/*****************************************************************************/
+
+	/*if(figure.Affiliation == PLAYER_RED)
+	{
+
+	}
+	else //PLAYER_BLUE
+	{
+	}*/
+}
 void draw_mirror_destroyed(pawn *figure)
 {
-	draw_empty_field(figure.location); //Feld löschen
+	/*****************************************************************************/
+	/*  Function   : draw_mirror_destroyed                          Version 1.0  */
+	/*****************************************************************************/
+	/*                                                                           */
+	/*  Function   : Draws/animates the destruction of a mirror.                 */
+	/*               (For now, @V1.0, it only draws an empty field.)             */
+	/*                                                                           */
+	/*  Input Para : pawn *figure                                                */
+	/*                                                                           */
+	/*  Output     : -                                                           */
+	/*                                                                           */
+	/*  Author     : N. Kaeser                                                   */
+	/*                                                                           */
+	/*  Email      : kasen1@bfh.ch                                               */
+	/*                                                                           */
+	/*****************************************************************************/
+
+	draw_empty_field(figure.Pos); //Feld löschen
 	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
 }
 void draw_king_destroyed(pawn *figure)
 {
-	draw_empty_field(figure.location); //Feld löschen
+	/*****************************************************************************/
+	/*  Function   : draw_king_destroyed                          Version 1.0  */
+	/*****************************************************************************/
+	/*                                                                           */
+	/*  Function   : Draws/animates the destruction of the king.                 */
+	/*               (For now, @V1.0, it only draws an empty field.)             */
+	/*                                                                           */
+	/*  Input Para : pawn *figure                                                */
+	/*                                                                           */
+	/*  Output     : -                                                           */
+	/*                                                                           */
+	/*  Author     : N. Kaeser                                                   */
+	/*                                                                           */
+	/*  Email      : kasen1@bfh.ch                                               */
+	/*                                                                           */
+	/*****************************************************************************/
+
+	draw_empty_field(figure.Pos); //Feld löschen
 	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
 }
