@@ -126,7 +126,7 @@ pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stell
 		[13].Pos = {5, 4}
 
 	};
-	fig_ptr = &figure[0];
+	fig_ptr = &(figure[0]);
 	return fig_ptr;
 }
 /*****************************************************************************/
@@ -288,7 +288,8 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 	{
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
-			map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
+			printf("%d\n", ((figure[i]).Pos.x));
+//			map[figure[i]->Pos.x][figure[i].Pos.y] = &figure[i];
 			draw_figure(&figure[i]);
 		}
 	}
@@ -301,11 +302,12 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	enum Spielmodus MODE = menu();
 	if(MODE == EXIT)
 	{
-		printf("Tschüss");
+		printf("BYEBYE");
 		system("pause");
 		return EXIT_SUCCESS;
 	}
-	pawn *figure = create_figures();
+	pawn *figure;
+	figure = create_figures();
 
 	init_game(figure, MODE);
 
@@ -331,5 +333,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 	printf("%d\n", figure[3].DIR);
 	*/
+	system("pause");
 	return EXIT_SUCCESS;
 }
