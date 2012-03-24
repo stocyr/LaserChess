@@ -25,9 +25,10 @@
 /*****************************************************************************/
 
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
-enum Species {KING, MIRROR, SPLITTER, WALL, LASER};
-enum Orientation {TOP_RIGHT, TOP_LEFT, BOTTOM_LEFT, BOTTOM_RIGHT};
+enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
+enum Orientation {TOP_RIGHT = 0, TOP_LEFT = 1, BOTTOM_LEFT = 2, BOTTOM_RIGHT = 3};
 enum Direction {LEFT, UP, RIGHT, DOWN};
+enum Angle {CCW = 1, CW = -1};
 enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 
 #define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
