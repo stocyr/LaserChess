@@ -45,7 +45,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
-int laser(location pos, enum Direction dir)
+int laser(location pos, int dir)	//enum Direction dir
 {
     location next_pos = pos;
 
@@ -92,13 +92,17 @@ int laser(location pos, enum Direction dir)
             // wenn eine Figur: was für eine?
             switch(next_pawn->TYPE)
             {
+				case CANNON:
+					//???
+            	break;
+
                 case WALL:
                     // Mauer getroffen: aufhören, wie bei is_inside_map = 0
                     return 0;
 
                 case KING:
                     // König getroffen: Player negativ zurückgeben
-                    draw_king_destroyed(next_pawn);
+                    draw_king_destroyed(next_pawn->Pos);
                     // SLEEP ca 2sek!
                     WaitMs(2000);
                     return -(next_pawn->PLAYER);
@@ -113,7 +117,7 @@ int laser(location pos, enum Direction dir)
                         case 0:
                         case 1:
                             // zerstörung: Spiegel positiv zurückgeben
-                            draw_mirror_destroyed(next_pawn);
+                            draw_mirror_destroyed(next_pawn->Pos);
                             // SLEEP ca 2sek!
                             WaitMs(2000);
                             return next_pawn->PLAYER;

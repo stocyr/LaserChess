@@ -61,7 +61,7 @@ pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stell
 		[0].Pos = {3, 5},
 
 		[1].PLAYER = PLAYER_RED,
-		[1].TYPE = LASER,
+		[1].TYPE = CANNON,
 		[1].DIR = DOWN,
 		[1].Pos = {0, 5},
 
@@ -96,7 +96,7 @@ pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stell
 		[7].Pos = {4, 0},
 
 		[8].PLAYER = PLAYER_BLUE,
-		[8].TYPE = LASER,
+		[8].TYPE = CANNON,
 		[8].DIR = UP,
 		[8].Pos = {7, 0},
 
@@ -155,16 +155,17 @@ pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stell
 enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
-	int a = 0;
+	int a = 0;	//Auswahlvariable
 	printf ("#                                    #####                              \n"
 			"#         ##    ####  ###### #####  #     # #    # ######  ####   ####  \n"
 			"#        #  #  #      #      #    # #       #    # #      #      #      \n"
 			"#       #    #  ####  #####  #    # #       ###### #####   ####   ####  \n"
 			"#       ######      # #      #####  #       #    # #           #      # \n"
 			"#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n"
-			"####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n");
+			"####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n"
+			"------------------------------------------------------------------------\n\n");
 
-	printf("Welcome to Laserchess\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
+	printf("Welcome to Laserchess\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
 	scanf("%d",&a);
 	switch(a)
 	{
@@ -175,9 +176,6 @@ enum Spielmodus menu(void)
 		MODE = SETMODE;
 		break;
 	case 3:
-		MODE = EXIT;
-		break;
-	default:
 		MODE = EXIT;
 		break;
 	}
@@ -235,7 +233,7 @@ void set_figure_positions(pawn *figure)
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
 				}
-//				draw_figure(figure[i]);
+				draw_figure(&figure[i]);								//!!!& hinzugefügt (jascha)
 				STATE = ROTATE;
 			}
 			break;
