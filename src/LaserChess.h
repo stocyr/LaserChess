@@ -37,8 +37,8 @@
 
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
 enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
-enum Orientation {EAST, NORTH, WEST, SOUTH, NORTH_EAST = 0, NORTH_WEST = 1, SOUTH_WEST = 2, SOUTH_EAST = 3};
-enum Direction {LEFT, UP, RIGHT, DOWN};
+enum Orientation {EAST, NORTH, WEST, SOUTH, NORTH_EAST = 0, NORTH_WEST = 1, SOUTH_WEST = 2, SOUTH_EAST = 3, NOT_ALLOWED_ORIENTATION = -1};
+enum Direction {LEFT, UP, RIGHT, DOWN, NOT_ALLOWED_DIRECTION = -1};
 enum Angle {CCW = 1, CW = -1};
 enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 
