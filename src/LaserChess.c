@@ -49,85 +49,92 @@
 /*                                                                           */
 /*****************************************************************************/
 
-pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stelle 0
+void create_figures(pawn *figure) // Liefert Pointer auf Array der Spielfigren an Stelle 0
 {
-// Definition aller Spielfiguren
-	pawn *fig_ptr;
+	// Definition aller Spielfiguren
+	figure[0].PLAYER = PLAYER_RED;
+	figure[0].TYPE = KING;
+	figure[0].DIR = SOUTH;
+	figure[0].Pos.x = 3;
+	figure[0].Pos.y = 5;
 
-	pawn figure[ANZ_FIGURES] = {
-		[0].PLAYER = PLAYER_RED,
-		[0].TYPE = KING,
-		[0].DIR = SOUTH,
-		[0].Pos = {3, 5},
+	figure[1].PLAYER = PLAYER_RED;
+	figure[1].TYPE = CANNON;
+	figure[1].DIR = SOUTH;
+	figure[1].Pos.x = 0;
+	figure[1].Pos.y = 5;
 
-		[1].PLAYER = PLAYER_RED,
-		[1].TYPE = CANNON,
-		[1].DIR = SOUTH,
-		[1].Pos = {0, 5},
+	figure[2].PLAYER = PLAYER_RED;
+	figure[2].TYPE = WALL;
+	figure[2].DIR = NORTH;
+	figure[2].Pos.x = 4;
+	figure[2].Pos.y = 5;
 
-		[2].PLAYER = PLAYER_RED,
-		[2].TYPE = WALL,
-		[2].DIR = NORTH,
-		[2].Pos = {4, 5},
+	figure[3].PLAYER = PLAYER_RED;
+	figure[3].TYPE = MIRROR;
+	figure[3].DIR = SOUTH_WEST;
+	figure[3].Pos.x = 2;
+	figure[3].Pos.y = 5;
 
-		[3].PLAYER = PLAYER_RED,
-		[3].TYPE = MIRROR,
-		[3].DIR = SOUTH_WEST,
-		[3].Pos = {2, 5},
+	figure[4].PLAYER = PLAYER_RED;
+	figure[4].TYPE = MIRROR;
+	figure[4].DIR = NORTH_EAST;
+	figure[4].Pos.x = 4;
+	figure[4].Pos.y = 3;
 
-		[4].PLAYER = PLAYER_RED,
-		[4].TYPE = MIRROR,
-		[4].DIR = NORTH_EAST,
-		[4].Pos = {4, 3},
+	figure[5].PLAYER = PLAYER_RED;
+	figure[5].TYPE = MIRROR;
+	figure[5].DIR = NORTH_EAST;
+	figure[5].Pos.x = 0;
+	figure[5].Pos.y = 2;
 
-		[5].PLAYER = PLAYER_RED,
-		[5].TYPE = MIRROR,
-		[5].DIR = NORTH_EAST,
-		[5].Pos = {0, 2},
+	figure[6].PLAYER = PLAYER_RED;
+	figure[6].TYPE = MIRROR;
+	figure[6].DIR = NORTH_EAST;
+	figure[6].Pos.x = 2;
+	figure[6].Pos.y = 1;
 
-		[6].PLAYER = PLAYER_RED,
-		[6].TYPE = MIRROR,
-		[6].DIR = NORTH_EAST,
-		[6].Pos = {2, 1},
+	figure[7].PLAYER = PLAYER_BLUE;
+	figure[7].TYPE = KING;
+	figure[7].DIR = NORTH;
+	figure[7].Pos.x = 4;
+	figure[7].Pos.y = 0;
 
-		[7].PLAYER = PLAYER_BLUE,
-		[7].TYPE = KING,
-		[7].DIR = NORTH,
-		[7].Pos = {4, 0},
+	figure[8].PLAYER = PLAYER_BLUE;
+	figure[8].TYPE = CANNON;
+	figure[8].DIR = NORTH;
+	figure[8].Pos.x = 7;
+	figure[8].Pos.y = 0;
 
-		[8].PLAYER = PLAYER_BLUE,
-		[8].TYPE = CANNON,
-		[8].DIR = NORTH,
-		[8].Pos = {7, 0},
+	figure[9].PLAYER = PLAYER_BLUE;
+	figure[9].TYPE = WALL;
+	figure[9].DIR = NORTH;
+	figure[9].Pos.x = 3;
+	figure[9].Pos.y = 0;
 
-		[9].PLAYER = PLAYER_BLUE,
-		[9].TYPE = WALL,
-		[9].DIR = NORTH,
-		[9].Pos = {3, 0},
+	figure[10].PLAYER = PLAYER_BLUE;
+	figure[10].TYPE = MIRROR;
+	figure[10].DIR = NORTH_EAST;
+	figure[10].Pos.x = 5;
+	figure[10].Pos.y = 0;
 
-		[10].PLAYER = PLAYER_BLUE,
-		[10].TYPE = MIRROR,
-		[10].DIR = NORTH_EAST,
-		[10].Pos = {5, 0},
+	figure[11].PLAYER = PLAYER_BLUE;
+	figure[11].TYPE = MIRROR;
+	figure[11].DIR = SOUTH_WEST;
+	figure[11].Pos.x = 3;
+	figure[11].Pos.y = 2;
 
-		[11].PLAYER = PLAYER_BLUE,
-		[11].TYPE = MIRROR,
-		[11].DIR = SOUTH_WEST,
-		[11].Pos = {3, 2},
+	figure[12].PLAYER = PLAYER_BLUE;
+	figure[12].TYPE = MIRROR;
+	figure[12].DIR = SOUTH_WEST;
+	figure[12].Pos.x = 7;
+	figure[12].Pos.y = 3;
 
-		[12].PLAYER = PLAYER_BLUE,
-		[12].TYPE = MIRROR,
-		[12].DIR = SOUTH_WEST,
-		[12].Pos = {7, 3},
-
-		[13].PLAYER = PLAYER_BLUE,
-		[13].TYPE = MIRROR,
-		[13].DIR = SOUTH_WEST,
-		[13].Pos = {5, 4}
-
-	};
-	fig_ptr = &(figure[0]);
-	return fig_ptr;
+	figure[13].PLAYER = PLAYER_BLUE;
+	figure[13].TYPE = MIRROR;
+	figure[13].DIR = SOUTH_WEST;
+	figure[13].Pos.x = 5;
+	figure[13].Pos.y = 4;
 }
 /*****************************************************************************/
 /*  End Function: create_figures()                                           */
@@ -280,7 +287,7 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
 			printf("%d\n", ((figure[i]).Pos.x));
-//			map[figure[i]->Pos.x][figure[i].Pos.y] = &figure[i];
+			map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
 			draw_figure(&figure[i]);
 		}
 	}
@@ -299,8 +306,8 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		system("pause");
 		return EXIT_SUCCESS;
 	}
-	pawn *figure;
-	figure = create_figures();
+	pawn figure[ANZ_FIGURES];
+	create_figures(figure);
 
 	init_game(figure, MODE);
 
