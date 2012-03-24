@@ -301,7 +301,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	if(MODE == EXIT)
 	{
 
-		printf("BYEBYE");
+		printf("BYEBYE!\n");
 
 		system("pause");
 		return EXIT_SUCCESS;
