@@ -46,7 +46,7 @@
 /*                                                                           */
 /*****************************************************************************/
 
-int laser(location pos, enum Direction dir)
+int laser(location pos, int dir)	//enum Direction dir
 {
     location next_pos = pos;
 
@@ -93,6 +93,10 @@ int laser(location pos, enum Direction dir)
             // wenn eine Figur: was für eine?
             switch(next_pawn->TYPE)
             {
+				case CANNON:
+					//???
+            	break;
+
                 case WALL:
                     // Mauer getroffen: aufhören, wie bei is_inside_map = 0
                     return 0;

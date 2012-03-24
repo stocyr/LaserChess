@@ -155,10 +155,9 @@ pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stell
 enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
-	int a = 0;
-	printf(TITLE);
+	int a = 0; //Auswahlvariable
 
-	printf("Welcome to Laserchess\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
+	printf("Welcome to Laserchess\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
 	scanf("%d",&a);
 	switch(a)
 	{
@@ -169,9 +168,6 @@ enum Spielmodus menu(void)
 		MODE = SETMODE;
 		break;
 	case 3:
-		MODE = EXIT;
-		break;
-	default:
 		MODE = EXIT;
 		break;
 	}
@@ -229,7 +225,7 @@ void set_figure_positions(pawn *figure)
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
 				}
-//				draw_figure(figure[i]);
+				draw_figure(&figure[i]);								//!!!& hinzugefügt (jascha)
 				STATE = ROTATE;
 			}
 			break;

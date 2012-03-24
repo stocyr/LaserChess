@@ -26,7 +26,7 @@
 
 #include "LaserChess.h"
 
-int laser(location pos, enum Direction dir);
+int laser(location pos, int dir);	//enum Direction dir
 int is_inside_map(location pos);
 int is_figure(location pos);
 void move_figure(pawn *figure, location new_pos);

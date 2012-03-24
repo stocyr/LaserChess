@@ -53,7 +53,7 @@ enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 #define RED_FIG(i) (i/2)
 #define BLUE_FIG(i)	((i/2)+7)
 
-// Map Koordinaten, 0,0 ist unten links
+// Map-Koordinatenstruct
 typedef struct {
 	int x;
 	int y;
