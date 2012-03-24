@@ -26,7 +26,7 @@
 
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
 enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
-enum Orientation {TOP_RIGHT = 0, TOP_LEFT = 1, BOTTOM_LEFT = 2, BOTTOM_RIGHT = 3};
+enum Orientation {EAST, NORTH, WEST, SOUTH, NORTH_EAST = 0, NORTH_WEST = 1, SOUTH_WEST = 2, SOUTH_EAST = 3};
 enum Direction {LEFT, UP, RIGHT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 enum Spielmodus {NORMALMODE, SETMODE, EXIT};

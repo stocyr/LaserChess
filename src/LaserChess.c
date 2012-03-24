@@ -57,72 +57,72 @@ pawn *create_figures(void) // Liefert Pointer auf Array der Spielfigren an Stell
 	pawn figure[ANZ_FIGURES] = {
 		[0].PLAYER = PLAYER_RED,
 		[0].TYPE = KING,
-		[0].DIR = DOWN,
+		[0].DIR = SOUTH,
 		[0].Pos = {3, 5},
 
 		[1].PLAYER = PLAYER_RED,
 		[1].TYPE = CANNON,
-		[1].DIR = DOWN,
+		[1].DIR = SOUTH,
 		[1].Pos = {0, 5},
 
 		[2].PLAYER = PLAYER_RED,
 		[2].TYPE = WALL,
-		[2].DIR = UP,
+		[2].DIR = NORTH,
 		[2].Pos = {4, 5},
 
 		[3].PLAYER = PLAYER_RED,
 		[3].TYPE = MIRROR,
-		[3].DIR = BOTTOM_LEFT,
+		[3].DIR = SOUTH_WEST,
 		[3].Pos = {2, 5},
 
 		[4].PLAYER = PLAYER_RED,
 		[4].TYPE = MIRROR,
-		[4].DIR = TOP_RIGHT,
+		[4].DIR = NORTH_EAST,
 		[4].Pos = {4, 3},
 
 		[5].PLAYER = PLAYER_RED,
 		[5].TYPE = MIRROR,
-		[5].DIR = TOP_RIGHT,
+		[5].DIR = NORTH_EAST,
 		[5].Pos = {0, 2},
 
 		[6].PLAYER = PLAYER_RED,
 		[6].TYPE = MIRROR,
-		[6].DIR = TOP_RIGHT,
+		[6].DIR = NORTH_EAST,
 		[6].Pos = {2, 1},
 
 		[7].PLAYER = PLAYER_BLUE,
 		[7].TYPE = KING,
-		[7].DIR = UP,
+		[7].DIR = NORTH,
 		[7].Pos = {4, 0},
 
 		[8].PLAYER = PLAYER_BLUE,
 		[8].TYPE = CANNON,
-		[8].DIR = UP,
+		[8].DIR = NORTH,
 		[8].Pos = {7, 0},
 
 		[9].PLAYER = PLAYER_BLUE,
 		[9].TYPE = WALL,
-		[9].DIR = UP,
+		[9].DIR = NORTH,
 		[9].Pos = {3, 0},
 
 		[10].PLAYER = PLAYER_BLUE,
 		[10].TYPE = MIRROR,
-		[10].DIR = TOP_RIGHT,
+		[10].DIR = NORTH_EAST,
 		[10].Pos = {5, 0},
 
 		[11].PLAYER = PLAYER_BLUE,
 		[11].TYPE = MIRROR,
-		[11].DIR = BOTTOM_LEFT,
+		[11].DIR = SOUTH_WEST,
 		[11].Pos = {3, 2},
 
 		[12].PLAYER = PLAYER_BLUE,
 		[12].TYPE = MIRROR,
-		[12].DIR = BOTTOM_LEFT,
+		[12].DIR = SOUTH_WEST,
 		[12].Pos = {7, 3},
 
 		[13].PLAYER = PLAYER_BLUE,
 		[13].TYPE = MIRROR,
-		[13].DIR = BOTTOM_LEFT,
+		[13].DIR = SOUTH_WEST,
 		[13].Pos = {5, 4}
 
 	};
