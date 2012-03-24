@@ -50,11 +50,11 @@ location map_to_pixel(location Windowskoordinaten);
 void draw_playground();
 void draw_focus(location Field);
 void draw_empty_field(location pos);
-void draw_laser (location pos, int dir);					//enum Direction dir
-void draw_angled_laser(location pos, int dir, int angle);	//enum Direction dir
+void draw_laser (location pos, enum Direction dir);
+void draw_angled_laser(location pos, enum Direction dir, enum Angle angle);
 void draw_figure(pawn *figure);
-void draw_mirror_destroyed(location pos);
-void draw_king_destroyed(location pos);
+void draw_mirror_destroyed(pawn *figure);
+void draw_king_destroyed(pawn *figure);
 
 /*module type declaration*/
 

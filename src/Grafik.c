@@ -144,7 +144,7 @@ void draw_angled_laser(location pos, int dir, int angle) //bekommt Mapkoordinate
 
 	switch(angle)
 	{
-		case -1:	//Winkel nach Rechts
+		case CW:	//Winkel nach Rechts
 			switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser in zwei Schritten zeichnen
 			{
 				case RIGHT:
@@ -207,7 +207,7 @@ void draw_angled_laser(location pos, int dir, int angle) //bekommt Mapkoordinate
 			}
 		break;
 
-		case 1:	//Winkel nach Links
+		case CCW:	//Winkel nach Links
 			switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser in zwei Schritten zeichnen
 			{
 				case RIGHT:
@@ -298,7 +298,7 @@ void draw_figure(pawn *figure)
 	{
 	}*/
 }
-void draw_mirror_destroyed(location pos)
+void draw_mirror_destroyed(pawn *figure)
 {
 	/*****************************************************************************/
 	/*  Function   : draw_mirror_destroyed                          Version 1.0  */
@@ -317,10 +317,10 @@ void draw_mirror_destroyed(location pos)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(pos); //Feld löschen
+	draw_empty_field(figure->Pos); //Feld löschen
 	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
 }
-void draw_king_destroyed(location pos)
+void draw_king_destroyed(pawn *figure)
 {
 	/*****************************************************************************/
 	/*  Function   : draw_king_destroyed                          Version 1.0  */
@@ -339,6 +339,6 @@ void draw_king_destroyed(location pos)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(pos); //Feld löschen
+	draw_empty_field(figure->Pos); //Feld löschen
 	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
 }

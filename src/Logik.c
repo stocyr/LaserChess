@@ -35,9 +35,10 @@
 /*                                                                           */
 /*  Input Para :                                                             */
 /*                                                                           */
-/*  Output     : if a wall was hit: 0. If a king was hit: -1 for player_red, */
-/*               -2 for player_blue. If a mirror was hit: +1 for player_red, */
-/*               +2 for player_blue                                          */
+/*  Output     : if a wall or a cannon was hit, or the laser passes out of   */
+/*               the playground, returns 0.                                  */
+/*               If a king was hit: -1 for player_red, -2 for player_blue.   */
+/*               If a mirror was hit: +1 for player_red, +2 for player_blue  */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /*                                                                           */
@@ -102,7 +103,7 @@ int laser(location pos, int dir)	//enum Direction dir
 
                 case KING:
                     // König getroffen: Player negativ zurückgeben
-                    draw_king_destroyed(next_pawn->Pos);
+                    draw_king_destroyed(next_pawn);
                     // SLEEP ca 2sek!
                     WaitMs(2000);
                     return -(next_pawn->PLAYER);
@@ -117,7 +118,7 @@ int laser(location pos, int dir)	//enum Direction dir
                         case 0:
                         case 1:
                             // zerstörung: Spiegel positiv zurückgeben
-                            draw_mirror_destroyed(next_pawn->Pos);
+                            draw_mirror_destroyed(next_pawn);
                             // SLEEP ca 2sek!
                             WaitMs(2000);
                             return next_pawn->PLAYER;
@@ -180,6 +181,10 @@ int laser(location pos, int dir)	//enum Direction dir
                             return return_value;
                     }
                     break;
+
+				case CANNON:
+					// if the laser hits a cannon, nothing happends.
+					return 0;
             }
         }
     }
