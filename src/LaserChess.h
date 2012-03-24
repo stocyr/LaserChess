@@ -24,6 +24,17 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
+// TITLE in ASCII art:
+#define TITLE \
+"#                                    #####                              \n" \
+"#         ##    ####  ###### #####  #     # #    # ######  ####   ####  \n" \
+"#        #  #  #      #      #    # #       #    # #      #      #      \n" \
+"#       #    #  ####  #####  #    # #       ###### #####   ####   ####  \n" \
+"#       ######      # #      #####  #       #    # #           #      # \n" \
+"#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n" \
+"####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n" \
+
+
 enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2};
 enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
 enum Orientation {EAST, NORTH, WEST, SOUTH, NORTH_EAST = 0, NORTH_WEST = 1, SOUTH_WEST = 2, SOUTH_EAST = 3};

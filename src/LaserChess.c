@@ -156,13 +156,7 @@ enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
 	int a = 0;
-	printf ("#                                    #####                              \n"
-			"#         ##    ####  ###### #####  #     # #    # ######  ####   ####  \n"
-			"#        #  #  #      #      #    # #       #    # #      #      #      \n"
-			"#       #    #  ####  #####  #    # #       ###### #####   ####   ####  \n"
-			"#       ######      # #      #####  #       #    # #           #      # \n"
-			"#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n"
-			"####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n");
+	printf(TITLE);
 
 	printf("Welcome to Laserchess\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
 	scanf("%d",&a);
