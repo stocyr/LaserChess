@@ -359,12 +359,12 @@ void draw_figure(pawn *figure)
 	draw_empty_field(figure);
 
 	int figure_img; //Für Image ID der figur
-	float angle = figure.DIR * PI;
+	float angle = figure->DIR * PI;
 
 	//figure_img die richtigen Image ID zuweisen.
-	if(figure.PLAYER == PLAYER_RED)
+	if(figure->PLAYER == PLAYER_RED)
 	{
-		switch(figure.TYPE)
+		switch(figure->TYPE)
 		{
 		case KING:
 			figure_img = Red_king_img;
@@ -388,7 +388,7 @@ void draw_figure(pawn *figure)
 	}
 	else //PLAYER_BLUE
 	{
-		switch(figure.TYPE)
+		switch(figure->TYPE)
 		{
 		case KING:
 			figure_img = Blue_king_img;
@@ -443,7 +443,7 @@ void draw_mirror_destroyed(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(figure.Pos); //Feld löschen
+	draw_empty_field(figure->Pos); //Feld löschen
 	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
 }
 
@@ -466,6 +466,6 @@ void draw_king_destroyed(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(figure.Pos); //Feld löschen
+	draw_empty_field(figure->Pos); //Feld löschen
 	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
 }
