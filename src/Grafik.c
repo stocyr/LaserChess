@@ -86,7 +86,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 }
 
 /*Zeichnet Laser in der angegebenen Mapposition*/
-void draw_laser (location pos, int dir)	//bekommt Mapkoordinaten und schreibt sie ins struct location pos und enum Direction dir
+void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und schreibt sie ins struct location pos und enum Direction dir
 {
 	int n;							//Aufzählvariable
 	location map_pos;				//initialisieren: struct location map_pos
@@ -135,7 +135,7 @@ void draw_laser (location pos, int dir)	//bekommt Mapkoordinaten und schreibt si
 }
 
 /*Zeichnet 90°-Laser in der angegebenen Mapposition*/
-void draw_angled_laser(location pos, int dir, int angle) //bekommt Mapkoordinaten und schreibt sie ins struct location pos,
+void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bekommt Mapkoordinaten und schreibt sie ins struct location pos,
 //eine Richtung (enum Direction dir) und einen 90° Winkel (entweder -1 = rechts oder 1 = links)
 {
 	int n;							//Aufzählvariable
