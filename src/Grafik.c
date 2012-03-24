@@ -272,7 +272,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	}
 }
 
-bool init_figure_images()
+char init_figure_images()
 {
 	/*****************************************************************************/
 	/*  Function   : init_figure_images                             Version 1.0  */
@@ -356,7 +356,7 @@ void draw_figure(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(figure);
+	draw_empty_field(figure->Pos);
 
 	int figure_img; //Für Image ID der figur
 	float angle = figure->DIR * PI;
@@ -416,7 +416,7 @@ void draw_figure(pawn *figure)
 	Rotate(angle);
 	SetEditedImage(ID_WINDOW);
 
-	DrawImage(figure_img, map_to_pixel(x), map_to_pixel(y));
+	DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
 
 	//Bild im Speicher zurückdrehen in originale Ausrichtung.
 	SetEditedImage(figure_img);

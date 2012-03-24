@@ -44,6 +44,18 @@
 #define LASER_COL COL_RED			//Laserfarbe
 #define LASER_SPEED	100				//Geschwindigkeit beim Zeichnen des Lasers in ms
 
+/*Image ID's*/
+int Blue_king_img;
+int Blue_mirror_img;
+int Blue_splitter_img;
+int Blue_wall_img;
+int Blue_cannon_img;
+int Red_king_img;
+int Red_mirror_img;
+int Red_splitter_img;
+int Red_wall_img;
+int Red_cannon_img;
+
 /*Prototypen*/
 location pixel_to_map(location Mapkoordinaten);
 location map_to_pixel(location Windowskoordinaten);
