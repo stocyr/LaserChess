@@ -282,10 +282,12 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 	if(init_figure_images() == 0)
 	{
 		// wenn image load failed: error
-		printf("Image loading failed. Exiting");
+		printf("Image loading failed. Exiting\n");
 		return;
 	}
-	draw_playground();
+
+	draw_playground();		//Spielfeld zeichnen
+
 	if(MODE == SETMODE)
 	{
 		set_figure_positions(figure);
@@ -305,7 +307,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
 
 	//////////////////////////////////
-	enum Spielmodus MODE = menu();
+	enum Spielmodus MODE = menu();		//Bekommt einer der 3 Modes zurück
 	if(MODE == EXIT)
 	{
 

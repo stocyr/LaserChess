@@ -83,6 +83,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 	location map_pos;				//initialisieren: struct location map_pos
 	map_pos = map_to_pixel(pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links unten des ausgew. Feldes)
 	DrawFilledRectangle(map_pos.x, map_pos.y, FIELD_SIZE, FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet gefülltes Viereck zum überdecken
+	DrawEmptyRectangle(map_pos.x, map_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet den dazugehörigen Rahmen
 }
 
 /*Zeichnet Laser in der angegebenen Mapposition*/
@@ -421,6 +422,7 @@ void draw_figure(pawn *figure)
 	SetEditedImage(ID_WINDOW);
 
 	DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
+	DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
 
 	/*Bild im Speicher zurückdrehen in originale Ausrichtung.*/
 	SetEditedImage(figure_img);
