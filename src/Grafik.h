@@ -69,6 +69,8 @@ void draw_focus(location Field);
 void draw_empty_field(location pos);
 void draw_laser (location pos, enum Direction dir);
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle);
+char init_figure_images();
+void destroy_figure_images();
 void draw_figure(pawn *figure);
 void draw_mirror_destroyed(pawn *figure);
 void draw_king_destroyed(pawn *figure);

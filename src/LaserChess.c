@@ -277,6 +277,14 @@ void set_figure_positions(pawn *figure)
 void init_game(pawn *figure, enum Spielmodus MODE)
 {
 	int i = 0;
+
+	// initialize graphics and load images:
+	if(init_figure_images() == 0)
+	{
+		// wenn image load failed: error
+		printf("Image loading failed. Exiting");
+		return;
+	}
 	draw_playground();
 	if(MODE == SETMODE)
 	{
