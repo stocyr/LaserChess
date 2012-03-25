@@ -290,17 +290,17 @@ char init_figure_images()
 	/*                                                                           */
 	/*****************************************************************************/
 
-	Blue_king_img     = LoadImage(IMG_PATH "blue_king.jpg");     if(Blue_king_img < 0) return 0;
-	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
-	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
-	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
-	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
+	Blue_king_img     = LoadImage(IMG_PATH "blue_king.gif");     if(Blue_king_img < 0) return 0;
+	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.gif");   if(Blue_mirror_img < 0) return 0;
+	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.gif"); if(Blue_splitter_img < 0) return 0;
+	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.gif");     if(Blue_wall_img < 0) return 0;
+	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.gif");   if(Blue_cannon_img < 0) return 0;
 
-	Red_king_img      = LoadImage(IMG_PATH "blue_king.jpg");     if(Blue_king_img < 0) return 0;
-	Red_mirror_img    = LoadImage(IMG_PATH "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
-	Red_splitter_img  = LoadImage(IMG_PATH "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
-	Red_wall_img      = LoadImage(IMG_PATH "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
-	Red_cannon_img    = LoadImage(IMG_PATH "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
+	Red_king_img      = LoadImage(IMG_PATH "blue_king.gif");     if(Blue_king_img < 0) return 0;
+	Red_mirror_img    = LoadImage(IMG_PATH "blue_mirror.gif");   if(Blue_mirror_img < 0) return 0;
+	Red_splitter_img  = LoadImage(IMG_PATH "blue_splitter.gif"); if(Blue_splitter_img < 0) return 0;
+	Red_wall_img      = LoadImage(IMG_PATH "blue_wall.gif");     if(Blue_wall_img < 0) return 0;
+	Red_cannon_img    = LoadImage(IMG_PATH "blue_cannon.gif");   if(Blue_cannon_img < 0) return 0;
 
 	return 1;
 }

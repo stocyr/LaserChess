@@ -33,7 +33,7 @@
 #include "Spiel.h"
 
 /*Deklaration von PI, damit nicht math.h verwendet werden muss*/
-#define PI		3.14159265358979323846
+#define PI		3.14159265358979323846  //Kopiert aus math.h
 
 /*Grundsätzliche Grafik Definitionen*/
 #define FIELD_SIZE 100				//Feldbreite
@@ -46,7 +46,7 @@
 #define FOCUS_IDENT 5				//Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_RED			//Laserfarbe
 #define LASER_SPEED	100				//Geschwindigkeit beim Zeichnen des Lasers in ms
-#define IMG_PATH "img/figures/"     //Ordnerpfad zu den JPG der Figuren (Pfad relativ zu Ordner der EXE)
+#define IMG_PATH "img/figures/"     //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu Ordner der EXE)
 
 /*Image ID's*/
 int Blue_king_img;
