@@ -290,19 +290,17 @@ char init_figure_images()
 	/*                                                                           */
 	/*****************************************************************************/
 
-	char *Img_path = "img/figures/";
+	Blue_king_img     = LoadImage(IMG_PATH "blue_king.jpg");     if(Blue_king_img < 0) return 0;
+	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
+	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
+	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
+	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
 
-	Blue_king_img     = LoadImage(Img_path + "blue_king.jpg");     if(Blue_king_img < 0) return 0;
-	Blue_mirror_img   = LoadImage(Img_path + "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
-	Blue_splitter_img = LoadImage(Img_path + "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
-	Blue_wall_img     = LoadImage(Img_path + "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
-	Blue_cannon_img   = LoadImage(Img_path + "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
-
-	Red_king_img      = LoadImage(Img_path + "blue_king.jpg");     if(Blue_king_img < 0) return 0;
-	Red_mirror_img    = LoadImage(Img_path + "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
-	Red_splitter_img  = LoadImage(Img_path + "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
-	Red_wall_img      = LoadImage(Img_path + "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
-	Red_cannon_img    = LoadImage(Img_path + "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
+	Red_king_img      = LoadImage(IMG_PATH "blue_king.jpg");     if(Blue_king_img < 0) return 0;
+	Red_mirror_img    = LoadImage(IMG_PATH "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
+	Red_splitter_img  = LoadImage(IMG_PATH "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
+	Red_wall_img      = LoadImage(IMG_PATH "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
+	Red_cannon_img    = LoadImage(IMG_PATH "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
 
 	return 1;
 }
@@ -361,7 +359,7 @@ void draw_figure(pawn *figure)
 	int figure_img; //Für Image ID der figur
 	float angle = figure->DIR * PI;
 
-	//figure_img die richtigen Image ID zuweisen.
+	/*figure_img die richtigen Image ID zuweisen.*/
 	if(figure->PLAYER == PLAYER_RED)
 	{
 		switch(figure->TYPE)
@@ -411,14 +409,14 @@ void draw_figure(pawn *figure)
 		}
 	}
 
-	//Bild im Speicher drehen, damit es mit richtiger DIR auf Bildschirm gezeichnet wird.
+	/*Bild im Speicher drehen, damit es mit richtiger DIR auf Bildschirm gezeichnet wird.*/
 	SetEditedImage(figure_img);
 	Rotate(angle);
 	SetEditedImage(ID_WINDOW);
 
 	DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
 
-	//Bild im Speicher zurückdrehen in originale Ausrichtung.
+	/*Bild im Speicher zurückdrehen in originale Ausrichtung.*/
 	SetEditedImage(figure_img);
 	Rotate(-angle);
 	SetEditedImage(ID_WINDOW);
@@ -444,7 +442,8 @@ void draw_mirror_destroyed(pawn *figure)
 	/*****************************************************************************/
 
 	draw_empty_field(figure->Pos); //Feld löschen
-	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
+
+	/*Später Grafik von Zerstörung (Feld trotzdem vorher löschen)*/
 }
 
 void draw_king_destroyed(pawn *figure)
@@ -467,5 +466,6 @@ void draw_king_destroyed(pawn *figure)
 	/*****************************************************************************/
 
 	draw_empty_field(figure->Pos); //Feld löschen
-	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
+
+	/*Später Grafik von Zerstörung (Feld trotzdem vorher löschen)*/
 }
