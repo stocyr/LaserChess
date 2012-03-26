@@ -286,7 +286,7 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 	{
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
-			printf("%d\n", ((figure[i]).Pos.x));
+	//		printf("%d\n", ((figure[i]).Pos.x));
 			map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
 			draw_figure(&figure[i]);
 		}
