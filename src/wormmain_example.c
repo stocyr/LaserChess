@@ -44,8 +44,10 @@ typedef struct ImageMap {
 
 
 /* module data declaration */
+static volatile int Tick = 0;
 
 /* module procedure declaration */
+static void TimerHandler (void *Param);
 void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float ScaleY, int Image);
 ImageMapType *CreateImageMap(int MyImage);
 void DestroyImageMap(ImageMapType * ImageMap);
@@ -71,7 +73,7 @@ void DestroyImageMap(ImageMapType * ImageMap);
 /*  History     : 02.04.2002  IO  Created                                    */
 /*                                                                           */
 /*****************************************************************************/
-int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
+int oldgfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
    /* procedure data */
    int x = 0;
@@ -90,6 +92,8 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
    int LastX, LastY;
    int Key;
    float ColorAngle = 0;
+
+   char TextBuffer[100];
 
    /* procedure code */
 
@@ -131,8 +135,8 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
    }
 
    /* initialize and open the graphic window */
-   InitGraphic(600, 400); // 600*400 pixels window
-   //InitGraphic(-1, -1);  /* Negative Values gives full-screen window */
+   //InitGraphic(600, 400);
+   InitGraphic(-1, -1);  /* Negative Values gives full-screen window */
 
    /* Fill the whole area with grey */
    DrawFilledRectangle(0, 0, 600, 400, COL_GREY, 1) ;
@@ -291,6 +295,8 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
    LastY = 0;
    SavedImage = CreateSubImage(ID_WINDOW, LastX, LastY, 40, 60);
 
+   StartTimer(100, 0, TimerHandler);
+
    /* do until user hits a key */
    while(!IsKeyPressReady()) {
 
@@ -339,9 +345,16 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
       LastX = MouseInfo.MousePosX;
       LastY = MouseInfo.MousePosY;
 
+      sprintf(TextBuffer, "Time: %d", Tick);
+      TextExtension = GetTextDimensions(TextBuffer);
+      DrawFilledRectangle(350 - TextExtension.Overhang, 300 - TextExtension.Up, TextExtension.Length + TextExtension.Overhang, TextExtension.Up + TextExtension.Down, COL_BLACK, 1) ;
+      DrawTextXY (350, 300, Col, TextBuffer);
+
+
       /* Actualice drawing on screen */
       SetAutoUpdate(1);
    }
+   StopTimer();
 
    /* Clear Key inputbuffer */
    while(IsKeyPressReady()) {
@@ -464,17 +477,25 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
    /***************** Throw things around demo (Mouse Event handling) *****************/
 
    {
-      const int TimeIntervall = 20;
+      const int TimeIntervall = 10;
       float SpeedX = 0.05;
       float SpeedY = -0.05;
       float PosX   = 300;
       float PosY   = 200;
+
+      int   IsInside = 0;
+
+
+      float MousePosX = 0;
+      float MousePosY = 0;
       float StartTime = 0;
       float StartPosX   = 0;
       float StartPosY   = 0;
       float Gravity = 0.001;
       char Sound1NameBuffer[1000];
       char Sound2NameBuffer[1000];
+
+      int MouseSize = 40 * 32768;
 
       int MaxHeight = 0;
       int MaxWidth = 0;
@@ -504,6 +525,7 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
    while(!IsKeyPressReady()) {
 
       MouseInfoType MouseEvent;
+      MouseInfoType MouseInfo;
 
       /* wait some time */
       WaitMs(TimeIntervall);
@@ -513,6 +535,9 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
       SetAutoUpdate(0);
       DrawFilledCircle(PosX, PosY, 10, 10, ColBlack, 1);
 
+      DrawFilledCircle(MousePosX-MouseSize/32768/2, MousePosY-MouseSize/32768/2, MouseSize/32768, MouseSize/32768, ColBlack, 1);
+
+
 
       /* Actualice speed acording to gravity */
       SpeedY += Gravity * TimeIntervall;
@@ -520,6 +545,54 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
       /* Move object according to its velocity */
       PosX   += SpeedX * TimeIntervall;
       PosY   += SpeedY * TimeIntervall;
+
+      /* Handle collision with mouse pointer */
+      {
+         int dx, dy;
+         float DistSquared;
+         /* Get MousePosition */
+         MouseInfo = GetMouseState();
+         MousePosX = MouseInfo.MousePosX;
+         MousePosY = MouseInfo.MousePosY;
+         dx = -(MouseInfo.MousePosX - PosX - 5);
+         dy = -(MouseInfo.MousePosY - PosY - 5);
+
+         /* Do only if distance to mouse is inside circle of 40 */
+         DistSquared = dx*dx+dy*dy;
+         if (DistSquared < ((MouseSize/32768/2+5)*(MouseSize/32768/2+5))) {
+            if (IsInside == 0) {
+            int t;
+            float CentralX;
+            float CentralY;
+            float TangentialX;
+            float TangentialY;
+            //Dist = sqrt(Dist);
+            IsInside = 1;
+
+            /* Calculate normal and tangental part of speed */
+            CentralX = dx/DistSquared * (SpeedX*dx + SpeedY*dy);
+            CentralY = dy/DistSquared * (SpeedX*dx + SpeedY*dy);
+
+            t = -dx;
+            dx = dy;
+            dy = t;
+
+            TangentialX = dx/DistSquared * (SpeedX*dx + SpeedY*dy);
+            TangentialY = dy/DistSquared * (SpeedX*dx + SpeedY*dy);
+
+            /* invert (reflect) normal part of speed */
+            SpeedX = TangentialX - CentralX;
+            SpeedY = TangentialY - CentralY;
+            }
+
+         } else {
+            IsInside = 0;
+         }
+
+
+      }
+
+
 
       /* Check if we hit a border, revert speed if so (Creates bouncing-effect) */
       if ((PosX < 10) && (SpeedX < 0)) {
@@ -572,6 +645,13 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
          }
       }
 
+      if (MouseEvent.ButtonState & W_MOUSE_WHEEL_CHANGE) {
+         /* change size of mousecircle on mousewheel event */
+         MouseSize += MouseEvent.MouseWheelDelta * 512;
+         printf("<%d>", MouseEvent.MouseWheelDelta);
+
+      }
+
 
       /* Get MousePosition, draw object at mouselocation if any button is pressed */
       MouseEvent = GetMouseState();
@@ -581,7 +661,13 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
       }
 
       /* Draw our object at the current position */
-      DrawFilledCircle(PosX, PosY, 10, 10, ColRed, 1);
+      DrawFilledCircle(MousePosX-MouseSize/32768/2, MousePosY-MouseSize/32768/2, MouseSize/32768, MouseSize/32768, ColGreen, 1);
+
+      if (IsInside == 0) {
+         DrawFilledCircle(PosX, PosY, 10, 10, ColRed, 1);
+      } else {
+         DrawFilledCircle(PosX, PosY, 10, 10, COL_YELLOW, 1);
+      }
       SetAutoUpdate(1);
 
    }
@@ -864,6 +950,11 @@ int old_gfxmain(int argc, char* argv[], const char *ApplicationPath)
 /*****************************************************************************/
 /*  End         : main                                                       */
 /*****************************************************************************/
+
+static void TimerHandler (void *Param)
+{
+   Tick++;
+}
 
 
 /*****************************************************************************/

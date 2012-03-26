@@ -101,15 +101,22 @@ enum KeyCodes {
 };
 
 enum MouseButtonCodes {
-   W_BUTTON_NO_EVENT    =  0x0000,
-   W_BUTTON_NONE        =  0x0000,
-   W_BUTTON_LEFT        =  0x0001,
-   W_BUTTON_MIDDLE      =  0x0002,
-   W_BUTTON_RIGHT       =  0x0004,
-   W_BUTTON_PRESSED     =  0x1000,
-   W_BUTTON_RELEASED    =  0x2000,
-   W_BUTTON_DOUBLECLICK =  0x4000,
+   W_BUTTON_NO_EVENT     =  0x0000,
+   W_BUTTON_NONE         =  0x0000,
+   W_BUTTON_LEFT         =  0x0001,
+   W_BUTTON_MIDDLE       =  0x0002,
+   W_BUTTON_RIGHT        =  0x0004,
+   W_MOUSE_WHEEL_CHANGE  =  0x0008,
+   W_BUTTON_PRESSED      =  0x1000,
+   W_BUTTON_RELEASED     =  0x2000,
+   W_BUTTON_DOUBLECLICK  =  0x4000,
 
+};
+
+enum MouseWheelKindEnum {
+   MW_NONE       = 0x0000,
+   MW_VERTICAL   = 0x0001,
+   MW_HORIZONTAL = 0x0002
 };
 
 enum FontStyle {
@@ -142,6 +149,8 @@ typedef struct MouseInfo {
   int MousePosX;
   int MousePosY;
   int ButtonState;
+  int MouseWheelKind;
+  int MouseWheelDelta;
 } MouseInfoType;
 
 
@@ -238,6 +247,10 @@ extern void PlaySoundOnce (const char *FileName);
 extern void PlaySoundContinuous(const char *FileName);
 extern void StopContinuousSound (void);
 extern void StartContinuousSound (void);
+
+void StartTimer(int IntervalTime, void *Parameter, void (*Handler)(void *));
+void StopTimer(void);
+
 
 
 #ifdef __cplusplus
