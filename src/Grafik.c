@@ -83,6 +83,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 	location map_pos;				//initialisieren: struct location map_pos
 	map_pos = map_to_pixel(pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links unten des ausgew. Feldes)
 	DrawFilledRectangle(map_pos.x, map_pos.y, FIELD_SIZE, FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet gefülltes Viereck zum überdecken
+	DrawEmptyRectangle(map_pos.x, map_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet den dazugehörigen Rahmen
 }
 
 /*Zeichnet Laser in der angegebenen Mapposition*/
@@ -272,7 +273,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	}
 }
 
-bool init_figure_images()
+char init_figure_images()
 {
 	/*****************************************************************************/
 	/*  Function   : init_figure_images                             Version 1.0  */
@@ -290,19 +291,19 @@ bool init_figure_images()
 	/*                                                                           */
 	/*****************************************************************************/
 
-	char *Img_path = "img/figures/";
+	Blue_king_img     = LoadImage(IMG_PATH "blue_king.gif");     if(Blue_king_img < 0) return 0;
+	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.gif");   if(Blue_mirror_img < 0) return 0;
+	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.gif"); if(Blue_splitter_img < 0) return 0;
+	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.gif");     if(Blue_wall_img < 0) return 0;
+	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.gif");   if(Blue_cannon_img < 0) return 0;
 
-	Blue_king_img     = LoadImage(Img_path + "blue_king.jpg");     if(Blue_king_img < 0) return 0;
-	Blue_mirror_img   = LoadImage(Img_path + "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
-	Blue_splitter_img = LoadImage(Img_path + "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
-	Blue_wall_img     = LoadImage(Img_path + "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
-	Blue_cannon_img   = LoadImage(Img_path + "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
+	Red_king_img      = LoadImage(IMG_PATH "red_king.gif");     if(Red_king_img < 0) return 0;
+	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.gif");   if(Red_mirror_img < 0) return 0;
+	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.gif"); if(Red_splitter_img < 0) return 0;
+	Red_wall_img      = LoadImage(IMG_PATH "red_wall.gif");     if(Red_wall_img < 0) return 0;
+	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.gif");   if(Red_cannon_img < 0) return 0;
 
-	Red_king_img      = LoadImage(Img_path + "blue_king.jpg");     if(Blue_king_img < 0) return 0;
-	Red_mirror_img    = LoadImage(Img_path + "blue_mirror.jpg");   if(Blue_mirror_img < 0) return 0;
-	Red_splitter_img  = LoadImage(Img_path + "blue_splitter.jpg"); if(Blue_splitter_img < 0) return 0;
-	Red_wall_img      = LoadImage(Img_path + "blue_wall.jpg");     if(Blue_wall_img < 0) return 0;
-	Red_cannon_img    = LoadImage(Img_path + "blue_cannon.jpg");   if(Blue_cannon_img < 0) return 0;
+	Figure_error_img  = LoadImage(IMG_PATH "figure_error.gif");   if(Figure_error_img < 0) return 0;
 
 	return 1;
 }
@@ -336,6 +337,8 @@ void destroy_figure_images()
 	DestroyImage(Red_splitter_img);
 	DestroyImage(Red_wall_img);
 	DestroyImage(Red_cannon_img);
+
+	DestroyImage(Figure_error_img);
 }
 
 void draw_figure(pawn *figure)
@@ -356,12 +359,12 @@ void draw_figure(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(figure);
+	draw_empty_field(figure->Pos);
 
 	int figure_img; //Für Image ID der figur
 	float angle = figure->DIR * PI;
 
-	//figure_img die richtigen Image ID zuweisen.
+	/*figure_img die richtigen Image ID zuweisen.*/
 	if(figure->PLAYER == PLAYER_RED)
 	{
 		switch(figure->TYPE)
@@ -383,6 +386,7 @@ void draw_figure(pawn *figure)
 		break;
 		default:
 			//Keine gültige Figur..
+			figure_img = Figure_error_img;
 		break;
 		}
 	}
@@ -407,18 +411,20 @@ void draw_figure(pawn *figure)
 		break;
 		default:
 			//Keine gültige Figur..
+			figure_img = Figure_error_img;
 		break;
 		}
 	}
 
-	//Bild im Speicher drehen, damit es mit richtiger DIR auf Bildschirm gezeichnet wird.
+	/*Bild im Speicher drehen, damit es mit richtiger DIR auf Bildschirm gezeichnet wird.*/
 	SetEditedImage(figure_img);
 	Rotate(angle);
 	SetEditedImage(ID_WINDOW);
 
-	DrawImage(figure_img, map_to_pixel(x), map_to_pixel(y));
+	DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
+	DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
 
-	//Bild im Speicher zurückdrehen in originale Ausrichtung.
+	/*Bild im Speicher zurückdrehen in originale Ausrichtung.*/
 	SetEditedImage(figure_img);
 	Rotate(-angle);
 	SetEditedImage(ID_WINDOW);
@@ -444,7 +450,8 @@ void draw_mirror_destroyed(pawn *figure)
 	/*****************************************************************************/
 
 	draw_empty_field(figure->Pos); //Feld löschen
-	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
+
+	/*Später Grafik von Zerstörung (Feld trotzdem vorher löschen)*/
 }
 
 void draw_king_destroyed(pawn *figure)
@@ -467,5 +474,6 @@ void draw_king_destroyed(pawn *figure)
 	/*****************************************************************************/
 
 	draw_empty_field(figure->Pos); //Feld löschen
-	//Später evtl. Grafik von Zerstörung (Feld trotzdem vorher löschen)
+
+	/*Später Grafik von Zerstörung (Feld trotzdem vorher löschen)*/
 }
