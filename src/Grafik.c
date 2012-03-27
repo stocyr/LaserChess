@@ -290,6 +290,14 @@ char init_figure_images()
 	/*  Email      : kasen1@bfh.ch                                               */
 	/*                                                                           */
 	/*****************************************************************************/
+
+	/*
+		88888 .d88b.    888b. .d88b.
+		  8   8P  Y8    8   8 8P  Y8  w    Bei Error, vorher geladene
+		  8   8b  d8    8   8 8b  d8       imgs entfernen mit DestroyImage()
+		  8   `Y88P'    888P' `Y88P'  w
+	 */
+
 	char error = -1;
 	char success = 1;
 
