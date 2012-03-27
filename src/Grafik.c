@@ -293,8 +293,8 @@ char init_figure_images()
 
 	/*
 		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w    Bei Error, vorher geladene
-		  8   8b  d8    8   8 8b  d8       imgs entfernen mit DestroyImage()
+		  8   8P  Y8    8   8 8P  Y8  w    Bei Error, alle vorher trotzdem geladene
+		  8   8b  d8    8   8 8b  d8       imgs entfernen mit destroy_figure_images()
 		  8   `Y88P'    888P' `Y88P'  w
 	 */
 
@@ -336,19 +336,19 @@ void destroy_figure_images()
 	/*                                                                           */
 	/*****************************************************************************/
 
-	DestroyImage(Blue_king_img);
-	DestroyImage(Blue_mirror_img);
-	DestroyImage(Blue_splitter_img);
-	DestroyImage(Blue_wall_img);
-	DestroyImage(Blue_cannon_img);
+	if (Blue_king_img > 0)     DestroyImage(Blue_king_img);
+	if (Blue_mirror_img > 0)   DestroyImage(Blue_mirror_img);
+	if (Blue_splitter_img > 0) DestroyImage(Blue_splitter_img);
+	if (Blue_wall_img > 0)     DestroyImage(Blue_wall_img);
+	if (Blue_cannon_img > 0)   DestroyImage(Blue_cannon_img);
 
-	DestroyImage(Red_king_img);
-	DestroyImage(Red_mirror_img);
-	DestroyImage(Red_splitter_img);
-	DestroyImage(Red_wall_img);
-	DestroyImage(Red_cannon_img);
+	if (Red_king_img > 0)      DestroyImage(Red_king_img);
+	if (Red_mirror_img > 0)    DestroyImage(Red_mirror_img);
+	if (Red_splitter_img > 0)  DestroyImage(Red_splitter_img);
+	if (Red_wall_img > 0)      DestroyImage(Red_wall_img);
+	if (Red_cannon_img > 0)    DestroyImage(Red_cannon_img);
 
-	DestroyImage(Figure_error_img);
+	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
 }
 
 void draw_figure(pawn *figure)
@@ -369,10 +369,17 @@ void draw_figure(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
+	/*
+		88888 .d88b.    888b. .d88b.
+		  8   8P  Y8    8   8 8P  Y8  w    Rotation. Fehlermeldungen sind
+		  8   8b  d8    8   8 8b  d8       desswegen entstanden..
+		  8   `Y88P'    888P' `Y88P'  w
+	 */
+
 	draw_empty_field(figure->Pos);
 
 	int figure_img; //Für Image ID der figur
-	float angle = figure->DIR * PI/2; //Rotation in Radiant
+	//float angle = figure->DIR * PI/2; //Rotation in Radiant
 
 	/*figure_img die richtigen Image ID zuweisen.*/
 	if(figure->PLAYER == PLAYER_RED)
@@ -427,17 +434,17 @@ void draw_figure(pawn *figure)
 	}
 
 	/*Bild im Speicher drehen, damit es mit richtiger DIR auf Bildschirm gezeichnet wird.*/
-	SetEditedImage(figure_img);
+	/*SetEditedImage(figure_img);
 	Rotate(angle);
-	SetEditedImage(ID_WINDOW);
+	SetEditedImage(ID_WINDOW);*/
 
 	DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
 	DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
 
 	/*Bild im Speicher zurückdrehen in originale Ausrichtung.*/
-	SetEditedImage(figure_img);
+	/*SetEditedImage(figure_img);
 	Rotate(-angle);
-	SetEditedImage(ID_WINDOW);
+	SetEditedImage(ID_WINDOW);*/
 }
 
 void draw_mirror_destroyed(pawn *figure)
