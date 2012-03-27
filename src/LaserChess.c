@@ -307,23 +307,27 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
 
 	//////////////////////////////////
-	enum Spielmodus MODE = menu();		//Bekommt einer der 3 Modes zurück
-	if(MODE == EXIT)
+	enum Spielmodus MODE;
+
+	while(1)
 	{
+		MODE = menu();		//Bekommt einer der 3 Modes zurück
+		if(MODE == EXIT)
+		{
 
-		printf("BYEBYE!\n");
+			printf("BYEBYE!\n");
 
-		system("pause");
-		return EXIT_SUCCESS;
+			system("pause");
+			return EXIT_SUCCESS;
+		}
+		pawn figure[ANZ_FIGURES];
+		create_figures(figure);
+
+		init_game(figure, MODE);
+
+		spiel();
+
 	}
-	pawn figure[ANZ_FIGURES];
-	create_figures(figure);
-
-	init_game(figure, MODE);
-
-	spiel();
-
-
 
 	/////////////////////////////////
 
