@@ -290,22 +290,24 @@ char init_figure_images()
 	/*  Email      : kasen1@bfh.ch                                               */
 	/*                                                                           */
 	/*****************************************************************************/
+	char error = -1;
+	char success = 1;
 
-	Blue_king_img     = LoadImage(IMG_PATH "blue_king.gif");     if(Blue_king_img < 0) return 0;
-	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.gif");   if(Blue_mirror_img < 0) return 0;
-	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.gif"); if(Blue_splitter_img < 0) return 0;
-	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.gif");     if(Blue_wall_img < 0) return 0;
-	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.gif");   if(Blue_cannon_img < 0) return 0;
+	Blue_king_img     = LoadImage(IMG_PATH "blue_king.gif");     if(Blue_king_img < 0) return error;
+	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.gif");   if(Blue_mirror_img < 0) return error;
+	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.gif"); if(Blue_splitter_img < 0) return error;
+	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.gif");     if(Blue_wall_img < 0) return error;
+	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.gif");   if(Blue_cannon_img < 0) return error;
 
-	Red_king_img      = LoadImage(IMG_PATH "red_king.gif");     if(Red_king_img < 0) return 0;
-	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.gif");   if(Red_mirror_img < 0) return 0;
-	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.gif"); if(Red_splitter_img < 0) return 0;
-	Red_wall_img      = LoadImage(IMG_PATH "red_wall.gif");     if(Red_wall_img < 0) return 0;
-	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.gif");   if(Red_cannon_img < 0) return 0;
+	Red_king_img      = LoadImage(IMG_PATH "red_king.gif");     if(Red_king_img < 0) return error;
+	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.gif");   if(Red_mirror_img < 0) return error;
+	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.gif"); if(Red_splitter_img < 0) return error;
+	Red_wall_img      = LoadImage(IMG_PATH "red_wall.gif");     if(Red_wall_img < 0) return error;
+	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.gif");   if(Red_cannon_img < 0) return error;
 
-	Figure_error_img  = LoadImage(IMG_PATH "figure_error.gif");   if(Figure_error_img < 0) return 0;
+	Figure_error_img  = LoadImage(IMG_PATH "figure_error.gif");   if(Figure_error_img < 0) return error;
 
-	return 1;
+	return success;
 }
 
 void destroy_figure_images()
@@ -362,7 +364,7 @@ void draw_figure(pawn *figure)
 	draw_empty_field(figure->Pos);
 
 	int figure_img; //Für Image ID der figur
-	float angle = figure->DIR * PI;
+	float angle = figure->DIR * PI/2; //Rotation in Radiant
 
 	/*figure_img die richtigen Image ID zuweisen.*/
 	if(figure->PLAYER == PLAYER_RED)
