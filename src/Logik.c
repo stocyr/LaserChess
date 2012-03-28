@@ -39,6 +39,9 @@
 /*               the playground, returns 0.                                  */
 /*               If a king was hit: -1 for player_red, -2 for player_blue.   */
 /*               If a mirror was hit: +1 for player_red, +2 for player_blue  */
+/*               In case of a splitter being hit: then two laser paths are   */
+/*               generated and the return value is the one with the higher   */
+/*               priority (descending order): king, mirror, wall / cannon.   */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /*                                                                           */
@@ -78,7 +81,7 @@ int laser(location pos, int dir)	//enum Direction dir
     else
     {
         pawn *next_pawn = map[next_pos.x][next_pos.y];
-        int return_value, reflection;
+        int return_value, return_value_splitter, reflection;
 
         if(!is_figure(next_pawn->Pos))
         {
@@ -138,7 +141,6 @@ int laser(location pos, int dir)	//enum Direction dir
 
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value = laser(next_pos, dir);
-                            draw_empty_field(next_pos);
                             draw_figure(next_pawn);
                             return return_value;
                     }
@@ -146,6 +148,15 @@ int laser(location pos, int dir)	//enum Direction dir
 
                 case SPLITTER:
                     // Splitter getroffen: welche Reflektion? (keine zerstörung möglich)
+
+                	// Zuerst wird der gerade pfad bearbeitet:
+                	// dir bleibt gleich, einfach ein Feld weiter (wie bei einem leeren Feld).
+                	// Leeres Feld: Linie zeichnen, sich selbst ausführen, linie wieder löschen
+					draw_laser(next_pos, dir);
+					// rückgabewert wird in return_value zwischengespeichert
+					return_value = laser(next_pos, dir);
+
+					// Jetzt wird der abgewinkelte Pfad bearbeitet:
                     reflection = dir - next_pawn->DIR;
                     NORM(reflection);
 
@@ -159,9 +170,7 @@ int laser(location pos, int dir)	//enum Direction dir
                             draw_angled_laser(next_pos, dir, -1);
 
                             // sich selbst ausführen und danach linie wieder löschen
-                            return_value = laser(next_pos, dir);
-                            draw_figure(next_pawn);
-                            return return_value;
+                            return_value_splitter = laser(next_pos, dir);
 
                         case 1:
                         case 3:
@@ -171,12 +180,30 @@ int laser(location pos, int dir)	//enum Direction dir
                             draw_angled_laser(next_pos, dir, 1);
 
                             // sich selbst ausführen und danach linie wieder löschen
-                            return_value = laser(next_pos, dir);
-                            draw_empty_field(next_pos);
-                            draw_figure(next_pawn);
-                            return return_value;
+                            return_value_splitter = laser(next_pos, dir);
                     }
                     break;
+
+                    // RETURNWERTE:
+                    // jetzt erst wird der splitter wieder von den Laserlinien 'befreit'
+                    draw_figure(next_pawn);
+
+                    // und dannach der Wert zurückgegeben, der die höchste Priorität hat.
+                    if(return_value < 0 || return_value_splitter < 0)
+                    {
+                    	// wenn ein könig getroffen wurde:
+                    	return MIN(return_value, return_value_splitter); // den king-down wert zurückgeben
+                    }
+                    else if(return_value > 0 || return_value_splitter > 0)
+                    {
+                    	// wenn ein mirror getroffen wurde:
+                    	return MAX(return_value, return_value_splitter); // den mirror-down wert zurückgeben
+                    }
+                    else
+                    {
+                    	// wenn von beiden Laserstrahlen nichts getroffen wurde: 0 zurückgeben.
+                    	return 0;
+                    }
 
 				case CANNON:
 					// if the laser hits a cannon, nothing happends.
@@ -292,7 +319,7 @@ void move_figure(pawn *figure, location new_pos)
 /*  Function   : mouseclick_to_map()                            Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Get Mosue-Clicks and returns the Mapcordinate.              */
+/*  Function   : Get Mouse-Clicks and returns the Mapcoordinate.              */
 /*                                                                           */
 /*  Input Para :                                                             */
 /*                                                                           */
