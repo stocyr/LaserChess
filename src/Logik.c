@@ -33,7 +33,9 @@
 /*                                                                           */
 /*  Function   :                                                             */
 /*                                                                           */
-/*  Input Para :                                                             */
+/*  Input Para : receives the field from which the laser shoot is done. this */
+/*               field is not painted with laser anymore, but the field NEXT */
+/*               to it, whose direction from the field is specified with dir
 /*                                                                           */
 /*  Output     : if a wall or a cannon was hit, or the laser passes out of   */
 /*               the playground, returns 0.                                  */
