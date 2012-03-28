@@ -54,7 +54,7 @@ location map_to_pixel(location Windowskoordinaten)	//bekommt mapkoordinaten gibt
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
-	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE+2*FIELD_LINE_WIDTH, PLAYGROUND_Y_MAX*FIELD_SIZE+2*FIELD_LINE_WIDTH);			//initialisiert und öffnet ein 806*606 Grafikfenster
+	InitGraphic(2*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH, 2*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH);				//initialisiert und öffnet ein 806*606 Grafikfenster
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet die Spielfeldumrandung
 
