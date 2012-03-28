@@ -26,6 +26,10 @@
 
 #include "LaserChess.h"
 
+// Makro für Minimumwert aus zwei werten
+#define MIN(a, b) (a<=b ? a : b)
+#define MAX(a, b) (a>=b ? a : b)
+
 int laser(location pos, int dir);	//enum Direction dir
 int is_inside_map(location pos);
 int is_figure(location pos);
