@@ -44,6 +44,8 @@ enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 
 #define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
 
+#define ABS(a) (a<0 ? -(a) : a)
+
 #define ROTATE_LEFT(a) a++; NORM(a)
 #define ROTATE_RIGHT(a) a--; NORM(a)
 
