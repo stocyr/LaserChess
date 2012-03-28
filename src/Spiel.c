@@ -28,7 +28,22 @@
 #include "window.h"
 #include "LaserChess.h"
 #include "Logik.h"
-
+/*****************************************************************************/
+/*  Function   : create_focus                                   Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draw a green Background on all free Fields around the       */
+/* 				 selected figure.                                            */
+/*                                                                           */
+/*  Input Para : location struct (X-y-cordinate of selected figure)          */
+/*                                                                           */
+/*  Output     :                                                             */
+/*                                                                           */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 void create_focus(location pos)
 {
 	int k = 0;
@@ -64,7 +79,26 @@ void create_focus(location pos)
 		}
 	}
 }
+/*****************************************************************************/
+/*  End Function: create_focus                                               */
+/*****************************************************************************/
 
+
+/*****************************************************************************/
+/*  Function   : clear_focus                                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draw a empty field to all fields who were marked            */
+/*                                                                           */
+/*  Input Para : location struct (X-y-cordinate of deselected figure)        */
+/*                                                                           */
+/*  Output     :                                                             */
+/*                                                                           */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 void clear_focus(location pos)
 {
 	int k = 0;
@@ -100,7 +134,25 @@ void clear_focus(location pos)
 		}
 	}
 }
+/*****************************************************************************/
+/*  End Function: clear-focus                                                */
+/*****************************************************************************/
 
+/*****************************************************************************/
+/*  Function   : spiel                                          Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Handles the game, treats the mouse inputs                   */
+/*                                                                           */
+/*  Input Para :                                                             */
+/*                                                                           */
+/*  Output     :                                                             */
+/*                                                                           */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 void spiel(void)
 {
 	enum Affiliation PLAYER = PLAYER_RED;
@@ -160,22 +212,14 @@ void spiel(void)
 						{
 							// Wenn an Figur anliegendes Feld geklickt --> Figur verschieben
 							if((map[new_mouse_pos.x][new_mouse_pos.y] == NULL) &&
-							  ((new_mouse_pos.x - old_mouse_pos.x) <  2) &&
-							  ((new_mouse_pos.x - old_mouse_pos.x) > -2) &&
-							  ((new_mouse_pos.y - old_mouse_pos.y) <  2) &&
-							  ((new_mouse_pos.y - old_mouse_pos.y) > -2))
+							  ((ABS(new_mouse_pos.x - old_mouse_pos.x)) <  2)  &&
+							  ((ABS(new_mouse_pos.y - old_mouse_pos.y)) <  2))
 							{
 								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 								clear_focus(new_mouse_pos);
 								SPIELZUG = SELECT_FIGURE;
-								if(PLAYER == PLAYER_RED)	// schöner wäre PLAYER = PLAYER^1, weis aber nid obs verhet
-								{
-									PLAYER = PLAYER_BLUE;
-								}
-								else
-								{
-									PLAYER = PLAYER_RED;
-								}
+								PLAYER = !PLAYER;
+
 							}
 						}
 					}
@@ -184,23 +228,17 @@ void spiel(void)
 			case W_MOUSE_WHEEL_CHANGE:
 				if(mouse_event.MouseWheelDelta > 0)
 				{
-					ROTATE_LEFT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
+					map[old_mouse_pos.x][old_mouse_pos.y]->DIR = ROTATE_LEFT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
 				}
 				else
 				{
-					ROTATE_RIGHT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
+					map[old_mouse_pos.x][old_mouse_pos.y]->DIR = ROTATE_RIGHT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
 
 				}
 				clear_focus(new_mouse_pos);
+				draw_figure(&(map[old_mouse_pos.x][old_mouse_pos.y]));
 				SPIELZUG = SELECT_FIGURE;
-				if(PLAYER == PLAYER_RED)	// schöner wäre PLAYER = PLAYER^1, weis aber nid obs verhet
-				{
-					PLAYER = PLAYER_BLUE;
-				}
-				else
-				{
-					PLAYER = PLAYER_RED;
-				}
+				PLAYER = !PLAYER;
 
 				break;
 
@@ -209,3 +247,6 @@ void spiel(void)
 	}
 	while(1/*laser() >= 0*/);
 }
+/*****************************************************************************/
+/*  End Function: spiel                                                      */
+/*****************************************************************************/
