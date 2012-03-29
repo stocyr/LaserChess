@@ -35,7 +35,7 @@
 /*                                                                           */
 /*  Input Para : receives the field from which the laser shoot is done. this */
 /*               field is not painted with laser anymore, but the field NEXT */
-/*               to it, whose direction from the field is specified with dir
+/*               to it, whose direction from the field is specified with dir */
 /*                                                                           */
 /*  Output     : if a wall or a cannon was hit, or the laser passes out of   */
 /*               the playground, returns 0.                                  */
@@ -153,7 +153,7 @@ int laser(location pos, int dir)	//enum Direction dir
 
                 	// Zuerst wird der gerade pfad bearbeitet:
                 	// dir bleibt gleich, einfach ein Feld weiter (wie bei einem leeren Feld).
-                	// Leeres Feld: Linie zeichnen, sich selbst ausführen, linie wieder löschen
+                	// Linie zeichnen, sich selbst ausführen.
 					draw_laser(next_pos, dir);
 					// rückgabewert wird in return_value zwischengespeichert
 					return_value = laser(next_pos, dir);
@@ -307,8 +307,8 @@ int is_figure(location pos)
 
 void move_figure(pawn *figure, location new_pos)
 {
-    // clearing the new field:
-    draw_empty_field(new_pos);
+    // clearing the old field
+    draw_empty_field(figure->Pos);
 
     // changing the new location in the figure struct
     figure->Pos = new_pos;

@@ -33,7 +33,7 @@
 
 
 /*****************************************************************************/
-/*  Function   : create_figures()                               Version 1.0  */
+/*  Function   : create_figures                                 Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Generats and save all Figures to an Array. Set the Figures  */
@@ -137,7 +137,7 @@ void create_figures(pawn *figure) // Liefert Pointer auf Array der Spielfigren a
 	figure[13].Pos.y = 4;
 }
 /*****************************************************************************/
-/*  End Function: create_figures()                                           */
+/*  End Function: create_figures                                             */
 /*****************************************************************************/
 
 
@@ -147,7 +147,7 @@ void create_figures(pawn *figure) // Liefert Pointer auf Array der Spielfigren a
 /*  Function   : menu                                           Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : This should be a menu.                                      */
+/*  Function   : This should be a menu                                       */
 /*                                                                           */
 /*  Input Para :                                                             */
 /*                                                                           */
@@ -186,7 +186,7 @@ enum Spielmodus menu(void)
 /*****************************************************************************/
 
 /*****************************************************************************/
-/*  Function   : set_figure_positions(pawn *figure)             Version 1.0  */
+/*  Function   : set_figure_positions                           Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : The Player can set his pawn freely to the map. The figures  */
@@ -243,23 +243,24 @@ void set_figure_positions(pawn *figure)
 			if(MouseEvent.ButtonState & W_BUTTON_PRESSED)
 			{
 				//Player toggeln
-				if(PLAYER == PLAYER_RED)
-				{
-					PLAYER = PLAYER_BLUE;
-				}
-				else
-				{
-					PLAYER = PLAYER_RED;
-				}
+				PLAYER = !PLAYER;
 				STATE = READ_POS;
 				i++;
 			}
 			else
 			{
 				//Wenn rechte Maustaste gedrückt, dreht es rechts
-				if(MouseEvent.ButtonState & W_BUTTON_RIGHT)
+				if(MouseEvent.ButtonState & W_MOUSE_WHEEL_CHANGE)
 				{
-					figure->DIR = ROTATE_RIGHT(figure->DIR);
+					if(MouseEvent.MouseWheelDelta > 0)
+					{
+						figure->DIR = ROTATE_LEFT(figure->DIR);
+					}
+					else
+					{
+						figure->DIR = ROTATE_RIGHT(figure->DIR);
+
+					}
 					draw_figure(&figure[i]);
 				}
 			}
@@ -270,7 +271,7 @@ void set_figure_positions(pawn *figure)
 }
 
 /*****************************************************************************/
-/*  End Function: set_figure_positions(pawn *figure)                         */
+/*  End Function: set_figure_positions                                       */
 /*****************************************************************************/
 
 
