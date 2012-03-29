@@ -228,11 +228,11 @@ void spiel(void)
 			case W_MOUSE_WHEEL_CHANGE:
 				if(mouse_event.MouseWheelDelta > 0)
 				{
-					map[old_mouse_pos.x][old_mouse_pos.y]->DIR = ROTATE_LEFT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
+					ROTATE_LEFT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
 				}
 				else
 				{
-					map[old_mouse_pos.x][old_mouse_pos.y]->DIR = ROTATE_RIGHT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
+					ROTATE_RIGHT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
 
 				}
 				clear_focus(new_mouse_pos);
