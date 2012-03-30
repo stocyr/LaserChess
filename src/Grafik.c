@@ -469,10 +469,9 @@ void draw_figure(pawn *figure)
 	//DrawTransformedImage(map_to_pixel(figure->Pos).x,  map_to_pixel(figure->Pos).y,  20, 1, 1, figure_img);
 	//DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
 
-	/*Bild im Speicher zurueckdrehen in originale Ausrichtung.*/
-	/*SetEditedImage(figure_img);
-	Rotate(-angle);
-	SetEditedImage(ID_WINDOW);*/
+	DrawEmptyRectangle(Posi.x+25, Posi.y+25, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
+	//DrawImage(figure_img, Posi.x, Posi.y);
+	DrawTransformedImage(Posi.x, Posi.y,  20, 1, 1, figure_img); //test rotation
 }
 
 void draw_mirror_destroyed(pawn *figure)
