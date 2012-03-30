@@ -48,7 +48,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 {
 	location Windowskoordinaten;
 
-	Windowskoordinaten.x = Mapkoordinaten*FIELD_SIZE;	//0=>0; 1=>100; 2=>200; 3=>300; 4=>400; 5=>500; 6=>600; 7=>700
+	Windowskoordinaten.x = Mapkoordinaten.x*FIELD_SIZE;	//0=>0; 1=>100; 2=>200; 3=>300; 4=>400; 5=>500; 6=>600; 7=>700
 	Windowskoordinaten.y = (PLAYGROUND_Y_MAX*FIELD_SIZE)-(Mapkoordinaten.y*FIELD_SIZE);	//(600-(y*100)) 0=>600; 1=>500; 2=>400; 3=>300; 4=>200; 5=>100
 	return Windowskoordinaten;
 }
