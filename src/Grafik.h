@@ -1,5 +1,5 @@
-#ifndef GRAFIK_h
-#define GRAFIK_h
+#ifndef GRAFIK_H
+#define GRAFIK_H
 /*****************************************************************************/
 /*  o o o o      Berner Fachhochschule                                       */
 /*        :...o  Technik und Informatik                                      */

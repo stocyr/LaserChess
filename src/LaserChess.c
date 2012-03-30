@@ -339,7 +339,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];
 
-	while(1)
+	while(FOREVER)
 	{
 		MODE = menu();		//Bekommt einer der 3 Modes zurück
 		if(MODE == EXIT)
