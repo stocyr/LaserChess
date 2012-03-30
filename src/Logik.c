@@ -238,8 +238,8 @@ int laser(location pos, int dir)	//enum Direction dir
 int is_inside_map(location pos)
 {
     // wenn innerhalb der definierten Array-grenzen:
-    if((pos.x < PLAYGROUND_X_MAX && pos.x > 0) &&
-       (pos.y < PLAYGROUND_Y_MAX && pos.y > 0))
+    if((pos.x < PLAYGROUND_X_MAX && pos.x >= 0) &&
+       (pos.y < PLAYGROUND_Y_MAX && pos.y >= 0))
     {
         // true zurückgeben
         return 1;
