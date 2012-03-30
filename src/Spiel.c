@@ -188,6 +188,11 @@ void spiel(pawn *figure)
 
 			if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 			{
+				// DEBUG PIXEL <-> MAP
+				printf("\n\nMousePos = %d/%d", mouse_event.MousePosX, mouse_event.MousePosY);
+				printf("\nMapPos = %d/%d", new_mouse_pos.x, new_mouse_pos.y);
+				printf("\nPixelPos = %d/%d", map_to_pixel(new_mouse_pos).x, map_to_pixel(new_mouse_pos).y);
+
 				if(is_inside_map(new_mouse_pos))
 				{
 					// Selbe Figur geklickt --> Figur abwählen
