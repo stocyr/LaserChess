@@ -5,9 +5,7 @@
 /*  Module     : LaserChess/Mapdefinition                       Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   :                                                             */
-/*                                                                           */
-/*  Procedures : main()                                                      */
+/*  Function   : main()                                                      */
 /*                                                                           */
 /*  Author     : M. Bärtschi 												 */
 /* 																			 */
@@ -36,12 +34,13 @@
 /*  Function   : create_figures                                 Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Generats and save all Figures to an Array. Set the Figures  */
-/*               to the default Mapposition. Creats currently 14 Figures.    */
+/*  Function   : Initializes all Figures from a received figure array. Sets  */
+/*               Figures to the default Mapposition. Currently initializes   */
+/*               14 Figures.                                                 */
 /*                                                                           */
-/*  Input Para :                                                             */
+/*  Input Para : Pointer to the original figure array in the main-procedure  */
 /*                                                                           */
-/*  Output     : Ptr. to the Figure[0]                                       */
+/*  Output     : None                                                        */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -49,9 +48,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-void create_figures(pawn *figure) // Liefert Pointer auf Array der Spielfigren an Stelle 0
+void create_figures(pawn *figure)
 {
-	// Definition aller Spielfiguren
+	// Initialisierung aller Spielfiguren
 	figure[0].PLAYER = PLAYER_RED;
 	figure[0].TYPE = KING;
 	figure[0].DIR = SOUTH;
@@ -136,10 +135,6 @@ void create_figures(pawn *figure) // Liefert Pointer auf Array der Spielfigren a
 	figure[13].Pos.x = 5;
 	figure[13].Pos.y = 4;
 }
-/*****************************************************************************/
-/*  End Function: create_figures                                             */
-/*****************************************************************************/
-
 
 
 
@@ -147,11 +142,12 @@ void create_figures(pawn *figure) // Liefert Pointer auf Array der Spielfigren a
 /*  Function   : menu                                           Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : This should be a menu                                       */
+/*  Function   : This is a minimal menu. User can choose between modes       */
+/*               NORMAL, SETMODE and quit the game.                          */
 /*                                                                           */
-/*  Input Para :                                                             */
+/*  Input Para : None                                                        */
 /*                                                                           */
-/*  Output     :                                                             */
+/*  Output     : Play mode enum                                              */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -181,19 +177,18 @@ enum Spielmodus menu(void)
 	}
 	return MODE;
 }
-/*****************************************************************************/
-/*  End Function: menu                                                       */
-/*****************************************************************************/
+
+
 
 /*****************************************************************************/
 /*  Function   : set_figure_positions                           Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : The Player can set his pawn freely to the map. The figures  */
-/*               in the array are by the color. To toggle the player I use   */
-/*               i/2 for red and (i/2)+7 for blue.                           */
+/*  Function   : The Player can set his pawn freely on the map. The figures  */
+/*               in the array are sorted by color. To toggle the player, I   */
+/*               use i/2 for red and (i/2)+7 for blue.                       */
 /*                                                                           */
-/*  Input Para : Array of all figures                                        */
+/*  Input Para : Array of all the figures                                    */
 /*                                                                           */
 /*  Output     : none                                                        */
 /*                                                                           */
@@ -270,10 +265,26 @@ void set_figure_positions(pawn *figure)
 	}
 }
 
-/*****************************************************************************/
-/*  End Function: set_figure_positions                                       */
-/*****************************************************************************/
 
+
+/*****************************************************************************/
+/*  Function   : init_game                                      Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : initializes the game. Draws the graphics and places the     */
+/*               figures.                                                    */
+/*                                                                           */
+/*  Input Para : Array of all the figures, play mode (to decide whether to   */
+/*               place all the figures to initialized state or let the users */
+/*               place them alternating)                                     */
+/*                                                                           */
+/*  Output     : none                                                        */
+/*                                                                           */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 
 void init_game(pawn *figure, enum Spielmodus MODE)
 {
@@ -304,11 +315,27 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 	}
 }
 
+
+/*****************************************************************************/
+/*  Function   : gfxmain                                        Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Uber-main function. Will be called FIRST!                   */
+/*                                                                           */
+/*  Input Para : system console call parameters. (OS specific)               */
+/*                                                                           */
+/*  Output     : none                                                        */
+/*                                                                           */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
 int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
-
-	//////////////////////////////////
 	enum Spielmodus MODE;
+	pawn figure[ANZ_FIGURES];
 
 	while(1)
 	{
@@ -321,33 +348,12 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			system("pause");
 			return EXIT_SUCCESS;
 		}
-		pawn figure[ANZ_FIGURES];
+
 		create_figures(figure);
-
 		init_game(figure, MODE);
-
 		spiel(figure);
-
 	}
 
-	/////////////////////////////////
-
-	/*
-	map[0][0] = &figure[0];
-	map[7][5] = &figure[3];
-
-	printf("%d\n\n", ((map[0][0])->Pos.x));
-	printf("%d\n\n", ((map[7][5])->Pos.x));
-	printf("%d\n%d\n%d\n%d, %d", figure[0].PLAYER, figure[0].TYPE, figure[0].DIR, figure[0].Pos.x, figure[0].Pos.y);
-
-	// Figur um 90 ccw drehen
-	ROTATE_LEFT(map[7][5]->DIR);
-	ROTATE_LEFT(map[7][5]->DIR);
-	ROTATE_LEFT(map[7][5]->DIR);
-	ROTATE_LEFT(map[7][5]->DIR);
-
-	printf("%d\n", figure[3].DIR);
-	*/
 	system("pause");
 	return EXIT_SUCCESS;
 }
