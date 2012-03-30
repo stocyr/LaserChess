@@ -326,7 +326,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 		init_game(figure, MODE);
 
-		spiel();
+		spiel(figure);
 
 	}
 

@@ -24,6 +24,8 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
-void spiel(void);
+void spiel(pawn *figure);
+
 #define ANZ_FOCUS_FIELDS	8
+
 #endif
