@@ -23,6 +23,8 @@
 
 /*imports*/
 #include "Grafik.h"
+static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float ScaleY, int Image);
+
 
 /*Umrechnung Windowskoord. zu Mapposition*/
 location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten gibt mapkoordinaten zurück
@@ -55,7 +57,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
-	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE+2*FIELD_LINE_WIDTH, PLAYGROUND_Y_MAX*FIELD_SIZE+2*FIELD_LINE_WIDTH);			//initialisiert und öffnet ein 806*606 Grafikfenster
+	InitGraphic(2*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH, 2*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH);				//initialisiert und öffnet ein 806*606 Grafikfenster
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet die Spielfeldumrandung
 
@@ -274,6 +276,46 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	}
 }
 
+void destroy_figure_images()
+{
+	/*****************************************************************************/
+	/*  Function   : destroy_figure_images                          Version 1.0  */
+	/*****************************************************************************/
+	/*                                                                           */
+	/*  Function   : Deletes with init_figure_images() loaded images from memory */
+	/*                                                                           */
+	/*  Input Para : -                                                           */
+	/*                                                                           */
+	/*  Output     : -                                                           */
+	/*                                                                           */
+	/*  Author     : N. Kaeser                                                   */
+	/*                                                                           */
+	/*  Email      : kasen1@bfh.ch                                               */
+	/*                                                                           */
+	/*****************************************************************************/
+
+	/*
+		88888 .d88b.    888b. .d88b.       Abklaeren, ob LoadImage() bei erfolgreichem
+		  8   8P  Y8    8   8 8P  Y8  w    Laden auch 0 zurueck geben kann, oder nur
+		  8   8b  d8    8   8 8b  d8       Werte >0. Evtl dann anpassen.
+		  8   `Y88P'    888P' `Y88P'  w    (Auch in init_figure_images())
+	 */
+
+	if (Blue_king_img > 0)     DestroyImage(Blue_king_img);
+	if (Blue_mirror_img > 0)   DestroyImage(Blue_mirror_img);
+	if (Blue_splitter_img > 0) DestroyImage(Blue_splitter_img);
+	if (Blue_wall_img > 0)     DestroyImage(Blue_wall_img);
+	if (Blue_cannon_img > 0)   DestroyImage(Blue_cannon_img);
+
+	if (Red_king_img > 0)      DestroyImage(Red_king_img);
+	if (Red_mirror_img > 0)    DestroyImage(Red_mirror_img);
+	if (Red_splitter_img > 0)  DestroyImage(Red_splitter_img);
+	if (Red_wall_img > 0)      DestroyImage(Red_wall_img);
+	if (Red_cannon_img > 0)    DestroyImage(Red_cannon_img);
+
+	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
+}
+
 char init_figure_images()
 {
 	/*****************************************************************************/
@@ -329,46 +371,6 @@ char init_figure_images()
 	{
 		return success;
 	}
-}
-
-void destroy_figure_images()
-{
-	/*****************************************************************************/
-	/*  Function   : destroy_figure_images                          Version 1.0  */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function   : Deletes with init_figure_images() loaded images from memory */
-	/*                                                                           */
-	/*  Input Para : -                                                           */
-	/*                                                                           */
-	/*  Output     : -                                                           */
-	/*                                                                           */
-	/*  Author     : N. Kaeser                                                   */
-	/*                                                                           */
-	/*  Email      : kasen1@bfh.ch                                               */
-	/*                                                                           */
-	/*****************************************************************************/
-
-	/*
-		88888 .d88b.    888b. .d88b.       Abklaeren, ob LoadImage() bei erfolgreichem
-		  8   8P  Y8    8   8 8P  Y8  w    Laden auch 0 zurueck geben kann, oder nur
-		  8   8b  d8    8   8 8b  d8       Werte >0. Evtl dann anpassen.
-		  8   `Y88P'    888P' `Y88P'  w    (Auch in init_figure_images())
-	 */
-
-	if (Blue_king_img > 0)     DestroyImage(Blue_king_img);
-	if (Blue_mirror_img > 0)   DestroyImage(Blue_mirror_img);
-	if (Blue_splitter_img > 0) DestroyImage(Blue_splitter_img);
-	if (Blue_wall_img > 0)     DestroyImage(Blue_wall_img);
-	if (Blue_cannon_img > 0)   DestroyImage(Blue_cannon_img);
-
-	if (Red_king_img > 0)      DestroyImage(Red_king_img);
-	if (Red_mirror_img > 0)    DestroyImage(Red_mirror_img);
-	if (Red_splitter_img > 0)  DestroyImage(Red_splitter_img);
-	if (Red_wall_img > 0)      DestroyImage(Red_wall_img);
-	if (Red_cannon_img > 0)    DestroyImage(Red_cannon_img);
-
-	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
 }
 
 void draw_figure(pawn *figure)
@@ -454,12 +456,18 @@ void draw_figure(pawn *figure)
 	}
 
 	/*Bild im Speicher drehen, damit es mit richtiger DIR auf Bildschirm gezeichnet wird.*/
-	/*SetEditedImage(figure_img);
-	Rotate(angle);
-	SetEditedImage(ID_WINDOW);*/
+	//SetEditedImage(figure_img);
+	//Rotate(angle);
+	//SetEditedImage(ID_WINDOW);
 
-	DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
-	DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
+	//GetPixel(1,1);
+	//printf("%d ",ID_WINDOW);
+	printf("%d (%d)",figure_img, figure->TYPE);
+
+	DrawImage(figure_img, 10, 10);
+	//DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
+	//DrawTransformedImage(map_to_pixel(figure->Pos).x,  map_to_pixel(figure->Pos).y,  20, 1, 1, figure_img);
+	//DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
 
 	/*Bild im Speicher zurueckdrehen in originale Ausrichtung.*/
 	/*SetEditedImage(figure_img);
@@ -528,3 +536,57 @@ void draw_king_destroyed(pawn *figure)
 
 	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher loeschen)*/
 }
+
+/*****************************************************************************/
+/*  Procedure   : DrawTransformedImage                                       */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function    : Draws the given Image skaled and rotated at the given      */
+/*                position into the current image                            */
+/*                                                                           */
+/*  Type        : Global                                                     */
+/*                                                                           */
+/*  Input Para  : ImageId Handle of image to draw                            */
+/*                x, y    Position to draw image at                          */
+/*                Scalex  Scalingfactor for x axis (float value)             */
+/*                Scaley  Scalingfactor for y axis (float value)             */
+/*                Angle   Angle to rotate Image (in rad)                     */
+/*                                                                           */
+/*  Output Para : none                                                       */
+/*                                                                           */
+/*  Author      : I. Oesch                                                   */
+/*                                                                           */
+/*  History     : 06.01.2010  IO  Created                                    */
+/*                                                                           */
+/*****************************************************************************/
+static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float ScaleY, int Image)
+{
+   int ImageWidth;
+   int ImageHeight;
+
+   /* Get dimensions of Image */
+   GetImageSize(Image, &ImageWidth, &ImageHeight);
+
+   ResetTransformations();
+
+
+   /* Move coordinatesystem in the (assumed) centre of the immage */
+   Translate(x, y);
+
+   /* Scale and rotate the coordinatesystem */
+   Scale(ScaleX, ScaleY);
+
+   Rotate(Angle);
+
+   /* Move coordinatesystem back to origin */
+   Translate(-ImageWidth/2.0, -ImageHeight/2.0);
+
+   /* draw the image into the transformated coordinatesystem */
+   /* results in a rotated and scaled image                  */
+   DrawImage(Image, 0, 0);
+   ResetTransformations();
+}
+/*****************************************************************************/
+/*  End         : DrawTransformedImage                                       */
+/*****************************************************************************/
+

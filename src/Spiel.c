@@ -67,7 +67,7 @@ void create_focus(location pos)
 			[7].x = -1,
 			[7].y =  0
 	};
-
+	draw_focus(pos);
 	for(k = 0; k < ANZ_FOCUS_FIELDS; k++)
 	{
 		// Fokus um Gewählte Figur drehen lassen
@@ -122,7 +122,7 @@ void clear_focus(location pos)
 			[7].x = -1,
 			[7].y =  0
 	};
-
+	draw_figure(map[pos.x][pos.y]);
 	for(k = 0; k < ANZ_FOCUS_FIELDS; k++)
 	{
 		// Fokus um Gewählte Figur drehen lassen
@@ -153,18 +153,16 @@ void clear_focus(location pos)
 /*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
-void spiel(void)
+void spiel(pawn *figure)
+
 {
 	enum Affiliation PLAYER = PLAYER_RED;
 	enum Game {SELECT_FIGURE, CHOOSE_MOVE} SPIELZUG;
 	SPIELZUG = SELECT_FIGURE;
 
-
 	MouseInfoType mouse_event;
 	location new_mouse_pos;
 	location old_mouse_pos;
-
-
 
 	do
 	{
@@ -187,11 +185,9 @@ void spiel(void)
 			new_mouse_pos.y = mouse_event.MousePosY;
 			new_mouse_pos = pixel_to_map(new_mouse_pos);
 
-			switch(mouse_event.ButtonState)
+
+			if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 			{
-			case W_BUTTON_NO_EVENT:
-				break;
-			case W_BUTTON_PRESSED:
 				if(is_inside_map(new_mouse_pos))
 				{
 					// Selbe Figur geklickt --> Figur abwählen
@@ -216,7 +212,7 @@ void spiel(void)
 							  ((ABS(new_mouse_pos.y - old_mouse_pos.y)) <  2))
 							{
 								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
-								clear_focus(new_mouse_pos);
+								clear_focus(old_mouse_pos);
 								SPIELZUG = SELECT_FIGURE;
 								PLAYER = !PLAYER;
 
@@ -224,24 +220,29 @@ void spiel(void)
 						}
 					}
 				}
-				break;
-			case W_MOUSE_WHEEL_CHANGE:
-				if(mouse_event.MouseWheelDelta > 0)
+			}
+			else
+			{
+				// Kein Button geklickt, aber Mausrad gedreht
+				if(mouse_event.ButtonState & W_MOUSE_WHEEL_CHANGE)
 				{
-					ROTATE_LEFT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
-				}
-				else
-				{
-					ROTATE_RIGHT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
+					if(mouse_event.MouseWheelDelta > 0)
+					{
+						ROTATE_LEFT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
+					}
+					else
+					{
+						ROTATE_RIGHT(map[old_mouse_pos.x][old_mouse_pos.y]->DIR);
+					}
+					clear_focus(old_mouse_pos);
+					draw_figure(map[old_mouse_pos.x][old_mouse_pos.y]);
+					SPIELZUG = SELECT_FIGURE;
+					// Ruft die Funktion LASER für den jeweiligen Player auf
+					// gibt der Funktion die Pos und die Dir der Cannon mit
+					laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+					PLAYER = !PLAYER;
 
 				}
-				clear_focus(new_mouse_pos);
-				draw_figure(&(map[old_mouse_pos.x][old_mouse_pos.y]));
-				SPIELZUG = SELECT_FIGURE;
-				PLAYER = !PLAYER;
-
-				break;
-
 			}
 		}
 	}

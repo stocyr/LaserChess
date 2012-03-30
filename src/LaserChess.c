@@ -351,8 +351,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 		create_figures(figure);
 		init_game(figure, MODE);
-		spiel();
-
+		spiel(figure);
 	}
 
 	system("pause");

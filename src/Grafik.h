@@ -43,7 +43,7 @@
 #define LINE_COL COL_GREY			//Linienfarbe
 #define FIELD_LINE_WIDTH 3			//Breite der Spielfeldlinien in Pixel
 #define FOCUS_COL COL_GREEN			//Fokusfarbe
-#define FOCUS_IDENT 5				//Einzurückende Pixel der Focusfunktion
+#define FOCUS_IDENT 3				//Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_RED			//Laserfarbe
 #define LASER_SPEED	100				//Geschwindigkeit beim Zeichnen des Lasers in ms
 #define IMG_PATH "../img/figures/"     //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu Ordner der EXE)
