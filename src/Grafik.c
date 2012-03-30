@@ -391,6 +391,10 @@ char init_figure_images()
 	/*                                                                           */
 	/*****************************************************************************/
 
+	/*int path_size = malloc(snprintf(NULL, 0, "%s"IMG_PATH, AppPath) + 1);
+	char FileNameBuffer[path_size];
+	sprintf(FileNameBuffer, "%s"IMG_PATH, AppPath);*/
+
 	char error = -1;
 	char success = 1;
 
@@ -399,18 +403,16 @@ char init_figure_images()
 	char test = 0;
 
 	/*Image laden und ID übergeben. Wurde eine nicht gefunden error setzten.*/
-	/*Blue_king_img     = LoadImage(AppPath IMG_PATH "blue_king.png");     if(Blue_king_img < 0)     test = error;
+	/*Blue_king_img     = LoadImage(FileNameBuffer\\);     if(Blue_king_img < 0)     test = error;
 	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.png");   if(Blue_mirror_img < 0)   test = error;
 	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.png"); if(Blue_splitter_img < 0) test = error;
 	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.png");     if(Blue_wall_img < 0)     test = error;
 	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.png");   if(Blue_cannon_img < 0)   test = error;
-
 	Red_king_img      = LoadImage(IMG_PATH "red_king.png");      if(Red_king_img < 0)      test = error;
 	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.png");    if(Red_mirror_img < 0)    test = error;
 	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.png");  if(Red_splitter_img < 0)  test = error;
 	Red_wall_img      = LoadImage(IMG_PATH "red_wall.png");      if(Red_wall_img < 0)      test = error;
 	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.png");    if(Red_cannon_img < 0)    test = error;
-
 	Figure_error_img  = LoadImage(IMG_PATH "figure_error.png");  if(Figure_error_img < 0)  test = error;*/
 
 	//Check, ob Alle korrekt geladen wurden.
