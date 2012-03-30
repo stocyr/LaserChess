@@ -251,7 +251,7 @@ void spiel(pawn *figure)
 			}
 		}
 	}
-	while(1/*laser() >= 0*/);
+	while(FOREVER /*laser() >= 0*/ );
 }
 /*****************************************************************************/
 /*  End Function: spiel                                                      */
