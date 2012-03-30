@@ -25,28 +25,29 @@
 #include "Grafik.h"
 
 /*Umrechnung Windowskoord. zu Mapposition*/
-location pixel_to_map(location Mapkoordinaten)	//bekommt windowskoordinaten gibt mapkoordinaten zurück
+location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten gibt mapkoordinaten zurück
 {
-	Mapkoordinaten.x = (Mapkoordinaten.x-(Mapkoordinaten.x%FIELD_SIZE))/FIELD_SIZE;	//(x-(x%100)/100) nimmt Werte zwischen 0 und 7 an (da x von 0 bis 800)
-	Mapkoordinaten.y = (PLAYGROUND_Y_MAX-1)-((Mapkoordinaten.y-(Mapkoordinaten.y%FIELD_SIZE))/FIELD_SIZE);	//(5-(y-(y%100)/100) nimmt Werte zwischen 0 und 5 an (da y von 0 bis 600)
+	location Mapkoordinaten;
 
-	if(is_inside_map(Mapkoordinaten))	//errorhandling (wenn x genau 800 oder y genau 600)
-	{
-		return Mapkoordinaten;
-	}
-	else
+	Mapkoordinaten.x = (int)(Windowskoordinaten.x / FIELD_SIZE);	//x/100 nimmt Werte zwischen 0 und 7 an (da x von 0 bis 799)
+	Mapkoordinaten.y =(PLAYGROUND_Y_MAX-1) - (int)(Windowskoordinaten.y / FIELD_SIZE);	//5 - (y-/100) nimmt Werte zwischen 5 und 0 an (da y von 0 bis 599)
+
+	if(!is_inside_map(Mapkoordinaten))	//errorhandling (wenn x genau 800 oder y genau 600)
 	{
 		Mapkoordinaten.x = -1;
 		Mapkoordinaten.y = -1;
-		return Mapkoordinaten;
 	}
+
+	return Mapkoordinaten;
 }
 
 /*Umrechnung Mapkoord. zu Windowskoord. ECKE LINKS UNTEN!*/
-location map_to_pixel(location Windowskoordinaten)	//bekommt mapkoordinaten gibt windowskoordinaten zurück
+location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt windowskoordinaten zurück
 {
-	Windowskoordinaten.x *= FIELD_SIZE;	//0=>0; 1=>100; 2=>200; 3=>300; 4=>400; 5=>500; 6=>600; 7=>700
-	Windowskoordinaten.y = (PLAYGROUND_Y_MAX*FIELD_SIZE)-(Windowskoordinaten.y*FIELD_SIZE);	//(600-(y*100)) 0=>600; 1=>500; 2=>400; 3=>300; 4=>200; 5=>100
+	location Windowskoordinaten;
+
+	Windowskoordinaten.x = Mapkoordinaten*FIELD_SIZE;	//0=>0; 1=>100; 2=>200; 3=>300; 4=>400; 5=>500; 6=>600; 7=>700
+	Windowskoordinaten.y = (PLAYGROUND_Y_MAX*FIELD_SIZE)-(Mapkoordinaten.y*FIELD_SIZE);	//(600-(y*100)) 0=>600; 1=>500; 2=>400; 3=>300; 4=>200; 5=>100
 	return Windowskoordinaten;
 }
 
