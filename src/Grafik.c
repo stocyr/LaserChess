@@ -400,8 +400,10 @@ void draw_figure(pawn *figure)
 
 	draw_empty_field(figure->Pos);
 
-	int figure_img; //Fuer Image ID der figur
 	//float angle = figure->DIR * PI/2; //Rotation in Radiant
+	location Posi = map_to_pixel(figure->Pos);
+
+	int figure_img; //Fuer Image ID der figur
 
 	/*figure_img die richtigen Image ID zuweisen.*/
 	if(figure->PLAYER == PLAYER_RED)
@@ -455,26 +457,13 @@ void draw_figure(pawn *figure)
 		}
 	}
 
-	/*Bild im Speicher drehen, damit es mit richtiger DIR auf Bildschirm gezeichnet wird.*/
-	//SetEditedImage(figure_img);
-	//Rotate(angle);
-	//SetEditedImage(ID_WINDOW);
-
 	//GetPixel(1,1);
 	//printf("%d ",ID_WINDOW);
 	printf("%d (%d)",figure_img, figure->TYPE);
 
-	DrawImage(figure_img, 10, 10);
-	DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
-
-	//DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
-	//DrawTransformedImage(map_to_pixel(figure->Pos).x,  map_to_pixel(figure->Pos).y,  20, 1, 1, figure_img);
-	//DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
-
-	/*Bild im Speicher zurueckdrehen in originale Ausrichtung.*/
-	/*SetEditedImage(figure_img);
-	Rotate(-angle);
-	SetEditedImage(ID_WINDOW);*/
+	DrawEmptyRectangle(Posi.x +50, Posi.y +50, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
+	//DrawImage(figure_img, Posi.x, Posi.y);
+	DrawTransformedImage(Posi.x, Posi.y,  20, 1, 1, figure_img); //test rotation
 }
 
 void draw_mirror_destroyed(pawn *figure)
