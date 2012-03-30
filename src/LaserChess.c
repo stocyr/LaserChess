@@ -254,11 +254,11 @@ void set_figure_positions(pawn *figure)
 				{
 					if(MouseEvent.MouseWheelDelta > 0)
 					{
-						figure->DIR = ROTATE_LEFT(figure->DIR);
+						ROTATE_LEFT(figure->DIR);
 					}
 					else
 					{
-						figure->DIR = ROTATE_RIGHT(figure->DIR);
+						ROTATE_RIGHT(figure->DIR);
 
 					}
 					draw_figure(&figure[i]);
