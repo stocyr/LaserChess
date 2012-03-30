@@ -334,6 +334,8 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 
 int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
+	AppPath = ApplicationPath; //EXE-Pfad uebergeben, damit global verwendbar
+
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];
 

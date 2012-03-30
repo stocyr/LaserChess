@@ -69,7 +69,8 @@ typedef struct {
 	location Pos;
 }pawn;
 
-// Globale Variable
+// Globale Variablen
+const char *AppPath; //EXE-Pfad
 
 //pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
 pawn *map[8][6];
