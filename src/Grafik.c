@@ -461,7 +461,7 @@ void draw_figure(pawn *figure)
 	//printf("%d ",ID_WINDOW);
 	printf("%d,(%d) ",figure_img, figure->TYPE);
 
-	DrawEmptyRectangle(map_to_pixel(figure->Pos).x+25, map_to_pixel(figure->Pos).y+25, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
+	DrawEmptyRectangle(Posi.x+25, Posi.y+25, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
 	//DrawImage(figure_img, Posi.x, Posi.y);
 	DrawTransformedImage(Posi.x, Posi.y,  20, 1, 1, figure_img); //test rotation
 }
