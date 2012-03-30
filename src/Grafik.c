@@ -57,7 +57,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
-	InitGraphic(2*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH, 2*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH);				//initialisiert und öffnet ein 806*606 Grafikfenster
+	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);				//initialisiert und öffnet ein 806*606 Grafikfenster
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet die Spielfeldumrandung
 
@@ -459,9 +459,9 @@ void draw_figure(pawn *figure)
 
 	//GetPixel(1,1);
 	//printf("%d ",ID_WINDOW);
-	printf("%d (%d)",figure_img, figure->TYPE);
+	printf("%d,(%d) ",figure_img, figure->TYPE);
 
-	DrawEmptyRectangle(Posi.x +50, Posi.y +50, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
+	DrawEmptyRectangle(map_to_pixel(figure->Pos).x+25, map_to_pixel(figure->Pos).y+25, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
 	//DrawImage(figure_img, Posi.x, Posi.y);
 	DrawTransformedImage(Posi.x, Posi.y,  20, 1, 1, figure_img); //test rotation
 }
