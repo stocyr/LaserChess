@@ -403,6 +403,8 @@ void draw_figure(pawn *figure)
 	int figure_img; //Fuer Image ID der figur
 	//float angle = figure->DIR * PI/2; //Rotation in Radiant
 
+	location posi =  map_to_pixel(figure->Pos);
+
 	/*figure_img die richtigen Image ID zuweisen.*/
 	if(figure->PLAYER == PLAYER_RED)
 	{
@@ -462,16 +464,16 @@ void draw_figure(pawn *figure)
 
 	//GetPixel(1,1);
 	//printf("%d ",ID_WINDOW);
-	printf("%d (%d)",figure_img, figure->TYPE);
+	//printf("%d (%d)",figure_img, figure->TYPE);
 
-	DrawImage(figure_img, 10, 10);
+	//DrawImage(figure_img, 10, 10);
 	//DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
 	//DrawTransformedImage(map_to_pixel(figure->Pos).x,  map_to_pixel(figure->Pos).y,  20, 1, 1, figure_img);
 	//DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
 
-	DrawEmptyRectangle(Posi.x+25, Posi.y+25, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
+	DrawEmptyRectangle(posi.x+25, posi.y+25, 50, 50, LINE_COL, 7);	//zeichnet den dazugehörigen Rahmen
 	//DrawImage(figure_img, Posi.x, Posi.y);
-	DrawTransformedImage(Posi.x, Posi.y,  20, 1, 1, figure_img); //test rotation
+	//DrawTransformedImage(Posi.x, Posi.y,  20, 1, 1, figure_img); //test rotation
 }
 
 void draw_mirror_destroyed(pawn *figure)
