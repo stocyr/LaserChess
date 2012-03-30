@@ -292,30 +292,42 @@ char init_figure_images()
 	/*****************************************************************************/
 
 	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w    Bei Error, alle vorher trotzdem geladene
-		  8   8b  d8    8   8 8b  d8       imgs entfernen mit destroy_figure_images()
-		  8   `Y88P'    888P' `Y88P'  w
+		88888 .d88b.    888b. .d88b.       Abklaeren, ob LoadImage() bei erfolgreichem
+		  8   8P  Y8    8   8 8P  Y8  w    Laden auch 0 zurueck geben kann, oder nur
+		  8   8b  d8    8   8 8b  d8       Werte >0. Evtl dann anpassen.
+		  8   `Y88P'    888P' `Y88P'  w    (Auch in destroy_figure_images())
 	 */
 
 	char error = -1;
 	char success = 1;
 
-	Blue_king_img     = LoadImage(IMG_PATH "blue_king.gif");     if(Blue_king_img < 0) return error;
-	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.gif");   if(Blue_mirror_img < 0) return error;
-	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.gif"); if(Blue_splitter_img < 0) return error;
-	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.gif");     if(Blue_wall_img < 0) return error;
-	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.gif");   if(Blue_cannon_img < 0) return error;
+	//Variable, mit der Errors uebertragen werden
+	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
+	char test = 0;
 
-	Red_king_img      = LoadImage(IMG_PATH "red_king.gif");     if(Red_king_img < 0) return error;
-	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.gif");   if(Red_mirror_img < 0) return error;
-	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.gif"); if(Red_splitter_img < 0) return error;
-	Red_wall_img      = LoadImage(IMG_PATH "red_wall.gif");     if(Red_wall_img < 0) return error;
-	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.gif");   if(Red_cannon_img < 0) return error;
+	Blue_king_img     = LoadImage(IMG_PATH "blue_king.gif");     if(Blue_king_img < 0)     test = error;
+	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.gif");   if(Blue_mirror_img < 0)   test = error;
+	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.gif"); if(Blue_splitter_img < 0) test = error;
+	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.gif");     if(Blue_wall_img < 0)     test = error;
+	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.gif");   if(Blue_cannon_img < 0)   test = error;
 
-	Figure_error_img  = LoadImage(IMG_PATH "figure_error.gif");   if(Figure_error_img < 0) return error;
+	Red_king_img      = LoadImage(IMG_PATH "red_king.gif");     if(Red_king_img < 0)       test = error;
+	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.gif");   if(Red_mirror_img < 0)     test = error;
+	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.gif"); if(Red_splitter_img < 0)   test = error;
+	Red_wall_img      = LoadImage(IMG_PATH "red_wall.gif");     if(Red_wall_img < 0)       test = error;
+	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.gif");   if(Red_cannon_img < 0)     test = error;
 
-	return success;
+	Figure_error_img  = LoadImage(IMG_PATH "figure_error.gif");   if(Figure_error_img < 0) test = error;
+
+	if(test == error)
+	{
+		destroy_figure_images(); //Falls einige Images trotzdem erfolgreich geladen wurden, korrekt entfernen.
+		return error;
+	}
+	else
+	{
+		return success;
+	}
 }
 
 void destroy_figure_images()
@@ -335,6 +347,13 @@ void destroy_figure_images()
 	/*  Email      : kasen1@bfh.ch                                               */
 	/*                                                                           */
 	/*****************************************************************************/
+
+	/*
+		88888 .d88b.    888b. .d88b.       Abklaeren, ob LoadImage() bei erfolgreichem
+		  8   8P  Y8    8   8 8P  Y8  w    Laden auch 0 zurueck geben kann, oder nur
+		  8   8b  d8    8   8 8b  d8       Werte >0. Evtl dann anpassen.
+		  8   `Y88P'    888P' `Y88P'  w    (Auch in init_figure_images())
+	 */
 
 	if (Blue_king_img > 0)     DestroyImage(Blue_king_img);
 	if (Blue_mirror_img > 0)   DestroyImage(Blue_mirror_img);
@@ -371,14 +390,14 @@ void draw_figure(pawn *figure)
 
 	/*
 		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w    Rotation. Fehlermeldungen sind
-		  8   8b  d8    8   8 8b  d8       desswegen entstanden..
-		  8   `Y88P'    888P' `Y88P'  w
+		  8   8P  Y8    8   8 8P  Y8  w    Rotation: Fehlermeldungen sind wegen
+		  8   8b  d8    8   8 8b  d8       SetEditedImage(figure_img) entstanden
+		  8   `Y88P'    888P' `Y88P'  w    (bei SetEditedImage(ID_WINDOW) alles ok)
 	 */
 
 	draw_empty_field(figure->Pos);
 
-	int figure_img; //Für Image ID der figur
+	int figure_img; //Fuer Image ID der figur
 	//float angle = figure->DIR * PI/2; //Rotation in Radiant
 
 	/*figure_img die richtigen Image ID zuweisen.*/
@@ -402,7 +421,7 @@ void draw_figure(pawn *figure)
 			figure_img = Red_cannon_img;
 		break;
 		default:
-			//Keine gültige Figur..
+			//Keine gueltige Figur..
 			figure_img = Figure_error_img;
 		break;
 		}
@@ -427,7 +446,7 @@ void draw_figure(pawn *figure)
 			figure_img = Blue_cannon_img;
 		break;
 		default:
-			//Keine gültige Figur..
+			//Keine gueltige Figur..
 			figure_img = Figure_error_img;
 		break;
 		}
@@ -441,7 +460,7 @@ void draw_figure(pawn *figure)
 	DrawImage(figure_img, map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y);
 	DrawEmptyRectangle(map_to_pixel(figure->Pos).x, map_to_pixel(figure->Pos).y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);	//zeichnet den dazugehörigen Rahmen
 
-	/*Bild im Speicher zurückdrehen in originale Ausrichtung.*/
+	/*Bild im Speicher zurueckdrehen in originale Ausrichtung.*/
 	/*SetEditedImage(figure_img);
 	Rotate(-angle);
 	SetEditedImage(ID_WINDOW);*/
@@ -466,9 +485,16 @@ void draw_mirror_destroyed(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(figure->Pos); //Feld löschen
+	/*
+		88888 .d88b.    888b. .d88b.
+		  8   8P  Y8    8   8 8P  Y8  w
+		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik
+		  8   `Y88P'    888P' `Y88P'  w
+	 */
 
-	/*Später Grafik von Zerstörung (Feld trotzdem vorher löschen)*/
+	draw_empty_field(figure->Pos); //Feld loeschen
+
+	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher leoschen)*/
 }
 
 void draw_king_destroyed(pawn *figure)
@@ -490,7 +516,14 @@ void draw_king_destroyed(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	draw_empty_field(figure->Pos); //Feld löschen
+	/*
+		88888 .d88b.    888b. .d88b.
+		  8   8P  Y8    8   8 8P  Y8  w
+		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik
+		  8   `Y88P'    888P' `Y88P'  w
+	 */
 
-	/*Später Grafik von Zerstörung (Feld trotzdem vorher löschen)*/
+	draw_empty_field(figure->Pos); //Feld loeschen
+
+	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher loeschen)*/
 }
