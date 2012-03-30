@@ -107,7 +107,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
-	InitGraphic(2*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, 2*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);			//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
+	InitGraphic(2*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, 2*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);		//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet die Spielfeldumrandung
 
@@ -401,22 +401,19 @@ char init_figure_images()
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
 	char test = 0;
 
-<<<<<<< HEAD
-	/*Image laden und ID übergeben. Wurde eine nicht gefunden error setzten.*/
-	/*Blue_king_img     = LoadImage(FileNameBuffer\\);     if(Blue_king_img < 0)     test = error;
-=======
 	/*Image laden und ID übergeben. Wuerde eine nicht gefunden error setzten.*/
-	/*Blue_king_img     = LoadImage(AppPath IMG_PATH "blue_king.png");     if(Blue_king_img < 0)     test = error;
->>>>>>> b0568a4ca9e24d900434e4d5371cb5a3c4220f86
+	/*Blue_king_img     = LoadImage(FileNameBuffer);     if(Blue_king_img < 0)     test = error;
 	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.png");   if(Blue_mirror_img < 0)   test = error;
 	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.png"); if(Blue_splitter_img < 0) test = error;
 	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.png");     if(Blue_wall_img < 0)     test = error;
 	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.png");   if(Blue_cannon_img < 0)   test = error;
+
 	Red_king_img      = LoadImage(IMG_PATH "red_king.png");      if(Red_king_img < 0)      test = error;
 	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.png");    if(Red_mirror_img < 0)    test = error;
 	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.png");  if(Red_splitter_img < 0)  test = error;
 	Red_wall_img      = LoadImage(IMG_PATH "red_wall.png");      if(Red_wall_img < 0)      test = error;
 	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.png");    if(Red_cannon_img < 0)    test = error;
+
 	Figure_error_img  = LoadImage(IMG_PATH "figure_error.png");  if(Figure_error_img < 0)  test = error;*/
 
 	//Check, ob Alle korrekt geladen wurden.
