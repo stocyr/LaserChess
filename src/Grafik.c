@@ -107,7 +107,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
-	InitGraphic(1.5*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, 1.5*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);		//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
+	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);		//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet die Spielfeldumrandung
 
@@ -144,47 +144,47 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 {
 	int n;							//Aufzählvariable
 	location map_pos;				//initialisieren: struct location map_pos
-	map_pos = map_to_pixel (pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links unten des ausgew. Feldes)
+	map_pos = map_to_pixel (pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links oben des ausgew. Feldes)
 
     switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser zeichnen
     {
-        case RIGHT:
-        	map_pos.y = map_pos.y + (FIELD_SIZE/2);
-            for(n=0; n<=FIELD_SIZE; n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
+        case RIGHT:	//Strich von Links nach Rechts
+        	map_pos.y = map_pos.y + (FIELD_SIZE/2);	//Mitte der Linken-Seite
+            for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
             {
-            	DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);
-            	WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+            	DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
+            	WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
             }
             break;
 
-        case UP:
+        case UP:	//Strich von Unten nach Oben
         	map_pos.x = map_pos.x + (FIELD_SIZE/2);
-            for(n=0; n<=FIELD_SIZE; n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
+            map_pos.y = map_pos.y + FIELD_SIZE;		//Mitte der Unteren-Seite
+            for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
             {
-            	DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);
-            	WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+            	DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
+               	WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
             }
             break;
 
-        case LEFT:
+        case LEFT:	//Strich von Rechts nach Links
         	map_pos.x = map_pos.x + FIELD_SIZE;
-        	map_pos.y = map_pos.y + (FIELD_SIZE/2);
-            for(n=0; n<=FIELD_SIZE; n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
+        	map_pos.y = map_pos.y + (FIELD_SIZE/2);	//Mitte der Rechten-Seite
+            for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
             {
-            	DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);
-            	WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+            	DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
+            	WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
             }
             break;
 
-        case DOWN:
-        	map_pos.x = map_pos.x + (FIELD_SIZE/2);
-        	map_pos.y = map_pos.y + FIELD_SIZE;
-            for(n=0; n<=FIELD_SIZE; n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
-            {
-            	DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);
-            	WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
-            }
-            break;
+        case DOWN:	//Strich von Oben nach Unten
+        	map_pos.x = map_pos.x + (FIELD_SIZE/2);	//Mitte der Oberen-Seite
+        	for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
+        	{
+        		DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
+                WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+        	}
+        	break;
     }
 }
 
@@ -194,135 +194,135 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 {
 	int n;							//Aufzählvariable
 	location map_pos;				//initialisieren: struct location map_pos
-	map_pos = map_to_pixel (pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links unten des ausgew. Feldes)
+	map_pos = map_to_pixel (pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links oben des ausgew. Feldes)
 
 	switch(angle)
 	{
 		case CW:	//Winkel nach Rechts
-			switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser in zwei Schritten zeichnen
+			switch(dir)	//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser in zwei Schritten zeichnen
 			{
-				case RIGHT:
-					map_pos.y = map_pos.y + (FIELD_SIZE/2);
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+				case RIGHT:	//Strich von Links nach Mitte und von Mitte nach Unten
+					map_pos.y = map_pos.y + (FIELD_SIZE/2);	//Mitte der Linken-Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//von links nach rechts bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//von mitte nach unten bis ende
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 
-				case UP:
-					map_pos.x = map_pos.x + (FIELD_SIZE/2);
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+				case DOWN:	//Strich von Oben nach Mitte und von Mitte nach Links
+					map_pos.x = map_pos.x + (FIELD_SIZE/2);	//Mitte der Oberen-Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//von unten nach oben bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//von mitte nach rechts bis ende
+						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
 						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 
-				case LEFT:
+				case LEFT:	//Strich von Rechts nach Mitte und von Mitte nach Oben
 					map_pos.x = map_pos.x + FIELD_SIZE;
-					map_pos.y = map_pos.y + (FIELD_SIZE/2);
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					map_pos.y = map_pos.y + (FIELD_SIZE/2);	//Mitte der Rechten-Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//von rechts nach links bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//von mitte nach oben bis ende
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 
-				case DOWN:
+				case UP:	//Strich von Unten nach Mitte und von Mitte nach Rechts
 					map_pos.x = map_pos.x + (FIELD_SIZE/2);
-					map_pos.y = map_pos.y + FIELD_SIZE;
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					map_pos.y = map_pos.y + FIELD_SIZE;		//Mitte der Unteren-Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL); //von oben nach unten bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL); //y wird dekrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//von mitte nach links bis ende
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 			}
-		break;
+			break;
 
 		case CCW:	//Winkel nach Links
-			switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser in zwei Schritten zeichnen
+			switch(dir) //Ausgangsposiotion der jeweiligen Richtung berechnen und Laser in zwei Schritten zeichnen
 			{
-				case RIGHT:
-					map_pos.y = map_pos.y + (FIELD_SIZE/2);
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+				case RIGHT:	//Strich von Links nach Mitte und von Mitte nach Oben
+					map_pos.y = map_pos.y + (FIELD_SIZE/2);	//Mitte der Linken-Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//von links nach rechts bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//von mitte nach oben bis ende
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 
-				case UP:
+				case UP:	//Strich von Unten nach Mitte und von Mitte nach Links
 					map_pos.x = map_pos.x + (FIELD_SIZE/2);
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					map_pos.y = map_pos.y + FIELD_SIZE;	//Mitte der Unteren-Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//von unten nach oben bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL); //y wird dekrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//von mitte nach links bis ende
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 
-				case LEFT:
+				case LEFT:	//Strich von Rechts nach Mitte und von Mitte nach Unten
 					map_pos.x = map_pos.x + FIELD_SIZE;
-					map_pos.y = map_pos.y + (FIELD_SIZE/2);
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					map_pos.y = map_pos.y + (FIELD_SIZE/2);	//Mitte der Rechten-Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//von rechts nach links bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//von mitte nach unten bis ende
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 
-				case DOWN:
-					map_pos.x = map_pos.x + (FIELD_SIZE/2);
-					map_pos.y = map_pos.y + FIELD_SIZE;
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+				case DOWN:	//Strich von Oben nach Mitte und von Mitte nach Rechts
+					map_pos.x = map_pos.x + (FIELD_SIZE/2);	//Mitte der Oberen Seite
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL); //von oben nach unten bis mitte
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
+					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//von mitte nach rechts bis ende
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
+						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
-				break;
+					break;
 			}
-		break;
+			break;
 	}
 }
 
