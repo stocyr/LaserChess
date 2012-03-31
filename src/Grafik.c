@@ -469,7 +469,9 @@ void draw_figure(pawn *figure)
 
 	int figure_img; //Fuer Image ID der figur
 	float angle = figure->DIR * PI/2; //Rotation in Radiant
-	location fig_pos =  map_to_pixel(figure->Pos); //Figur Position in Pixelkoordinaten, uebersichtlicher
+
+	//Figur Position in Pixelkoordinaten, uebersichtlicher
+	location fig_pos = map_to_pixel(figure->Pos);
 
 	draw_empty_field(figure->Pos); //Feld erstmal leeren
 
@@ -528,7 +530,7 @@ void draw_figure(pawn *figure)
 	}
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle (Skalirung 1, 1) auf Bildschirm zeichnen
-	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, 1, 1, figure_img);
+	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, IMG_X_SCALE, IMG_Y_SCALE, figure_img);
 	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet den dazugehörigen Rahmen
 
 	/*
