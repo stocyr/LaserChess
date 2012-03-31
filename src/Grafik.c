@@ -81,17 +81,17 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 {
 	location Mapkoordinaten;
 
-	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//errorhandling (wenn falsche Koordinaten übergeben wurden)
+	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//Errorhandling (wenn falsche Koordinaten übergeben wurden)
 	{
-			Mapkoordinaten.x = -1;
-			Mapkoordinaten.y = -1;
-			return Mapkoordinaten;
+		Mapkoordinaten.x = -1;
+		Mapkoordinaten.y = -1;
+		return Mapkoordinaten;
 	}
 
 	Mapkoordinaten.x = (int)(Windowskoordinaten.x / FIELD_SIZE);	// (x/100) nimmt Werte zwischen 0 und 7 an (da x von 0 bis 799)
 	Mapkoordinaten.y =(PLAYGROUND_Y_MAX-1) - (int)(Windowskoordinaten.y / FIELD_SIZE);	//5 - (y-/100) nimmt Werte zwischen 5 und 0 an (da y von 0 bis 599)
 
-	if(!is_inside_map(Mapkoordinaten))	//errorhandling (wenn x >= 800 oder y >= 600)
+	if(!is_inside_map(Mapkoordinaten)) //errorhandling (wenn x >= 800 oder y >= 600)
 	{
 		Mapkoordinaten.x = -1;
 		Mapkoordinaten.y = -1;
@@ -104,6 +104,13 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt windowskoordinaten zurück
 {
 	location Windowskoordinaten;
+
+	if((Mapkoordinaten.x < 0) && (Mapkoordinaten.y < 0)) //Errorhandling (wenn falsche Koordinaten übergeben wurden)
+	{
+		Windowskoordinaten.x = -1;
+		Windowskoordinaten.y = -1;
+		return Windowskoordinaten;
+	}
 
 	Windowskoordinaten.x = Mapkoordinaten.x*FIELD_SIZE;	//(x*100) -> nimmt 0, 100, 200, 300, 400, 500, 600 oder 700 an
 	Windowskoordinaten.y = (PLAYGROUND_Y_MAX*FIELD_SIZE-FIELD_SIZE)-(Mapkoordinaten.y*FIELD_SIZE);	//(500-(y*100)) 0=>500; 1=>400; 2=>300; 3=>200; 4=>100; 5=>0

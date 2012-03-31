@@ -216,8 +216,8 @@ void spiel(pawn *figure)
 							  ((ABS(new_mouse_pos.x - old_mouse_pos.x)) <  2)  &&
 							  ((ABS(new_mouse_pos.y - old_mouse_pos.y)) <  2))
 							{
-								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 								clear_focus(old_mouse_pos);
+								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 								SPIELZUG = SELECT_FIGURE;
 								PLAYER = !PLAYER;
 
@@ -253,7 +253,7 @@ void spiel(pawn *figure)
 
 
 		/*Grafikfenster schliessen, hinzugefügt von kani*/
-		/*if(GetKeyPress() == W_KEY_CLOSE_WINDOW) //Fenster schliessen geklickt
+		/*if(GetKeyPress() & W_KEY_CLOSE_WINDOW) //Fenster schliessen geklickt
 		{
 			//[Spiel beenden] hier einfügen
 
