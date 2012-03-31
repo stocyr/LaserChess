@@ -228,7 +228,7 @@ void set_figure_positions(pawn *figure)
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
 				}
-				draw_figure(&figure[i]);								//!!!& hinzugefügt (jascha)
+				draw_figure(&figure[i]);								//!!! hinzugefügt (jascha)-> dafuq? ha nüt z'tüä mit draw_figure :)
 				STATE = ROTATE;
 			}
 			break;
@@ -294,7 +294,7 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 	if(init_figure_images() == -1)
 	{
 		// wenn image load failed: error
-		printf("Image loading failed. Exiting\n");
+		printf("Image loading failed. Exiting\n");	//Exiting? xD
 		return;
 	}
 

@@ -107,7 +107,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
-	InitGraphic(2*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, 2*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);		//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
+	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);		//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet die Spielfeldumrandung
 
@@ -402,7 +402,7 @@ char init_figure_images()
 	char test = 0;
 
 	/*Image laden und ID übergeben. Wuerde eine nicht gefunden error setzten.*/
-	/*Blue_king_img     = LoadImage(FileNameBuffer);     if(Blue_king_img < 0)     test = error;
+	Blue_king_img     = LoadImage(IMG_PATH "blue_king.png");     if(Blue_king_img < 0)     test = error;
 	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.png");   if(Blue_mirror_img < 0)   test = error;
 	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.png"); if(Blue_splitter_img < 0) test = error;
 	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.png");     if(Blue_wall_img < 0)     test = error;
@@ -414,7 +414,7 @@ char init_figure_images()
 	Red_wall_img      = LoadImage(IMG_PATH "red_wall.png");      if(Red_wall_img < 0)      test = error;
 	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.png");    if(Red_cannon_img < 0)    test = error;
 
-	Figure_error_img  = LoadImage(IMG_PATH "figure_error.png");  if(Figure_error_img < 0)  test = error;*/
+	Figure_error_img  = LoadImage(IMG_PATH "figure_error.png");  if(Figure_error_img < 0)  test = error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)
@@ -508,6 +508,18 @@ void draw_figure(pawn *figure)
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle (Skalirung 1, 1) auf Bildschirm zeichnen
 	DrawTransformedImage(fig_pos.x, fig_pos.y, angle, 1, 1, figure_img);
+
+
+	//Platzhalter/Test-Rectangle
+	if(figure->PLAYER == PLAYER_RED)
+	{
+		DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_RED, 2*FIELD_LINE_WIDTH);
+	}
+	else
+	{
+		DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_BLUE, 2*FIELD_LINE_WIDTH);
+	}
+
 }
 
 void draw_mirror_destroyed(pawn *figure)
