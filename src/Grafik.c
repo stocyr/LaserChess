@@ -461,13 +461,6 @@ void draw_figure(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Proper rotation......
-		  8   `Y88P'    888P' `Y88P'  w
-	 */
-
 	int figure_img; //Fuer Image ID der figur
 	float angle = figure->DIR * PI/2; //Rotation in Radiant
 
