@@ -529,6 +529,7 @@ void draw_figure(pawn *figure)
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle (Skalirung 1, 1) auf Bildschirm zeichnen
 	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, 1, 1, figure_img);
+	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet den dazugehörigen Rahmen
 
 	/*
 	//Platzhalter/Test-Rectangle

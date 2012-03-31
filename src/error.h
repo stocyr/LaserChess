@@ -39,13 +39,13 @@
 
 /* 199409L signifies the 1989 C standard                 */
 /* 199901L signifies the 1999 revision of the C standard */
-#if __STDC_VERSION__ > 199901L 
-#define CURRENT_FUNC_NAME __func__ 
+#if __STDC_VERSION__ > 199901L
+#define CURRENT_FUNC_NAME __func__
 #else
 #ifdef __GNUC__
-#define CURRENT_FUNC_NAME __FUNCTION__ 
+#define CURRENT_FUNC_NAME __FUNCTION__
 #else
-#define CURRENT_FUNC_NAME "unknown" 
+#define CURRENT_FUNC_NAME "unknown"
 #endif
 #endif
 

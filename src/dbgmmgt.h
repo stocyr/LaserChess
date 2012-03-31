@@ -41,7 +41,7 @@
 
 /* the following define must be enabled to activate the debug memorymanagement */
 /* may also be defined in compileroptions */
-/* #define USE_DEBUG_MEMORYMANAGEMENT  */ 
+/* #define USE_DEBUG_MEMORYMANAGEMENT  */
 #ifdef USE_DEBUG_MEMORYMANAGEMENT
 
 /* imports */
@@ -71,7 +71,7 @@ extern "C" {
 #endif
 extern void *MyMalloc(size_t Size, char *Name, int LineNumber);
 extern void MyFree(void *Block, char *Name, int LineNumber);
-extern void PrintMemoryStatistics(void); 
+extern void PrintMemoryStatistics(void);
 
 /* some usefull helper functions */
 extern long GetBlocksInUse(void);
@@ -86,7 +86,7 @@ extern long GetLowestFreeMem (void);
 
 #else
 /* disable all statisticfunctions */
-#define PrintMemoryStatistics() 
+#define PrintMemoryStatistics()
 #define GetBlocksInUse()           0
 #define GetMaxBlocksInUse()        0
 #define GetUsedMemory ()           0
