@@ -36,19 +36,20 @@
 #define PI		3.14159265358979323846  //Kopiert aus math.h
 
 /*Grundsätzliche Grafik Definitionen*/
-#define FIELD_SIZE 100					//Feldbreite in Pixel
-#define PLAYGROUND_X_MAX 8				//Anzahl Felder - Breite
-#define PLAYGROUND_Y_MAX 6				//Anzahl Felder - Höhe
-#define PLAYGROUND_COL COL_BLACK		//Spielfeldfarbe
-#define LINE_COL COL_GREY				//Linienfarbe
-#define FIELD_LINE_WIDTH 3				//Breite der Spielfeldlinien in Pixel
-#define FOCUS_COL COL_GREEN				//Fokusfarbe
-#define FOCUS_IDENT 3					//Einzurückende Pixel der Focusfunktion
-#define LASER_COL COL_RED				//Laserfarbe
-#define LASER_SPEED	100					//Geschwindigkeit beim Zeichnen des Lasers in ms
-#define IMG_X_SCALE (FIELD_SIZE/100)	//Image Groesse.x relativ zu Feldgroesse
-#define IMG_Y_SCALE (FIELD_SIZE/100)	//Image Groesse.y relativ zu Feldgroesse
-#define IMG_DIR "\\img\\figures"		//Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
+#define FIELD_SIZE 100						//Feldbreite in Pixel
+#define PERCENT_FIELD_SIZE (FIELD_SIZE/100)	//Feldbreite in Prozent
+#define PLAYGROUND_X_MAX 8					//Anzahl Felder - Breite
+#define PLAYGROUND_Y_MAX 6					//Anzahl Felder - Höhe
+#define PLAYGROUND_COL COL_BLACK			//Spielfeldfarbe
+#define LINE_COL COL_GREY					//Linienfarbe
+#define FIELD_LINE_WIDTH 3					//Breite der Spielfeldlinien in Pixel
+#define FOCUS_COL COL_GREEN					//Fokusfarbe
+#define FOCUS_IDENT 3						//Einzurückende Pixel der Focusfunktion
+#define LASER_COL COL_RED					//Laserfarbe
+#define LASER_SPEED	100						//Geschwindigkeit beim Zeichnen des Lasers in ms
+#define IMG_X_SCALE PERCENT_FIELD_SIZE		//Image Groesse.x relativ zu Feldgroesse
+#define IMG_Y_SCALE PERCENT_FIELD_SIZE		//Image Groesse.y relativ zu Feldgroesse
+#define IMG_DIR "\\img\\figures"			//Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 
 /*Image ID's*/
 int Blue_king_img;
