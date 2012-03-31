@@ -461,7 +461,7 @@ void draw_figure(pawn *figure)
 	/*****************************************************************************/
 
 	int figure_img; //Fuer Image ID der figur
-	float angle = figure->DIR * 90; //Rotation in Grad
+	float angle = DIR_TO_DEG(figure->DIR); //Rotation in Grad
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);

@@ -36,6 +36,7 @@
 /*#define PI		3.14159265358979323846  //Kopiert aus math.h
 #define RAD_TO_DEG(x) ((x) * 360/(2*PI))
 #define DEG_TO_RAD(x) ((x) * (2*PI)/360)*/
+#define DIR_TO_DEG(x) ((x) * 90)
 
 /*Grundsätzliche Grafik Definitionen*/
 #define FIELD_SIZE 100						//Feldbreite in Pixel
