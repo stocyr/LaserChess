@@ -42,6 +42,8 @@ enum Direction {LEFT, UP, RIGHT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 
+#define FOREVER 1
+
 #define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
 
 #define ABS(a) (a<0 ? -(a) : a)
@@ -69,7 +71,8 @@ typedef struct {
 	location Pos;
 }pawn;
 
-// Globale Variable
+// Globale Variablen
+const char *AppPath; //EXE-Pfad
 
 //pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
 pawn *map[8][6];

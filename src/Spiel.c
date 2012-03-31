@@ -188,6 +188,11 @@ void spiel(pawn *figure)
 
 			if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 			{
+				// DEBUG PIXEL <-> MAP
+				printf("\n\nMousePos = %d/%d", mouse_event.MousePosX, mouse_event.MousePosY);
+				printf("\nMapPos = %d/%d", new_mouse_pos.x, new_mouse_pos.y);
+				printf("\nPixelPos = %d/%d", map_to_pixel(new_mouse_pos).x, map_to_pixel(new_mouse_pos).y);
+
 				if(is_inside_map(new_mouse_pos))
 				{
 					// Selbe Figur geklickt --> Figur abwählen
@@ -211,8 +216,8 @@ void spiel(pawn *figure)
 							  ((ABS(new_mouse_pos.x - old_mouse_pos.x)) <  2)  &&
 							  ((ABS(new_mouse_pos.y - old_mouse_pos.y)) <  2))
 							{
-								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 								clear_focus(old_mouse_pos);
+								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 								SPIELZUG = SELECT_FIGURE;
 								PLAYER = !PLAYER;
 
@@ -245,8 +250,17 @@ void spiel(pawn *figure)
 				}
 			}
 		}
+
+
+		/*Grafikfenster schliessen, hinzugefügt von kani*/
+		/*if(GetKeyPress() & W_KEY_CLOSE_WINDOW) //Fenster schliessen geklickt
+		{
+			//[Spiel beenden] hier einfügen
+
+			CloseGraphic(); //Grafikfenster schliessen
+		}*/
 	}
-	while(1/*laser() >= 0*/);
+	while(FOREVER /*laser() >= 0*/ );
 }
 /*****************************************************************************/
 /*  End Function: spiel                                                      */
