@@ -360,17 +360,35 @@ void destroy_figure_images()
 	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
 }
 
-/*char *string_combine(char string1[], char string2[])
+char *path_handler(const char path[], char file[])
 {
-	char end = '\0';
-	char letter;
-	char combined_string[] = string1;
+	/*****************************************************************************/
+	/*  Function   : path_handler                                   Version 1.0  */
+	/*****************************************************************************/
+	/*                                                                           */
+	/*  Function   : Combines the two strings path and file after checking       */
+	/*               if there's enough memory available                          */
+	/*                                                                           */
+	/*  Input Para : const char path[] - String with the path of file            */
+	/*               char file[]       - String with the filename                */
+	/*                                                                           */
+	/*  Output     : Returns string with the complete path                       */
+	/*                                                                           */
+	/*  Author     : N. Kaeser                                                   */
+	/*                                                                           */
+	/*  Email      : kasen1@bfh.ch                                               */
+	/*                                                                           */
+	/*****************************************************************************/
 
-	for(int i=0; letter!=end; i++)
-	{
-		combined_string[]
-	}
-}*/
+	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
+	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
+
+	char *buffer = malloc(size);
+	if(buffer == NULL) return NULL; //Nicht genuegend Speicher vorhanden
+
+	sprintf(buffer, "%s%s", path, file); //Kompletter Pfad in buffer speichern
+	return buffer;
+}
 
 char init_figure_images()
 {
@@ -390,10 +408,6 @@ char init_figure_images()
 	/*                                                                           */
 	/*****************************************************************************/
 
-	/*int path_size = malloc(snprintf(NULL, 0, "%s"IMG_PATH, AppPath) + 1);
-	char FileNameBuffer[path_size];
-	sprintf(FileNameBuffer, "%s"IMG_PATH, AppPath);*/
-
 	char error = -1;
 	char success = 1;
 
@@ -402,19 +416,19 @@ char init_figure_images()
 	char test = 0;
 
 	/*Image laden und ID übergeben. Wuerde eine nicht gefunden error setzten.*/
-	Blue_king_img     = LoadImage(IMG_PATH "blue_king.png");     if(Blue_king_img < 0)     test = error;
-	Blue_mirror_img   = LoadImage(IMG_PATH "blue_mirror.png");   if(Blue_mirror_img < 0)   test = error;
-	Blue_splitter_img = LoadImage(IMG_PATH "blue_splitter.png"); if(Blue_splitter_img < 0) test = error;
-	Blue_wall_img     = LoadImage(IMG_PATH "blue_wall.png");     if(Blue_wall_img < 0)     test = error;
-	Blue_cannon_img   = LoadImage(IMG_PATH "blue_cannon.png");   if(Blue_cannon_img < 0)   test = error;
+	Blue_king_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_king.png"));     if(Blue_king_img < 0)     test = error;
+	Blue_mirror_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));   if(Blue_mirror_img < 0)   test = error;
+	Blue_splitter_img = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_splitter.png")); if(Blue_splitter_img < 0) test = error;
+	Blue_wall_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_wall.png"));     if(Blue_wall_img < 0)     test = error;
+	Blue_cannon_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));   if(Blue_cannon_img < 0)   test = error;
 
-	Red_king_img      = LoadImage(IMG_PATH "red_king.png");      if(Red_king_img < 0)      test = error;
-	Red_mirror_img    = LoadImage(IMG_PATH "red_mirror.png");    if(Red_mirror_img < 0)    test = error;
-	Red_splitter_img  = LoadImage(IMG_PATH "red_splitter.png");  if(Red_splitter_img < 0)  test = error;
-	Red_wall_img      = LoadImage(IMG_PATH "red_wall.png");      if(Red_wall_img < 0)      test = error;
-	Red_cannon_img    = LoadImage(IMG_PATH "red_cannon.png");    if(Red_cannon_img < 0)    test = error;
+	Red_king_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_king.png"));      if(Red_king_img < 0)      test = error;
+	Red_mirror_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_mirror.png"));    if(Red_mirror_img < 0)    test = error;
+	Red_splitter_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\red_splitter.png"));  if(Red_splitter_img < 0)  test = error;
+	Red_wall_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_wall.png"));      if(Red_wall_img < 0)      test = error;
+	Red_cannon_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_cannon.png"));    if(Red_cannon_img < 0)    test = error;
 
-	Figure_error_img  = LoadImage(IMG_PATH "figure_error.png");  if(Figure_error_img < 0)  test = error;
+	Figure_error_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\figure_error.png"));  if(Figure_error_img < 0)  test = error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)
@@ -445,6 +459,13 @@ void draw_figure(pawn *figure)
 	/*  Email      : kasen1@bfh.ch                                               */
 	/*                                                                           */
 	/*****************************************************************************/
+
+	/*
+		88888 .d88b.    888b. .d88b.
+		  8   8P  Y8    8   8 8P  Y8  w
+		  8   8b  d8    8   8 8b  d8       Proper rotation......
+		  8   `Y88P'    888P' `Y88P'  w
+	 */
 
 	int figure_img; //Fuer Image ID der figur
 	float angle = figure->DIR * PI/2; //Rotation in Radiant
@@ -507,19 +528,13 @@ void draw_figure(pawn *figure)
 	}
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle (Skalirung 1, 1) auf Bildschirm zeichnen
-	DrawTransformedImage(fig_pos.x, fig_pos.y, angle, 1, 1, figure_img);
+	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, 1, 1, figure_img);
 
-
+	/*
 	//Platzhalter/Test-Rectangle
-	if(figure->PLAYER == PLAYER_RED)
-	{
-		DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_RED, 2*FIELD_LINE_WIDTH);
-	}
-	else
-	{
-		DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_BLUE, 2*FIELD_LINE_WIDTH);
-	}
-
+	if(figure->PLAYER == PLAYER_RED) DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_RED, 2*FIELD_LINE_WIDTH);
+	else DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_BLUE, 2*FIELD_LINE_WIDTH);
+	*/
 }
 
 void draw_mirror_destroyed(pawn *figure)
