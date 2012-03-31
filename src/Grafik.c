@@ -94,13 +94,13 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 	return Mapkoordinaten;
 }
 
-/*Umrechnung Mapkoord. zu Windowskoord. ECKE LINKS UNTEN!*/
+/*Umrechnung Mapkoord. zu Windowskoord. ECKE LINKS OBEN!!!*/
 location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt windowskoordinaten zurück
 {
 	location Windowskoordinaten;
 
 	Windowskoordinaten.x = Mapkoordinaten.x*FIELD_SIZE;	//(x*100) -> nimmt 0, 100, 200, 300, 400, 500, 600 oder 700 an
-	Windowskoordinaten.y = (PLAYGROUND_Y_MAX*FIELD_SIZE)-(Mapkoordinaten.y*FIELD_SIZE);	//(600-(y*100)) 0=>600; 1=>500; 2=>400; 3=>300; 4=>200; 5=>100
+	Windowskoordinaten.y = (PLAYGROUND_Y_MAX*FIELD_SIZE-FIELD_SIZE)-(Mapkoordinaten.y*FIELD_SIZE);	//(500-(y*100)) 0=>500; 1=>400; 2=>300; 3=>200; 4=>100; 5=>0
 	return Windowskoordinaten;
 }
 
