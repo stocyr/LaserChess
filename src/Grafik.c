@@ -68,7 +68,7 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
    Rotate(Angle);
 
    /* Move coordinatesystem back to origin */
-   Translate(-ImageWidth/2.0, -ImageHeight/2.0);
+   //Translate(-ImageWidth/2.0, -ImageHeight/2.0);
 
    /* draw the image into the transformated coordinatesystem */
    /* results in a rotated and scaled image                  */
@@ -529,8 +529,8 @@ void draw_figure(pawn *figure)
 		}
 	}
 
-	//Image mit ID figure_img an fig_pos mit Rotation angle (Skalirung 1, 1) auf Bildschirm zeichnen
-	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, IMG_X_SCALE, IMG_Y_SCALE, figure_img);
+	//Image mit ID figure_img an fig_pos mit Rotation angle und scale auf Bildschirm zeichnen
+	DrawTransformedImage(fig_pos.x, fig_pos.y, angle, IMG_X_SCALE, IMG_Y_SCALE, figure_img);
 	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet den dazugehörigen Rahmen
 
 	/*
