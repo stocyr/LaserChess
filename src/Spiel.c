@@ -159,7 +159,7 @@ void spiel(pawn *figure)
 	enum Affiliation PLAYER = PLAYER_RED;
 	enum Game {SELECT_FIGURE, CHOOSE_MOVE} SPIELZUG;
 	SPIELZUG = SELECT_FIGURE;
-
+	int destroyed_figure;
 	MouseInfoType mouse_event;
 	location new_mouse_pos;
 	location old_mouse_pos;
