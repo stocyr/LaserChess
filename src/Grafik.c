@@ -25,10 +25,10 @@
 #include "Grafik.h"
 
 
-static void draw_transformed_image(int x, int y, float Angle, float ScaleX, float ScaleY, int Image)
+static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float ScaleY, int Image)
 {
 	/*****************************************************************************/
-	/*  Procedure   : draw_transformed_image (changed from DrawTransformedImage) */
+	/*  Procedure   : DrawTransformedImage                                       */
 	/*****************************************************************************/
 	/*                                                                           */
 	/*  Function    : Draws the given Image skaled and rotated at the given      */
@@ -47,7 +47,6 @@ static void draw_transformed_image(int x, int y, float Angle, float ScaleX, floa
 	/*  Author      : I. Oesch                                                   */
 	/*                                                                           */
 	/*  History     : 06.01.2010  IO  Created                                    */
-	/*                31.03.2012  N. Kaeser, optimized for Project LaserChess    */
 	/*                                                                           */
 	/*****************************************************************************/
 
@@ -66,7 +65,7 @@ static void draw_transformed_image(int x, int y, float Angle, float ScaleX, floa
    Scale(ScaleX, ScaleY);
 
    //Rotation in Grad
-   Rotate(Angle * 360/(2*PI));
+   Rotate(Angle);
 
    /* Move coordinatesystem back to origin */
    Translate(-ImageWidth/2.0, -ImageHeight/2.0);
@@ -108,7 +107,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
-	InitGraphic(PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);		//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
+	InitGraphic(1.5*PLAYGROUND_X_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2, 1.5*PLAYGROUND_Y_MAX*FIELD_SIZE+FIELD_LINE_WIDTH/2);		//initialisiert und öffnet ein 801*601 Grafikfenster (1 Pixel Rand)
 	DrawFilledRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet das schwarze Spielfeld
 	DrawEmptyRectangle(0, 0, PLAYGROUND_X_MAX*FIELD_SIZE, PLAYGROUND_Y_MAX*FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet die Spielfeldumrandung
 
@@ -461,15 +460,8 @@ void draw_figure(pawn *figure)
 	/*                                                                           */
 	/*****************************************************************************/
 
-	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Proper rotation......
-		  8   `Y88P'    888P' `Y88P'  w
-	 */
-
 	int figure_img; //Fuer Image ID der figur
-	float angle = figure->DIR * PI/2; //Rotation in Radiant
+	float angle = DIR_TO_DEG(figure->DIR); //Rotation in Grad
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
@@ -531,7 +523,7 @@ void draw_figure(pawn *figure)
 	}
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle und scale auf Bildschirm zeichnen
-	draw_transformed_image(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, IMG_X_SCALE, IMG_Y_SCALE, figure_img);
+	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, IMG_X_SCALE, IMG_Y_SCALE, figure_img);
 	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH); //zeichnet den dazugehörigen Rahmen
 
 	/*
