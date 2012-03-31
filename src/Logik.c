@@ -238,8 +238,8 @@ int laser(location pos, int dir)	//enum Direction dir
 int is_inside_map(location pos)
 {
     // wenn innerhalb der definierten Array-grenzen:
-    if((pos.x < PLAYGROUND_X_MAX-FIELD_LINE_WIDTH/2 && pos.x >= 0) &&
-       (pos.y < PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH/2 && pos.y >= 0))
+    if((pos.x < PLAYGROUND_X_MAX && pos.x >= 0) &&
+       (pos.y < PLAYGROUND_Y_MAX && pos.y >= 0))
     {
         // true zurückgeben
         return 1;
@@ -254,7 +254,7 @@ int is_inside_map(location pos)
     // return 1 if (0 < pos.x < PLAYGROUND_X_MAX-FIELD_LINE_WIDTH) and (0 < pos.y < PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH) else 0
     // # - just sayin'
     // # - Challenge accepted by CaptainBlagbird:
-	// return !((pos.x>PLAYGROUND_X_MAX-FIELD_LINE_WIDTH)||(pos.y>PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH)||(pos.x<=0)||(pos.y<=0));
+    // return !((pos.x>PLAYGROUND_X_MAX-FIELD_LINE_WIDTH)||(pos.y>PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH)||(pos.x<=0)||(pos.y<=0));
     // # - Like a Boss!
 }
 

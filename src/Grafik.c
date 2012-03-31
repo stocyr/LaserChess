@@ -81,6 +81,13 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 {
 	location Mapkoordinaten;
 
+	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//errorhandling (wenn falsche Koordinaten übergeben wurden)
+	{
+			Mapkoordinaten.x = -1;
+			Mapkoordinaten.y = -1;
+			return Mapkoordinaten;
+	}
+
 	Mapkoordinaten.x = (int)(Windowskoordinaten.x / FIELD_SIZE);	// (x/100) nimmt Werte zwischen 0 und 7 an (da x von 0 bis 799)
 	Mapkoordinaten.y =(PLAYGROUND_Y_MAX-1) - (int)(Windowskoordinaten.y / FIELD_SIZE);	//5 - (y-/100) nimmt Werte zwischen 5 und 0 an (da y von 0 bis 599)
 
