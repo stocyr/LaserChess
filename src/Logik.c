@@ -253,6 +253,9 @@ int is_inside_map(location pos)
     // Python:
     // return 1 if (0 < pos.x < PLAYGROUND_X_MAX-FIELD_LINE_WIDTH) and (0 < pos.y < PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH) else 0
     // # - just sayin'
+    // # - Challenge accepted by CaptainBlagbird:
+	// return !((pos.x>PLAYGROUND_X_MAX-FIELD_LINE_WIDTH)||(pos.y>PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH)||(pos.x<=0)||(pos.y<=0));
+    // # - Like a Boss!
 }
 
 
