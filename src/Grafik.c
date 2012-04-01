@@ -533,7 +533,7 @@ void draw_figure(pawn *figure)
 	}
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle und scale auf Bildschirm zeichnen
-	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, IMG_X_SCALE, IMG_Y_SCALE, figure_img);
+	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, 100*PERCENT_FIELD_SIZE, 100*PERCENT_FIELD_SIZE, figure_img);
 	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH); //zeichnet den dazugehörigen Rahmen
 
 	/*
