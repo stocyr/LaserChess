@@ -79,9 +79,7 @@ void create_focus(location pos)
 		}
 	}
 }
-/*****************************************************************************/
-/*  End Function: create_focus                                               */
-/*****************************************************************************/
+
 
 
 /*****************************************************************************/
@@ -134,9 +132,8 @@ void clear_focus(location pos)
 		}
 	}
 }
-/*****************************************************************************/
-/*  End Function: clear-focus                                                */
-/*****************************************************************************/
+
+
 
 /*****************************************************************************/
 /*  Function   : spiel                                          Version 1.0  */
@@ -157,9 +154,10 @@ void spiel(pawn *figure)
 
 {
 	enum Affiliation PLAYER = PLAYER_RED;
+	enum Gamecontrol FIGURE_DEST = NONE;
 	enum Game {SELECT_FIGURE, CHOOSE_MOVE} SPIELZUG;
 	SPIELZUG = SELECT_FIGURE;
-	int destroyed_figure;
+	int destroyed_figure = 0;
 	MouseInfoType mouse_event;
 	location new_mouse_pos;
 	location old_mouse_pos;
@@ -220,6 +218,9 @@ void spiel(pawn *figure)
 							{
 								clear_focus(old_mouse_pos);
 								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
+
+	//							destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+								FIGURE_DEST = destroyed_figure + 3;
 								SPIELZUG = SELECT_FIGURE;
 								PLAYER = !PLAYER;
 
@@ -246,7 +247,8 @@ void spiel(pawn *figure)
 					SPIELZUG = SELECT_FIGURE;
 					// Ruft die Funktion LASER für den jeweiligen Player auf
 					// gibt der Funktion die Pos und die Dir der Cannon mit
-					laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+//					destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+					FIGURE_DEST = destroyed_figure + 3;
 					PLAYER = !PLAYER;
 
 				}
@@ -258,12 +260,10 @@ void spiel(pawn *figure)
 		if(IsKeyPressReady() && (GetKeyPress() & W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
 		{
 			//[Spiel beenden] hier einfügen
-
+			FIGURE_DEST = EXIT;
 			CloseGraphic(); //Grafikfenster schliessen
 		}
 	}
-	while(FOREVER /*laser() >= 0*/ );
+	while(FIGURE_DEST > 2);
 }
-/*****************************************************************************/
-/*  End Function: spiel                                                      */
-/*****************************************************************************/
+

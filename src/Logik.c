@@ -312,7 +312,11 @@ int is_figure(location pos)
 
 void move_figure(pawn *figure, location new_pos)
 {
-    // clearing the old field
+    // chanching figurepos on pointermap
+	map[figure->Pos.x][figure->Pos.y] = NULL;
+	map[new_pos.x][new_pos.y] = figure;
+
+	// clearing the old field
     draw_empty_field(figure->Pos);
 
     // changing the new location in the figure struct

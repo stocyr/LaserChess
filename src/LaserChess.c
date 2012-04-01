@@ -159,7 +159,7 @@ enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
 	int a = 0; //Auswahlvariable
-	printf(TITLE);
+	printf("\n"TITLE);
 
 	printf("Welcome to Laserchess\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
 	scanf("%d",&a);
@@ -201,7 +201,7 @@ enum Spielmodus menu(void)
 void set_figure_positions(pawn *figure)
 {
 	int i = 0;
-	location mouse_pos;
+	location mouse_pos, figure_pos;
 	MouseInfoType MouseEvent;
 
 	enum Affiliation PLAYER = PLAYER_RED;
@@ -215,48 +215,61 @@ void set_figure_positions(pawn *figure)
 		case READ_POS:
 			//Holt Maus Status
 			mouse_pos = mouseclick_to_map();
-			if(mouse_pos.x >= 0)
+			figure_pos = mouse_pos;
+			if(is_inside_map(mouse_pos) && !is_figure(mouse_pos))
 			{
 				//Playerunterscheiden wegen unterschiedlicher Addressierung im Figurearray
 				if(PLAYER == PLAYER_RED)
 				{
-					figure[RED_FIG(i)].Pos.x = mouse_pos.x;
+					figure[RED_FIG(i)].Pos.x = mouse_pos.x;		// Mapkoordinaten in der Figur speichern
 					figure[RED_FIG(i)].Pos.y = mouse_pos.y;
+					draw_figure(&figure[RED_FIG(i)]);			// Figur zeichnen
+					map[mouse_pos.x][mouse_pos.y] = &figure[RED_FIG(i)];
 				}
 				else
 				{
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
+					draw_figure(&figure[BLUE_FIG(i)]);
+					map[mouse_pos.x][mouse_pos.y] = &figure[BLUE_FIG(i)];
 				}
-				draw_figure(&figure[i]);								//!!! hinzugefügt (jascha)-> dafuq? ha nüt z'tüä mit draw_figure :)
+												//!!! hinzugefügt (jascha)-> dafuq? ha nüt z'tüä mit draw_figure :)
 				STATE = ROTATE;
 			}
 			break;
 		case ROTATE:
 			//Wenn 2. Mal auf die Figur gedrückt wird, ist der Zug beendet
 			MouseEvent = GetMouseEvent();
+
 			if(MouseEvent.ButtonState & W_BUTTON_PRESSED)
 			{
-				//Player toggeln
-				PLAYER = !PLAYER;
-				STATE = READ_POS;
-				i++;
+				mouse_pos.x = MouseEvent.MousePosX;
+				mouse_pos.y = MouseEvent.MousePosY;
+				mouse_pos = pixel_to_map(mouse_pos);
+				// Wenn ein 2. Mal gültig gecklickt wird, figur auf Maparray speichern, Player Wechseln
+				if(is_inside_map(mouse_pos))
+				{
+					//Player toggeln
+					PLAYER = !PLAYER;
+					STATE = READ_POS;
+					i++;
+				}
 			}
 			else
 			{
-				//Wenn rechte Maustaste gedrückt, dreht es rechts
+				// Man kann so lange drehen, bis ein 2. mal geklickt wird
 				if(MouseEvent.ButtonState & W_MOUSE_WHEEL_CHANGE)
 				{
 					if(MouseEvent.MouseWheelDelta > 0)
 					{
-						ROTATE_LEFT(figure->DIR);
+						// Figur solange drehen bis Taste gedrückt
+						ROTATE_LEFT(map[figure_pos.x][figure_pos.y]->DIR);
 					}
 					else
 					{
-						ROTATE_RIGHT(figure->DIR);
-
+						ROTATE_RIGHT(map[figure_pos.x][figure_pos.y]->DIR);
 					}
-					draw_figure(&figure[i]);
+					draw_figure(map[figure_pos.x][figure_pos.y]);
 				}
 			}
 			break;
