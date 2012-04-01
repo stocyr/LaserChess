@@ -9,9 +9,9 @@
 /*                                                                           */
 /*  Procedures :                                                             */
 /*                                                                           */
-/*  Author     : J. Haldemann + N. Käser                                     */
+/*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
-/*  Email      : haldj3@bfh.ch                                               */
+/*  Email      : haldj3@bfh.ch; kasen1@bfh.ch                                */
 /*                                                                           */
 /*  Creation   : xx.03.2012                                                  */
 /*                                                                           */
@@ -81,7 +81,7 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 {
 	location Mapkoordinaten;
 
-	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//Errorhandling (wenn falsche Koordinaten übergeben wurden)
+	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
 		Mapkoordinaten.x = -1;
 		Mapkoordinaten.y = -1;
@@ -105,7 +105,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 {
 	location Windowskoordinaten;
 
-	if((Mapkoordinaten.x < 0) && (Mapkoordinaten.y < 0)) //Errorhandling (wenn falsche Koordinaten übergeben wurden)
+	if((Mapkoordinaten.x < 0) && (Mapkoordinaten.y < 0)) //Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
 		Windowskoordinaten.x = -1;
 		Windowskoordinaten.y = -1;
@@ -426,7 +426,7 @@ char init_figure_images()
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
 	char test = 0;
 
-	/*Image laden und ID übergeben. Wuerde eine nicht gefunden error setzten.*/
+	/*Image laden und ID uebergeben. Wuerde eine nicht gefunden error setzten.*/
 	Blue_king_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_king.png"));     if(Blue_king_img < 0)     test = error;
 	Blue_mirror_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));   if(Blue_mirror_img < 0)   test = error;
 	Blue_splitter_img = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_splitter.png")); if(Blue_splitter_img < 0) test = error;
@@ -534,7 +534,7 @@ void draw_figure(pawn *figure)
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle und scale auf Bildschirm zeichnen
 	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, 100*PERCENT_FIELD_SIZE, 100*PERCENT_FIELD_SIZE, figure_img);
-	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH); //zeichnet den dazugehörigen Rahmen
+	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH); //Zeichnet den dazugehoerigen Rahmen
 
 	/*
 	//Platzhalter/Test-Rectangle
