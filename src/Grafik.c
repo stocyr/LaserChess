@@ -568,6 +568,23 @@ void draw_mirror_destroyed(pawn *figure)
 		  8   `Y88P'    888P' `Y88P'  w
 	 */
 
+	//Figur Position in Pixelkoordinaten, uebersichtlicher
+	location fig_pos = map_to_pixel(figure->Pos);
+
+	int i;
+	int n = FIELD_SIZE/(2*FIELD_LINE_WIDTH); //Anzahl Linien die ins Feld passen
+	for(i=1; i <= n; i++)
+	{
+		//Immer ein kleineres Rechteck zeichnen
+		DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*i, fig_pos.y+FIELD_LINE_WIDTH*i, FIELD_SIZE-2*i*FIELD_LINE_WIDTH, FIELD_SIZE-2*i*FIELD_LINE_WIDTH, LASER_COL, FIELD_LINE_WIDTH);
+
+		//Altes Rechteck übermalen
+		//DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*(i-1), fig_pos.y+FIELD_LINE_WIDTH*(i-1), FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+		//DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*(i/2), fig_pos.y+FIELD_LINE_WIDTH*(i/2), FIELD_SIZE-i*FIELD_LINE_WIDTH, FIELD_SIZE-i*FIELD_LINE_WIDTH, COL_WHITE, FIELD_LINE_WIDTH*i);
+
+		WaitMs(DESTROY_SPEED);
+	}
+
 	draw_empty_field(figure->Pos); //Feld loeschen
 
 	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher leoschen)*/

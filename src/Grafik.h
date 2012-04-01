@@ -48,8 +48,9 @@
 #define FIELD_LINE_WIDTH 3					//Breite der Spielfeldlinien in Pixel
 #define FOCUS_COL COL_GREEN					//Fokusfarbe
 #define FOCUS_IDENT 3						//Einzurückende Pixel der Focusfunktion
-#define LASER_COL COL_RED					//Laserfarbe
+#define LASER_COL COL_GREEN					//Laserfarbe
 #define LASER_SPEED	100						//Geschwindigkeit beim Zeichnen des Lasers in ms
+#define DESTROY_SPEED 200					//Zeit zwischen den Schritte der Zerstoerungsanimation in ms
 #define IMG_X_SCALE PERCENT_FIELD_SIZE		//Image Groesse.x relativ zu Feldgroesse
 #define IMG_Y_SCALE PERCENT_FIELD_SIZE		//Image Groesse.y relativ zu Feldgroesse
 #define IMG_DIR "\\img\\figures"			//Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
