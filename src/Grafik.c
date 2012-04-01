@@ -340,24 +340,23 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	}
 }
 
+/*****************************************************************************/
+/*  Function   : destroy_figure_images                          Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Deletes with init_figure_images() loaded images from memory */
+/*                                                                           */
+/*  Input Para : -                                                           */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 void destroy_figure_images()
 {
-	/*****************************************************************************/
-	/*  Function   : destroy_figure_images                          Version 1.0  */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function   : Deletes with init_figure_images() loaded images from memory */
-	/*                                                                           */
-	/*  Input Para : -                                                           */
-	/*                                                                           */
-	/*  Output     : -                                                           */
-	/*                                                                           */
-	/*  Author     : N. Kaeser                                                   */
-	/*                                                                           */
-	/*  Email      : kasen1@bfh.ch                                               */
-	/*                                                                           */
-	/*****************************************************************************/
-
 	/*Nur Images die wirklich geladen waren (also ID>0) entfernen*/
 	if (Blue_king_img > 0)     DestroyImage(Blue_king_img);
 	if (Blue_mirror_img > 0)   DestroyImage(Blue_mirror_img);
@@ -374,26 +373,25 @@ void destroy_figure_images()
 	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
 }
 
+/*****************************************************************************/
+/*  Function   : path_handler                                   Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Combines the two strings path and file after checking       */
+/*               if there's enough memory available                          */
+/*                                                                           */
+/*  Input Para : const char path[] - String with the path of file            */
+/*               char file[]       - String with the filename                */
+/*                                                                           */
+/*  Output     : Returns string with the complete path                       */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 char *path_handler(const char path[], char file[])
 {
-	/*****************************************************************************/
-	/*  Function   : path_handler                                   Version 1.0  */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function   : Combines the two strings path and file after checking       */
-	/*               if there's enough memory available                          */
-	/*                                                                           */
-	/*  Input Para : const char path[] - String with the path of file            */
-	/*               char file[]       - String with the filename                */
-	/*                                                                           */
-	/*  Output     : Returns string with the complete path                       */
-	/*                                                                           */
-	/*  Author     : N. Kaeser                                                   */
-	/*                                                                           */
-	/*  Email      : kasen1@bfh.ch                                               */
-	/*                                                                           */
-	/*****************************************************************************/
-
 	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
 	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
 
@@ -404,24 +402,23 @@ char *path_handler(const char path[], char file[])
 	return buffer;
 }
 
+/*****************************************************************************/
+/*  Function   : init_figure_images                             Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Loads images of figures from files into memory              */
+/*                                                                           */
+/*  Input Para : -                                                           */
+/*                                                                           */
+/*  Output     : Returns 1 if successful, otherwise 0                        */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 char init_figure_images()
 {
-	/*****************************************************************************/
-	/*  Function   : init_figure_images                             Version 1.0  */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function   : Loads images of figures from files into memory              */
-	/*                                                                           */
-	/*  Input Para : -                                                           */
-	/*                                                                           */
-	/*  Output     : Returns 1 if successful, otherwise 0                        */
-	/*                                                                           */
-	/*  Author     : N. Kaeser                                                   */
-	/*                                                                           */
-	/*  Email      : kasen1@bfh.ch                                               */
-	/*                                                                           */
-	/*****************************************************************************/
-
 	char error = -1;
 	char success = 1;
 
@@ -456,24 +453,23 @@ char init_figure_images()
 	}
 }
 
+/*****************************************************************************/
+/*  Function   : draw_figure                                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws figure at its location with its rotation/direction    */
+/*                                                                           */
+/*  Input Para : pawn *figure                                                */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 void draw_figure(pawn *figure)
 {
-	/*****************************************************************************/
-	/*  Function   : draw_figure                                    Version 1.0  */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function   : Draws figure at its location with its rotation/direction    */
-	/*                                                                           */
-	/*  Input Para : pawn *figure                                                */
-	/*                                                                           */
-	/*  Output     : -                                                           */
-	/*                                                                           */
-	/*  Author     : N. Kaeser                                                   */
-	/*                                                                           */
-	/*  Email      : kasen1@bfh.ch                                               */
-	/*                                                                           */
-	/*****************************************************************************/
-
 	int figure_img; //Fuer Image ID der figur
 	float angle = DIR_TO_DEG(figure->DIR); //Rotation in Grad
 
@@ -547,25 +543,24 @@ void draw_figure(pawn *figure)
 	*/
 }
 
+/*****************************************************************************/
+/*  Function   : draw_mirror_destroyed                          Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws/animates the destruction of a mirror.                 */
+/*               (For now, @V1.0, it only draws an empty field.)             */
+/*                                                                           */
+/*  Input Para : pawn *figure                                                */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 void draw_mirror_destroyed(pawn *figure)
 {
-	/*****************************************************************************/
-	/*  Function   : draw_mirror_destroyed                          Version 1.0  */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function   : Draws/animates the destruction of a mirror.                 */
-	/*               (For now, @V1.0, it only draws an empty field.)             */
-	/*                                                                           */
-	/*  Input Para : pawn *figure                                                */
-	/*                                                                           */
-	/*  Output     : -                                                           */
-	/*                                                                           */
-	/*  Author     : N. Kaeser                                                   */
-	/*                                                                           */
-	/*  Email      : kasen1@bfh.ch                                               */
-	/*                                                                           */
-	/*****************************************************************************/
-
 	/*
 		88888 .d88b.    888b. .d88b.
 		  8   8P  Y8    8   8 8P  Y8  w
@@ -578,25 +573,24 @@ void draw_mirror_destroyed(pawn *figure)
 	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher leoschen)*/
 }
 
+/*****************************************************************************/
+/*  Function   : draw_king_destroyed                          Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws/animates the destruction of the king.                 */
+/*               (For now, @V1.0, it only draws an empty field.)             */
+/*                                                                           */
+/*  Input Para : pawn *figure                                                */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 void draw_king_destroyed(pawn *figure)
 {
-	/*****************************************************************************/
-	/*  Function   : draw_king_destroyed                          Version 1.0  */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function   : Draws/animates the destruction of the king.                 */
-	/*               (For now, @V1.0, it only draws an empty field.)             */
-	/*                                                                           */
-	/*  Input Para : pawn *figure                                                */
-	/*                                                                           */
-	/*  Output     : -                                                           */
-	/*                                                                           */
-	/*  Author     : N. Kaeser                                                   */
-	/*                                                                           */
-	/*  Email      : kasen1@bfh.ch                                               */
-	/*                                                                           */
-	/*****************************************************************************/
-
 	/*
 		88888 .d88b.    888b. .d88b.
 		  8   8P  Y8    8   8 8P  Y8  w
