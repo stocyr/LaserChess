@@ -9,9 +9,9 @@
 /*                                                                           */
 /*  Procedures :                                                             */
 /*                                                                           */
-/*  Author     : J. Haldemann + N. Käser                                     */
+/*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
-/*  Email      : haldj3@bfh.ch                                               */
+/*  Email      : haldj3@bfh.ch; kasen1@bfh.ch                                */
 /*                                                                           */
 /*  Creation   : xx.03.2012                                                  */
 /*                                                                           */
@@ -76,12 +76,43 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
    ResetTransformations();
 }
 
+/*****************************************************************************/
+/*  Function   : draw_sharp_empty_rectangle                     Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws empty rectangle with sharp edges                      */
+/*                                                                           */
+/*  Input Para : int x, int y,                                               */
+/*               int Width, int Height,                                      */
+/*               ColorType Color,                                            */
+/*               int LineWidth                                               */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType Color, int LineWidth)
+{
+	int left = x;
+	int right = x + Width;
+	int top = y;
+	int bottom = y + Height;
+	DrawLine(left, top, right, top, Color, LineWidth);       //Top
+	DrawLine(right, top, right, bottom, Color, LineWidth);   //Right
+	DrawLine(right, bottom, left, bottom, Color, LineWidth); //Bottom
+	DrawLine(left, bottom, left, top, Color, LineWidth);     //Left
+
+}
+
 /*Umrechnung Windowskoord. zu Mapposition*/
 location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten gibt mapkoordinaten zurück
 {
 	location Mapkoordinaten;
 
-	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//Errorhandling (wenn falsche Koordinaten übergeben wurden)
+	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
 		Mapkoordinaten.x = -1;
 		Mapkoordinaten.y = -1;
@@ -105,7 +136,7 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 {
 	location Windowskoordinaten;
 
-	if((Mapkoordinaten.x < 0) && (Mapkoordinaten.y < 0)) //Errorhandling (wenn falsche Koordinaten übergeben wurden)
+	if((Mapkoordinaten.x < 0) && (Mapkoordinaten.y < 0)) //Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
 		Windowskoordinaten.x = -1;
 		Windowskoordinaten.y = -1;
@@ -167,7 +198,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
             for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
             {
             	DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
-            	WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+            	WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
             }
             break;
 
@@ -177,7 +208,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
             for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
             {
             	DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
-               	WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+               	WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
             }
             break;
 
@@ -187,7 +218,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
             for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
             {
             	DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
-            	WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+            	WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
             }
             break;
 
@@ -196,7 +227,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
         	for(n=0; n<=FIELD_SIZE; n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
         	{
         		DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
-                WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+                WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
         	}
         	break;
     }
@@ -220,12 +251,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 
@@ -234,12 +265,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
-						WaitMs (LASER_SPEED);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 
@@ -249,12 +280,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 
@@ -264,12 +295,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL); //y wird dekrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 			}
@@ -283,12 +314,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 
@@ -298,12 +329,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL); //y wird dekrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 
@@ -313,12 +344,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 
@@ -327,12 +358,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
 						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
-						WaitMs (LASER_SPEED);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
+						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
 			}
@@ -426,7 +457,7 @@ char init_figure_images()
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
 	char test = 0;
 
-	/*Image laden und ID übergeben. Wuerde eine nicht gefunden error setzten.*/
+	/*Image laden und ID uebergeben. Wuerde eine nicht gefunden error setzten.*/
 	Blue_king_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_king.png"));     if(Blue_king_img < 0)     test = error;
 	Blue_mirror_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));   if(Blue_mirror_img < 0)   test = error;
 	Blue_splitter_img = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_splitter.png")); if(Blue_splitter_img < 0) test = error;
@@ -533,8 +564,8 @@ void draw_figure(pawn *figure)
 	}
 
 	//Image mit ID figure_img an fig_pos mit Rotation angle und scale auf Bildschirm zeichnen
-	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, IMG_X_SCALE, IMG_Y_SCALE, figure_img);
-	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH); //zeichnet den dazugehörigen Rahmen
+	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, 100*PERCENT_FIELD_SIZE, 100*PERCENT_FIELD_SIZE, figure_img);
+	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH); //Zeichnet den dazugehoerigen Rahmen
 
 	/*
 	//Platzhalter/Test-Rectangle
@@ -561,12 +592,46 @@ void draw_figure(pawn *figure)
 /*****************************************************************************/
 void draw_mirror_destroyed(pawn *figure)
 {
-	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik
-		  8   `Y88P'    888P' `Y88P'  w
-	 */
+	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77
+
+	//Figur Position in Pixelkoordinaten, uebersichtlicher
+	location fig_pos = map_to_pixel(figure->Pos);
+	int offset, old_offset;
+	int size, old_size;
+
+	int i;
+	int n = FIELD_SIZE/(2*FIELD_LINE_WIDTH); //Anzahl Linien die ins Feld passen
+	for(i=1; i <= n; i++)
+	{
+		old_offset = (i-1)*FIELD_LINE_WIDTH;
+		old_size = FIELD_SIZE - 2*old_offset;
+		offset = i*FIELD_LINE_WIDTH;
+		size = FIELD_SIZE - 2*offset;
+		/*
+		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
+		|  ______  |
+		| |      | |
+		| |      | |  Field with DrawEmptyRectangle inside
+		| |______| |
+		|__________|
+		,_,
+		offset
+		  ,______,
+		  size
+		*/
+
+		//Immer ein kleineres Rechteck zeichnen
+		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, FIELD_LINE_WIDTH);
+
+		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
+		if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+
+		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
+		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width += 1;
+		if(i>1)draw_sharp_empty_rectangle(fig_pos.x + offset/2, fig_pos.y + offset/2, size+offset, size+offset, TEST_COL, pixel_fixer_width);*/
+
+		WaitMs(DESTROY_DELAY);
+	}
 
 	draw_empty_field(figure->Pos); //Feld loeschen
 
@@ -574,11 +639,65 @@ void draw_mirror_destroyed(pawn *figure)
 }
 
 /*****************************************************************************/
-/*  Function   : draw_king_destroyed                          Version 1.0  */
+/*  Function   : draw_winner_text                               Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Writes winner text on screen                                */
+/*                                                                           */
+/*  Input Para : pawn *hit_king                                              */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+void draw_winner_text(pawn *hit_king)
+{
+	//Figur Position in Pixelkoordinaten
+	location fig_pos = map_to_pixel(hit_king->Pos);
+	fig_pos.x += FIELD_SIZE/2; //Verschieben zu Mitte des Feldes
+	fig_pos.y += FIELD_SIZE/2 + WIN_TEXT_SIZE/2; //So verschieben, dass Text in Mitte des Feldes
+
+	//Schrift Obtionen
+	SelectFont("Comic Sans MS", WIN_TEXT_SIZE, FONT_BOLD); //Text in Comic Sans, April April
+
+	//Text-Informationen erhalten
+	TextDimensionType a_text = GetTextDimensions(WIN_TEXT_TOP);     //Erste Zeile
+	TextDimensionType b_text = GetTextDimensions("BLUE");           //Zweite Zeile: Blau
+	TextDimensionType r_text = GetTextDimensions("RED");            //Zweite Zeile: Rot
+	TextDimensionType c_text = GetTextDimensions(WIN_TEXT_BOTTOM);  //Dritte Zeile
+
+	//Offsets, berechnet durch Stringlaenge & Schriftgroesse
+	int a_offset = a_text.Length/2;
+	int b_offset = b_text.Length/2;
+	int r_offset = r_text.Length/2;
+	int c_offset = c_text.Length/2;
+	int y_offset = WIN_TEXT_SIZE * 1.5; //Abstand der Zeilen; Abstand ZWISCHEN den Zeilen ist also 1.5 - 1 = 0.5 Zeilengrösse
+
+	//Erste Zeile mit Offset zeichnen
+	DrawTextXY(fig_pos.x - a_offset, fig_pos.y - y_offset, COL_WHITE, WIN_TEXT_TOP);
+
+	//Zweite Zeile mit Offset und korrektem Text zeichnen
+	if(hit_king->PLAYER == PLAYER_BLUE)
+	{
+		DrawTextXY(fig_pos.x - r_offset, fig_pos.y, COL_WHITE, "RED");
+	}
+	else //PLYER_RED
+	{
+		DrawTextXY(fig_pos.x - b_offset, fig_pos.y, COL_WHITE, "BLUE");
+	}
+
+	//Dritte Zeile mit Offset zeichnen
+	DrawTextXY(fig_pos.x - c_offset, fig_pos.y + y_offset, COL_WHITE, WIN_TEXT_BOTTOM);
+}
+
+/*****************************************************************************/
+/*  Function   : draw_king_destroyed                          Version 1.0    */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of the king.                 */
-/*               (For now, @V1.0, it only draws an empty field.)             */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
 /*                                                                           */
@@ -591,14 +710,47 @@ void draw_mirror_destroyed(pawn *figure)
 /*****************************************************************************/
 void draw_king_destroyed(pawn *figure)
 {
-	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik
-		  8   `Y88P'    888P' `Y88P'  w
-	 */
+	//Figur Position in Pixelkoordinaten, uebersichtlicher
+	location fig_pos = map_to_pixel(figure->Pos);
+	int offset, old_offset;
+	int size, old_size;
+	int speed = DESTROY_DELAY;
 
-	draw_empty_field(figure->Pos); //Feld loeschen
+	int i;
+	int n = 3*(FIELD_SIZE/(2*FIELD_LINE_WIDTH)); //Anzahl Linien die ins Feld passen *3 damits wieder groesser wird
+	for(i=1; i <= n; i++)
+	{
+		if(i>=n/3)speed = DESTROY_DELAY/2; //Ab dem Zeitpunkt wo es wieder grösser wird, doppelte Geschwindigkeit
 
-	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher loeschen)*/
+		old_offset = (i-1)*FIELD_LINE_WIDTH;
+		old_size = FIELD_SIZE - 2*old_offset;
+		offset = i*FIELD_LINE_WIDTH;
+		size = FIELD_SIZE - 2*offset;
+		/*
+		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
+		|  ______  |
+		| |      | |
+		| |      | |  Field with DrawEmptyRectangle inside
+		| |______| |
+		|__________|
+		,_,
+		offset
+		  ,______,
+		  size
+		*/
+
+		//Immer ein kleineres Rechteck zeichnen
+		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, FIELD_LINE_WIDTH);
+
+		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
+		if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+
+		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
+		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width += 1;
+		if(i>1)draw_sharp_empty_rectangle(fig_pos.x + offset/2, fig_pos.y + offset/2, size+offset, size+offset, TEST_COL, pixel_fixer_width);*/
+
+		WaitMs(speed);
+	}
+
+	draw_winner_text(figure);
 }
