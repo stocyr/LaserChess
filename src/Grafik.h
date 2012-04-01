@@ -51,7 +51,7 @@
 #define LASER_COL COL_GREEN                     //Laserfarbe
 #define LASER_DELAY 100                         //Verzoegerung beim Zeichnen des Lasers in ms (Edited by CaptainBlagbird, Bei Speed waeren hoehere Werte=schneller)
 #define DESTROY_DELAY 050                       //Verzoegerung der Zerstoerungsanimation in ms
-#define IMG_DIR "\\img\\figures"                //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
+#define IMG_DIR "\\img"                         //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 #define WIN_TEXT_TOP "PLAYER"                   //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
 #define WIN_TEXT_BOTTOM "WINS"                  //Dritte/Letzte Zeile des Gewinner-Textes vorherige Zeile wird "RED" oder "BLUE" sein
 #define WIN_TEXT_SIZE (FIELD_SIZE/5)            //Schriftgroesse in points/pixel. (FIELD_SIZE/5) ergibt gerade richtige Groesse

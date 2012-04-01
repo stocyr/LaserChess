@@ -592,15 +592,7 @@ void draw_figure(pawn *figure)
 /*****************************************************************************/
 void draw_mirror_destroyed(pawn *figure)
 {
-	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik verbessern
-		  8   `Y88P'    888P' `Y88P'  w
-	 */
-
-	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77;
-
+	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
@@ -718,13 +710,6 @@ void draw_winner_text(pawn *hit_king)
 /*****************************************************************************/
 void draw_king_destroyed(pawn *figure)
 {
-	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik
-		  8   `Y88P'    888P' `Y88P'  w
-	 */
-
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
 	int offset, old_offset;
