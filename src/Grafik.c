@@ -632,7 +632,7 @@ void draw_mirror_destroyed(pawn *figure)
 		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, FIELD_LINE_WIDTH);
 
 		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
-		//if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, TEST_COL, FIELD_LINE_WIDTH);
+		if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, FIELD_LINE_WIDTH);
 
 		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
 		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width += 1;
