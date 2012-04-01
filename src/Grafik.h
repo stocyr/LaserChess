@@ -40,7 +40,7 @@
 
 /*Grundsätzliche Grafik Definitionen*/
 #define FIELD_SIZE 100                          //Feldbreite in Pixel
-#define PERCENT_FIELD_SIZE (FIELD_SIZE/10000.0) //Feldbreite in Prozent (100.0, damit als float interpretiert)
+#define PERCENT_FIELD_SIZE (FIELD_SIZE/10000.0) //Feldbreite in Prozent (.0, damit als float interpretiert)
 #define PLAYGROUND_X_MAX 8                      //Anzahl Felder - Breite
 #define PLAYGROUND_Y_MAX 6                      //Anzahl Felder - Höhe
 #define PLAYGROUND_COL COL_BLACK                //Spielfeldfarbe
