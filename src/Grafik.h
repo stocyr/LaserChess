@@ -49,8 +49,8 @@
 #define FOCUS_COL COL_GREEN                     //Fokusfarbe
 #define FOCUS_IDENT 3                           //Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_GREEN                     //Laserfarbe
-#define LASER_SPEED 100                         //Geschwindigkeit beim Zeichnen des Lasers in ms
-#define DESTROY_SPEED 200                       //Zeit zwischen den Schritte der Zerstoerungsanimation in ms
+#define LASER_DELAY 100                         //Verzoegerung beim Zeichnen des Lasers in ms (Edited by CaptainBlagbird, Bei Speed waeren hoehere Werte=schneller)
+#define DESTROY_DELAY 50                       //Verzoegerung der Zerstoerungsanimation in ms
 #define IMG_DIR "\\img\\figures"                //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 
 /*Image ID's*/
