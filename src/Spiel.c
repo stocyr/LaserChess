@@ -253,12 +253,12 @@ void spiel(pawn *figure)
 
 
 		/*Grafikfenster schliessen, hinzugefügt von kani*/
-		/*if(GetKeyPress() & W_KEY_CLOSE_WINDOW) //Fenster schliessen geklickt
+		if(IsKeyPressReady() && (GetKeyPress() & W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
 		{
 			//[Spiel beenden] hier einfügen
 
 			CloseGraphic(); //Grafikfenster schliessen
-		}*/
+		}
 	}
 	while(FOREVER /*laser() >= 0*/ );
 }
