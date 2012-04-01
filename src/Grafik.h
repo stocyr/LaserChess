@@ -33,7 +33,7 @@
 #include "Spiel.h"
 
 /*Rotations Definitionen*/
-/*#define PI		3.14159265358979323846      //Kopiert aus math.h
+/*#define PI 3.14159265358979323846             //Kopiert aus math.h
 #define RAD_TO_DEG(x) ((x) * 360/(2*PI))        //Radiant zu Grad umwandeln
 #define DEG_TO_RAD(x) ((x) * (2*PI)/360)*/      //Grad zu Radiant umwandeln
 #define DIR_TO_DEG(x) ((x) * -90.0)             //Dir in Grad CW und float umwandeln

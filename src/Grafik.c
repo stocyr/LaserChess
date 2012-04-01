@@ -564,7 +564,7 @@ void draw_mirror_destroyed(pawn *figure)
 	/*
 		88888 .d88b.    888b. .d88b.
 		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik
+		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik verbessern
 		  8   `Y88P'    888P' `Y88P'  w
 	 */
 
@@ -617,7 +617,5 @@ void draw_king_destroyed(pawn *figure)
 		  8   `Y88P'    888P' `Y88P'  w
 	 */
 
-	draw_empty_field(figure->Pos); //Feld loeschen
-
-	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher loeschen)*/
+	draw_mirror_destroyed(figure); //Momentan die selbe Zerstoerung wie Mirror
 }
