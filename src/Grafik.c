@@ -76,6 +76,37 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
    ResetTransformations();
 }
 
+/*****************************************************************************/
+/*  Function   : draw_sharp_empty_rectangle                     Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws empty rectangle with sharp edges                      */
+/*                                                                           */
+/*  Input Para : int x, int y,                                               */
+/*               int Width, int Height,                                      */
+/*               ColorType Color,                                            */
+/*               int LineWidth                                               */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType Color, int LineWidth)
+{
+	int left = x;
+	int right = x + Width;
+	int top = y;
+	int bottom = y + Height;
+	DrawLine(left, top, right, top, Color, LineWidth);       //Top
+	DrawLine(right, top, right, bottom, Color, LineWidth);   //Right
+	DrawLine(right, bottom, left, bottom, Color, LineWidth); //Bottom
+	DrawLine(left, bottom, left, top, Color, LineWidth);     //Left
+
+}
+
 /*Umrechnung Windowskoord. zu Mapposition*/
 location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten gibt mapkoordinaten zurück
 {
@@ -567,7 +598,9 @@ void draw_mirror_destroyed(pawn *figure)
 		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik verbessern
 		  8   `Y88P'    888P' `Y88P'  w
 	 */
-	//static const ColorType TEST_COL = {0x00, 0x00, 0x00, 0x77};
+
+	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77;
+
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
@@ -598,12 +631,12 @@ void draw_mirror_destroyed(pawn *figure)
 		//Immer ein kleineres Rechteck zeichnen
 		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, FIELD_LINE_WIDTH);
 
-		//Altes Rechteck uebermalen; Es bleiben aber noch Pixel uebrig, muss noch verbessert werden
-		if(i>1)DrawEmptyRectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
+		//if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, TEST_COL, FIELD_LINE_WIDTH);
 
 		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
-		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width -= 1;
-		if(i>1)DrawEmptyRectangle(fig_pos.x + offset/2, fig_pos.y + offset/2, size+offset, size+offset, COL_BLACK, pixel_fixer_width);*/
+		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width += 1;
+		if(i>1)draw_sharp_empty_rectangle(fig_pos.x + offset/2, fig_pos.y + offset/2, size+offset, size+offset, TEST_COL, pixel_fixer_width);*/
 
 		WaitMs(DESTROY_SPEED);
 	}
