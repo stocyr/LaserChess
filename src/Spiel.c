@@ -208,6 +208,7 @@ void spiel(pawn *figure)
 						{
 							clear_focus(old_mouse_pos);
 							create_focus(new_mouse_pos);
+							old_mouse_pos = new_mouse_pos;		// Bug beheben
 						}
 						else
 						{

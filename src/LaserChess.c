@@ -65,7 +65,7 @@ void create_figures(pawn *figure)
 
 	figure[2].PLAYER = PLAYER_RED;
 	figure[2].TYPE = WALL;
-	figure[2].DIR = SOUTH;
+	figure[2].DIR = NORTH;
 	figure[2].Pos.x = 4;
 	figure[2].Pos.y = 5;
 
