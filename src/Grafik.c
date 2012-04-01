@@ -578,8 +578,10 @@ void draw_mirror_destroyed(pawn *figure)
 		//Immer ein kleineres Rechteck zeichnen
 		DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*i, fig_pos.y+FIELD_LINE_WIDTH*i, FIELD_SIZE-2*i*FIELD_LINE_WIDTH, FIELD_SIZE-2*i*FIELD_LINE_WIDTH, LASER_COL, FIELD_LINE_WIDTH);
 
-		//Altes Rechteck übermalen
-		//DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*(i-1), fig_pos.y+FIELD_LINE_WIDTH*(i-1), FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+		//Altes Rechteck uebermalen (i-1); Es bleiben aber noch Pixel uebrig, muss noch verbessert werden
+		if(i>1)DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*(i-1), fig_pos.y+FIELD_LINE_WIDTH*(i-1), FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+
+		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
 		//DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*(i/2), fig_pos.y+FIELD_LINE_WIDTH*(i/2), FIELD_SIZE-i*FIELD_LINE_WIDTH, FIELD_SIZE-i*FIELD_LINE_WIDTH, COL_WHITE, FIELD_LINE_WIDTH*i);
 
 		WaitMs(DESTROY_SPEED);

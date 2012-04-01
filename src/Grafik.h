@@ -51,8 +51,8 @@
 #define LASER_COL COL_GREEN					//Laserfarbe
 #define LASER_SPEED	100						//Geschwindigkeit beim Zeichnen des Lasers in ms
 #define DESTROY_SPEED 200					//Zeit zwischen den Schritte der Zerstoerungsanimation in ms
-#define IMG_X_SCALE PERCENT_FIELD_SIZE		//Image Groesse.x relativ zu Feldgroesse
-#define IMG_Y_SCALE PERCENT_FIELD_SIZE		//Image Groesse.y relativ zu Feldgroesse
+#define IMG_X_SCALE (1*PERCENT_FIELD_SIZE)	//Image Groesse.x relativ zu Feldgroesse
+#define IMG_Y_SCALE (1*PERCENT_FIELD_SIZE)	//Image Groesse.y relativ zu Feldgroesse
 #define IMG_DIR "\\img\\figures"			//Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 
 /*Image ID's*/
