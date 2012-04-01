@@ -567,22 +567,43 @@ void draw_mirror_destroyed(pawn *figure)
 		  8   8b  d8    8   8 8b  d8       Zerstoerungs-Grafik verbessern
 		  8   `Y88P'    888P' `Y88P'  w
 	 */
+	//static const ColorType TEST_COL = {0x00, 0x00, 0x00, 0x77};
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
+	int offset, old_offset;
+	int size, old_size;
 
 	int i;
 	int n = FIELD_SIZE/(2*FIELD_LINE_WIDTH); //Anzahl Linien die ins Feld passen
 	for(i=1; i <= n; i++)
 	{
-		//Immer ein kleineres Rechteck zeichnen
-		DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*i, fig_pos.y+FIELD_LINE_WIDTH*i, FIELD_SIZE-2*i*FIELD_LINE_WIDTH, FIELD_SIZE-2*i*FIELD_LINE_WIDTH, LASER_COL, FIELD_LINE_WIDTH);
+		old_offset = (i-1)*FIELD_LINE_WIDTH;
+		old_size = FIELD_SIZE - 2*old_offset;
+		offset = i*FIELD_LINE_WIDTH;
+		size = FIELD_SIZE - 2*offset;
+		/*
+		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
+		|  ______  |
+		| |      | |
+		| |      | |  Field with DrawEmptyRectangle inside
+		| |______| |
+		|__________|
+		,_,
+		offset
+		  ,______,
+		  size
+		*/
 
-		//Altes Rechteck uebermalen (i-1); Es bleiben aber noch Pixel uebrig, muss noch verbessert werden
-		if(i>1)DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*(i-1), fig_pos.y+FIELD_LINE_WIDTH*(i-1), FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, FIELD_SIZE-2*(i-1)*FIELD_LINE_WIDTH, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+		//Immer ein kleineres Rechteck zeichnen
+		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, FIELD_LINE_WIDTH);
+
+		//Altes Rechteck uebermalen; Es bleiben aber noch Pixel uebrig, muss noch verbessert werden
+		if(i>1)DrawEmptyRectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, FIELD_LINE_WIDTH);
 
 		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
-		//DrawEmptyRectangle(fig_pos.x+FIELD_LINE_WIDTH*(i/2), fig_pos.y+FIELD_LINE_WIDTH*(i/2), FIELD_SIZE-i*FIELD_LINE_WIDTH, FIELD_SIZE-i*FIELD_LINE_WIDTH, COL_WHITE, FIELD_LINE_WIDTH*i);
+		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width -= 1;
+		if(i>1)DrawEmptyRectangle(fig_pos.x + offset/2, fig_pos.y + offset/2, size+offset, size+offset, COL_BLACK, pixel_fixer_width);*/
 
 		WaitMs(DESTROY_SPEED);
 	}

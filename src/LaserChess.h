@@ -48,6 +48,8 @@ enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 
 #define ABS(a) (a<0 ? -(a) : a)
 
+#define IS_EVEN(x) (!((x)%2))
+
 #define ROTATE_LEFT(a) a++; NORM(a)
 #define ROTATE_RIGHT(a) a--; NORM(a)
 
