@@ -652,7 +652,7 @@ void draw_mirror_destroyed(pawn *figure)
 /*                                                                           */
 /*  Function   : Writes winner text on screen                                */
 /*                                                                           */
-/*  Input Para : pawn *hit_king                                                */
+/*  Input Para : pawn *hit_king                                              */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -663,27 +663,46 @@ void draw_mirror_destroyed(pawn *figure)
 /*****************************************************************************/
 void draw_winner_text(pawn *hit_king)
 {
-	/*
-		88888 .d88b.    888b. .d88b.
-		  8   8P  Y8    8   8 8P  Y8  w
-		  8   8b  d8    8   8 8b  d8       Keine magic-numbers: Textlaenge zu offset umrechnen
-		  8   `Y88P'    888P' `Y88P'  w    Evtl. groessere Schrift.
-	 */
+	//Figur Position in Pixelkoordinaten
 	location fig_pos = map_to_pixel(hit_king->Pos);
-	DrawTextXY(fig_pos.x + FIELD_SIZE/2 - 15, fig_pos.y + FIELD_SIZE/2 -5, COL_WHITE, "PLAYER");
+	fig_pos.x += FIELD_SIZE/2; //Verschieben zu Mitte des Feldes
+	fig_pos.y += FIELD_SIZE/2 + WIN_TEXT_SIZE/2; //So verschieben, dass Text in Mitte des Feldes
+
+	//Schrift Obtionen
+	SelectFont("Comic Sans MS", WIN_TEXT_SIZE, FONT_BOLD); //Text in Comic Sans, April April
+
+	//Text-Informationen erhalten
+	TextDimensionType a_text = GetTextDimensions(WIN_TEXT_TOP);     //Erste Zeile
+	TextDimensionType b_text = GetTextDimensions("BLUE");           //Zweite Zeile: Blau
+	TextDimensionType r_text = GetTextDimensions("RED");            //Zweite Zeile: Rot
+	TextDimensionType c_text = GetTextDimensions(WIN_TEXT_BOTTOM);  //Dritte Zeile
+
+	//Offsets, berechnet durch Stringlaenge & Schriftgroesse
+	int a_offset = a_text.Length/2;
+	int b_offset = b_text.Length/2;
+	int r_offset = r_text.Length/2;
+	int c_offset = c_text.Length/2;
+	int y_offset = WIN_TEXT_SIZE * 1.5; //Abstand der Zeilen; Abstand ZWISCHEN den Zeilen ist also 1.5 - 1 = 0.5 Zeilengrösse
+
+	//Erste Zeile mit Offset zeichnen
+	DrawTextXY(fig_pos.x - a_offset, fig_pos.y - y_offset, COL_WHITE, WIN_TEXT_TOP);
+
+	//Zweite Zeile mit Offset und korrektem Text zeichnen
 	if(hit_king->PLAYER == PLAYER_BLUE)
 	{
-		DrawTextXY(fig_pos.x + FIELD_SIZE/2 - 8, fig_pos.y + FIELD_SIZE/2 + 5, COL_WHITE, "RED");
+		DrawTextXY(fig_pos.x - r_offset, fig_pos.y, COL_WHITE, "RED");
 	}
 	else //PLYER_RED
 	{
-		DrawTextXY(fig_pos.x + FIELD_SIZE/2 - 10, fig_pos.y + FIELD_SIZE/2 + 5, COL_WHITE, "BLUE");
+		DrawTextXY(fig_pos.x - b_offset, fig_pos.y, COL_WHITE, "BLUE");
 	}
-	DrawTextXY(fig_pos.x + FIELD_SIZE/2 - 12, fig_pos.y + FIELD_SIZE/2 + 15, COL_WHITE, "WINS");
+
+	//Dritte Zeile mit Offset zeichnen
+	DrawTextXY(fig_pos.x - c_offset, fig_pos.y + y_offset, COL_WHITE, WIN_TEXT_BOTTOM);
 }
 
 /*****************************************************************************/
-/*  Function   : draw_king_destroyed                          Version 1.0  */
+/*  Function   : draw_king_destroyed                          Version 1.0    */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of the king.                 */
