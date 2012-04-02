@@ -196,7 +196,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	//Start Position fuer x umrechnen
 	int start_x = dir;
 	if(dir == 3) start_x = 1;
-	/*   __1__
+	/* x+__1__
 	    |     |
 	   0|     |2
 	    |_____|
@@ -208,7 +208,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	int start_y = dir+1;
 	if(dir == 2) start_y = 1;
 	if(dir == 3) start_y = 0;
-	/*   __0__
+	/* y+__0__
 	    |     |
 	   1|     |1
 	    |_____|
