@@ -191,7 +191,44 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	location map_pos;				//initialisieren: struct location map_pos
 	map_pos = map_to_pixel (pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links oben des ausgew. Feldes)
 
-    switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser zeichnen
+
+	//----START: by CaptainBlagbird----
+	//Start Position fuer x umrechnen
+	int start_x = dir;
+	if(dir == 3) start_x = 1;
+
+	//Start Position fuer y umrechnen
+	int start_y = dir+1;
+	if(dir == 2) start_y = 1;
+	if(dir == 3) start_y = 0;
+
+	//Start Position zuweisen
+	map_pos.x += start_x * FIELD_SIZE/2;
+	map_pos.y += start_y * FIELD_SIZE/2;
+
+	//Neue Directions fuer x
+	int dir_x;
+	if(dir == 0) dir_x = 1;
+	if((dir == 1)||(dir == 3)) dir_x = 0;
+	if(dir == 2) dir_x = -1;
+
+	//Neue Directions fuer y
+	int dir_y;
+	if(dir == 0) dir_y = 0;
+	if(dir == 1) dir_y = -1;
+	if(dir == 2) dir_y = 0;
+	if(dir == 3) dir_y = 1;
+
+	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
+	for(n=0; n<=FIELD_SIZE; n++)
+	{
+		DrawPixel(map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL);
+		WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
+	}
+	//----ENDE: by CaptainBlagbird----
+
+
+    /*switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser zeichnen
     {
         case RIGHT:	//Strich von Links nach Rechts
         	map_pos.y = map_pos.y + (FIELD_SIZE/2);	//Mitte der Linken-Seite
@@ -230,7 +267,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
                 WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
         	}
         	break;
-    }
+    }*/
 }
 
 /*Zeichnet 90°-Laser in der angegebenen Mapposition*/
