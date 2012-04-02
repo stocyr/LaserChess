@@ -83,7 +83,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
     	printf(" -> outside map: FINISHED.");
         // wenn nicht mehr im spielfeld, in eine wand gefahren. -> return 0
     	// SLEEP ca 2sek!
-    	WaitMs(2000);
+    	WaitMs(LASER_FINISHED_WAIT_TIME);
         return 0;
     }
     else
@@ -111,7 +111,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                 	printf(" -> Wall: FINISHED");
                     // Mauer getroffen: aufhören, wie bei is_inside_map = 0
                 	// SLEEP ca 2sek!
-                	WaitMs(2000);
+                	WaitMs(LASER_FINISHED_WAIT_TIME);
                     return 0;
 
                 case KING:
@@ -120,7 +120,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                     // König getroffen: Player negativ zurückgeben
                     draw_king_destroyed(next_pawn);
                     // SLEEP ca 2sek!
-                    //WaitMs(2000);
+                    //WaitMs(LASER_FINISHED_WAIT_TIME);
                     return -(next_pawn->PLAYER+1);
 
                 case MIRROR:
@@ -141,7 +141,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             // Spiegel aus der map löschen!!
                             destroy_figure(next_pawn);
                             // SLEEP ca 2sek!
-                            WaitMs(2000);
+                            WaitMs(LASER_FINISHED_WAIT_TIME);
                             return next_pawn->PLAYER+1;
 
                         case 2:
