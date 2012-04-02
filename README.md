@@ -1,4 +1,4 @@
-LaserGuido
+LaserChess
 ==========
 
 This is a game for our programming class.
