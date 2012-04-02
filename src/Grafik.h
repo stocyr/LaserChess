@@ -46,7 +46,7 @@
 #define LASER_WIDTH 1                             //Dicke des Laserstrahls
 #define IMG_DIR "\\img"                           //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 #define WIN_TEXT_TOP "PLAYER"                     //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
-#define WIN_TEXT_BOTTOM "WINS"                    //Dritte/Letzte Zeile des Gewinner-Textes vorherige Zeile wird "RED" oder "BLUE" sein
+#define WIN_TEXT_BOTTOM "WINS!"                    //Dritte/Letzte Zeile des Gewinner-Textes vorherige Zeile wird "RED" oder "BLUE" sein
 #define WIN_TEXT_SIZE (FIELD_SIZE/5)              //Schriftgroesse in points/pixel. (FIELD_SIZE/5) ergibt gerade richtige Groesse
 
 /*Grafik Definitionen berechnet aus anderen Definitionen*/
