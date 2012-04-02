@@ -78,6 +78,8 @@ int laser(location pos, int dir)	//enum Direction dir
     if(!is_inside_map(next_pos))
     {
         // wenn nicht mehr im spielfeld, in eine wand gefahren. -> return 0
+    	// SLEEP ca 2sek!
+    	WaitMs(2000);
         return 0;
     }
     else
@@ -100,6 +102,8 @@ int laser(location pos, int dir)	//enum Direction dir
             {
                 case WALL:
                     // Mauer getroffen: aufhören, wie bei is_inside_map = 0
+                	// SLEEP ca 2sek!
+                	WaitMs(2000);
                     return 0;
 
                 case KING:
@@ -209,6 +213,8 @@ int laser(location pos, int dir)	//enum Direction dir
 
 				case CANNON:
 					// if the laser hits a cannon, nothing happends.
+					// SLEEP ca 2sek!
+					WaitMs(2000);
 					return 0;
             }
         }
