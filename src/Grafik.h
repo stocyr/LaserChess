@@ -82,6 +82,7 @@ void destroy_figure_images();
 void draw_figure(pawn *figure);
 void draw_mirror_destroyed(pawn *figure);
 void draw_king_destroyed(pawn *figure);
+void draw_winner_text(pawn *figure);
 
 /*module type declaration*/
 
