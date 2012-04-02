@@ -33,33 +33,33 @@
 #include "Spiel.h"
 
 /*Grundsätzliche Grafik Definitionen*/
-#define FIELD_SIZE 100                          //Feldbreite in Pixel
-#define FIELD_LINE_WIDTH 3                      //Breite der Spielfeldlinien in Pixel
-#define LINE_COL COL_GREY                       //Linienfarbe
-#define PLAYGROUND_X_MAX 8                      //Anzahl Felder - Breite
-#define PLAYGROUND_Y_MAX 6                      //Anzahl Felder - Höhe
-#define PLAYGROUND_COL COL_BLACK                //Spielfeldfarbe
-#define FOCUS_COL COL_GREEN                     //Fokusfarbe
-#define FOCUS_IDENT 3                           //Einzurückende Pixel der Focusfunktion
-#define LASER_COL COL_GREEN                     //Laserfarbe
-#define LASER_DELAY 3                           //Verzoegerung beim Zeichnen des Lasers in ms (Edited by CaptainBlagbird, Bei Speed waeren hoehere Werte=schneller)
-#define LASER_WIDTH 1                           //Dicke des Laserstrahls
-#define IMG_DIR "\\img"                         //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
-#define WIN_TEXT_TOP "PLAYER"                   //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
-#define WIN_TEXT_BOTTOM "WINS"                  //Dritte/Letzte Zeile des Gewinner-Textes vorherige Zeile wird "RED" oder "BLUE" sein
-#define WIN_TEXT_SIZE (FIELD_SIZE/5)            //Schriftgroesse in points/pixel. (FIELD_SIZE/5) ergibt gerade richtige Groesse
+#define FIELD_SIZE 100                            //Feldbreite in Pixel
+#define FIELD_LINE_WIDTH 3                        //Breite der Spielfeldlinien in Pixel
+#define LINE_COL COL_GREY                         //Linienfarbe
+#define PLAYGROUND_X_MAX 8                        //Anzahl Felder - Breite
+#define PLAYGROUND_Y_MAX 6                        //Anzahl Felder - Höhe
+#define PLAYGROUND_COL COL_BLACK                  //Spielfeldfarbe
+#define FOCUS_COL COL_GREEN                       //Fokusfarbe
+#define FOCUS_IDENT 3                             //Einzurückende Pixel der Focusfunktion
+#define LASER_COL COL_GREEN                       //Laserfarbe
+#define LASER_DELAY 3                             //Verzoegerung beim Zeichnen des Lasers in ms
+#define LASER_WIDTH 1                             //Dicke des Laserstrahls
+#define IMG_DIR "\\img"                           //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
+#define WIN_TEXT_TOP "PLAYER"                     //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
+#define WIN_TEXT_BOTTOM "WINS"                    //Dritte/Letzte Zeile des Gewinner-Textes vorherige Zeile wird "RED" oder "BLUE" sein
+#define WIN_TEXT_SIZE (FIELD_SIZE/5)              //Schriftgroesse in points/pixel. (FIELD_SIZE/5) ergibt gerade richtige Groesse
 
 /*Grafik Definitionen berechnet aus anderen Definitionen*/
-#define PERCENT_FIELD_SIZE (FIELD_SIZE/10000.0) //Feldbreite in Prozent (.0, damit als float interpretiert)
-#define PG_WIDTH PLAYGROUND_X_MAX*FIELD_SIZE    //Playground Breite
-#define PG_HEIGHT PLAYGROUND_Y_MAX*FIELD_SIZE   //Playground Hoehe
-#define DESTROY_DELAY (LASER_DELAY*2)           //Verzoegerung der Zerstoerungsanimation in ms
+#define PERCENT_FIELD_SIZE (FIELD_SIZE/10000.0)   //Feldbreite in Prozent (.0, damit als float interpretiert)
+#define PG_WIDTH PLAYGROUND_X_MAX*FIELD_SIZE      //Playground Breite
+#define PG_HEIGHT PLAYGROUND_Y_MAX*FIELD_SIZE     //Playground Hoehe
+#define DESTROY_DELAY (LASER_DELAY*5*LASER_WIDTH) //Zerstoerungsverzoegerung (Mit LASER_WIDTH, weil Dicker -> wehniger Rechtecke zu zeichnen)
 
 /*Rotations Definitionen*//*
-#define PI 3.14159265358979323846               //Kopiert aus math.h
-#define RAD_TO_DEG(x) ((x) * 360/(2*PI))        //Radiant zu Grad umwandeln
-#define DEG_TO_RAD(x) ((x) * (2*PI)/360)        //Grad zu Radiant umwandeln*/
-#define DIR_TO_DEG(x) ((x) * -90.0)             //Dir in Grad CW und float umwandeln
+#define PI 3.14159265358979323846                 //Kopiert aus math.h
+#define RAD_TO_DEG(x) ((x) * 360/(2*PI))          //Radiant zu Grad umwandeln
+#define DEG_TO_RAD(x) ((x) * (2*PI)/360)          //Grad zu Radiant umwandeln*/
+#define DIR_TO_DEG(x) ((x) * -90.0)               //Dir in Grad CW und float umwandeln
 
 /*Image ID's*/
 int Blue_king_img;
