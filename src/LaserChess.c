@@ -159,7 +159,6 @@ enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
 	int a = 0; //Auswahlvariable
-	printf("\n"TITLE);
 
 	printf("Welcome to Laserchess\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
 	scanf("%d",&a);
@@ -351,6 +350,8 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];
+
+	printf("\n"TITLE);
 
 	while(FOREVER)
 	{
