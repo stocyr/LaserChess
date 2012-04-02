@@ -219,8 +219,6 @@ void spiel(pawn *figure)
 								clear_focus(old_mouse_pos);
 								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 
-								// DEBUG Laser function parameters
-								printf("\nLASER START @ [%d/%d], dir = %d", figure[PLAYER*7 + 1].Pos.x, figure[PLAYER*7 + 1].Pos.y, figure[PLAYER*7 + 1].DIR);
 								destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
 								FIGURE_DEST = destroyed_figure + 3;
 								SPIELZUG = SELECT_FIGURE;
@@ -249,8 +247,6 @@ void spiel(pawn *figure)
 					SPIELZUG = SELECT_FIGURE;
 					// Ruft die Funktion LASER für den jeweiligen Player auf
 					// gibt der Funktion die Pos und die Dir der Cannon mit
-					// DEBUG Laser function parameters
-					printf("\nLASER START @ [%d/%d], dir = %d", figure[PLAYER*7 + 1].Pos.x, figure[PLAYER*7 + 1].Pos.y, figure[PLAYER*7 + 1].DIR);
 					destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
 					FIGURE_DEST = destroyed_figure + 3;
 					PLAYER = !PLAYER;
@@ -269,5 +265,17 @@ void spiel(pawn *figure)
 		}
 	}
 	while(FIGURE_DEST > 2);
+
+	// Gewinner anzeigen
+	draw_winner_text(&figure[(-destroyed_figure - 1)*7]);
+	switch(-destroyed_figure - 1)
+	{
+	case PLAYER_RED:
+		printf("\n\nPLAYER RED WINS!");
+		break;
+	case PLAYER_BLUE:
+		printf("\n\nPLAYER BLUE WINS!");
+		break;
+	}
 }
 
