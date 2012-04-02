@@ -51,10 +51,9 @@
 /*                                                                           */
 /*****************************************************************************/
 
-int laser(location pos, int dir)	//enum Direction dir
+int laser(location pos, enum Direction dir)	//enum Direction dir
 {
     location next_pos = pos;
-
     switch(dir)
     {
         case RIGHT:
@@ -74,9 +73,14 @@ int laser(location pos, int dir)	//enum Direction dir
             break;
     }
 
+    // DEBUG Laser next_pos
+    printf("\nLASER: next_pos = [%d/%d]", next_pos.x, next_pos.y);
+
 
     if(!is_inside_map(next_pos))
     {
+    	// DEBUG Laser
+    	printf(" -> outside map: FINISHED.");
         // wenn nicht mehr im spielfeld, in eine wand gefahren. -> return 0
     	// SLEEP ca 2sek!
     	WaitMs(2000);
@@ -87,8 +91,10 @@ int laser(location pos, int dir)	//enum Direction dir
         pawn *next_pawn = map[next_pos.x][next_pos.y];
         int return_value, return_value_splitter, reflection;
 
-        if(!is_figure(next_pawn->Pos))
+        if(!is_figure(next_pos))
         {
+        	// DEBUG Laser
+        	printf(" -> empty field");
             // Leeres Feld: Linie zeichnen, sich selbst ausführen, linie wieder löschen
             draw_laser(next_pos, dir);
             return_value = laser(next_pos, dir);
@@ -101,12 +107,16 @@ int laser(location pos, int dir)	//enum Direction dir
             switch(next_pawn->TYPE)
             {
                 case WALL:
+                	// DEBUG Laser
+                	printf(" -> Wall: FINISHED");
                     // Mauer getroffen: aufhören, wie bei is_inside_map = 0
                 	// SLEEP ca 2sek!
                 	WaitMs(2000);
                     return 0;
 
                 case KING:
+                	// DEBUG Laser
+                	printf(" -> King: FINISHED");
                     // König getroffen: Player negativ zurückgeben
                     draw_king_destroyed(next_pawn);
                     // SLEEP ca 2sek!
@@ -114,6 +124,8 @@ int laser(location pos, int dir)	//enum Direction dir
                     return -(next_pawn->PLAYER);
 
                 case MIRROR:
+                	// DEBUG Laser
+                	printf(" -> Mirror:");
                     // Spiegel getroffen: reflektion?
                     reflection = dir - next_pawn->DIR;
                     NORM(reflection);
@@ -122,6 +134,8 @@ int laser(location pos, int dir)	//enum Direction dir
                     {
                         case 0:
                         case 1:
+                        	// DEBUG Laser
+                        	printf(" refl=%d -> DESTROYED.", reflection);
                             // zerstörung: Spiegel positiv zurückgeben
                             draw_mirror_destroyed(next_pawn);
                             // SLEEP ca 2sek!
@@ -129,10 +143,12 @@ int laser(location pos, int dir)	//enum Direction dir
                             return next_pawn->PLAYER;
 
                         case 2:
+                        	// DEBUG Laser
+                        	printf(" Rotation CW");
                             // Reflektion um 90° nach rechts (CW)
                             ROTATE_RIGHT(dir);
                             // Linie zeichnen, angle = -1 (CW)
-                            draw_angled_laser(next_pos, dir, -1);
+                            draw_angled_laser(next_pos, dir, CW);
 
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value = laser(next_pos, dir);
@@ -140,10 +156,12 @@ int laser(location pos, int dir)	//enum Direction dir
                             return return_value;
 
                         case 3:
+                        	// DEBUG Laser
+                        	printf(" Rotation CCW");
                             // Reflektion um 90° nach links (CCW)
                             ROTATE_LEFT(dir);
                             // Linie zeichnen, angle = +1 (CCW)
-                            draw_angled_laser(next_pos, dir, 1);
+                            draw_angled_laser(next_pos, dir, CCW);
 
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value = laser(next_pos, dir);
@@ -212,6 +230,8 @@ int laser(location pos, int dir)	//enum Direction dir
                     }
 
 				case CANNON:
+					// DEBUG Laser
+					printf(" -> Cannon: FINISHED");
 					// if the laser hits a cannon, nothing happends.
 					// SLEEP ca 2sek!
 					WaitMs(2000);
