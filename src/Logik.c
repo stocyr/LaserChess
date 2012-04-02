@@ -120,8 +120,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                     // König getroffen: Player negativ zurückgeben
                     draw_king_destroyed(next_pawn);
                     // SLEEP ca 2sek!
-                    WaitMs(2000);
-                    return -(next_pawn->PLAYER);
+                    //WaitMs(2000);
+                    return -(next_pawn->PLAYER+1);
 
                 case MIRROR:
                 	// DEBUG Laser
@@ -142,7 +142,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             destroy_figure(next_pawn);
                             // SLEEP ca 2sek!
                             WaitMs(2000);
-                            return next_pawn->PLAYER;
+                            return next_pawn->PLAYER+1;
 
                         case 2:
                         	// DEBUG Laser
