@@ -196,27 +196,39 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	//Start Position fuer x umrechnen
 	int start_x = dir;
 	if(dir == 3) start_x = 1;
+	/*   __1__
+	    |     |
+	   0|     |2
+	    |_____|
+	       1
+	*/
+	map_pos.x += start_x * FIELD_SIZE/2;
 
 	//Start Position fuer y umrechnen
 	int start_y = dir+1;
 	if(dir == 2) start_y = 1;
 	if(dir == 3) start_y = 0;
-
-	//Start Position zuweisen
-	map_pos.x += start_x * FIELD_SIZE/2;
+	/*   __0__
+	    |     |
+	   1|     |1
+	    |_____|
+	       2
+	*/
 	map_pos.y += start_y * FIELD_SIZE/2;
+
 
 	//Neue Directions fuer x
 	int dir_x;
-	if(dir == 0) dir_x = 1;
-	if((dir == 1)||(dir == 3)) dir_x = 0;
-	if(dir == 2) dir_x = -1;
+	if(dir == 0) dir_x = 1;  //     0
+	if(dir == 1) dir_x = 0;  // -1 -¦- 1
+	if(dir == 2) dir_x = -1; //     0
+	if(dir == 3) dir_x = 0;
 
 	//Neue Directions fuer y
 	int dir_y;
-	if(dir == 0) dir_y = 0;
-	if(dir == 1) dir_y = -1;
-	if(dir == 2) dir_y = 0;
+	if(dir == 0) dir_y = 0;  //    -1
+	if(dir == 1) dir_y = -1; //  0 -¦- 0
+	if(dir == 2) dir_y = 0;  //     1
 	if(dir == 3) dir_y = 1;
 
 	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
