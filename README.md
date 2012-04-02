@@ -13,7 +13,7 @@ Release history:
 
 * **v0.2**: *Flowchart entwickelt, Module aufgelistet, Arbeitsplan erstellt*
 
-* **v1.0**: *Erste voll funktionstüchtige Version. Testversion*
+* **v1.0**: *Erste voll funktionstüchtige Version*
 
 
 Links
