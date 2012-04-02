@@ -652,7 +652,7 @@ void draw_mirror_destroyed(pawn *figure)
 	//Immer ein kleineres Rechteck zeichnen und altes uebermalen
 	int i;
 	int n = FIELD_SIZE/(2*LASER_WIDTH); //Anzahl Linien die ins Feld passen
-	for(i=0; i < n; i++) //Start bei 1 da 0->Feldrand, 1->Erstes Rechteck in Feld
+	for(i=0; i < n; i++)
 	{
 		/*
 		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
