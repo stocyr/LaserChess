@@ -706,9 +706,16 @@ void draw_mirror_destroyed(pawn *figure)
 void draw_winner_text(pawn *hit_king)
 {
 	//Figur Position in Pixelkoordinaten
-	location fig_pos = map_to_pixel(hit_king->Pos);
+	/*location fig_pos = map_to_pixel(hit_king->Pos);
 	fig_pos.x += FIELD_SIZE/2; //Verschieben zu Mitte des Feldes
-	fig_pos.y += FIELD_SIZE/2 + WIN_TEXT_SIZE/2; //So verschieben, dass Text in Mitte des Feldes
+	fig_pos.y += FIELD_SIZE/2 + WIN_TEXT_SIZE/2; //So verschieben, dass Text in Mitte des Feldes*/
+
+	//Position in Playgroundmitte
+	location fig_pos = {PG_WIDTH/2, PG_HEIGHT/2};
+
+	//Fenster
+	DrawFilledRectangle(fig_pos.x-FIELD_SIZE, fig_pos.y-FIELD_SIZE, FIELD_SIZE*2, FIELD_SIZE*2, COL_BLACK, FIELD_LINE_WIDTH);
+	DrawEmptyRectangle(fig_pos.x-FIELD_SIZE, fig_pos.y-FIELD_SIZE, FIELD_SIZE*2, FIELD_SIZE*2, LASER_COL, FIELD_LINE_WIDTH);
 
 	//Schrift Obtionen
 	SelectFont("Comic Sans MS", WIN_TEXT_SIZE, FONT_BOLD); //Text in Comic Sans, April April
@@ -732,11 +739,11 @@ void draw_winner_text(pawn *hit_king)
 	//Zweite Zeile mit Offset und korrektem Text zeichnen
 	if(hit_king->PLAYER == PLAYER_BLUE)
 	{
-		DrawTextXY(fig_pos.x - r_offset, fig_pos.y, COL_WHITE, "RED");
+		DrawTextXY(fig_pos.x - r_offset, fig_pos.y, COL_RED, "RED");
 	}
 	else //PLYER_RED
 	{
-		DrawTextXY(fig_pos.x - b_offset, fig_pos.y, COL_WHITE, "BLUE");
+		DrawTextXY(fig_pos.x - b_offset, fig_pos.y, COL_BLUE, "BLUE");
 	}
 
 	//Dritte Zeile mit Offset zeichnen
@@ -760,47 +767,5 @@ void draw_winner_text(pawn *hit_king)
 /*****************************************************************************/
 void draw_king_destroyed(pawn *figure)
 {
-	//Figur Position in Pixelkoordinaten, uebersichtlicher
-	location fig_pos = map_to_pixel(figure->Pos);
-	int offset, old_offset;
-	int size, old_size;
-	int speed = DESTROY_DELAY;
-
-	int i;
-	int n = 3*(FIELD_SIZE/(2*FIELD_LINE_WIDTH)); //Anzahl Linien die ins Feld passen *3 damits wieder groesser wird
-	for(i=1; i <= n; i++)
-	{
-		if(i>=n/3) speed = DESTROY_DELAY/2; //Ab dem Zeitpunkt wo es wieder grösser wird, doppelte Geschwindigkeit
-
-		old_offset = (i-1)*FIELD_LINE_WIDTH;
-		old_size = FIELD_SIZE - 2*old_offset;
-		offset = i*FIELD_LINE_WIDTH;
-		size = FIELD_SIZE - 2*offset;
-		/*
-		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
-		|  ______  |
-		| |      | |
-		| |      | |  Field with DrawEmptyRectangle inside
-		| |______| |
-		|__________|
-		,_,
-		offset
-		  ,______,
-		  size
-		*/
-
-		//Immer ein kleineres Rechteck zeichnen
-		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, FIELD_LINE_WIDTH);
-
-		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
-		if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, FIELD_LINE_WIDTH);
-
-		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
-		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width += 1;
-		if(i>1)draw_sharp_empty_rectangle(fig_pos.x + offset/2, fig_pos.y + offset/2, size+offset, size+offset, TEST_COL, pixel_fixer_width);*/
-
-		WaitMs(speed);
-	}
-
-	//draw_winner_text(figure);
+	draw_mirror_destroyed(figure); //Vorerst gleich wie Mirror
 }

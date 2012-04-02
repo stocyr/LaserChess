@@ -52,6 +52,8 @@
 
 /*Grafik Definitionen berechnet aus anderen Definitionen*/
 #define PERCENT_FIELD_SIZE (FIELD_SIZE/10000.0) //Feldbreite in Prozent (.0, damit als float interpretiert)
+#define PG_WIDTH PLAYGROUND_X_MAX*FIELD_SIZE    //Playground Breite
+#define PG_HEIGHT PLAYGROUND_Y_MAX*FIELD_SIZE   //Playground Hoehe
 
 /*Rotations Definitionen*//*
 #define PI 3.14159265358979323846               //Kopiert aus math.h
