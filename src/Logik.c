@@ -135,7 +135,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                         case 0:
                         case 1:
                         	// DEBUG Laser
-                        	printf(" DESTROYED.", reflection);
+                        	printf(" DESTROYED.");
                             // zerstörung: Spiegel positiv zurückgeben
                             draw_mirror_destroyed(next_pawn);
                             // Spiegel aus der map löschen!!
@@ -147,11 +147,11 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                         case 2:
                         	// DEBUG Laser
                         	printf(" Rotation CW");
-                            // Reflektion um 90° nach rechts (CW)
-                            ROTATE_RIGHT(dir);
                             // Linie zeichnen, angle = -1 (CW)
                             draw_angled_laser(next_pos, dir, CW);
 
+                            // Reflektion um 90° nach rechts (CW)
+                            ROTATE_RIGHT(dir);
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value = laser(next_pos, dir);
                             draw_figure(next_pawn);
@@ -160,11 +160,11 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                         case 3:
                         	// DEBUG Laser
                         	printf(" Rotation CCW");
-                            // Reflektion um 90° nach links (CCW)
-                            ROTATE_LEFT(dir);
                             // Linie zeichnen, angle = +1 (CCW)
                             draw_angled_laser(next_pos, dir, CCW);
 
+                            // Reflektion um 90° nach links (CCW)
+                            ROTATE_LEFT(dir);
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value = laser(next_pos, dir);
                             draw_figure(next_pawn);
@@ -190,21 +190,21 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                     {
                         case 0:
                         case 2:
-                            // Reflektion um 90° nach rechts (CW)
-                            ROTATE_RIGHT(dir);
                             // Linie zeichnen, angle = -1 (CW)
                             draw_angled_laser(next_pos, dir, -1);
 
+                            // Reflektion um 90° nach rechts (CW)
+                            ROTATE_RIGHT(dir);
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value_splitter = laser(next_pos, dir);
 
                         case 1:
                         case 3:
-                            // Reflektion um 90° nach links (CCW)
-                            ROTATE_LEFT(dir);
                             // Linie zeichnen, angle = +1 (CCW)
                             draw_angled_laser(next_pos, dir, 1);
 
+                            // Reflektion um 90° nach links (CCW)
+                            ROTATE_LEFT(dir);
                             // sich selbst ausführen und danach linie wieder löschen
                             return_value_splitter = laser(next_pos, dir);
                     }
