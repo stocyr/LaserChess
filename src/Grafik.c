@@ -646,17 +646,14 @@ void draw_mirror_destroyed(pawn *figure)
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
-	int offset, old_offset;
-	int size, old_size;
+	int offset, old_offset, size, old_size;
+	int half_field_line = FIELD_LINE_WIDTH/2 + !IS_EVEN(FIELD_LINE_WIDTH); //Halbe Linienbreite, aufrunden
 
+	//Immer ein kleineres Rechteck zeichnen und altes uebermalen
 	int i;
 	int n = FIELD_SIZE/(2*LASER_WIDTH); //Anzahl Linien die ins Feld passen
-	for(i=1; i <= n; i++)
+	for(i=0; i < n; i++) //Start bei 1 da 0->Feldrand, 1->Erstes Rechteck in Feld
 	{
-		old_offset = (i-1)*LASER_WIDTH;
-		old_size = FIELD_SIZE - 2*old_offset;
-		offset = i*LASER_WIDTH;
-		size = FIELD_SIZE - 2*offset;
 		/*
 		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
 		|  ______  |
@@ -669,24 +666,24 @@ void draw_mirror_destroyed(pawn *figure)
 		  ,______,
 		  size
 		*/
+		offset = half_field_line + i*LASER_WIDTH + LASER_WIDTH/2;
+		size = FIELD_SIZE - 2*offset +IS_EVEN(LASER_WIDTH);
+
+		//Altes offset und size genau gleich, einfach mit (i-1)
+		old_offset = half_field_line + (i-1)*LASER_WIDTH + LASER_WIDTH/2;
+		old_size = FIELD_SIZE - 2*old_offset +IS_EVEN(LASER_WIDTH);
 
 		//Immer ein kleineres Rechteck zeichnen
-		draw_sharp_empty_rectangle(fig_pos.x+offset, fig_pos.y+offset, size, size, PLAYGROUND_COL, LASER_WIDTH); //Damit Pixel in den Ecken weg sind
+		draw_sharp_empty_rectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, PLAYGROUND_COL, LASER_WIDTH); //Damit Pixel in den Ecken weg sind
 		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
 
 		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
-		if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, LASER_WIDTH);
-
-		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
-		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width += 1;
-		if(i>1)draw_sharp_empty_rectangle(fig_pos.x + offset/2, fig_pos.y + offset/2, size+offset, size+offset, TEST_COL, pixel_fixer_width);*/
+		if(i>0)draw_sharp_empty_rectangle(fig_pos.x + old_offset, fig_pos.y + old_offset, old_size, old_size, PLAYGROUND_COL, LASER_WIDTH);
 
 		WaitMs(DESTROY_DELAY);
 	}
 
 	draw_empty_field(figure->Pos); //Feld loeschen
-
-	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher leoschen)*/
 }
 
 /*****************************************************************************/
@@ -752,7 +749,7 @@ void draw_winner_text(pawn *hit_king)
 	int b_offset = b_text.Length/2;
 	int r_offset = r_text.Length/2;
 	int c_offset = c_text.Length/2;
-	int y_offset = WIN_TEXT_SIZE * 1.5; //Abstand der Zeilen; Abstand ZWISCHEN den Zeilen ist also 1.5 - 1 = 0.5 Zeilengrösse
+	int y_offset = WIN_TEXT_SIZE * 1.5; //Abstand der Zeilen; Abstand ZWISCHEN den Zeilen ist also 1.5 - 1 = 0.5 Zeilengroesse
 
 	//Erste Zeile mit Offset zeichnen
 	DrawTextXY(fig_pos.x - a_offset, fig_pos.y - y_offset, COL_WHITE, WIN_TEXT_TOP);
