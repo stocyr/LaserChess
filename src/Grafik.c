@@ -720,7 +720,7 @@ void draw_king_destroyed(pawn *figure)
 	int n = 3*(FIELD_SIZE/(2*FIELD_LINE_WIDTH)); //Anzahl Linien die ins Feld passen *3 damits wieder groesser wird
 	for(i=1; i <= n; i++)
 	{
-		if(i>=n/3)speed = DESTROY_DELAY/2; //Ab dem Zeitpunkt wo es wieder grösser wird, doppelte Geschwindigkeit
+		if(i>=n/3) speed = DESTROY_DELAY/2; //Ab dem Zeitpunkt wo es wieder grösser wird, doppelte Geschwindigkeit
 
 		old_offset = (i-1)*FIELD_LINE_WIDTH;
 		old_size = FIELD_SIZE - 2*old_offset;
@@ -752,5 +752,5 @@ void draw_king_destroyed(pawn *figure)
 		WaitMs(speed);
 	}
 
-	draw_winner_text(figure);
+	//draw_winner_text(figure);
 }
