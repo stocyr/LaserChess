@@ -255,7 +255,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
+						DrawPixel(map_pos.x+(FIELD_SIZE/2), map_pos.y+n, LASER_COL);	//y wird inkrementiert
 						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
@@ -269,7 +269,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)		//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
+						DrawPixel(map_pos.x-n, map_pos.y+(FIELD_SIZE/2), LASER_COL);	//x wird dekrementiert
 						WaitMs (LASER_DELAY);		//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
@@ -284,7 +284,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
+						DrawPixel(map_pos.x-(FIELD_SIZE/2), map_pos.y-n, LASER_COL);	//y wird dekrementiert
 						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
@@ -299,7 +299,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
+						DrawPixel(map_pos.x+n, map_pos.y-(FIELD_SIZE/2), LASER_COL);	//x wird inkrementiert
 						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
@@ -318,7 +318,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y-n, LASER_COL);	//y wird dekrementiert
+						DrawPixel(map_pos.x+(FIELD_SIZE/2), map_pos.y-n, LASER_COL);	//y wird dekrementiert
 						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
@@ -333,7 +333,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x-n, map_pos.y, LASER_COL);	//x wird dekrementiert
+						DrawPixel(map_pos.x-n, map_pos.y-(FIELD_SIZE/2), LASER_COL);	//x wird dekrementiert
 						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
@@ -348,7 +348,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x, map_pos.y+n, LASER_COL);	//y wird inkrementiert
+						DrawPixel(map_pos.x-(FIELD_SIZE/2), map_pos.y+n, LASER_COL);	//y wird inkrementiert
 						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
@@ -362,7 +362,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 					}
 					for(n=0; n<=(FIELD_SIZE/2); n++)	//Pixel schrittweise zeichnen bis FIELD_SIZE/2 erreicht
 					{
-						DrawPixel(map_pos.x+n, map_pos.y, LASER_COL);	//x wird inkrementiert
+						DrawPixel(map_pos.x+n, map_pos.y+(FIELD_SIZE/2), LASER_COL);	//x wird inkrementiert
 						WaitMs (LASER_DELAY);	//Wartet die gegebene Zeit in ms (Millisekunden) ab
 					}
 					break;
