@@ -49,7 +49,7 @@
 #define FOCUS_COL COL_GREEN                     //Fokusfarbe
 #define FOCUS_IDENT 3                           //Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_GREEN                     //Laserfarbe
-#define LASER_DELAY 5                           //Verzoegerung beim Zeichnen des Lasers in ms (Edited by CaptainBlagbird, Bei Speed waeren hoehere Werte=schneller)
+#define LASER_DELAY 3                           //Verzoegerung beim Zeichnen des Lasers in ms (Edited by CaptainBlagbird, Bei Speed waeren hoehere Werte=schneller)
 #define DESTROY_DELAY 050                       //Verzoegerung der Zerstoerungsanimation in ms
 #define IMG_DIR "\\img"                         //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 #define WIN_TEXT_TOP "PLAYER"                   //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
