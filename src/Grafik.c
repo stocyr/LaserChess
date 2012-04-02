@@ -671,6 +671,7 @@ void draw_mirror_destroyed(pawn *figure)
 		*/
 
 		//Immer ein kleineres Rechteck zeichnen
+		draw_sharp_empty_rectangle(fig_pos.x+offset, fig_pos.y+offset, size, size, PLAYGROUND_COL, LASER_WIDTH); //Damit Pixel in den Ecken weg sind
 		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
 
 		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
