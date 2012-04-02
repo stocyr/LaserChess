@@ -135,9 +135,11 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                         case 0:
                         case 1:
                         	// DEBUG Laser
-                        	printf(" refl=%d -> DESTROYED.", reflection);
+                        	printf(" DESTROYED.", reflection);
                             // zerstörung: Spiegel positiv zurückgeben
                             draw_mirror_destroyed(next_pawn);
+                            // Spiegel aus der map löschen!!
+                            destroy_figure(next_pawn);
                             // SLEEP ca 2sek!
                             WaitMs(2000);
                             return next_pawn->PLAYER;
@@ -351,6 +353,32 @@ void move_figure(pawn *figure, location new_pos)
     // drawing the figure there:
     draw_figure(figure);
 }
+
+
+
+/*****************************************************************************/
+/*  Function   : destrox_figure                                 Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : destroys a figure (deletes it from the map array)           */
+/*                                                                           */
+/*  Input Para : figure pointer                                              */
+/*                                                                           */
+/*  Output     : none                                                        */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void destroy_figure(pawn *figure)
+{
+    // lösche figur aus der map[][]
+	map[figure->Pos.x][figure->Pos.y] = NULL;
+}
+
+
 
 /*****************************************************************************/
 /*  Function   : mouseclick_to_map()                            Version 1.0  */

@@ -34,6 +34,7 @@ int laser(location pos, enum Direction dir);	//enum Direction dir
 int is_inside_map(location pos);
 int is_figure(location pos);
 void move_figure(pawn *figure, location new_pos);
+void destroy_figure(pawn *figure);
 location mouseclick_to_map(void);
 
 #endif
