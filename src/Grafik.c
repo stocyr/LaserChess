@@ -736,7 +736,7 @@ void draw_winner_text(pawn *hit_king)
 	DrawEmptyRectangle(fig_pos.x-FIELD_SIZE, fig_pos.y-FIELD_SIZE, FIELD_SIZE*2, FIELD_SIZE*2, LASER_COL, FIELD_LINE_WIDTH);
 
 	//Schrift Obtionen
-	SelectFont("Comic Sans MS", WIN_TEXT_SIZE, FONT_BOLD); //Text in Comic Sans, April April
+	SelectFont(WIN_TEXT_FONT, WIN_TEXT_SIZE, FONT_BOLD);
 
 	//Text-Informationen erhalten
 	TextDimensionType a_text = GetTextDimensions(WIN_TEXT_TOP);     //Erste Zeile
@@ -749,21 +749,22 @@ void draw_winner_text(pawn *hit_king)
 	int b_offset = b_text.Length/2;
 	int r_offset = r_text.Length/2;
 	int c_offset = c_text.Length/2;
-	int y_offset = WIN_TEXT_SIZE * 1.5; //Abstand der Zeilen; Abstand ZWISCHEN den Zeilen ist also 1.5 - 1 = 0.5 Zeilengroesse
+	int text_size = a_text.Up;
+	int text_space = a_text.Up / 3;
 
 	//Erste Zeile mit Offset zeichnen
-	DrawTextXY(fig_pos.x - a_offset, fig_pos.y - y_offset, COL_WHITE, WIN_TEXT_TOP);
+	DrawTextXY(fig_pos.x - a_offset, fig_pos.y - (text_size/2 + text_space), COL_WHITE, WIN_TEXT_TOP);
 
 	//Zweite Zeile mit Offset und korrektem Text zeichnen
 	if(hit_king->PLAYER == PLAYER_BLUE)
 	{
-		DrawTextXY(fig_pos.x - r_offset, fig_pos.y, COL_RED, "RED");
+		DrawTextXY(fig_pos.x - r_offset, fig_pos.y + text_size/2, COL_RED, "RED");
 	}
 	else //PLYER_RED
 	{
-		DrawTextXY(fig_pos.x - b_offset, fig_pos.y, COL_BLUE, "BLUE");
+		DrawTextXY(fig_pos.x - b_offset, fig_pos.y + text_size/2, COL_BLUE, "BLUE");
 	}
 
 	//Dritte Zeile mit Offset zeichnen
-	DrawTextXY(fig_pos.x - c_offset, fig_pos.y + y_offset, COL_WHITE, WIN_TEXT_BOTTOM);
+	DrawTextXY(fig_pos.x - c_offset, fig_pos.y + (text_size*1.5 + text_space), COL_WHITE, WIN_TEXT_BOTTOM);
 }
