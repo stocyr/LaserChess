@@ -262,6 +262,7 @@ void spiel(pawn *figure)
 			//[Spiel beenden] hier einfügen
 			FIGURE_DEST = EXIT;
 			CloseGraphic(); //Grafikfenster schliessen
+			return;
 		}
 	}
 	while(FIGURE_DEST > 2);
@@ -271,11 +272,14 @@ void spiel(pawn *figure)
 	switch(-destroyed_figure - 1)
 	{
 	case PLAYER_RED:
-		printf("\n\nPLAYER RED WINS!");
+		printf("\n\nPLAYER RED WINS!\n");
 		break;
 	case PLAYER_BLUE:
-		printf("\n\nPLAYER BLUE WINS!");
+		printf("\n\nPLAYER BLUE WINS!\n");
 		break;
 	}
+
+	WaitMs(3000);
+	CloseGraphic(); //Grafikfenster schliessen
 }
 
