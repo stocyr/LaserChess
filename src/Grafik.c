@@ -234,7 +234,8 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
 	for(n=0; n<=FIELD_SIZE; n++)
 	{
-		DrawPixel(map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL);
+		DrawLine(map_pos.x + dir_x*n, map_pos.y + dir_y*n, map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL, LASER_WIDTH);
+		//DrawPixel(map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL);
 		WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
 	}
 	//----ENDE: by CaptainBlagbird----
