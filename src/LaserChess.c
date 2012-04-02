@@ -328,6 +328,38 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 }
 
 
+
+/*****************************************************************************/
+/*  Function   : clear_map_array                                Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : clears the map array (writes all positions to NULL)         */
+/*                                                                           */
+/*  Input Para : none                                                        */
+/*                                                                           */
+/*  Output     : none                                                        */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void clear_map_array()
+{
+	int x, y;
+
+	for(y = 0; y < PLAYGROUND_Y_MAX; y++)
+	{
+		for(x = 0; x < PLAYGROUND_X_MAX; x++)
+		{
+			map[x][y] = NULL;
+		}
+	}
+}
+
+
+
 /*****************************************************************************/
 /*  Function   : gfxmain                                        Version 1.0  */
 /*****************************************************************************/
@@ -355,6 +387,8 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 	while(FOREVER)
 	{
+		clear_map_array();
+
 		MODE = menu();		//Bekommt einer der 3 Modes zurück
 		if(MODE == EXIT)
 		{
