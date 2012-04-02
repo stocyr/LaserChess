@@ -650,18 +650,18 @@ void draw_mirror_destroyed(pawn *figure)
 	int size, old_size;
 
 	int i;
-	int n = FIELD_SIZE/(2*FIELD_LINE_WIDTH); //Anzahl Linien die ins Feld passen
+	int n = FIELD_SIZE/(2*LASER_WIDTH); //Anzahl Linien die ins Feld passen
 	for(i=1; i <= n; i++)
 	{
-		old_offset = (i-1)*FIELD_LINE_WIDTH;
+		old_offset = (i-1)*LASER_WIDTH;
 		old_size = FIELD_SIZE - 2*old_offset;
-		offset = i*FIELD_LINE_WIDTH;
+		offset = i*LASER_WIDTH;
 		size = FIELD_SIZE - 2*offset;
 		/*
 		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
 		|  ______  |
 		| |      | |
-		| |      | |  Field with DrawEmptyRectangle inside
+		| |      | |  Feld mit DrawEmptyRectangle drin
 		| |______| |
 		|__________|
 		,_,
@@ -671,10 +671,10 @@ void draw_mirror_destroyed(pawn *figure)
 		*/
 
 		//Immer ein kleineres Rechteck zeichnen
-		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, FIELD_LINE_WIDTH);
+		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
 
 		//Altes Rechteck uebermalen mit scharfen Ecken, damit keine Pixel uebrig bleiben
-		if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, FIELD_LINE_WIDTH);
+		if(i>1)draw_sharp_empty_rectangle(fig_pos.x+old_offset, fig_pos.y+old_offset, old_size, old_size, PLAYGROUND_COL, LASER_WIDTH);
 
 		//Bereich ausserhalb uebermalen (keine Pixelfehler mehr)
 		/*pixel_fixer_width = offset - FIELD_LINE_WIDTH; if(!IS_EVEN(pixel_fixer_width)) pixel_fixer_width += 1;
@@ -686,6 +686,26 @@ void draw_mirror_destroyed(pawn *figure)
 	draw_empty_field(figure->Pos); //Feld loeschen
 
 	/*Spaeter Grafik von Zerstoerung (Feld trotzdem vorher leoschen)*/
+}
+
+/*****************************************************************************/
+/*  Function   : draw_king_destroyed                          Version 1.0    */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws/animates the destruction of the king.                 */
+/*                                                                           */
+/*  Input Para : pawn *figure                                                */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+void draw_king_destroyed(pawn *figure)
+{
+	draw_mirror_destroyed(figure); //Vorerst gleich wie Mirror
 }
 
 /*****************************************************************************/
@@ -748,24 +768,4 @@ void draw_winner_text(pawn *hit_king)
 
 	//Dritte Zeile mit Offset zeichnen
 	DrawTextXY(fig_pos.x - c_offset, fig_pos.y + y_offset, COL_WHITE, WIN_TEXT_BOTTOM);
-}
-
-/*****************************************************************************/
-/*  Function   : draw_king_destroyed                          Version 1.0    */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   : Draws/animates the destruction of the king.                 */
-/*                                                                           */
-/*  Input Para : pawn *figure                                                */
-/*                                                                           */
-/*  Output     : -                                                           */
-/*                                                                           */
-/*  Author     : N. Kaeser                                                   */
-/*                                                                           */
-/*  Email      : kasen1@bfh.ch                                               */
-/*                                                                           */
-/*****************************************************************************/
-void draw_king_destroyed(pawn *figure)
-{
-	draw_mirror_destroyed(figure); //Vorerst gleich wie Mirror
 }
