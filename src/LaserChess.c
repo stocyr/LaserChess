@@ -394,9 +394,10 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		if(MODE == EXIT)
 		{
 
-			printf("BYEBYE!\n");
+			printf("\nBYEBYE!!!\n");
 
-			system("pause");
+			WaitMs (2000);	//2 Sekunden warten bis Fenster schliesst
+			//system("pause");
 			return EXIT_SUCCESS;
 		}
 
