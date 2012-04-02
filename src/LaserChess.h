@@ -38,7 +38,7 @@
 enum Affiliation {PLAYER_RED, PLAYER_BLUE}; //enum Affiliation {PLAYER_RED = 1, PLAYER_BLUE = 2}; //Weil in Spiel.c PLAYER = !PLAYER; Changed by CaptainBlagbird
 enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
 enum Orientation {EAST, NORTH, WEST, SOUTH, NORTH_EAST = 0, NORTH_WEST = 1, SOUTH_WEST = 2, SOUTH_EAST = 3};
-enum Direction {LEFT, UP, RIGHT, DOWN};
+enum Direction {RIGHT, UP, LEFT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 enum Spielmodus {NORMALMODE, SETMODE, EXIT};
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
