@@ -219,7 +219,9 @@ void spiel(pawn *figure)
 								clear_focus(old_mouse_pos);
 								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 
-	//							destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+								// DEBUG Laser function parameters
+								printf("\nLASER START @ [%d/%d], dir = %d", figure[PLAYER*7 + 1].Pos.x, figure[PLAYER*7 + 1].Pos.y, figure[PLAYER*7 + 1].DIR);
+								destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
 								FIGURE_DEST = destroyed_figure + 3;
 								SPIELZUG = SELECT_FIGURE;
 								PLAYER = !PLAYER;
@@ -247,7 +249,9 @@ void spiel(pawn *figure)
 					SPIELZUG = SELECT_FIGURE;
 					// Ruft die Funktion LASER für den jeweiligen Player auf
 					// gibt der Funktion die Pos und die Dir der Cannon mit
-//					destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+					// DEBUG Laser function parameters
+					printf("\nLASER START @ [%d/%d], dir = %d", figure[PLAYER*7 + 1].Pos.x, figure[PLAYER*7 + 1].Pos.y, figure[PLAYER*7 + 1].DIR);
+					destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
 					FIGURE_DEST = destroyed_figure + 3;
 					PLAYER = !PLAYER;
 
