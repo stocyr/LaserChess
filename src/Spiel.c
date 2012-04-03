@@ -231,8 +231,10 @@ void spiel(pawn *figure)
 			}
 			else
 			{
-				// Kein Button geklickt, aber Mausrad gedreht
-				if(mouse_event.ButtonState & W_MOUSE_WHEEL_CHANGE)
+				// Kein Button geklickt, aber Mausrad gedreht, Figure drehen (König und Mauer können nicht gedreht werden)
+				if((mouse_event.ButtonState & W_MOUSE_WHEEL_CHANGE) &&
+				   !(map[old_mouse_pos.x][old_mouse_pos.y]->TYPE == KING) &&
+				   !(map[old_mouse_pos.x][old_mouse_pos.y]->TYPE == WALL))
 				{
 					if(mouse_event.MouseWheelDelta > 0)
 					{
