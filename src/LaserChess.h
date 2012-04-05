@@ -24,6 +24,7 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
+
 // TITLE in ASCII art:
 #define TITLE \
 "#                                    #####                              \n" \
@@ -40,7 +41,7 @@ enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
 enum Orientation {EAST, NORTH, WEST, SOUTH, NORTH_EAST = 0, NORTH_WEST = 1, SOUTH_WEST = 2, SOUTH_EAST = 3};
 enum Direction {RIGHT, UP, LEFT, DOWN};
 enum Angle {CCW = 1, CW = -1};
-enum Spielmodus {NORMALMODE, SETMODE, EXIT};
+enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT};
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
 
 #define FOREVER 1
@@ -77,7 +78,6 @@ typedef struct {
 // Globale Variablen
 const char *AppPath; //EXE-Pfad
 
-//pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
 pawn *map[8][6];
 
 #endif

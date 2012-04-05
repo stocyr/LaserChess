@@ -89,7 +89,7 @@ void draw_figure(pawn *figure);
 void draw_mirror_destroyed(pawn *figure);
 void draw_king_destroyed(pawn *figure);
 void draw_winner_text(pawn *figure);
-
+char *path_handler(const char path[], char file[]); // hinzugefügt von baerg
 /*module type declaration*/
 
 /*module data declaration*/

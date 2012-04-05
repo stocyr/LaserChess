@@ -2,7 +2,7 @@
 /*	o o o o      Berner Fachhochschule										 */
 /*		  :...o  Technik und Informatik										 */
 /*****************************************************************************/
-/*  Module     : LaserChess/Mapdefinition                       Version 1.0  */
+/*  Module     : LaserChess/gfxmain                             Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : main()                                                      */
@@ -36,7 +36,7 @@
 /*                                                                           */
 /*  Function   : Initializes all Figures from a received figure array. Sets  */
 /*               Figures to the default Mapposition. Currently initializes   */
-/*               14 Figures.                                                 */
+/*               14 Figures. (Optional: Splitter not defined in this version)*/
 /*                                                                           */
 /*  Input Para : Pointer to the original figure array in the main-procedure  */
 /*                                                                           */
@@ -51,6 +51,7 @@
 void create_figures(pawn *figure)
 {
 	// Initialisierung aller Spielfiguren
+	// Rote Spielfiguren
 	figure[0].PLAYER = PLAYER_RED;
 	figure[0].TYPE = KING;
 	figure[0].DIR = SOUTH;
@@ -93,6 +94,7 @@ void create_figures(pawn *figure)
 	figure[6].Pos.x = 2;
 	figure[6].Pos.y = 1;
 
+	// Blaue Spielfiguren
 	figure[7].PLAYER = PLAYER_BLUE;
 	figure[7].TYPE = KING;
 	figure[7].DIR = NORTH;
@@ -160,7 +162,7 @@ enum Spielmodus menu(void)
 	enum Spielmodus MODE = NORMALMODE;
 	int a = 0; //Auswahlvariable
 
-	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Exit\n ");
+	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Exit\n ");
 	scanf("%d",&a);
 	switch(a)
 	{
@@ -171,6 +173,9 @@ enum Spielmodus menu(void)
 		MODE = SETMODE;
 		break;
 	case 3:
+		MODE = OPEN;
+		break;
+	case 4:
 		MODE = EXIT;
 		break;
 	}
@@ -187,7 +192,7 @@ enum Spielmodus menu(void)
 /*               in the array are sorted by color. To toggle the player, I   */
 /*               use i/2 for red and (i/2)+7 for blue.                       */
 /*                                                                           */
-/*  Input Para : Array of all the figures                                    */
+/*  Input Para : Pointer to Array of all the figures                         */
 /*                                                                           */
 /*  Output     : none                                                        */
 /*                                                                           */
@@ -199,22 +204,23 @@ enum Spielmodus menu(void)
 
 void set_figure_positions(pawn *figure)
 {
-	int i = 0;
-	location mouse_pos, figure_pos;
-	MouseInfoType MouseEvent;
+	int i = 0;								// Countervariable um Array durchzuzählen
+	location mouse_pos, figure_pos;			// Zwei Position Structs, wo die letdzten zwei Mousecklicks gespeichert werden
+	MouseInfoType MouseEvent;				// Struct wo Mouseevents gespeicert werden
 
 	enum Affiliation PLAYER = PLAYER_RED;
 	enum Zustand {READ_POS, ROTATE} STATE;
 	STATE = READ_POS;
 
-	while(i < ANZ_FIGURES)
+	while(i < ANZ_FIGURES)					// Das ganze Figurearray durchgehen
 	{
 		switch (STATE)
 		{
 		case READ_POS:
-			//Holt Maus Status
-			mouse_pos = mouseclick_to_map();
-			figure_pos = mouse_pos;
+		// Hier wird die nächste Figur auf die Map gezeichnet
+			mouse_pos = mouseclick_to_map();	//Holt Maus Status
+			figure_pos = mouse_pos;			// Figure_pos ist die Figur die selektiert wird
+
 			if(is_inside_map(mouse_pos) && !is_figure(mouse_pos))
 			{
 				//Playerunterscheiden wegen unterschiedlicher Addressierung im Figurearray
@@ -223,7 +229,7 @@ void set_figure_positions(pawn *figure)
 					figure[RED_FIG(i)].Pos.x = mouse_pos.x;		// Mapkoordinaten in der Figur speichern
 					figure[RED_FIG(i)].Pos.y = mouse_pos.y;
 					draw_figure(&figure[RED_FIG(i)]);			// Figur zeichnen
-					map[mouse_pos.x][mouse_pos.y] = &figure[RED_FIG(i)];
+					map[mouse_pos.x][mouse_pos.y] = &figure[RED_FIG(i)];	// Figur auf Map setzen
 				}
 				else
 				{
@@ -232,13 +238,13 @@ void set_figure_positions(pawn *figure)
 					draw_figure(&figure[BLUE_FIG(i)]);
 					map[mouse_pos.x][mouse_pos.y] = &figure[BLUE_FIG(i)];
 				}
-												//!!! hinzugefügt (jascha)-> dafuq? ha nüt z'tüä mit draw_figure :)
+
 				STATE = ROTATE;
 			}
 			break;
 		case ROTATE:
-			//Wenn 2. Mal auf die Figur gedrückt wird, ist der Zug beendet
-			MouseEvent = GetMouseEvent();
+		// Wenn 2. Mal auf die Figur gedrückt wird, ist der Zug beendet, wenn am mouserad gedreht wird, wird die Figur gedreht
+			MouseEvent = GetMouseEvent();	// Holt Mouseevent
 
 			if(MouseEvent.ButtonState & W_BUTTON_PRESSED)
 			{
@@ -248,10 +254,9 @@ void set_figure_positions(pawn *figure)
 				// Wenn ein 2. Mal gültig gecklickt wird, figur auf Maparray speichern, Player Wechseln
 				if(is_inside_map(mouse_pos))
 				{
-					//Player toggeln
-					PLAYER = !PLAYER;
+					PLAYER = !PLAYER;	// Player toggeln
 					STATE = READ_POS;
-					i++;
+					i++;				// Nächste Figur zum Setzen
 				}
 			}
 			else
@@ -268,6 +273,7 @@ void set_figure_positions(pawn *figure)
 					{
 						ROTATE_RIGHT(map[figure_pos.x][figure_pos.y]->DIR);
 					}
+					// Zeichnet die Figur neu, wenn sie gedreht wurde
 					draw_figure(map[figure_pos.x][figure_pos.y]);
 				}
 			}
@@ -283,7 +289,7 @@ void set_figure_positions(pawn *figure)
 /*  Function   : init_game                                      Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : initializes the game. Draws the graphics and places the     */
+/*  Function   : Initializes the game. Draws the graphics and places the     */
 /*               figures.                                                    */
 /*                                                                           */
 /*  Input Para : Array of all the figures, play mode (to decide whether to   */
@@ -314,13 +320,36 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 
 	if(MODE == SETMODE)
 	{
+		// Figuren manuell setzen
 		set_figure_positions(figure);
 	}
 	else
 	{
+		// Figuren nach vordefinierter Aufstellung setzen
+		if(MODE == OPEN)
+		{
+			FILE  *fp;
+			fp = fopen(path_handler(AppPath, "\\maps\\Aufstellung.txt"), "r");
+			if(!(fp == NULL))
+			{
+				for(i = 0; i < ANZ_FIGURES; i++)
+				{
+					fscanf(fp, "%u", &(figure[i].PLAYER));
+					fscanf(fp, "%u", &(figure[i].TYPE));
+					fscanf(fp, "%u", &(figure[i].DIR));
+					fscanf(fp, "%d", &(figure[i].Pos.x));
+					fscanf(fp, "%d", &(figure[i].Pos.y));
+				}
+				fclose(fp);
+			}
+			else
+			{
+				printf("Error: cannot open file");
+			}
+
+		}
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
-	//		printf("%d\n", ((figure[i]).Pos.x));
 			map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
 			draw_figure(&figure[i]);
 		}
@@ -345,7 +374,7 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 /*                                                                           */
 /*****************************************************************************/
 
-void clear_map_array()
+void clear_map_array(void)
 {
 	int x, y;
 
@@ -378,10 +407,10 @@ void clear_map_array()
 
 int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
-	AppPath = ApplicationPath; //EXE-Pfad uebergeben, damit global verwendbar
+	AppPath = ApplicationPath;	// EXE-Pfad uebergeben, damit global verwendbar
 
 	enum Spielmodus MODE;
-	pawn figure[ANZ_FIGURES];
+	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
 	printf("\n"TITLE);
 	printf("\nWelcome to Laserchess");
@@ -397,7 +426,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			printf("\nBYEBYE!!!\n");
 
 			WaitMs (2000);	//2 Sekunden warten bis Fenster schliesst
-			//system("pause");
 			return EXIT_SUCCESS;
 		}
 

@@ -397,16 +397,22 @@ void destroy_figure(pawn *figure)
 /*****************************************************************************/
 location mouseclick_to_map(void)
 {
-	MouseInfoType MouseEvent;
-	//Get and analyze mouse-events
-	MouseEvent = GetMouseEvent();
 	location pos;
+	MouseInfoType mouse_event, old_mouse_event;
+	//Get and analyze mouse-events
+	mouse_event = GetMouseEvent();
+	while(!(mouse_event.ButtonState == W_BUTTON_NO_EVENT))
+	{
+		old_mouse_event = mouse_event;
+		mouse_event = GetMouseEvent();
 
-	if(MouseEvent.ButtonState & W_BUTTON_PRESSED)
+	}
+
+	if(old_mouse_event.ButtonState & W_BUTTON_PRESSED)
 	{
 		/* Get Click-position */
-		pos.x   = MouseEvent.MousePosX;
-		pos.y   = MouseEvent.MousePosY;
+		pos.x   = old_mouse_event.MousePosX;
+		pos.y   = old_mouse_event.MousePosY;
 	}
 	else
 	{

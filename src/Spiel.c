@@ -7,7 +7,7 @@
 /*                                                                           */
 /*  Function   : Steuert den Spielverlauf                                    */
 /*                                                                           */
-/*  Procedures : spiel()                                                     */
+/*  Procedures : spiel(), create_focus(), clear_focus                        */
 /*                                                                           */
 /*  Author     : M. Bärtschi 												 */
 /* 																			 */
@@ -35,7 +35,7 @@
 /*  Function   : Draw a green Background on all free Fields around the       */
 /* 				 selected figure.                                            */
 /*                                                                           */
-/*  Input Para : location struct (X-y-cordinate of selected figure)          */
+/*  Input Para : location struct (X-Y-cordinate of selected figure)          */
 /*                                                                           */
 /*  Output     :                                                             */
 /*                                                                           */
@@ -49,6 +49,7 @@ void create_focus(location pos)
 	int k = 0;
 	// Hilfswerte für Fokus
 	location focus;
+	// Rotation in CCW
 	location rotate[ANZ_FOCUS_FIELDS] = {
 			[0].x = -1,
 			[0].y = -1,
@@ -67,7 +68,9 @@ void create_focus(location pos)
 			[7].x = -1,
 			[7].y =  0
 	};
+	// Über die Figur selbst einen Rahmen zeichnen
 	draw_focus(pos);
+	// Für alle Acht Felder um die Figur
 	for(k = 0; k < ANZ_FOCUS_FIELDS; k++)
 	{
 		// Fokus um Gewählte Figur drehen lassen
@@ -139,11 +142,12 @@ void clear_focus(location pos)
 /*  Function   : spiel                                          Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Handles the game, treats the mouse inputs                   */
+/*  Function   : Handles the game, treats the mouse inputs, execute laser()  */
+/*               Displays winner, Close Graphic                              */
 /*                                                                           */
-/*  Input Para :                                                             */
+/*  Input Para : Figure Array (used for cannon position)                     */
 /*                                                                           */
-/*  Output     :                                                             */
+/*  Output     : none                                                        */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -219,7 +223,7 @@ void spiel(pawn *figure)
 								clear_focus(old_mouse_pos);
 								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 
-								destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+								destroyed_figure = laser(figure[PLAYER*(ANZ_FIGURES/2) + 1].Pos, figure[PLAYER*(ANZ_FIGURES/2) + 1].DIR);
 								FIGURE_DEST = destroyed_figure + 3;
 								SPIELZUG = SELECT_FIGURE;
 								PLAYER = !PLAYER;
@@ -249,7 +253,7 @@ void spiel(pawn *figure)
 					SPIELZUG = SELECT_FIGURE;
 					// Ruft die Funktion LASER für den jeweiligen Player auf
 					// gibt der Funktion die Pos und die Dir der Cannon mit
-					destroyed_figure = laser(figure[PLAYER*7 + 1].Pos, figure[PLAYER*7 + 1].DIR);
+					destroyed_figure = laser(figure[PLAYER*(ANZ_FIGURES/2) + 1].Pos, figure[PLAYER*(ANZ_FIGURES/2) + 1].DIR);
 					FIGURE_DEST = destroyed_figure + 3;
 					PLAYER = !PLAYER;
 
@@ -261,6 +265,11 @@ void spiel(pawn *figure)
 		/*Grafikfenster schliessen, hinzugefügt von kani*/
 		if(IsKeyPressReady() && (GetKeyPress() & W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
 		{
+			// KeyPress Buffer löschen
+			while(IsKeyPressReady())
+			{
+				GetKeyPress();
+			}
 			//[Spiel beenden] hier einfügen
 			FIGURE_DEST = EXIT;
 			CloseGraphic(); //Grafikfenster schliessen
@@ -270,7 +279,7 @@ void spiel(pawn *figure)
 	while(FIGURE_DEST > 2);
 
 	// Gewinner anzeigen
-	draw_winner_text(&figure[(-destroyed_figure - 1)*7]);
+	draw_winner_text(&figure[(-destroyed_figure - 1)*(ANZ_FIGURES/2)]);
 	switch(-destroyed_figure - 1)
 	{
 	case PLAYER_RED:
