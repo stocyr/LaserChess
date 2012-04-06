@@ -141,6 +141,19 @@ enum DrawMode {
    DM_MULTIPLY  = 105    /* Multiplies src with dst pixels */
 };
 
+enum QTOptions {
+    Qt_BackgroundBrushColor = 1,
+    Qt_BackgroundBrushStyle = 2,
+    Qt_BackgroundMode       = 3,
+    Qt_BrushStyle           = 4,
+    Qt_CompositionMode      = 5,
+    Qt_PenBrushStyle        = 6,
+    Qt_PenCapStyle          = 7,
+    Qt_PenCosmetic          = 8,
+    Qt_PenJoinStyle         = 9,
+    Qt_PenStyle             = 10
+};
+
 enum ImageIDEnums {ID_WINDOW = -1};
 
 /* module type declaration      */
@@ -243,6 +256,8 @@ extern void Translate(float dx, float dy);
 extern void Scale(float Scalingx, float Scalingy);
 extern void ResetTransformations(void);
 
+extern void SetQtOptions(enum QTOptions Option, long int Value);
+
 extern void PlaySoundOnce (const char *FileName);
 extern void PlaySoundContinuous(const char *FileName);
 extern void StopContinuousSound (void);
@@ -251,6 +266,9 @@ extern void StartContinuousSound (void);
 void StartTimer(int IntervalTime, void *Parameter, void (*Handler)(void *));
 void StopTimer(void);
 
+void Lock(void);
+void Unlock(void);
+int CreateThread(void *Parameter, void (*Function)(void *));
 
 
 #ifdef __cplusplus
