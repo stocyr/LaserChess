@@ -98,8 +98,5 @@ char *path_handler(const char path[], char file[]); // hinzugefügt von baerg
 
 /*ALLE PROTOTYPEN DER GRAFIKFUNKTIONEN*/
 
-/*****************************************************************************/
-/*  End Header  : ErrorHandler                                               */
-/*****************************************************************************/
-#endif
 
+#endif
