@@ -149,7 +149,7 @@ void create_figures(pawn *figure)
 /*                                                                           */
 /*  Input Para : None                                                        */
 /*                                                                           */
-/*  Output     : Play mode enum, -1 if wrong keyboard input.                 */
+/*  Output     : Play mode enum                                              */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -180,7 +180,7 @@ enum Spielmodus menu(void)
 		return MODE;
 	default:	// Wenn andere/ungültige Eingabe, Eingabebuffer löschen, -1 zurückgeben
 		while(getchar() != '\n');
-		MODE = -1;
+		MODE = INVALID_INPUT;
 		printf("Ungueltige Eingabe");
 		return MODE;
 	}
@@ -198,7 +198,7 @@ enum Spielmodus menu(void)
 /*                                                                           */
 /*  Input Para : Pointer to Array of all the figures                         */
 /*                                                                           */
-/*  Output     : none                                                        */
+/*  Output     : returns -1 if exit button is pressed, otherwise 0           */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -310,7 +310,7 @@ int set_figure_positions(pawn *figure)
 /*               place all the figures to initialized state or let the users */
 /*               place them alternating)                                     */
 /*                                                                           */
-/*  Output     : none                                                        */
+/*  Output     : if wild failure appears, returns 0, otherwise returns 1     */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -428,7 +428,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
 	AppPath = ApplicationPath;	// EXE-Pfad uebergeben, damit global verwendbar
 
-	int init_succeed = 0;
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
@@ -443,7 +442,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		{
 			MODE = menu();		// Bekommt einer der 3 Modes zurück
 		}
-		while( MODE < 0);
+		while( MODE == INVALID_INPUT);
 
 		if(MODE == EXIT)
 		{
@@ -455,8 +454,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		}
 
 		create_figures(figure);
-		init_succeed = init_game(figure, MODE);
-		if(init_succeed)
+		if(init_game(figure, MODE))
 		{
 			spiel(figure);
 		}

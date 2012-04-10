@@ -292,5 +292,10 @@ void spiel(pawn *figure)
 
 	WaitMs(3000);
 	CloseGraphic(); //Grafikfenster schliessen
+	// KeyPress Buffer löschen
+	while(IsKeyPressReady())
+	{
+		GetKeyPress();
+	}
 }
 
