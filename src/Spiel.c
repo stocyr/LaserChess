@@ -262,8 +262,8 @@ void spiel(pawn *figure)
 		}
 
 
-		/*Grafikfenster schliessen, hinzugefügt von kani*/
-		if(IsKeyPressReady() && (GetKeyPress() & W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
+		// Grafikfenster schliessen
+		if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
 		{
 			// KeyPress Buffer löschen
 			while(IsKeyPressReady())

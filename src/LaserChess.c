@@ -149,7 +149,7 @@ void create_figures(pawn *figure)
 /*                                                                           */
 /*  Input Para : None                                                        */
 /*                                                                           */
-/*  Output     : Play mode enum                                              */
+/*  Output     : Play mode enum, -1 if wrong keyboard input.                 */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -160,7 +160,7 @@ void create_figures(pawn *figure)
 enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
-	int a = 0; //Auswahlvariable
+	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
 
 	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Exit\n ");
 	scanf("%d",&a);
@@ -168,18 +168,22 @@ enum Spielmodus menu(void)
 	{
 	case 1:
 		MODE = NORMALMODE;
-		break;
+		return MODE;
 	case 2:
 		MODE = SETMODE;
-		break;
+		return MODE;
 	case 3:
 		MODE = OPEN;
-		break;
+		return MODE;
 	case 4:
 		MODE = EXIT;
-		break;
+		return MODE;
+	default:	// Wenn andere/ungültige Eingabe, Eingabebuffer löschen, -1 zurückgeben
+		while(getchar() != '\n');
+		MODE = -1;
+		printf("Ungueltige Eingabe");
+		return MODE;
 	}
-	return MODE;
 }
 
 
@@ -202,7 +206,7 @@ enum Spielmodus menu(void)
 /*                                                                           */
 /*****************************************************************************/
 
-void set_figure_positions(pawn *figure)
+int set_figure_positions(pawn *figure)
 {
 	int i = 0;								// Countervariable um Array durchzuzählen
 	location mouse_pos, figure_pos;			// Zwei Position Structs, wo die letdzten zwei Mousecklicks gespeichert werden
@@ -279,8 +283,18 @@ void set_figure_positions(pawn *figure)
 			}
 			break;
 		}
-
+		if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
+		{
+			// KeyPress Buffer löschen
+			while(IsKeyPressReady())
+			{
+				GetKeyPress();
+			}
+			CloseGraphic(); //Grafikfenster schliessen
+			return -1;
+		}
 	}
+	return 0;
 }
 
 
@@ -304,7 +318,7 @@ void set_figure_positions(pawn *figure)
 /*                                                                           */
 /*****************************************************************************/
 
-void init_game(pawn *figure, enum Spielmodus MODE)
+int init_game(pawn *figure, enum Spielmodus MODE)
 {
 	int i = 0;
 
@@ -313,7 +327,7 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
-		return;
+		return 0;
 	}
 
 	draw_playground();		//Spielfeld zeichnen
@@ -321,7 +335,10 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 	if(MODE == SETMODE)
 	{
 		// Figuren manuell setzen
-		set_figure_positions(figure);
+		if(set_figure_positions(figure) == -1)
+		{
+			return 0;
+		}
 	}
 	else
 	{
@@ -345,6 +362,7 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 			else
 			{
 				printf("Error: cannot open file");
+				return 0;
 			}
 
 		}
@@ -354,6 +372,7 @@ void init_game(pawn *figure, enum Spielmodus MODE)
 			draw_figure(&figure[i]);
 		}
 	}
+	return 1;
 }
 
 
@@ -409,6 +428,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
 	AppPath = ApplicationPath;	// EXE-Pfad uebergeben, damit global verwendbar
 
+	int init_succeed = 0;
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
@@ -419,20 +439,29 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	{
 		clear_map_array();
 
-		MODE = menu();		//Bekommt einer der 3 Modes zurück
+		do
+		{
+			MODE = menu();		// Bekommt einer der 3 Modes zurück
+		}
+		while( MODE < 0);
+
 		if(MODE == EXIT)
 		{
 
 			printf("\nBYEBYE!!!\n");
 
-			WaitMs (2000);	//2 Sekunden warten bis Fenster schliesst
+			WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
 
 		create_figures(figure);
-		init_game(figure, MODE);
-		spiel(figure);
+		init_succeed = init_game(figure, MODE);
+		if(init_succeed)
+		{
+			spiel(figure);
+		}
 	}
+
 
 	system("pause");
 	return EXIT_SUCCESS;
