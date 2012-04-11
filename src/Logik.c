@@ -54,6 +54,18 @@
 int laser(location pos, enum Direction dir)	//enum Direction dir
 {
     location next_pos = pos;
+
+	if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
+	{
+		// KeyPress Buffer löschen
+		while(IsKeyPressReady())
+		{
+			GetKeyPress();
+		}
+		CloseGraphic(); //Grafikfenster schliessen
+		return -3;	// -3 zurückgeben, dass Gamecontrol enum auf Exit gesetzt wird
+	}
+
     switch(dir)
     {
         case RIGHT:
