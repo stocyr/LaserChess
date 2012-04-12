@@ -231,7 +231,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	if(dir == 2) dir_y = 0;  //     1
 	if(dir == 3) dir_y = 1;
 
-	//Pixel schrittweise zeichnen bis FIELD_SIZE erreicht
+	//Pixelweise zeichnen bis FIELD_SIZE erreicht
 	for(n=0; n<=FIELD_SIZE; n++)
 	{
 		DrawLine(map_pos.x + dir_x*n, map_pos.y + dir_y*n, map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL, LASER_WIDTH);
@@ -655,8 +655,8 @@ void draw_mirror_destroyed(pawn *figure)
 	for(i=0; i < n; i++)
 	{
 		/*
-		 __________ . <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
-		|  ______  |
+		 __________
+		|  ______. |  <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
 		| |      | |
 		| |      | |  Feld mit DrawEmptyRectangle drin
 		| |______| |
