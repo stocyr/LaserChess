@@ -1,0 +1,21 @@
+Red Bright:
+255, 000, 000
+
+Red Dark:
+073, 000, 000
+
+---
+
+Blue Bright:
+000, 128, 255
+
+Blue Dark:
+000, 036, 072
+
+---
+
+Mirror Bright:
+255, 255, 255
+
+Mirror Darker:
+196, 196, 196
