@@ -96,6 +96,7 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
 /*****************************************************************************/
 void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType Color, int LineWidth)
 {
+	SetQtOptions(Qt_PenCapStyle, 0x10); //Linie auf SquareCap einstellen
 	int left = x;
 	int right = x + Width;
 	int top = y;
@@ -231,10 +232,11 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	if(dir == 2) dir_y = 0;  //     1
 	if(dir == 3) dir_y = 1;
 
+	SetQtOptions(Qt_PenCapStyle, 0x00); //Linie auf FlatCap einstellen
 	//Pixelweise zeichnen bis FIELD_SIZE erreicht
 	for(n=0; n<=FIELD_SIZE; n++)
 	{
-		DrawLine(map_pos.x + dir_x*n, map_pos.y + dir_y*n, map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL, LASER_WIDTH);
+		DrawLine(map_pos.x + dir_x*n, map_pos.y + dir_y*n, map_pos.x + dir_x*(n+1), map_pos.y + dir_y*(n+1), LASER_COL, LASER_WIDTH);
 		//DrawPixel(map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL);
 		WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
 	}
