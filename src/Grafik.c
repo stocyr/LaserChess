@@ -197,24 +197,24 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	//Start Position fuer x umrechnen
 	int start_x = dir;
 	if(dir == 3) start_x = 1;
-	/* x+__1__
-	    |     |
-	   0|     |2
-	    |_____|
-	       1
-	*/
+	// x+__1__
+	//  |     |
+	// 0|     |2
+	//  |_____|
+	//     1
+
 	map_pos.x += start_x * FIELD_SIZE/2;
 
 	//Start Position fuer y umrechnen
 	int start_y = dir+1;
 	if(dir == 2) start_y = 1;
 	if(dir == 3) start_y = 0;
-	/* y+__0__
-	    |     |
-	   1|     |1
-	    |_____|
-	       2
-	*/
+	// y+__0__
+	//  |     |
+	// 1|     |1
+	//  |_____|
+	//     2
+
 	map_pos.y += start_y * FIELD_SIZE/2;
 
 
@@ -240,7 +240,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 		//DrawPixel(map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL);
 		WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
 	}
-	//----ENDE: by CaptainBlagbird----
+	//----ENDE: by kasen1----
 
 
     /*switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser zeichnen
@@ -292,6 +292,64 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	int n;							//Aufzählvariable
 	location map_pos;				//initialisieren: struct location map_pos
 	map_pos = map_to_pixel (pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links oben des ausgew. Feldes)
+
+	//----START: by kasen1----
+		/*cen_pos.x = map_pos.x + FIELD_SIZE/2; //Feldmitte x
+		cen_pos.y = map_pos.y + FIELD_SIZE/2; //Feldmitte y
+
+		//Start Position fuer x umrechnen
+		int start_x = dir;
+		if(dir == 3) start_x = 1;
+		// x+__1__
+		//  |     |
+		// 0|     |2
+		//  |_____|
+		//     1
+		map_pos.x += start_x * FIELD_SIZE/2;
+
+		//Start Position fuer y umrechnen
+		int start_y = dir+1;
+		if(dir == 2) start_y = 1;
+		if(dir == 3) start_y = 0;
+		// y+__0__
+		//  |     |
+		// 1|     |1
+		//  |_____|
+		//     2
+
+		map_pos.y += start_y * FIELD_SIZE/2;
+
+
+		//Neue Directions fuer x
+		int dir_x;
+		if(dir == 0) dir_x = 1;  //     0
+		if(dir == 1) dir_x = 0;  // -1 -¦- 1
+		if(dir == 2) dir_x = -1; //     0
+		if(dir == 3) dir_x = 0;
+
+		//Neue Directions fuer y
+		int dir_y;
+		if(dir == 0) dir_y = 0;  //    -1
+		if(dir == 1) dir_y = -1; //  0 -¦- 0
+		if(dir == 2) dir_y = 0;  //     1
+		if(dir == 3) dir_y = 1;
+
+		SetQtOptions(Qt_PenCapStyle, 0x00); //Linie auf FlatCap einstellen
+		//Pixelweise zeichnen bis FIELD_SIZE/2 erreicht
+		for(n=0; n<=FIELD_SIZE/2; n++)
+		{
+			DrawLine(map_pos.x + dir_x*n, map_pos.y + dir_y*n, map_pos.x + dir_x*(n+1), map_pos.y + dir_y*(n+1), LASER_COL, LASER_WIDTH);
+			WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
+		}
+		//Pixelweise zeichnen, von Feldmitte aus, bis Laenge FIELD_SIZE/2 erreicht
+		for(n=0; n<=FIELD_SIZE/2; n++)
+		{
+			DrawLine(cen_pos.x + n*dir_y*angle, cen_pos.y + n*dir_x*angle,
+					 cen_pos.x + (n+1)*dir_y*angle, cen_pos.y + (n+1)*dir_x*angle,
+					 COL_YELLOW, 5);
+			WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
+		}*/
+		//----ENDE: by kasen1----
 
 	switch(angle)
 	{
