@@ -178,7 +178,6 @@ void spiel(pawn *figure)
 			  (map[new_mouse_pos.x][new_mouse_pos.y]->PLAYER == PLAYER))
 			{
 				create_focus(new_mouse_pos);
-				//draw_mirror_destroyed(map[new_mouse_pos.x][new_mouse_pos.y]); //Added by kasen1 for testing purpose
 				old_mouse_pos = new_mouse_pos;
 				SPIELZUG = CHOOSE_MOVE;
 			}

@@ -825,8 +825,7 @@ void draw_figure(pawn *figure)
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of a mirror.                 */
 /*               (V1.0, it only draws an empty field) 	     		         */
-/*               (V1.1, every new rectangle is drawn inside the old one,     */
-/*                      -> thicker laser -> less rectangles)                 */
+/*               (V1.1, "Melting"-animation with rectangles)                 */
 /*               (V1.2, offset increases allways 1 pixel)                    */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
