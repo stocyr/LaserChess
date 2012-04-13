@@ -279,11 +279,12 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 
 
 /*****************************************************************************/
-/*  Function   : draw_half_laser		                        Version 1.0  */
+/*  Function   : draw_half_laser		                        Version 1.1  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Help-function for draw_laser and draw_angled_laser.         */
 /*               Draws half the laser in the selected field   	             */
+/*               (V1.1: Laser now glowing)                                   */
 /*                                                                           */
 /*  Input Para : x and y as mapposition and direction                        */
 /*                                                                           */
@@ -298,7 +299,9 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 void draw_half_laser(location start_pos, enum Direction dir)
 {
 	SetQtOptions(Qt_PenCapStyle, 0x00);		//Linie auf FlatCap einstellen
-	int n;									//Aufzählvariable
+	int n;									//Aufzählvariable.
+
+	ColorType glow_col = LASER_COL; glow_col.Alpha = 0x40;
 
 	//Directions fuer x
 	int dir_x;
@@ -315,9 +318,21 @@ void draw_half_laser(location start_pos, enum Direction dir)
 	if(dir == 3) dir_y = 1;
 
 	//Pixelweise zeichnen bis FIELD_SIZE/2 erreicht
-	for(n=0; n<=FIELD_SIZE/2; n++)
+	for(n=1; n<=FIELD_SIZE/2; n++)
 	{
-		DrawLine(start_pos.x + dir_x*n, start_pos.y + dir_y*n, start_pos.x + dir_x*(n+1), start_pos.y + dir_y*(n+1), LASER_COL, LASER_WIDTH);
+		// --------                   -,
+		// --------         -,         |
+		// ======== =Laser   |Glow 1   |Glow 2
+		// --------         -'         |
+		// --------                   -'
+
+		//Glow 1, zuerst
+		DrawLine(start_pos.x + dir_x*n, start_pos.y + dir_y*n, start_pos.x + dir_x*(n+1), start_pos.y + dir_y*(n+1), glow_col, 2*LASER_WIDTH);
+		//Laser, darueber
+		DrawLine(start_pos.x + dir_x*n, start_pos.y + dir_y*n, start_pos.x + dir_x*(n+1), start_pos.y + dir_y*(n+1), COL_WHITE, LASER_WIDTH);
+		//Glow 2, ueber beide, damit Laser auch einwehnig die Farbe hat
+		DrawLine(start_pos.x + dir_x*n, start_pos.y + dir_y*n, start_pos.x + dir_x*(n+1), start_pos.y + dir_y*(n+1), glow_col, 3*LASER_WIDTH);
+
 		WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
 	}
 }
@@ -438,6 +453,8 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bekommt Mapkoordinaten und schreibt sie ins struct location pos,
 //eine Richtung (enum Direction dir) und einen 90° Winkel (entweder -1 = rechts oder 1 = links)
 {
+	ColorType glow_col = LASER_COL; glow_col.Alpha = 0x80;
+
 	location map_pos, start_pos;
 	map_pos = map_to_pixel (pos);
 
@@ -470,7 +487,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	start_pos.y = map_pos.y + FIELD_SIZE/2;
 
 	//Ecke mit gefülltem Kreis rund zeichnen. (Nicht möglich mit Qt-Optionen, da einzelne Linien gezeichnet werden)
-	DrawFilledCircle(start_pos.x-LASER_WIDTH/2, start_pos.y-LASER_WIDTH/2, LASER_WIDTH-1, LASER_WIDTH-1, LASER_COL, 1);
+	DrawFilledCircle(start_pos.x-LASER_WIDTH, start_pos.y-LASER_WIDTH, 2*LASER_WIDTH, 2*LASER_WIDTH, glow_col, 1);
 
 	//Neue Direction nach Ablenkung
 	dir += angle; NORM(dir);
