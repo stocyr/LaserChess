@@ -243,7 +243,7 @@ void draw_playground()
 void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins struct location pos
 {
 	location map_pos;				//initialisieren: struct location map_pos
-	map_pos = map_to_pixel(pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links unten des ausgew. Feldes)
+	map_pos = map_to_pixel(pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten
 	DrawEmptyRectangle(map_pos.x+FOCUS_IDENT, map_pos.y+FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FOCUS_COL, 2*FOCUS_IDENT);	//um 5 Pixel einrücken (x-5,y-5,90,90,Grün,2*5)
 }
 
@@ -267,9 +267,14 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie ins struct location pos
 {
 	location map_pos;				//initialisieren: struct location map_pos
-	map_pos = map_to_pixel(pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links unten des ausgew. Feldes)
+	map_pos = map_to_pixel(pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten
 	DrawFilledRectangle(map_pos.x, map_pos.y, FIELD_SIZE, FIELD_SIZE, PLAYGROUND_COL, FIELD_LINE_WIDTH);	//zeichnet gefülltes Viereck zum überdecken
 	DrawEmptyRectangle(map_pos.x, map_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet den dazugehörigen Rahmen
+
+	//DrawLine(map_pos.x,map_pos.y-5,map_pos.x,map_pos.y+10,COL_RED,1); //
+	//DrawLine(map_pos.x-5,map_pos.y,map_pos.x+10,map_pos.y,COL_RED,1); //Added by kasen1 for testing
+	//DrawLine(map_pos.x+FIELD_SIZE,map_pos.y-5,map_pos.x+FIELD_SIZE,map_pos.y,COL_RED,1); //
+	//DrawLine(map_pos.x-5,map_pos.y+FIELD_SIZE,map_pos.x,map_pos.y+FIELD_SIZE,COL_RED,1); //
 }
 
 
@@ -815,11 +820,14 @@ void draw_figure(pawn *figure)
 
 
 /*****************************************************************************/
-/*  Function   : draw_mirror_destroyed                          Version 1.1  */
+/*  Function   : draw_mirror_destroyed                          Version 1.2  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of a mirror.                 */
 /*               (V1.0, it only draws an empty field) 	     		         */
+/*               (V1.1, every new rectangle is drawn inside the old one,     */
+/*                      -> thicker laser -> less rectangles)                 */
+/*               (V1.2, offset increases allways 1 pixel)                    */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
 /*                                                                           */
@@ -833,7 +841,56 @@ void draw_figure(pawn *figure)
 
 void draw_mirror_destroyed(pawn *figure)
 {
-	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77
+	//Figur Position in Pixelkoordinaten, uebersichtlicher
+	location fig_pos = map_to_pixel(figure->Pos);
+	int offset, start_offset, old_offset, size, old_size;
+
+	//Halbe Linienbreite aufrunden
+	int half_field_line = (FIELD_LINE_WIDTH+!IS_EVEN(FIELD_LINE_WIDTH)) / 2;
+	//Halbe Laserdicke abrunden, da innerhalb
+	int half_laser_line = (LASER_WIDTH - !IS_EVEN(LASER_WIDTH)) / 2;
+
+	//Startoffset berechnen, mit korrekt gerundeten Werten.
+	//So, dass innere Kante von Feldlinie genau aeussere Kante des Rechtecks beruehrt
+	start_offset = half_field_line+half_laser_line;
+
+	//Immer ein kleineres Rechteck zeichnen und altes uebermalen
+	for(offset=start_offset; offset < FIELD_SIZE/2; offset++) //Von innerhalb der Feldlinie bis zur Feldmitte
+	{
+		//  __________
+		// |  ______. |  <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
+		// | |      | |
+		// | |      | |  Feld mit DrawEmptyRectangle drin
+		// | |______| |
+		// |__________|
+		// ,_,
+		// offset
+		//   ,______,
+		//   size
+		//
+		size = FIELD_SIZE - 2*offset   -!IS_EVEN(LASER_WIDTH) +!IS_EVEN(FIELD_LINE_WIDTH);
+
+		//Altes offset und alte size
+		old_offset = offset - 1;
+		old_size = FIELD_SIZE - 2*old_offset   -!IS_EVEN(LASER_WIDTH) +!IS_EVEN(FIELD_LINE_WIDTH);
+
+		//Altes Rechteck uebermalen, das erstemal nicht
+		if(offset>start_offset)draw_sharp_empty_rectangle(fig_pos.x + old_offset, fig_pos.y + old_offset, old_size, old_size, PLAYGROUND_COL, LASER_WIDTH);
+
+		//Pixelfehler in den Ecken verhindern
+		draw_sharp_empty_rectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, PLAYGROUND_COL, LASER_WIDTH);
+
+		//Rechteck mit aktuellem offset zeichen
+		DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
+
+		WaitMs(DESTROY_DELAY);
+	}
+
+	draw_empty_field(figure->Pos); //Feld loeschen
+
+
+/*Version 1.1*/
+/*	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
@@ -845,7 +902,7 @@ void draw_mirror_destroyed(pawn *figure)
 	int n = FIELD_SIZE/(2*LASER_WIDTH); //Anzahl Linien die ins Feld passen
 	for(i=0; i < n; i++)
 	{
-		/*
+		/
 		 __________
 		|  ______. |  <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
 		| |      | |
@@ -856,7 +913,7 @@ void draw_mirror_destroyed(pawn *figure)
 		offset
 		  ,______,
 		  size
-		*/
+		/
 		offset = half_field_line + i*LASER_WIDTH + LASER_WIDTH/2;
 		size = FIELD_SIZE - 2*offset +IS_EVEN(LASER_WIDTH);
 
@@ -874,7 +931,7 @@ void draw_mirror_destroyed(pawn *figure)
 		WaitMs(DESTROY_DELAY);
 	}
 
-	draw_empty_field(figure->Pos); //Feld loeschen
+	draw_empty_field(figure->Pos); //Feld loeschen*/
 }
 
 
@@ -896,7 +953,8 @@ void draw_mirror_destroyed(pawn *figure)
 /*****************************************************************************/
 void draw_king_destroyed(pawn *figure)
 {
-	draw_mirror_destroyed(figure); //Vorerst gleich wie Mirror
+	//Vorerst gleich wie Mirror
+	draw_mirror_destroyed(figure);
 }
 
 
