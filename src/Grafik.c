@@ -718,19 +718,19 @@ char init_figure_images()
 	char test = 0;
 
 	/*Image laden und ID uebergeben. Wuerde eine nicht gefunden error setzten.*/
-	Blue_king_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_king.png"));     if(Blue_king_img < 0)     test = error;
-	Blue_mirror_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));   if(Blue_mirror_img < 0)   test = error;
-	Blue_splitter_img = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_splitter.png")); if(Blue_splitter_img < 0) test = error;
-	Blue_wall_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_wall.png"));     if(Blue_wall_img < 0)     test = error;
-	Blue_cannon_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));   if(Blue_cannon_img < 0)   test = error;
+	Blue_king_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_king.png")); free(path_handler);     if(Blue_king_img < 0)     test = error;
+	Blue_mirror_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_mirror.png")); free(path_handler);   if(Blue_mirror_img < 0)   test = error;
+	Blue_splitter_img = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_splitter.png")); free(path_handler); if(Blue_splitter_img < 0) test = error;
+	Blue_wall_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_wall.png")); free(path_handler);     if(Blue_wall_img < 0)     test = error;
+	Blue_cannon_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_cannon.png")); free(path_handler);   if(Blue_cannon_img < 0)   test = error;
 
-	Red_king_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_king.png"));      if(Red_king_img < 0)      test = error;
-	Red_mirror_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_mirror.png"));    if(Red_mirror_img < 0)    test = error;
-	Red_splitter_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\red_splitter.png"));  if(Red_splitter_img < 0)  test = error;
-	Red_wall_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_wall.png"));      if(Red_wall_img < 0)      test = error;
-	Red_cannon_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_cannon.png"));    if(Red_cannon_img < 0)    test = error;
+	Red_king_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_king.png")); free(path_handler);      if(Red_king_img < 0)      test = error;
+	Red_mirror_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_mirror.png")); free(path_handler);    if(Red_mirror_img < 0)    test = error;
+	Red_splitter_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\red_splitter.png")); free(path_handler);  if(Red_splitter_img < 0)  test = error;
+	Red_wall_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_wall.png")); free(path_handler);      if(Red_wall_img < 0)      test = error;
+	Red_cannon_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_cannon.png")); free(path_handler);    if(Red_cannon_img < 0)    test = error;
 
-	Figure_error_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\figure_error.png"));  if(Figure_error_img < 0)  test = error;
+	Figure_error_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\figure_error.png")); free(path_handler);  if(Figure_error_img < 0)  test = error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)

@@ -345,7 +345,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 		if(MODE == OPEN)
 		{
 			FILE  *fp;
-			fp = fopen(path_handler(AppPath, "\\maps\\Aufstellung.txt"), "r");
+			fp = fopen(path_handler(AppPath, "\\maps\\Aufstellung.txt"), "r"); free(path_handler);
 			if(!(fp == NULL))
 			{
 				for(i = 0; i < ANZ_FIGURES; i++)
