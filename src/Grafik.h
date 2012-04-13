@@ -1,5 +1,6 @@
 #ifndef GRAFIK_H
 #define GRAFIK_H
+
 /*****************************************************************************/
 /*  o o o o      Berner Fachhochschule                                       */
 /*        :...o  Technik und Informatik                                      */
@@ -7,15 +8,20 @@
 /*  Header     : LaserChess/Grafik                              Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Desc       : Header for graphics functions                               */
+/*  Function   : Header for graphics functions                               */
 /*                                                                           */
-/*  Procedures :                                                             */
+/*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),			 */
+/*				 draw_focus(), draw_empty_field(), draw_laser(),			 */
+/* 				 draw_angled_laser(), init_figure_images(),					 */
+/* 				 destroy_figure_images(), draw_figure(),					 */
+/* 				 draw_mirror_destroyed(), draw_king_destroyed(),			 */
+/* 				 draw_winner_text(), *path_handler()						 */
 /*                                                                           */
-/*  Author     : J. Haldemann; N. Kaeser                                     */
+/*  Author     : J. Haldemann, N. Kaeser                                     */
 /*                                                                           */
-/*  Email      : haldj3@bfh.ch; kasen1@bfh.ch                                */
+/*  Email      : haldj3@bfh.ch, kasen1@bfh.ch                                */
 /*                                                                           */
-/*  Creation   : xx.03.2012                                                  */
+/*  Hystory    : 12.03.2012  File created                                    */
 /*                                                                           */
 /*  File       : Grafik.h                                                    */
 /*                                                                           */
@@ -89,14 +95,6 @@ void draw_figure(pawn *figure);
 void draw_mirror_destroyed(pawn *figure);
 void draw_king_destroyed(pawn *figure);
 void draw_winner_text(pawn *figure);
-char *path_handler(const char path[], char file[]); // hinzugefügt von baerg
-/*module type declaration*/
-
-/*module data declaration*/
-
-/*module procedure declaration*/
-
-/*ALLE PROTOTYPEN DER GRAFIKFUNKTIONEN*/
-
+char *path_handler(const char path[], char file[]);
 
 #endif

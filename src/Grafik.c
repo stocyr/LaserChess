@@ -5,15 +5,20 @@
 /*  Module     : LaserChess/Grafik                              Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Desc       : graphics functions                                          */
+/*  Function   : All the graphics functions                                  */
 /*                                                                           */
-/*  Procedures :                                                             */
+/*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),			 */
+/*				 draw_focus(), draw_empty_field(), draw_laser(),			 */
+/* 				 draw_angled_laser(), init_figure_images(),					 */
+/* 				 destroy_figure_images(), draw_figure(),					 */
+/* 				 draw_mirror_destroyed(), draw_king_destroyed(),			 */
+/* 				 draw_winner_text(), *path_handler()						 */
 /*                                                                           */
 /*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
 /*  Email      : haldj3@bfh.ch; kasen1@bfh.ch                                */
 /*                                                                           */
-/*  Creation   : xx.03.2012                                                  */
+/*  Hystory    : 12.03.2012  File created                                    */
 /*                                                                           */
 /*  File       : Grafik.c                                                    */
 /*                                                                           */
@@ -25,30 +30,32 @@
 #include "Grafik.h"
 
 
+/*****************************************************************************/
+/*  Procedure   : DrawTransformedImage                                       */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function    : Draws the given Image skaled and rotated at the given      */
+/*                position into the current image                            */
+/*                                                                           */
+/*  Type        : Global                                                     */
+/*                                                                           */
+/*  Input Para  : ImageId Handle of image to draw                            */
+/*                x, y    Position to draw image at                          */
+/*                Scalex  Scalingfactor for x axis (float value)             */
+/*                Scaley  Scalingfactor for y axis (float value)             */
+/*                Angle   Angle to rotate Image (in rad)                     */
+/*                                                                           */
+/*  Output Para : -                                                          */
+/*                                                                           */
+/*  Author      : I. Oesch                                                   */
+/*                                                                           */
+/*  History     : 06.01.2010  IO  Created                                    */
+/*                                                                           */
+/*****************************************************************************/
+
 static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float ScaleY, int Image)
 {
-	/*****************************************************************************/
-	/*  Procedure   : DrawTransformedImage                                       */
-	/*****************************************************************************/
-	/*                                                                           */
-	/*  Function    : Draws the given Image skaled and rotated at the given      */
-	/*                position into the current image                            */
-	/*                                                                           */
-	/*  Type        : Global                                                     */
-	/*                                                                           */
-	/*  Input Para  : ImageId Handle of image to draw                            */
-	/*                x, y    Position to draw image at                          */
-	/*                Scalex  Scalingfactor for x axis (float value)             */
-	/*                Scaley  Scalingfactor for y axis (float value)             */
-	/*                Angle   Angle to rotate Image (in rad)                     */
-	/*                                                                           */
-	/*  Output Para : none                                                       */
-	/*                                                                           */
-	/*  Author      : I. Oesch                                                   */
-	/*                                                                           */
-	/*  History     : 06.01.2010  IO  Created                                    */
-	/*                                                                           */
-	/*****************************************************************************/
+
 
    int ImageWidth;
    int ImageHeight;
@@ -76,16 +83,15 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
    ResetTransformations();
 }
 
+
 /*****************************************************************************/
 /*  Function   : draw_sharp_empty_rectangle                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws empty rectangle with sharp edges                      */
 /*                                                                           */
-/*  Input Para : int x, int y,                                               */
-/*               int Width, int Height,                                      */
-/*               ColorType Color,                                            */
-/*               int LineWidth                                               */
+/*  Input Para : x and y koord. as windowskoord.                             */
+/*               int Width, int Height, ColorType Color, int LineWidth       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -94,6 +100,7 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
 /*  Email      : kasen1@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType Color, int LineWidth)
 {
 	SetQtOptions(Qt_PenCapStyle, 0x10); //Linie auf SquareCap einstellen
@@ -108,7 +115,23 @@ void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType C
 
 }
 
-/*Umrechnung Windowskoord. zu Mapposition*/
+
+/*****************************************************************************/
+/*  Function   : pixel_to _map			                        Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Convert windowskoord. to mapposition   	                 */
+/*                                                                           */
+/*  Input Para : x and y as windowskoord.   	                             */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
 location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten gibt mapkoordinaten zurück
 {
 	location Mapkoordinaten;
@@ -132,7 +155,23 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 	return Mapkoordinaten;
 }
 
-/*Umrechnung Mapkoord. zu Windowskoord. ECKE LINKS OBEN!!!*/
+
+/*****************************************************************************/
+/*  Function   : map_to_pixel			                        Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Convert mapposiiton to windowskoord. -> Point upper left!   */
+/*                                                                           */
+/*  Input Para : x and y as mappositon		   	                             */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
 location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt windowskoordinaten zurück
 {
 	location Windowskoordinaten;
@@ -149,7 +188,23 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 	return Windowskoordinaten;
 }
 
-/*Spielfeld zeichnen*/
+
+/*****************************************************************************/
+/*  Function   : draw_playground		                        Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws a playground (field and lines)	   	                 */
+/*                                                                           */
+/*  Input Para : -							   	                             */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
 void draw_playground()
 {
 	int i;	//Anzahl verschobene Felder
@@ -168,7 +223,23 @@ void draw_playground()
 	}
 }
 
-/*Grüner Focus ("Umrandung") zeichnen*/
+
+/*****************************************************************************/
+/*  Function   : draw_focus				                        Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws a focus in the selected field		                 */
+/*                                                                           */
+/*  Input Para : x and y as mappositon		   	                             */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
 void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins struct location pos
 {
 	location map_pos;				//initialisieren: struct location map_pos
@@ -176,7 +247,23 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 	DrawEmptyRectangle(map_pos.x+FOCUS_IDENT, map_pos.y+FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FOCUS_COL, 2*FOCUS_IDENT);	//um 5 Pixel einrücken (x-5,y-5,90,90,Grün,2*5)
 }
 
-/*Überzeichnet (bzw. löscht) angegebene Mapposition*/
+
+/*****************************************************************************/
+/*  Function   : draw_empty_field		                        Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Deletes the selected field (reset)		   	                 */
+/*                                                                           */
+/*  Input Para : x and y as mapposiotn		   	                             */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
 void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie ins struct location pos
 {
 	location map_pos;				//initialisieren: struct location map_pos
@@ -185,15 +272,29 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 	DrawEmptyRectangle(map_pos.x, map_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);			//zeichnet den dazugehörigen Rahmen
 }
 
-/*Zeichnet Laser in der angegebenen Mapposition*/
+
+/*****************************************************************************/
+/*  Function   : draw_laser				                        Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws the laser in the selected field   	                 */
+/*                                                                           */
+/*  Input Para : x and y as mapposition and direction                        */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann, N. Kaeser                                     */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch, kasen1@bfh.ch                                */
+/*                                                                           */
+/*****************************************************************************/
+
 void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und schreibt sie ins struct location pos und enum Direction dir
 {
 	int n;							//Aufzählvariable
 	location map_pos;				//initialisieren: struct location map_pos
 	map_pos = map_to_pixel (pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten (Punkt links oben des ausgew. Feldes)
 
-
-	//----START: by CaptainBlagbird----
 	//Start Position fuer x umrechnen
 	int start_x = dir;
 	if(dir == 3) start_x = 1;
@@ -217,7 +318,6 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 
 	map_pos.y += start_y * FIELD_SIZE/2;
 
-
 	//Neue Directions fuer x
 	int dir_x;
 	if(dir == 0) dir_x = 1;  //     0
@@ -240,9 +340,8 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 		//DrawPixel(map_pos.x + dir_x*n, map_pos.y + dir_y*n, LASER_COL);
 		WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
 	}
-	//----ENDE: by kasen1----
 
-
+/*Version 0*/
     /*switch(dir) 					//Ausgangsposiotion der jeweiligen Richtung berechnen und Laser zeichnen
     {
         case RIGHT:	//Strich von Links nach Rechts
@@ -285,7 +384,23 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
     }*/
 }
 
-/*Zeichnet 90°-Laser in der angegebenen Mapposition*/
+
+/*****************************************************************************/
+/*  Function   : draw_angled_laser			                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws the angled laser in the selected field                */
+/*                                                                           */
+/*  Input Para : x and y as mapposition, direction and angle                 */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann, N. Kaeser                                     */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch, kasen1@bfh.ch                                */
+/*                                                                           */
+/*****************************************************************************/
+
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bekommt Mapkoordinaten und schreibt sie ins struct location pos,
 //eine Richtung (enum Direction dir) und einen 90° Winkel (entweder -1 = rechts oder 1 = links)
 {
@@ -496,6 +611,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 /*  Email      : kasen1@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 void destroy_figure_images()
 {
 	/*Nur Images die wirklich geladen waren (also ID>0) entfernen*/
@@ -514,6 +630,7 @@ void destroy_figure_images()
 	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
 }
 
+
 /*****************************************************************************/
 /*  Function   : path_handler                                   Version 1.0  */
 /*****************************************************************************/
@@ -524,13 +641,14 @@ void destroy_figure_images()
 /*  Input Para : const char path[] - String with the path of file            */
 /*               char file[]       - String with the filename                */
 /*                                                                           */
-/*  Output     : Returns string with the complete path                       */
+/*  Output     : returns string with the complete path                       */
 /*                                                                           */
 /*  Author     : N. Kaeser                                                   */
 /*                                                                           */
 /*  Email      : kasen1@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 char *path_handler(const char path[], char file[])
 {
 	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
@@ -543,6 +661,7 @@ char *path_handler(const char path[], char file[])
 	return buffer;
 }
 
+
 /*****************************************************************************/
 /*  Function   : init_figure_images                             Version 1.0  */
 /*****************************************************************************/
@@ -551,13 +670,14 @@ char *path_handler(const char path[], char file[])
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
-/*  Output     : Returns 1 if successful, otherwise 0                        */
+/*  Output     : returns 1 if successful, otherwise 0                        */
 /*                                                                           */
 /*  Author     : N. Kaeser                                                   */
 /*                                                                           */
 /*  Email      : kasen1@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 char init_figure_images()
 {
 	char error = -1;
@@ -593,6 +713,7 @@ char init_figure_images()
 		return success;
 	}
 }
+
 
 /*****************************************************************************/
 /*  Function   : draw_figure                                    Version 1.0  */
@@ -684,12 +805,13 @@ void draw_figure(pawn *figure)
 	*/
 }
 
+
 /*****************************************************************************/
-/*  Function   : draw_mirror_destroyed                          Version 1.0  */
+/*  Function   : draw_mirror_destroyed                          Version 1.1  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of a mirror.                 */
-/*               (For now, @V1.0, it only draws an empty field.)             */
+/*               (V1.0, it only draws an empty field) 	     		         */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
 /*                                                                           */
@@ -700,6 +822,7 @@ void draw_figure(pawn *figure)
 /*  Email      : kasen1@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 void draw_mirror_destroyed(pawn *figure)
 {
 	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77
@@ -746,11 +869,13 @@ void draw_mirror_destroyed(pawn *figure)
 	draw_empty_field(figure->Pos); //Feld loeschen
 }
 
+
 /*****************************************************************************/
 /*  Function   : draw_king_destroyed                          Version 1.0    */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of the king.                 */
+/*               (V1.0, it draws the same as draw_mirror_destroyed)	         */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
 /*                                                                           */
@@ -765,6 +890,7 @@ void draw_king_destroyed(pawn *figure)
 {
 	draw_mirror_destroyed(figure); //Vorerst gleich wie Mirror
 }
+
 
 /*****************************************************************************/
 /*  Function   : draw_winner_text                               Version 1.0  */
@@ -781,6 +907,7 @@ void draw_king_destroyed(pawn *figure)
 /*  Email      : kasen1@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 void draw_winner_text(pawn *hit_king)
 {
 	//Figur Position in Pixelkoordinaten

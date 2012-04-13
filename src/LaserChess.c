@@ -6,6 +6,9 @@
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : main()                                                      */
+/*																			 */
+/*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
+/*			     clear_map_array(), gfxmain()								 */
 /*                                                                           */
 /*  Author     : M. Bärtschi 												 */
 /* 																			 */
@@ -18,7 +21,6 @@
 /*****************************************************************************/
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,13 +36,13 @@
 /*  Function   : create_figures                                 Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Initializes all Figures from a received figure array. Sets  */
-/*               Figures to the default Mapposition. Currently initializes   */
-/*               14 Figures. (Optional: Splitter not defined in this version)*/
+/*  Function   : Initializes all figures from a received figure array. Sets  */
+/*               figures to the default mapposition. Currently initializes   */
+/*               14 figures. (Optional: Splitter not defined in this version)*/
 /*                                                                           */
 /*  Input Para : Pointer to the original figure array in the main-procedure  */
 /*                                                                           */
-/*  Output     : None                                                        */
+/*  Output     : -                                                           */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -139,7 +141,6 @@ void create_figures(pawn *figure)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : menu                                           Version 1.0  */
 /*****************************************************************************/
@@ -147,7 +148,7 @@ void create_figures(pawn *figure)
 /*  Function   : This is a minimal menu. User can choose between modes       */
 /*               NORMAL, SETMODE and quit the game.                          */
 /*                                                                           */
-/*  Input Para : None                                                        */
+/*  Input Para : -                                                           */
 /*                                                                           */
 /*  Output     : Play mode enum                                              */
 /*                                                                           */
@@ -187,12 +188,11 @@ enum Spielmodus menu(void)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : set_figure_positions                           Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : The Player can set his pawn freely on the map. The figures  */
+/*  Function   : The player can set his pawn freely on the map. The figures  */
 /*               in the array are sorted by color. To toggle the player, I   */
 /*               use i/2 for red and (i/2)+7 for blue.                       */
 /*                                                                           */
@@ -298,7 +298,6 @@ int set_figure_positions(pawn *figure)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : init_game                                      Version 1.0  */
 /*****************************************************************************/
@@ -376,16 +375,15 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : clear_map_array                                Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : clears the map array (writes all positions to NULL)         */
+/*  Function   : Clears the map array (writes all positions to NULL)         */
 /*                                                                           */
-/*  Input Para : none                                                        */
+/*  Input Para : -                                                           */
 /*                                                                           */
-/*  Output     : none                                                        */
+/*  Output     : -                                                           */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /*                                                                           */
@@ -407,7 +405,6 @@ void clear_map_array(void)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : gfxmain                                        Version 1.0  */
 /*****************************************************************************/
@@ -416,7 +413,7 @@ void clear_map_array(void)
 /*                                                                           */
 /*  Input Para : system console call parameters. (OS specific)               */
 /*                                                                           */
-/*  Output     : none                                                        */
+/*  Output     : -                                                           */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -459,7 +456,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			spiel(figure);
 		}
 	}
-
 
 	system("pause");
 	return EXIT_SUCCESS;

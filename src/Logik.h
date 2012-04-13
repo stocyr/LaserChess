@@ -8,9 +8,10 @@
 /*  Header     : LaserChess/Logik                               Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Contains several logic and helper functions                 */
+/*  Function   : Header for Logik.c  							             */
 /*                                                                           */
-/*  Procedures : laser(), is_inside_map(), is_figure, move_figure, spiel()   */
+/*  Procedures : laser(), is_inside_map(), is_figure, move_figure, 			 */
+/* 				 destroy_figure()										     */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /* 																			 */

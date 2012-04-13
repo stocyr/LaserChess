@@ -8,9 +8,9 @@
 /*  Header     : LaserChess/Mapdefinition                       Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   :                                                             */
+/*  Function   : Header for main() (LaserChess.c)                            */
 /*                                                                           */
-/*  Procedures :                                                             */
+/*  Procedures : -                                                           */
 /*                                                                           */
 /*  Author     : C. Stoller  												 */
 /* 																			 */
@@ -24,7 +24,6 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
-
 // TITLE in ASCII art:
 #define TITLE \
 "#                                    #####                              \n" \
@@ -34,7 +33,6 @@
 "#       ######      # #      #####  #       #    # #           #      # \n" \
 "#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n" \
 "####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n" \
-
 
 enum Affiliation {PLAYER_RED, PLAYER_BLUE}; //enum Affiliation {PLAYER_RED = 0, PLAYER_BLUE = 1}; //Weil in Spiel.c PLAYER = !PLAYER; Changed by kasen1
 enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
