@@ -1,0 +1,1 @@
+git log --graph --pretty=format:'%Cgreen%ad%Creset, %Cred%an%Creset -%C(yellow)%d%Creset "%s"' --abbrev-commit --date=short
