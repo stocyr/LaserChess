@@ -5,9 +5,9 @@
 /*  Module     : Spiel                                          Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Steuert den Spielverlauf                                    */
+/*  Function   : Controls the game                                           */
 /*                                                                           */
-/*  Procedures : spiel(), create_focus(), clear_focus                        */
+/*  Procedures : spiel(), create_focus(), clear_focus()                      */
 /*                                                                           */
 /*  Author     : M. Bärtschi 												 */
 /* 																			 */
@@ -28,22 +28,24 @@
 #include "window.h"
 #include "LaserChess.h"
 #include "Logik.h"
+
 /*****************************************************************************/
 /*  Function   : create_focus                                   Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draw a green Background on all free Fields around the       */
-/* 				 selected figure.                                            */
+/* 				 selected figure                                             */
 /*                                                                           */
 /*  Input Para : location struct (X-Y-cordinate of selected figure)          */
 /*                                                                           */
-/*  Output     :                                                             */
+/*  Output     : -                                                           */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
 /*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 void create_focus(location pos)
 {
 	int k = 0;
@@ -84,7 +86,6 @@ void create_focus(location pos)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : clear_focus                                    Version 1.0  */
 /*****************************************************************************/
@@ -93,13 +94,14 @@ void create_focus(location pos)
 /*                                                                           */
 /*  Input Para : location struct (X-y-cordinate of deselected figure)        */
 /*                                                                           */
-/*  Output     :                                                             */
+/*  Output     : -                                                           */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
 /*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 void clear_focus(location pos)
 {
 	int k = 0;
@@ -137,7 +139,6 @@ void clear_focus(location pos)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : spiel                                          Version 1.0  */
 /*****************************************************************************/
@@ -147,13 +148,14 @@ void clear_focus(location pos)
 /*                                                                           */
 /*  Input Para : Figure Array (used for cannon position)                     */
 /*                                                                           */
-/*  Output     : none                                                        */
+/*  Output     : -                                                           */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
 /*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 void spiel(pawn *figure)
 
 {
@@ -176,7 +178,6 @@ void spiel(pawn *figure)
 			  (map[new_mouse_pos.x][new_mouse_pos.y]->PLAYER == PLAYER))
 			{
 				create_focus(new_mouse_pos);
-				//draw_mirror_destroyed(map[new_mouse_pos.x][new_mouse_pos.y]); //Added by kasen1 for testing purpose
 				old_mouse_pos = new_mouse_pos;
 				SPIELZUG = CHOOSE_MOVE;
 			}
@@ -187,7 +188,6 @@ void spiel(pawn *figure)
 			new_mouse_pos.x = mouse_event.MousePosX;
 			new_mouse_pos.y = mouse_event.MousePosY;
 			new_mouse_pos = pixel_to_map(new_mouse_pos);
-
 
 			if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 			{
@@ -298,4 +298,3 @@ void spiel(pawn *figure)
 		GetKeyPress();
 	}
 }
-

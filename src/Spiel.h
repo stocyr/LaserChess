@@ -8,7 +8,7 @@
 /*  Module     : Spiel                                          Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Steuert den Spielverlauf                                    */
+/*  Function   : Header for Spiel.c            		                         */
 /*                                                                           */
 /*  Procedures : spiel()                                                     */
 /*                                                                           */
@@ -26,6 +26,6 @@
 
 void spiel(pawn *figure);
 
-#define ANZ_FOCUS_FIELDS	8
+#define ANZ_FOCUS_FIELDS 8
 
 #endif

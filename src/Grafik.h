@@ -1,5 +1,6 @@
 #ifndef GRAFIK_H
 #define GRAFIK_H
+
 /*****************************************************************************/
 /*  o o o o      Berner Fachhochschule                                       */
 /*        :...o  Technik und Informatik                                      */
@@ -7,15 +8,20 @@
 /*  Header     : LaserChess/Grafik                              Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Desc       : Header for graphics functions                               */
+/*  Function   : Header for graphics functions                               */
 /*                                                                           */
-/*  Procedures :                                                             */
+/*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),			 */
+/*				 draw_focus(), draw_empty_field(), draw_laser(),			 */
+/* 				 draw_angled_laser(), init_figure_images(),					 */
+/* 				 destroy_figure_images(), draw_figure(),					 */
+/* 				 draw_mirror_destroyed(), draw_king_destroyed(),			 */
+/* 				 draw_winner_text(), *path_handler()						 */
 /*                                                                           */
-/*  Author     : J. Haldemann; N. Kaeser                                     */
+/*  Author     : J. Haldemann, N. Kaeser                                     */
 /*                                                                           */
-/*  Email      : haldj3@bfh.ch; kasen1@bfh.ch                                */
+/*  Email      : haldj3@bfh.ch, kasen1@bfh.ch                                */
 /*                                                                           */
-/*  Creation   : xx.03.2012                                                  */
+/*  Hystory    : 12.03.2012  File created                                    */
 /*                                                                           */
 /*  File       : Grafik.h                                                    */
 /*                                                                           */
@@ -43,7 +49,7 @@
 #define FOCUS_IDENT 3                             //Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_GREEN                       //Laserfarbe
 #define LASER_DELAY 3                             //Verzoegerung beim Zeichnen des Lasers in ms
-#define LASER_WIDTH 1                             //Dicke des Laserstrahls
+#define LASER_WIDTH 2                             //Dicke des Laserstrahls
 #define IMG_DIR "\\img"                           //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 #define WIN_TEXT_FONT "Impact"                    //Schriftart des Gewinnner-Textes
 #define WIN_TEXT_TOP "PLAYER"                     //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
@@ -54,7 +60,7 @@
 #define PERCENT_FIELD_SIZE (FIELD_SIZE/10000.0)   //Feldbreite in Prozent (.0, damit als float interpretiert)
 #define PG_WIDTH PLAYGROUND_X_MAX*FIELD_SIZE      //Playground Breite
 #define PG_HEIGHT PLAYGROUND_Y_MAX*FIELD_SIZE     //Playground Hoehe
-#define DESTROY_DELAY (LASER_DELAY*5*LASER_WIDTH) //Zerstoerungsverzoegerung (Mit LASER_WIDTH, weil Dicker -> wehniger Rechtecke zu zeichnen)
+#define DESTROY_DELAY (LASER_DELAY*5)             //Zerstoerungsverzoegerung
 
 /*Rotations Definitionen*//*
 #define PI 3.14159265358979323846                 //Kopiert aus math.h
@@ -89,14 +95,6 @@ void draw_figure(pawn *figure);
 void draw_mirror_destroyed(pawn *figure);
 void draw_king_destroyed(pawn *figure);
 void draw_winner_text(pawn *figure);
-char *path_handler(const char path[], char file[]); // hinzugefügt von baerg
-/*module type declaration*/
-
-/*module data declaration*/
-
-/*module procedure declaration*/
-
-/*ALLE PROTOTYPEN DER GRAFIKFUNKTIONEN*/
-
+char *path_handler(const char path[], char file[]);
 
 #endif
