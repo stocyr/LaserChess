@@ -837,13 +837,14 @@ void draw_figure(pawn *figure)
 
 
 /*****************************************************************************/
-/*  Function   : draw_mirror_destroyed                          Version 1.2  */
+/*  Function   : draw_mirror_destroyed                          Version 1.3  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of a mirror.                 */
 /*               (V1.0, it only draws an empty field) 	     		         */
 /*               (V1.1, "Melting"-animation with rectangles)                 */
 /*               (V1.2, offset increases allways 1 pixel)                    */
+/*               (V1.3, New animation, with glow                             */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
 /*                                                                           */
@@ -857,11 +858,11 @@ void draw_figure(pawn *figure)
 
 void draw_mirror_destroyed(pawn *figure)
 {
-	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x20;
+	ColorType clear_col = PLAYGROUND_COL; clear_col.Alpha = 0x20;
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
-	int offset, start_offset, old_offset, size, old_size;
+	int offset, start_offset, size, clear_width, clear_offset;
 
 	//Halbe Linienbreite aufrunden, da bei rectangle ausserhalb Distanz nach innen wichtig ist
 	int half_field_line = (FIELD_LINE_WIDTH+!IS_EVEN(FIELD_LINE_WIDTH)) / 2;
@@ -889,10 +890,58 @@ void draw_mirror_destroyed(pawn *figure)
 		//offset rechts(oben) nicht immer gleich wie links(unten), aufgrund gerader/ungerader Pixelanzahl
 		size = FIELD_SIZE - 2*offset   -!IS_EVEN(LASER_WIDTH) +!IS_EVEN(FIELD_LINE_WIDTH);
 
+		clear_width = offset - (FIELD_LINE_WIDTH/2 + !IS_EVEN(FIELD_LINE_WIDTH)) - (LASER_WIDTH/2+1);
+		clear_offset = (FIELD_LINE_WIDTH/2 + !IS_EVEN(FIELD_LINE_WIDTH)) + clear_width/2;
+		if(offset>start_offset)draw_sharp_empty_rectangle(fig_pos.x + clear_offset, fig_pos.y + clear_offset, FIELD_SIZE - 2*clear_offset - IS_EVEN(FIELD_LINE_WIDTH), FIELD_SIZE - 2*clear_offset - IS_EVEN(FIELD_LINE_WIDTH), clear_col, clear_width);
+
+
+
+		//Pixelfehler in den Ecken verhindern
+		draw_sharp_empty_rectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
+		//Rechteck mit aktuellem offset zeichen
+		//DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
+
+		WaitMs(DESTROY_DELAY);
+	}
+
+	draw_empty_field(figure->Pos); //Feld loeschen
+
+/*Version 1.2*/
+/*
+	//Figur Position in Pixelkoordinaten, uebersichtlicher
+	location fig_pos = map_to_pixel(figure->Pos);
+	int offset, start_offset, old_offset, size, old_size;
+
+	//Halbe Linienbreite aufrunden, da bei rectangle ausserhalb Distanz nach innen wichtig ist
+	int half_field_line = (FIELD_LINE_WIDTH+!IS_EVEN(FIELD_LINE_WIDTH)) / 2;
+	//Halbe Laserdicke abrunden, da bei rectangle innerhalb Distanz nach aussen wichtig ist
+	int half_laser_line = (LASER_WIDTH - !IS_EVEN(LASER_WIDTH)) / 2;
+
+	//Startoffset berechnen, mit korrekt gerundeten Werten.
+	//So, dass innere Kante von Feldlinie genau aeussere Kante des Rechtecks beruehrt
+	start_offset = half_field_line+half_laser_line;
+
+	//Immer ein kleineres Rechteck zeichnen und altes uebermalen
+	for(offset=start_offset; offset < FIELD_SIZE/2; offset++) //Von innerhalb der Feldlinie bis zur Feldmitte
+	{
+		//  __________
+		// |  ______. | <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
+		// | |      | |
+		// | |      | | Feld mit DrawEmptyRectangle drin
+		// | |______| |
+		// |__________|
+		// ,_,
+		// offset
+		// ,______,
+		// size
+		//
+		//offset rechts(oben) nicht immer gleich wie links(unten), aufgrund gerader/ungerader Pixelanzahl
+		size = FIELD_SIZE - 2*offset -!IS_EVEN(LASER_WIDTH) +!IS_EVEN(FIELD_LINE_WIDTH);
+
 		//Altes offset und alte size
 		old_offset = offset - 1;
 		//offset rechts(oben) nicht immer gleich wie links(unten), aufgrund gerader/ungerader Pixelanzahl
-		old_size = FIELD_SIZE - 2*old_offset   -!IS_EVEN(LASER_WIDTH) +!IS_EVEN(FIELD_LINE_WIDTH);
+		old_size = FIELD_SIZE - 2*old_offset -!IS_EVEN(LASER_WIDTH) +!IS_EVEN(FIELD_LINE_WIDTH);
 
 		//Altes Rechteck uebermalen, das erstemal nicht
 		if(offset>start_offset)draw_sharp_empty_rectangle(fig_pos.x + old_offset, fig_pos.y + old_offset, old_size, old_size, PLAYGROUND_COL, LASER_WIDTH);
@@ -908,11 +957,9 @@ void draw_mirror_destroyed(pawn *figure)
 	}
 
 	draw_empty_field(figure->Pos); //Feld loeschen
-
-
+*/
 /*Version 1.1*/
-/*	//ColorType TEST_COL = PLAYGROUND_COL; TEST_COL.Alpha = 0x77
-
+/*
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
 	int offset, old_offset, size, old_size;
