@@ -5,9 +5,10 @@
 /*  Module     : LaserChess/Logik                               Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   :                                                             */
+/*  Function   : Contains several logic and helper functions                 */
 /*                                                                           */
-/*  Procedures : laser()  spiel()  some other helper tools                   */
+/*  Procedures : laser(), is_inside_map(), is_figure, move_figure, 			 */
+/* 				 destroy_figure()										     */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /* 																			 */
@@ -26,12 +27,12 @@
 #include "LaserChess.h"
 #include "window.h"
 
-
 /*****************************************************************************/
 /*  Function   : laser                                          Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   :                                                             */
+/*  Function   : Draws the laser from the cannon across the whole playground */
+/* 				 and calls all the other functions handling figure behavior  */
 /*                                                                           */
 /*  Input Para : receives the field from which the laser shoot is done. this */
 /*               field is not painted with laser anymore, but the field NEXT */
@@ -367,9 +368,8 @@ void move_figure(pawn *figure, location new_pos)
 }
 
 
-
 /*****************************************************************************/
-/*  Function   : destrox_figure                                 Version 1.0  */
+/*  Function   : destroy_figure                                 Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : destroys a figure (deletes it from the map array)           */
@@ -391,12 +391,11 @@ void destroy_figure(pawn *figure)
 }
 
 
-
 /*****************************************************************************/
 /*  Function   : mouseclick_to_map()                            Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Get Mouse-Clicks and returns the Mapcoordinate.              */
+/*  Function   : Get Mouse-Clicks and returns the Mapcoordinate.             */
 /*                                                                           */
 /*  Input Para :                                                             */
 /*                                                                           */
@@ -407,6 +406,7 @@ void destroy_figure(pawn *figure)
 /*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*****************************************************************************/
+
 location mouseclick_to_map(void)
 {
 	location pos;
@@ -417,7 +417,6 @@ location mouseclick_to_map(void)
 	{
 		old_mouse_event = mouse_event;
 		mouse_event = GetMouseEvent();
-
 	}
 
 	if(old_mouse_event.ButtonState & W_BUTTON_PRESSED)
@@ -433,6 +432,3 @@ location mouseclick_to_map(void)
 	}
 	return pixel_to_map(pos);
 }
-/*****************************************************************************/
-/*  End Function: mouseclick_to_map()                                        */
-/*****************************************************************************/
