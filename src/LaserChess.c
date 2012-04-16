@@ -446,7 +446,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 			printf("\nBYEBYE!!!\n");
 
-			WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
+			//WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
 
