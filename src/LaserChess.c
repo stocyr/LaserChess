@@ -163,7 +163,7 @@ enum Spielmodus menu(void)
 	enum Spielmodus MODE = NORMALMODE;
 	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
 
-	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Exit\n ");
+	printf("\nEnter command: ");
 	scanf("%d",&a);
 	switch(a)
 	{
@@ -431,6 +431,8 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	printf("\n"TITLE);
 	printf("\nWelcome to Laserchess");
 
+	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Exit\n");
+
 	while(FOREVER)
 	{
 		clear_map_array();
@@ -446,7 +448,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 			printf("\nBYEBYE!!!\n");
 
-			WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
+			//WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
 
