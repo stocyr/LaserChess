@@ -49,7 +49,7 @@
 #define FOCUS_IDENT 3                             //Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_GREEN                       //Laserfarbe
 #define LASER_DELAY 3                             //Verzoegerung beim Zeichnen des Lasers in ms
-#define LASER_WIDTH 2                             //Dicke des Laserstrahls
+#define LASER_WIDTH 2                            //Dicke des Laserstrahls
 #define IMG_DIR "\\img"                           //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 #define WIN_TEXT_FONT "Impact"                    //Schriftart des Gewinnner-Textes
 #define WIN_TEXT_TOP "PLAYER"                     //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
