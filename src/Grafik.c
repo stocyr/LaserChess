@@ -858,48 +858,40 @@ void draw_figure(pawn *figure)
 
 void draw_mirror_destroyed(pawn *figure)
 {
-	ColorType clear_col = PLAYGROUND_COL; clear_col.Alpha = 0x20;
+	ColorType col_alpha_playground = PLAYGROUND_COL; col_alpha_playground.Alpha = 0x20;
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
-	int offset, start_offset, size, clear_width, clear_offset;
+	int offset, start_offset, size, space_width, space_offset;
+	int destroy_line_width = 2; //Bei Aenderung, nur zu geradem Wert, da Ungerade zur Leserlichkeit nicht umgerechnet werden!
 
-	//Halbe Linienbreite aufrunden, da bei rectangle ausserhalb Distanz nach innen wichtig ist
-	int half_field_line = (FIELD_LINE_WIDTH+!IS_EVEN(FIELD_LINE_WIDTH)) / 2;
-	//Halbe Laserdicke abrunden, da bei rectangle innerhalb Distanz nach aussen wichtig ist
-	int half_laser_line = (LASER_WIDTH - !IS_EVEN(LASER_WIDTH)) / 2;
+	//Halbe Feldlinienbreite aufrunden, damit nicht eine Pixelline & -zeile der Umrandung ueberzeichnet wird
+	int half_fieldline_width = (FIELD_LINE_WIDTH + !IS_EVEN(FIELD_LINE_WIDTH)) / 2;
 
 	//Startoffset berechnen, mit korrekt gerundeten Werten.
 	//So, dass innere Kante von Feldlinie genau aeussere Kante des Rechtecks beruehrt
-	start_offset = half_field_line+half_laser_line;
+	start_offset = half_fieldline_width + destroy_line_width/2;
 
-	//Immer ein kleineres Rechteck zeichnen und altes uebermalen
+	//Immer ein kleineres Rechteck zeichnen
 	for(offset=start_offset; offset < FIELD_SIZE/2; offset++) //Von innerhalb der Feldlinie bis zur Feldmitte
 	{
-		//  __________
-		// |  ______. |  <-- Pixelfehler wegen abgerundeten Ecken bei DrawEmptyRectangle
-		// | |      | |
-		// | |      | |  Feld mit DrawEmptyRectangle drin
-		// | |______| |
-		// |__________|
-		// ,_,
-		// offset
-		//   ,______,
-		//   size
-		//
-		//offset rechts(oben) nicht immer gleich wie links(unten), aufgrund gerader/ungerader Pixelanzahl
-		size = FIELD_SIZE - 2*offset   -!IS_EVEN(LASER_WIDTH) +!IS_EVEN(FIELD_LINE_WIDTH);
+		//Aktuelle Groesse des Rechtecks berechnen
+		size = FIELD_SIZE - 2*offset;// +!IS_EVEN(FIELD_LINE_WIDTH);
 
-		clear_width = offset - (FIELD_LINE_WIDTH/2 + !IS_EVEN(FIELD_LINE_WIDTH)) - (LASER_WIDTH/2+1);
-		clear_offset = (FIELD_LINE_WIDTH/2 + !IS_EVEN(FIELD_LINE_WIDTH)) + clear_width/2;
-		if(offset>start_offset)draw_sharp_empty_rectangle(fig_pos.x + clear_offset, fig_pos.y + clear_offset, FIELD_SIZE - 2*clear_offset - IS_EVEN(FIELD_LINE_WIDTH), FIELD_SIZE - 2*clear_offset - IS_EVEN(FIELD_LINE_WIDTH), clear_col, clear_width);
+		//Rechteck mit aktuellem offset & size zeichen
+		draw_sharp_empty_rectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, destroy_line_width);
 
 
+		//Flaeche(Leeres Rechteck) zwischen Feldlinien-Innenkannte und Rechteck-Aussenkannte berechnen
+		space_width = offset - half_fieldline_width - destroy_line_width/2;
+		space_offset = half_fieldline_width + space_width/2;
 
-		//Pixelfehler in den Ecken verhindern
-		draw_sharp_empty_rectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
-		//Rechteck mit aktuellem offset zeichen
-		//DrawEmptyRectangle(fig_pos.x + offset, fig_pos.y + offset, size, size, LASER_COL, LASER_WIDTH);
+		//Flaeche mit leicht transparentem Rechteck uebermalen
+		if(offset>start_offset) //Beim erstenmal nicht, da noch gar keine Flaeche zwischen Rand und Rechteck vorhanden ist
+			draw_sharp_empty_rectangle(	fig_pos.x + space_offset, fig_pos.y + space_offset,
+										FIELD_SIZE - 2*space_offset - IS_EVEN(FIELD_LINE_WIDTH),
+										FIELD_SIZE - 2*space_offset - IS_EVEN(FIELD_LINE_WIDTH),
+										col_alpha_playground, space_width);
 
 		WaitMs(DESTROY_DELAY);
 	}
@@ -1001,6 +993,18 @@ void draw_mirror_destroyed(pawn *figure)
 
 	draw_empty_field(figure->Pos); //Feld loeschen*/
 }
+
+
+/* Beta Funktion, evtl. spaeter fuer draw_king_destroyed
+ColorType col_invert(ColorType color)
+{
+	ColorType col_out;
+	col_out.Red = 0xFF - color.Red;
+	col_out.Green = 0xFF - color.Green;
+	col_out.Blue = 0xFF - color.Blue;
+	col_out.Alpha = color.Alpha;
+	return col_out;
+}*/
 
 
 /*****************************************************************************/
