@@ -34,25 +34,41 @@
 "#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n" \
 "####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n" \
 
+// Spielerzugehörtigkeit
 enum Affiliation {PLAYER_RED, PLAYER_BLUE}; //enum Affiliation {PLAYER_RED = 0, PLAYER_BLUE = 1}; //Weil in Spiel.c PLAYER = !PLAYER; Changed by kasen1
+
+// Verschiedene Figur-Typen
 enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
+
+// Orientierung der >>Figur-Typen<<
 enum Orientation {EAST, NORTH, WEST, SOUTH, NORTH_EAST = 0, NORTH_WEST = 1, SOUTH_WEST = 2, SOUTH_EAST = 3};
+
+// Richtungsangabe, wird nur in zusammenhang mit dem Laserstrahl verwendet
 enum Direction {RIGHT, UP, LEFT, DOWN};
+
+// Drehwinkel in 90°-Schritten: Rechtsdrehung = -1, Linksdrehung = 1 -> Kooperiert mit dem Enum "Direction"
 enum Angle {CCW = 1, CW = -1};
+
+// Spielmodus für Konsolen-Menu
 enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT};
+
+// Modul-internes Enum
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
 
+// usability Makros
 #define FOREVER 1
-
-#define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
-
+#define IS_EVEN(x) (!((x)%2))
 #define ABS(a) (a<0 ? -(a) : a)
 
-#define IS_EVEN(x) (!((x)%2))
+// Normierung für das Enum "Direction"
+#define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
 
+// Richtungsänderung für das Enum "Direction"
 #define ROTATE_LEFT(a) a++; NORM(a)
 #define ROTATE_RIGHT(a) a--; NORM(a)
 
+
+// Spiel-Logik
 #define ANZ_FIGURES		14
 
 // Figurearray zuerst rot dann blau, umrechnen
@@ -76,6 +92,7 @@ typedef struct {
 // Globale Variablen
 const char *AppPath; //EXE-Pfad
 
+// Map, welche jede Figurposition "speichert"
 pawn *map[8][6];
 
 #endif
