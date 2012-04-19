@@ -68,12 +68,15 @@ enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DES
 #define ROTATE_RIGHT(a) a--; NORM(a)
 
 
-// Spiel-Logik
+// Spiel-Logik / Grösse
 #define ANZ_FIGURES		14
+
+#define PLAYGROUND_X_MAX 8                        //Anzahl Felder - Breite
+#define PLAYGROUND_Y_MAX 6                        //Anzahl Felder - Höhe
 
 // Figurearray zuerst rot dann blau, umrechnen
 #define RED_FIG(i) (i/2)
-#define BLUE_FIG(i)	((i/2)+7)
+#define BLUE_FIG(i)	((i/2)+ (ANZ_FIGURES / 2))
 
 // Map-Koordinatenstruct
 typedef struct {
@@ -93,6 +96,6 @@ typedef struct {
 const char *AppPath; //EXE-Pfad
 
 // Map, welche jede Figurposition "speichert"
-pawn *map[8][6];
+pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
 
 #endif

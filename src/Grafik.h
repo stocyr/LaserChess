@@ -42,8 +42,6 @@
 #define FIELD_SIZE 100                            //Feldbreite in Pixel
 #define FIELD_LINE_WIDTH 3                        //Breite der Spielfeldlinien in Pixel
 #define LINE_COL COL_GREY                         //Linienfarbe
-#define PLAYGROUND_X_MAX 8                        //Anzahl Felder - Breite
-#define PLAYGROUND_Y_MAX 6                        //Anzahl Felder - Höhe
 #define PLAYGROUND_COL COL_BLACK                  //Spielfeldfarbe
 #define FOCUS_COL COL_GREEN                       //Fokusfarbe
 #define FOCUS_IDENT 3                             //Einzurückende Pixel der Focusfunktion

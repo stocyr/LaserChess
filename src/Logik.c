@@ -243,7 +243,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
 				case CANNON:
 					// Kanone getroffen: Nichts passiert.
-					WaitMs(2000);
+					WaitMs(LASER_FINISHED_WAIT_TIME);
 					return 0;
             }
         }
