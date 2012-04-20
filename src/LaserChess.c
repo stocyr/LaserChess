@@ -505,12 +505,10 @@ void easter_egg(void)
 
 		if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 		{
-			printf("mouse");
 			// wenn eine maustaste gedrückt wurde:
 			// der spieler hat zeile {new_mouse_pos.x} wurde angeklickt. -> dort ein stein setzen
 
 			actual_stone = &figuren[figure_counter][spieler];
-			printf("\nfigure: [%d][%d]", figure_counter, spieler);
 
 			if(!is_figure(new_mouse_pos))
 			{
