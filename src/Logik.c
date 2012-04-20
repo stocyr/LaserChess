@@ -132,7 +132,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                     // König getroffen: Zerstörungssound
                 	play_sound(Destruction);
                 	//Zerstourung zeichnen
-                    draw_king_destroyed(next_pawn);
+                    draw_figure_destroyed(next_pawn);
 
                 	// (Player+1) negativ zurückgeben
                 	// -> -1 für Player_Red, -2 für Player_Blue
@@ -152,7 +152,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                         	//Zerstourungssound
                         	play_sound(Destruction);
                         	// Zerstörung: Zerstörung zeichnen
-                            draw_mirror_destroyed(next_pawn);
+                            draw_figure_destroyed(next_pawn);
                             // Spiegel aus der map löschen
                             destroy_figure(next_pawn);
                             WaitMs(LASER_FINISHED_WAIT_TIME);

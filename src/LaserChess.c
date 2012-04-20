@@ -1,18 +1,18 @@
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*	o o o o      Berner Fachhochschule                                       */
+/*		  :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Module     : LaserChess/gfxmain                             Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : main()                                                      */
-/*																			 */
+/*                                                                           */
 /*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
-/*			     clear_map_array(), gfxmain()								 */
+/*               clear_map_array(), gfxmain()                                */
 /*                                                                           */
 /*  Author     : M. Bärtschi 												 */
-/* 																			 */
-/*  Email	   : bartm9@bfh.ch  						                     */
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch  						                     */
 /*                                                                           */
 /*  History    : 12.03.2012  File created                                    */
 /*                                                                           */
@@ -325,6 +325,37 @@ int set_figure_positions(pawn *figure)
 		}
 	}
 	return 0;
+}
+
+/*****************************************************************************/
+/*  Function   : path_handler                                   Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Combines the two strings path and file after checking       */
+/*               if there's enough memory available.                         */
+/*               Path has to be freed after use.                             */
+/*                                                                           */
+/*  Input Para : const char path[] - String with the path of file            */
+/*               char file[]       - String with the filename                */
+/*                                                                           */
+/*  Output     : returns string with the complete path                       */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+char *path_handler(const char path[], char file[])
+{
+	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
+	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
+
+	char *buffer = malloc(size);
+	if(buffer == NULL) return NULL; //Nicht genuegend Speicher vorhanden
+
+	sprintf(buffer, "%s%s", path, file); //Kompletter Pfad in buffer speichern
+	return buffer;
 }
 
 
