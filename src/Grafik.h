@@ -47,7 +47,7 @@
 #define FOCUS_IDENT 3                             //Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_GREEN                       //Laserfarbe
 #define LASER_DELAY 3                             //Verzoegerung beim Zeichnen des Lasers in ms
-#define LASER_WIDTH 5                             //Dicke des Laserstrahls
+#define LASER_WIDTH 4                             //Dicke des Laserstrahls
 #define IMG_DIR "\\img"                           //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
 #define SOUND_DIR "\\sounds"                      //Ordnerpfad zu den Spielsounds (Pfad relativ zu *ApplicationPath)
 #define WIN_TEXT_FONT "Impact"                    //Schriftart des Gewinnner-Textes
