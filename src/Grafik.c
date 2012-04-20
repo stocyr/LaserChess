@@ -7,12 +7,12 @@
 /*                                                                           */
 /*  Function   : All the graphics functions                                  */
 /*                                                                           */
-/*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),			 */
-/*				 draw_focus(), draw_empty_field(), draw_laser(),			 */
-/* 				 draw_angled_laser(), init_figure_images(),					 */
-/* 				 destroy_figure_images(), draw_figure(),					 */
-/* 				 draw_mirror_destroyed(), draw_king_destroyed(),			 */
-/* 				 draw_winner_text(), *path_handler()						 */
+/*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),          */
+/*				 draw_focus(), draw_empty_field(), draw_laser(),             */
+/* 				 draw_angled_laser(), init_figure_images(),                  */
+/* 				 destroy_figure_images(), draw_figure(),                     */
+/* 				 draw_mirror_destroyed(), draw_king_destroyed(),             */
+/* 				 draw_winner_text(), play_sound(), *path_handler()           */
 /*                                                                           */
 /*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
@@ -120,7 +120,7 @@ void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType C
 /*  Function   : pixel_to_map                                   Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Convert windowskoord. to mapposition   	                 */
+/*  Function   : Convert windowskoord. to mapposition                        */
 /*                                                                           */
 /*  Input Para : x and y as windowskoord.   	                             */
 /*                                                                           */
@@ -157,12 +157,12 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 
 
 /*****************************************************************************/
-/*  Function   : map_to_pixel			                        Version 1.0  */
+/*  Function   : map_to_pixel                                   Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Convert mapposiiton to windowskoord. -> Point upper left!   */
 /*                                                                           */
-/*  Input Para : x and y as mappositon		   	                             */
+/*  Input Para : x and y as mappositon                                       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -190,12 +190,12 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 
 
 /*****************************************************************************/
-/*  Function   : draw_playground		                        Version 1.0  */
+/*  Function   : draw_playground                                Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Draws a playground (field and lines)	   	                 */
+/*  Function   : Draws a playground (field and lines)                        */
 /*                                                                           */
-/*  Input Para : -							   	                             */
+/*  Input Para : -                                                           */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -225,12 +225,12 @@ void draw_playground()
 
 
 /*****************************************************************************/
-/*  Function   : draw_focus				                        Version 1.0  */
+/*  Function   : draw_focus	                                    Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Draws a focus in the selected field		                 */
+/*  Function   : Draws a focus in the selected field                         */
 /*                                                                           */
-/*  Input Para : x and y as mappositon		   	                             */
+/*  Input Para : x and y as mappositon                                       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -249,12 +249,12 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 
 
 /*****************************************************************************/
-/*  Function   : draw_empty_field		                        Version 1.0  */
+/*  Function   : draw_empty_field                               Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Deletes the selected field (reset)		   	                 */
+/*  Function   : Deletes the selected field (reset)                          */
 /*                                                                           */
-/*  Input Para : x and y as mapposiotn		   	                             */
+/*  Input Para : x and y as mapposiotn                                       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -279,7 +279,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 
 
 /*****************************************************************************/
-/*  Function   : draw_half_laser		                        Version 1.1  */
+/*  Function   : draw_half_laser                                Version 1.1  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Help-function for draw_laser and draw_angled_laser.         */
@@ -339,10 +339,10 @@ void draw_half_laser(location start_pos, enum Direction dir)
 
 
 /*****************************************************************************/
-/*  Function   : draw_laser				                        Version 1.1  */
+/*  Function   : draw_laser                                     Version 1.1  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Draws the laser in the selected field   	                 */
+/*  Function   : Draws the laser in the selected field                       */
 /*                                                                           */
 /*  Input Para : x and y as mapposition and direction                        */
 /*                                                                           */
@@ -435,7 +435,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 
 
 /*****************************************************************************/
-/*  Function   : draw_angled_laser			                    Version 1.1  */
+/*  Function   : draw_angled_laser                              Version 1.1  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws the angled laser in the selected field                */
@@ -657,7 +657,7 @@ void destroy_figure_images()
 	if (Red_wall_img > 0)      DestroyImage(Red_wall_img);
 	if (Red_cannon_img > 0)    DestroyImage(Red_cannon_img);
 
-	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
+	if (Fig_error_img > 0)     DestroyImage(Fig_error_img);
 }
 
 
@@ -666,7 +666,8 @@ void destroy_figure_images()
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Combines the two strings path and file after checking       */
-/*               if there's enough memory available                          */
+/*               if there's enough memory available.                         */
+/*               Path has to be freed after use.                             */
 /*                                                                           */
 /*  Input Para : const char path[] - String with the path of file            */
 /*               char file[]       - String with the filename                */
@@ -693,6 +694,56 @@ char *path_handler(const char path[], char file[])
 
 
 /*****************************************************************************/
+/*  Function   : play_sound                                     Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Plays the sound of choosen enumeration                      */
+/*                                                                           */
+/*  Input Para : Laser, Reflexion, Destruction, Victory                      */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void play_sound(enum Sound snd)
+{
+	char* path;		//Pointer auf Pfad
+
+	switch(snd)
+	{
+		case Laser:
+			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\laser.wav"));
+			if(path!=NULL)	free(path);
+			break;
+
+		case Reflection:
+			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\reflection.wav"));
+			if(path!=NULL)	free(path);
+			break;
+
+		case Destruction:
+			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\destruction.wav"));
+			if(path!=NULL)	free(path);
+			break;
+
+		case Victory:
+			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\victory.wav"));
+			if(path!=NULL)	free(path);
+			break;
+
+		case Ignore:
+			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\ignore.wav"));
+			if(path!=NULL)	free(path);
+			break;
+	}
+}
+
+
+/*****************************************************************************/
 /*  Function   : init_figure_images                             Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -710,6 +761,7 @@ char *path_handler(const char path[], char file[])
 
 char init_figure_images()
 {
+	char *p; //path
 	char error = -1;
 	char success = 1;
 
@@ -717,20 +769,21 @@ char init_figure_images()
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
 	char test = 0;
 
-	/*Image laden und ID uebergeben. Wuerde eine nicht gefunden error setzten.*/
-	Blue_king_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_king.png"));     free(path_handler); if(Blue_king_img < 0)     test = error;
-	Blue_mirror_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));   free(path_handler); if(Blue_mirror_img < 0)   test = error;
-	Blue_splitter_img = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_splitter.png")); free(path_handler); if(Blue_splitter_img < 0) test = error;
-	Blue_wall_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_wall.png"));     free(path_handler); if(Blue_wall_img < 0)     test = error;
-	Blue_cannon_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));   free(path_handler); if(Blue_cannon_img < 0)   test = error;
+	//Image laden und ID uebergeben. Pfad wieder freigeben. Wuerde eine nicht gefunden error setzten.
+	Blue_king_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_king.png"));    if(p!=NULL)free(p); if(Blue_king_img<0)    test=error;
+	Blue_mirror_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));  if(p!=NULL)free(p); if(Blue_mirror_img<0)  test=error;
 
-	Red_king_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_king.png"));      free(path_handler); if(Red_king_img < 0)      test = error;
-	Red_mirror_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_mirror.png"));    free(path_handler); if(Red_mirror_img < 0)    test = error;
-	Red_splitter_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\red_splitter.png"));  free(path_handler); if(Red_splitter_img < 0)  test = error;
-	Red_wall_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_wall.png"));      free(path_handler); if(Red_wall_img < 0)      test = error;
-	Red_cannon_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_cannon.png"));    free(path_handler); if(Red_cannon_img < 0)    test = error;
+	Blue_splitter_img = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_splitter.png"));if(p!=NULL)free(p); if(Blue_splitter_img<0)test=error;
+	Blue_wall_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_wall.png"));    if(p!=NULL)free(p); if(Blue_wall_img<0)    test=error;
+	Blue_cannon_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));  if(p!=NULL)free(p); if(Blue_cannon_img<0)  test=error;
 
-	Figure_error_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\figure_error.png"));  free(path_handler); if(Figure_error_img < 0)  test = error;
+	Red_king_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_king.png"));     if(p!=NULL)free(p); if(Red_king_img<0)     test=error;
+	Red_mirror_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_mirror.png"));   if(p!=NULL)free(p); if(Red_mirror_img<0)   test=error;
+	Red_splitter_img  = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_splitter.png")); if(p!=NULL)free(p); if(Red_splitter_img<0) test=error;
+	Red_wall_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_wall.png"));     if(p!=NULL)free(p); if(Red_wall_img<0)     test=error;
+	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=error;
+
+	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)
@@ -793,7 +846,7 @@ void draw_figure(pawn *figure)
 		default:
 			//Keine gueltige Figur.. Kann eigentlich nur vorkommen,
 			//wenn dem TYPE-enum manuell ein Wert zugewiesen wurde.
-			figure_img = Figure_error_img;
+			figure_img = Fig_error_img;
 		break;
 		}
 	}
@@ -819,7 +872,7 @@ void draw_figure(pawn *figure)
 		default:
 			//Keine gueltige Figur.. Kann eigentlich nur vorkommen,
 			//wenn dem TYPE-enum manuell ein Wert zugewiesen wurde.
-			figure_img = Figure_error_img;
+			figure_img = Fig_error_img;
 		break;
 		}
 	}
@@ -841,7 +894,7 @@ void draw_figure(pawn *figure)
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of a mirror.                 */
-/*               (V1.0, it only draws an empty field) 	     		         */
+/*               (V1.0, it only draws an empty field)                        */
 /*               (V1.1, "Melting"-animation with rectangles)                 */
 /*               (V1.2, offset increases allways 1 pixel)                    */
 /*               (V1.3, New animation, with glow                             */
@@ -1012,7 +1065,7 @@ ColorType col_invert(ColorType color)
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of the king.                 */
-/*               (V1.0, it draws the same as draw_mirror_destroyed)	         */
+/*               (V1.0, it draws the same as draw_mirror_destroyed)          */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
 /*                                                                           */

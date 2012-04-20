@@ -54,6 +54,7 @@ enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT};
 
 // Modul-internes Enum
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
+enum Sound {Laser, Reflection, Destruction, Victory, Ignore};
 
 // usability Makros
 #define FOREVER 1
