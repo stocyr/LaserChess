@@ -657,7 +657,7 @@ void destroy_figure_images()
 	if (Red_wall_img > 0)      DestroyImage(Red_wall_img);
 	if (Red_cannon_img > 0)    DestroyImage(Red_cannon_img);
 
-	if (Figure_error_img > 0)  DestroyImage(Figure_error_img);
+	if (Fig_error_img > 0)     DestroyImage(Fig_error_img);
 }
 
 
@@ -666,7 +666,8 @@ void destroy_figure_images()
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Combines the two strings path and file after checking       */
-/*               if there's enough memory available                          */
+/*               if there's enough memory available.                         */
+/*               Path has to be freed after use.                             */
 /*                                                                           */
 /*  Input Para : const char path[] - String with the path of file            */
 /*               char file[]       - String with the filename                */
@@ -760,6 +761,7 @@ void play_sound(enum Sound snd)
 
 char init_figure_images()
 {
+	char *p; //path
 	char error = -1;
 	char success = 1;
 
@@ -767,20 +769,21 @@ char init_figure_images()
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
 	char test = 0;
 
-	/*Image laden und ID uebergeben. Wuerde eine nicht gefunden error setzten.*/
-	Blue_king_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_king.png"));     free(path_handler); if(Blue_king_img < 0)     test = error;
-	Blue_mirror_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));   free(path_handler); if(Blue_mirror_img < 0)   test = error;
-	Blue_splitter_img = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_splitter.png")); free(path_handler); if(Blue_splitter_img < 0) test = error;
-	Blue_wall_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_wall.png"));     free(path_handler); if(Blue_wall_img < 0)     test = error;
-	Blue_cannon_img   = LoadImage(path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));   free(path_handler); if(Blue_cannon_img < 0)   test = error;
+	//Image laden und ID uebergeben. Pfad wieder freigeben. Wuerde eine nicht gefunden error setzten.
+	Blue_king_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_king.png"));    if(p!=NULL)free(p); if(Blue_king_img<0)    test=error;
+	Blue_mirror_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));  if(p!=NULL)free(p); if(Blue_mirror_img<0)  test=error;
 
-	Red_king_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_king.png"));      free(path_handler); if(Red_king_img < 0)      test = error;
-	Red_mirror_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_mirror.png"));    free(path_handler); if(Red_mirror_img < 0)    test = error;
-	Red_splitter_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\red_splitter.png"));  free(path_handler); if(Red_splitter_img < 0)  test = error;
-	Red_wall_img      = LoadImage(path_handler(AppPath, IMG_DIR"\\red_wall.png"));      free(path_handler); if(Red_wall_img < 0)      test = error;
-	Red_cannon_img    = LoadImage(path_handler(AppPath, IMG_DIR"\\red_cannon.png"));    free(path_handler); if(Red_cannon_img < 0)    test = error;
+	Blue_splitter_img = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_splitter.png"));if(p!=NULL)free(p); if(Blue_splitter_img<0)test=error;
+	Blue_wall_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_wall.png"));    if(p!=NULL)free(p); if(Blue_wall_img<0)    test=error;
+	Blue_cannon_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));  if(p!=NULL)free(p); if(Blue_cannon_img<0)  test=error;
 
-	Figure_error_img  = LoadImage(path_handler(AppPath, IMG_DIR"\\figure_error.png"));  free(path_handler); if(Figure_error_img < 0)  test = error;
+	Red_king_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_king.png"));     if(p!=NULL)free(p); if(Red_king_img<0)     test=error;
+	Red_mirror_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_mirror.png"));   if(p!=NULL)free(p); if(Red_mirror_img<0)   test=error;
+	Red_splitter_img  = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_splitter.png")); if(p!=NULL)free(p); if(Red_splitter_img<0) test=error;
+	Red_wall_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_wall.png"));     if(p!=NULL)free(p); if(Red_wall_img<0)     test=error;
+	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=error;
+
+	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)
@@ -843,7 +846,7 @@ void draw_figure(pawn *figure)
 		default:
 			//Keine gueltige Figur.. Kann eigentlich nur vorkommen,
 			//wenn dem TYPE-enum manuell ein Wert zugewiesen wurde.
-			figure_img = Figure_error_img;
+			figure_img = Fig_error_img;
 		break;
 		}
 	}
@@ -869,7 +872,7 @@ void draw_figure(pawn *figure)
 		default:
 			//Keine gueltige Figur.. Kann eigentlich nur vorkommen,
 			//wenn dem TYPE-enum manuell ein Wert zugewiesen wurde.
-			figure_img = Figure_error_img;
+			figure_img = Fig_error_img;
 		break;
 		}
 	}

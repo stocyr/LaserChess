@@ -78,7 +78,7 @@ int Red_mirror_img;
 int Red_splitter_img;
 int Red_wall_img;
 int Red_cannon_img;
-int Figure_error_img;
+int Fig_error_img;
 
 /*Prototypen*/
 location pixel_to_map(location Mapkoordinaten);
