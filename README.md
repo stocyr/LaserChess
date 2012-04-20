@@ -1,4 +1,4 @@
-LaserChess
+﻿LaserChess
 ==========
 
 This is a game for our programming class.
@@ -14,6 +14,8 @@ Release history:
 * **v0.2**: *Flowchart entwickelt, Module aufgelistet, Arbeitsplan erstellt*
 
 * **v1.0**: *Erste voll funktionstüchtige Version*
+
+* **v1.1**: *Bugfix von v1.0*
 
 
 Links
@@ -33,7 +35,7 @@ Links
 Git
 -----------
 
-* Editor auf Notepad++ �ndern: git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+* Editor auf Notepad++ aendern: git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
 
 * Vereinfachte schematische Darstellung des Git Version Control Systems:
 
@@ -42,6 +44,6 @@ Git
 Hier ist zu beachten: Anstatt mit `git fetch` das Repository herunter zu laden und dann mit `git merge` mit dem Arbeitsverzeichnis zu synchronisieren,
 nutzen wir den Befehl `git pull`, der macht das auf einmal.
 
-* Mit `git add .` k�nnen s�mtliche �nderungen (ausser Files l�schen und hinzuf�gen) auf einmal zur *staging area* hinzugef�gt werden.
+* Mit `git add .` koennen saemtliche aenderungen (ausser Files loeschen und hinzuf�gen) auf einmal zur *staging area* hinzugefuegt werden.
 
 * Mit `git commit -a -m 'bemerkung zu diesem commit'` kann direkt vom Arbeitsverzeichnis ein commit gemacht werden (ohne `git add`).

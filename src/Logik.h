@@ -34,6 +34,7 @@
 // Wie lange nach abschluss des Laserschusses gewartet wird (ms)
 #define LASER_FINISHED_WAIT_TIME 1000
 
+// Prototypen
 int laser(location pos, enum Direction dir);	//enum Direction dir
 int is_inside_map(location pos);
 int is_figure(location pos);

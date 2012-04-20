@@ -1,1 +1,4 @@
 git log --graph --pretty=format:'%Cgreen%ad%Creset, %Cred%an%Creset -%C(yellow)%d%Creset "%s"' --abbrev-commit --date=short
+
+excel:
+git log --pretty=format:'%ad@%an%d@"%s"' --abbrev-commit --date=short > log.txt
