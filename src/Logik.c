@@ -93,6 +93,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
     if(!is_inside_map(next_pos))
     {
         // wenn nicht mehr im spielfeld, in eine wand gefahren. -> return 0
+    	// ignore sound abspielen
+		play_sound(Ignore);
     	WaitMs(LASER_FINISHED_WAIT_TIME);
         return 0;
     }
@@ -106,9 +108,6 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
         if(!is_figure(next_pos))
         {
             // Nein, nur ein leeres Feld
-        	// ignore sound abspielen
-			play_sound(Ignore);
-
         	// Linie zeichnen
             draw_laser(next_pos, dir);
             // sich selbst ausführen

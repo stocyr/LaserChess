@@ -94,7 +94,9 @@ typedef struct {
 }pawn;
 
 // Globale Variablen
-const char *AppPath; //EXE-Pfad
+const char *AppPath;	//EXE-Pfad
+
+char Sound_On;			//On/Off Sound
 
 // Map, welche jede Figurposition "speichert"
 pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
