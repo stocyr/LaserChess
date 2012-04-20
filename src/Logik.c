@@ -93,6 +93,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
     if(!is_inside_map(next_pos))
     {
         // wenn nicht mehr im spielfeld, in eine wand gefahren. -> return 0
+    	// ignore sound abspielen
+		play_sound(Ignore);
     	WaitMs(LASER_FINISHED_WAIT_TIME);
         return 0;
     }
@@ -106,7 +108,6 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
         if(!is_figure(next_pos))
         {
             // Nein, nur ein leeres Feld
-
         	// Linie zeichnen
             draw_laser(next_pos, dir);
             // sich selbst ausführen
@@ -122,11 +123,15 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
             {
                 case WALL:
                     // Mauer getroffen: aufhören, wie bei is_inside_map = 0
+                	// ignore sound abspielen
+					play_sound(Ignore);
                 	WaitMs(LASER_FINISHED_WAIT_TIME);
                     return 0;
 
                 case KING:
-                    // König getroffen: Zerstörung zeichnen
+                    // König getroffen: Zerstörungssound
+                	play_sound(Destruction);
+                	//Zerstourung zeichnen
                     draw_king_destroyed(next_pawn);
 
                 	// (Player+1) negativ zurückgeben
@@ -144,6 +149,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                     {
                         case 0:
                         case 1:
+                        	//Zerstourungssound
+                        	play_sound(Destruction);
                         	// Zerstörung: Zerstörung zeichnen
                             draw_mirror_destroyed(next_pawn);
                             // Spiegel aus der map löschen
@@ -155,6 +162,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
                         case 2:
                             // Reflektion um 90° nach rechts (CW):
+                        	// Reflection sound wird erst in der Grafik abgespielt
                             // Linie zeichnen, angle = -1 (CW)
                             draw_angled_laser(next_pos, dir, CW);
                             ROTATE_RIGHT(dir);
@@ -167,6 +175,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
                         case 3:
                             // Reflektion um 90° nach links (CCW):
+                        	// Reflection sound wird erst in der Grafik abgespielt
                             // Linie zeichnen, angle = +1 (CCW)
                             draw_angled_laser(next_pos, dir, CCW);
                             ROTATE_LEFT(dir);
@@ -188,6 +197,9 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 					draw_laser(next_pos, dir);
                 	// sich selbst ausführen
 					return_value = laser(next_pos, dir);
+
+					// Reflection sound abspielen
+					play_sound(Reflection);
 
 					// Jetzt wird der abgewinkelte Pfad bearbeitet:
                     reflection_angle = dir - next_pawn->DIR;
@@ -243,6 +255,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
 				case CANNON:
 					// Kanone getroffen: Nichts passiert.
+					// ignore sound abspielen
+					play_sound(Ignore);
 					WaitMs(LASER_FINISHED_WAIT_TIME);
 					return 0;
             }

@@ -54,6 +54,7 @@ enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT};
 
 // Modul-internes Enum
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
+enum Sound {Laser, Reflection, Destruction, Victory, Ignore};
 
 // usability Makros
 #define FOREVER 1
@@ -93,7 +94,9 @@ typedef struct {
 }pawn;
 
 // Globale Variablen
-const char *AppPath; //EXE-Pfad
+const char *AppPath;	//EXE-Pfad
+
+char Sound_On;			//On/Off Sound
 
 // Map, welche jede Figurposition "speichert"
 pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];

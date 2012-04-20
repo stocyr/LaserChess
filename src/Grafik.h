@@ -47,8 +47,9 @@
 #define FOCUS_IDENT 3                             //Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_GREEN                       //Laserfarbe
 #define LASER_DELAY 3                             //Verzoegerung beim Zeichnen des Lasers in ms
-#define LASER_WIDTH 2                            //Dicke des Laserstrahls
+#define LASER_WIDTH 4                             //Dicke des Laserstrahls
 #define IMG_DIR "\\img"                           //Ordnerpfad zu den Grafiken der Figuren (Pfad relativ zu *ApplicationPath)
+#define SOUND_DIR "\\sounds"                      //Ordnerpfad zu den Spielsounds (Pfad relativ zu *ApplicationPath)
 #define WIN_TEXT_FONT "Impact"                    //Schriftart des Gewinnner-Textes
 #define WIN_TEXT_TOP "PLAYER"                     //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
 #define WIN_TEXT_BOTTOM "WINS!"                   //Dritte/Letzte Zeile des Gewinner-Textes vorherige Zeile wird "RED" oder "BLUE" sein
@@ -77,7 +78,7 @@ int Red_mirror_img;
 int Red_splitter_img;
 int Red_wall_img;
 int Red_cannon_img;
-int Figure_error_img;
+int Fig_error_img;
 
 /*Prototypen*/
 location pixel_to_map(location Mapkoordinaten);
@@ -87,6 +88,7 @@ void draw_focus(location Field);
 void draw_empty_field(location pos);
 void draw_laser (location pos, enum Direction dir);
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle);
+void play_sound(enum Sound snd);
 char init_figure_images();
 void destroy_figure_images();
 void draw_figure(pawn *figure);

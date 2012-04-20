@@ -178,6 +178,18 @@ enum Spielmodus menu(void)
 		MODE = OPEN;
 		return MODE;
 	case 4:
+		Sound_On = !Sound_On;
+		if(Sound_On)
+		{
+			printf("Sound ON");
+		}
+		else
+		{
+			printf("Sound OFF");
+		}
+		MODE = INVALID_INPUT;
+		return MODE;
+	case 5:
 		MODE = EXIT;
 		return MODE;
 	default:	// Wenn andere/ungültige Eingabe, -1 zurückgeben
@@ -345,9 +357,11 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 		if(MODE == OPEN)
 		{
 			FILE  *fp;
+
 			// Aufstellung file öffnen
-			fp = fopen(path_handler(AppPath, "\\maps\\Aufstellung.txt"), "r"); free(path_handler);
-			if(!(fp == NULL))	// Prüfen ob file geöffnet werden konnte
+			char *p; //path
+			fp = fopen(p=path_handler(AppPath, "\\maps\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
+			if(!(fp == NULL))
 			{
 				for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
 				{
@@ -427,6 +441,7 @@ void clear_map_array(void)
 int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
 	AppPath = ApplicationPath;	// EXE-Pfad uebergeben, damit global verwendbar
+	Sound_On = 1;
 
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
@@ -434,7 +449,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	printf("\n"TITLE);
 	printf("\nWelcome to Laserchess");
 
-	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Exit\n");
+	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
 	while(FOREVER)
 	{

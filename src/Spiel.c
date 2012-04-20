@@ -223,6 +223,9 @@ void spiel(pawn *figure)
 								clear_focus(old_mouse_pos);
 								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
 
+								// Abschuss sound abspielen
+								play_sound(Laser);
+
 								destroyed_figure = laser(figure[PLAYER*(ANZ_FIGURES/2) + 1].Pos, figure[PLAYER*(ANZ_FIGURES/2) + 1].DIR);
 								FIGURE_DEST = destroyed_figure + 3;
 								SPIELZUG = SELECT_FIGURE;
@@ -252,6 +255,9 @@ void spiel(pawn *figure)
 					draw_figure(map[old_mouse_pos.x][old_mouse_pos.y]);
 					SPIELZUG = SELECT_FIGURE;
 					// Ruft die Funktion LASER für den jeweiligen Player auf
+
+					// Abschuss sound abspielen
+					play_sound(Laser);
 					// gibt der Funktion die Pos und die Dir der Cannon mit
 					destroyed_figure = laser(figure[PLAYER*(ANZ_FIGURES/2) + 1].Pos, figure[PLAYER*(ANZ_FIGURES/2) + 1].DIR);
 					FIGURE_DEST = destroyed_figure + 3;
@@ -277,6 +283,9 @@ void spiel(pawn *figure)
 		}
 	}
 	while(FIGURE_DEST > 2);
+
+	// Gewinnersound abspielen
+	play_sound(Victory);
 
 	// Gewinner anzeigen
 	draw_winner_text(&figure[(-destroyed_figure - 1)*(ANZ_FIGURES/2)]);
