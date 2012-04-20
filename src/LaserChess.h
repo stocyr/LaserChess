@@ -2,8 +2,8 @@
 #define LASERCHESS_H
 
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Header     : LaserChess/Mapdefinition                       Version 1.0  */
 /*****************************************************************************/
@@ -12,9 +12,9 @@
 /*                                                                           */
 /*  Procedures : -                                                           */
 /*                                                                           */
-/*  Author     : C. Stoller  												 */
-/* 																			 */
-/*  Email	   : stolc2@bfh.ch  						                     */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 17.03.2012  File created                                    */
 /*                                                                           */
@@ -50,7 +50,7 @@ enum Direction {RIGHT, UP, LEFT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 
 // Spielmodus für Konsolen-Menu
-enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT, EASTER_EGG};
+enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT, EASTER_EGG1, EASTER_EGG2};
 
 // Modul-internes Enum
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};

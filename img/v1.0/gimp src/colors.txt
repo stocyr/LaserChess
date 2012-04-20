@@ -1,6 +1,9 @@
 Red Bright:
 255, 000, 000
 
+Red Medium
+190, 000, 000
+
 Red Dark:
 073, 000, 000
 
@@ -8,6 +11,9 @@ Red Dark:
 
 Blue Bright:
 000, 128, 255
+
+Blue Medium
+000, 096, 192
 
 Blue Dark:
 000, 036, 072

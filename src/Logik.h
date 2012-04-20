@@ -2,20 +2,20 @@
 #define LOGIK_H
 
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Header     : LaserChess/Logik                               Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Header for Logik.c  							             */
+/*  Function   : Header for Logik.c                                          */
 /*                                                                           */
-/*  Procedures : laser(), is_inside_map(), is_figure, move_figure, 			 */
-/* 				 destroy_figure()										     */
+/*  Procedures : laser(), is_inside_map(), is_figure, move_figure,           */
+/*               destroy_figure()                                            */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
-/* 																			 */
-/*  Email	   : stolc2@bfh.ch  						                     */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 19.03.2012  File created                                    */
 /*                                                                           */

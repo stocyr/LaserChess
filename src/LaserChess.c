@@ -1,18 +1,22 @@
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Module     : LaserChess/gfxmain                             Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : main()                                                      */
-/*																			 */
-/*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
-/*			     clear_map_array(), easter_egg(), gfxmain()                  */
 /*                                                                           */
-/*  Author     : M. Bärtschi 												 */
-/* 																			 */
-/*  Email	   : bartm9@bfh.ch  						                     */
+/*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
+<<<<<<< HEAD
+/*			     clear_map_array(), easter_egg(), gfxmain()                  */
+=======
+/*               clear_map_array(), gfxmain()                                */
+/*                                                                           */
+/*  Author     : M. Bärtschi                                                 */
+>>>>>>> 0e49a77306c1ed1bbec0247a1f5a8e3992bb8340
+/*                                                                           */
+/*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 12.03.2012  File created                                    */
 /*                                                                           */
@@ -190,7 +194,7 @@ enum Spielmodus menu(void)
 		if(strcmp(string, "\x034\x020\x067\x065\x077\x069\x06E\x06E\x074") == 0)
 		{
 			// Wenn "4 gewinnt" eingegeben wurde
-			MODE = EASTER_EGG;
+			MODE = EASTER_EGG1;
 			return MODE;
 		}
 		else
@@ -208,6 +212,12 @@ enum Spielmodus menu(void)
 			return MODE;
 		}
 	case 5:
+		if(strcmp(string, "5nake") == 0)
+		{
+			// Wenn "5nake" eingegeben wurde
+			MODE = EASTER_EGG2;
+			return MODE;
+		}
 		MODE = EXIT;
 		return MODE;
 	default:	// Wenn andere/ungültige Eingabe, -1 zurückgeben
@@ -327,6 +337,37 @@ int set_figure_positions(pawn *figure)
 	return 0;
 }
 
+/*****************************************************************************/
+/*  Function   : path_handler                                   Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Combines the two strings path and file after checking       */
+/*               if there's enough memory available.                         */
+/*               Path has to be freed after use.                             */
+/*                                                                           */
+/*  Input Para : const char path[] - String with the path of file            */
+/*               char file[]       - String with the filename                */
+/*                                                                           */
+/*  Output     : returns string with the complete path                       */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+char *path_handler(const char path[], char file[])
+{
+	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
+	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
+
+	char *buffer = malloc(size);
+	if(buffer == NULL) return NULL; //Nicht genuegend Speicher vorhanden
+
+	sprintf(buffer, "%s%s", path, file); //Kompletter Pfad in buffer speichern
+	return buffer;
+}
+
 
 /*****************************************************************************/
 /*  Function   : init_game                                      Version 1.0  */
@@ -441,10 +482,17 @@ void clear_map_array(void)
 
 
 /*****************************************************************************/
+<<<<<<< HEAD
 /*  Function   : easter_egg                                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Führt ein zusätzliches Spiel aus. (easter egg)              */
+=======
+/*  Function   : easter_egg1                                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : ??                                                          */
+>>>>>>> 0e49a77306c1ed1bbec0247a1f5a8e3992bb8340
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
@@ -456,7 +504,7 @@ void clear_map_array(void)
 /*                                                                           */
 /*****************************************************************************/
 
-void easter_egg(void)
+void easter_egg1(void)
 {
 	MouseInfoType mouse_event;
 	location new_mouse_pos, new_stone_position;
@@ -588,6 +636,127 @@ void easter_egg(void)
 
 
 /*****************************************************************************/
+/*  Function   : easter_egg2                                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : ??                                                          */
+/*                                                                           */
+/*  Input Para : -                                                           */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void easter_egg2(void)
+{
+	const int max_length = PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX;
+	location snake[max_length], new_pos, new_food_pos;
+	int head = 0, tail = 0;
+	int queue_length = 1;
+	pawn food, old_snake;
+	enum Direction dir;
+	enum Angle snake_angle;
+
+	// snake initialisieren
+	snake[head].x = PLAYGROUND_X_MAX / 2;
+	snake[head].y = 0;
+	dir = UP;
+
+	// food initialisieren
+	food.TYPE = WALL;
+	food.PLAYER = PLAYER_BLUE; // egal
+	food.DIR = 0;
+
+	// old snake wird genutzt um die überstrichenen felder in der map zu kennzeichnen
+	old_snake.TYPE = CANNON;
+
+	// initialize graphics and load images:
+	if(init_figure_images() == -1)
+	{
+		// wenn image load failed: error
+		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		return;
+	}
+
+	//Spielfeld zeichnen
+	draw_playground();
+
+	// Food generieren: dazu position in sein struct geschrieben, dann wird er gezeichnet.
+	food.Pos.x = random;
+	food.Pos.y = random;
+	map[food.Pos.x][food.Pos.y] = &food;
+	draw_figure(&food);
+
+	while(FOREVER)
+	{
+		// taste einlesen
+
+		if(was gedrückt)
+		{
+			// taste auswerten
+			// taste speichern in snake_angle -> dir umschalten
+		}
+
+		// nächstes feld ausfindig machen
+		head = (head+1) % max_length;
+		tail = (head + (max_length - queue_length)) % max_length;
+
+		// dorthin gehen -> auswertung wie beim laser
+
+			// wenn wand: game over
+			// wenn cannon: game over
+
+		// wenn dort food:
+		if(is_figure(next_pos))
+		{
+			// wenn was gefressen wurde, schwanz verlängern und food verschieben
+			queue_length++;
+			// evtl hier schon tail neu setzen?
+			//(head + (max_length - queue_length)) % max_length;
+
+			new_food_pos.x = random;
+			new_food_pos.y = random;
+
+			move_figure(&food, new_food_pos);
+		}
+
+		// laser schlussendlich zeichnen
+		if(taste gedrückt)
+		{
+			draw_laser_angled(snake[head], dir, snake_angle);
+		}
+		else
+		{
+			draw_laser(snake[head], dir);
+		}
+
+		// das gezeichnete Feld mit old_snake markieren:
+		map[snake[head].x][snake[head].y] = &old_snake;
+
+		// laser-schwanz löschen:
+		draw_empty_field(snake[tail]);
+		map[snake[tail].x][snake[tail].y] = NULL;
+
+		// will der user das spiel beenden?
+		if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
+		{
+			// KeyPress Buffer löschen
+			while(IsKeyPressReady())
+			{
+				GetKeyPress();
+			}
+			CloseGraphic(); //Grafikfenster schliessen
+			return;
+		}
+	}
+}
+
+
+/*****************************************************************************/
 /*  Function   : gfxmain                                        Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -637,11 +806,16 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			//WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
-
-		if(MODE == EASTER_EGG)
+		else if(MODE == EASTER_EGG1)
 		{
-			// Vier Gewinnt wird hier ausgeführt
-			easter_egg();
+			// Easter egg 1 wird ausgeführt
+			easter_egg1();
+			continue;
+		}
+		else if(MODE == EASTER_EGG2)
+		{
+			// eater egg 2 wird ausgeführt
+			easter_egg2();
 			continue;
 		}
 
