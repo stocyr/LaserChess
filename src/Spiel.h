@@ -2,19 +2,19 @@
 #define SPIEL_H
 
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Module     : Spiel                                          Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Header for Spiel.c            		                         */
+/*  Function   : Header for Spiel.c                                          */
 /*                                                                           */
 /*  Procedures : spiel()                                                     */
 /*                                                                           */
-/*  Author     : M. Bärtschi 												 */
-/* 																			 */
-/*  Email	   : bartm9@bfh.ch  						                     */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email	   : bartm9@bfh.ch                                              */
 /*                                                                           */
 /*  History    : 21.03.2012  File created                                    */
 /*                                                                           */

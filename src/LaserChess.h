@@ -2,8 +2,8 @@
 #define LASERCHESS_H
 
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Header     : LaserChess/Mapdefinition                       Version 1.0  */
 /*****************************************************************************/
@@ -12,9 +12,9 @@
 /*                                                                           */
 /*  Procedures : -                                                           */
 /*                                                                           */
-/*  Author     : C. Stoller  												 */
-/* 																			 */
-/*  Email	   : stolc2@bfh.ch  						                     */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 17.03.2012  File created                                    */
 /*                                                                           */

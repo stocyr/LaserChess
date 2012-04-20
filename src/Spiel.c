@@ -1,6 +1,6 @@
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Module     : Spiel                                          Version 1.0  */
 /*****************************************************************************/
@@ -9,9 +9,9 @@
 /*                                                                           */
 /*  Procedures : spiel(), create_focus(), clear_focus()                      */
 /*                                                                           */
-/*  Author     : M. Bärtschi 												 */
-/* 																			 */
-/*  Email	   : bartm9@bfh.ch  						                     */
+/*  Author     : M. Bärtschi                                                 */
+/*                                                                           */
+/*  Email	   : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 21.03.2012  File created                                    */
 /*                                                                           */
@@ -34,7 +34,7 @@
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draw a green Background on all free Fields around the       */
-/* 				 selected figure                                             */
+/*               selected figure                                             */
 /*                                                                           */
 /*  Input Para : location struct (X-Y-cordinate of selected figure)          */
 /*                                                                           */

@@ -1,6 +1,6 @@
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule                                       */
-/*		  :...o  Technik und Informatik                                      */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Module     : LaserChess/gfxmain                             Version 1.0  */
 /*****************************************************************************/
@@ -10,9 +10,9 @@
 /*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
 /*               clear_map_array(), gfxmain()                                */
 /*                                                                           */
-/*  Author     : M. Bärtschi 												 */
+/*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
-/*  Email      : bartm9@bfh.ch  						                     */
+/*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 12.03.2012  File created                                    */
 /*                                                                           */

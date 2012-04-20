@@ -121,7 +121,7 @@ void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType C
 /*                                                                           */
 /*  Function   : Convert windowskoord. to mapposition                        */
 /*                                                                           */
-/*  Input Para : x and y as windowskoord.   	                             */
+/*  Input Para : x and y as windowskoord.                                    */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -224,7 +224,7 @@ void draw_playground()
 
 
 /*****************************************************************************/
-/*  Function   : draw_focus	                                    Version 1.0  */
+/*  Function   : draw_focus                                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws a focus in the selected field                         */
@@ -282,7 +282,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Help-function for draw_laser and draw_angled_laser.         */
-/*               Draws half the laser in the selected field   	             */
+/*               Draws half the laser in the selected field                  */
 /*               (V1.1: Laser now glowing)                                   */
 /*                                                                           */
 /*  Input Para : x and y as mapposition and direction                        */
