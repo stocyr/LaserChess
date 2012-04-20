@@ -166,6 +166,9 @@ enum Spielmodus menu(void)
 	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
 	char string[80];
 
+	//Intro-Sound abspielen
+	play_sound(Intro);
+
 	printf("\nEnter command: ");
 
 	// jetzt einen String einlesen, der optional auch aus "%d %s" bestehen kann
@@ -198,10 +201,14 @@ enum Spielmodus menu(void)
 			Sound_On = !Sound_On;
 			if(Sound_On)
 			{
+				//Intro-Sound abspielen
+				play_sound(Intro);
 				printf("Sound ON\n");
 			}
 			else
 			{
+				//Intro-Sound beenden
+				StopContinuousSound();
 				printf("Sound OFF\n");
 			}
 			MODE = INVALID_INPUT;
@@ -769,9 +776,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
-	//Intro abspielen
-	play_sound(Intro);
-
 	printf("\n"TITLE);
 	printf("\nWelcome to Laserchess!");
 
@@ -786,6 +790,9 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			MODE = menu();		// Bekommt einen Mode zurück
 		}
 		while( MODE == INVALID_INPUT);
+
+		//Intro-Sound beenden
+		StopContinuousSound();
 
 		if(MODE == EXIT)
 		{
@@ -811,9 +818,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		create_figures(figure);
 		if(init_game(figure, MODE))
 		{
-			//Intro-Sound beenden
-			StopContinuousSound ();
-
 			spiel(figure);		//Spiel starten/ausführen
 		}
 	}
