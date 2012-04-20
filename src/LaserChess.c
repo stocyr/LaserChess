@@ -164,7 +164,7 @@ enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
 	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
-	char string[10];
+	char string[80];
 
 	printf("\nEnter command: ");
 
@@ -175,7 +175,7 @@ enum Spielmodus menu(void)
 		a = string[0] - '0';
 	}
 
-	switch(a)
+	switch(a)					// Eingabe unterscheiden
 	{
 	case 1:
 		MODE = NORMALMODE;
@@ -210,8 +210,7 @@ enum Spielmodus menu(void)
 	case 5:
 		MODE = EXIT;
 		return MODE;
-	default:	// Wenn andere/ungültige Eingabe, Eingabebuffer löschen, -1 zurückgeben
-		while(getchar() != '\n');
+	default:	// Wenn andere/ungültige Eingabe, -1 zurückgeben
 		MODE = INVALID_INPUT;
 		printf("Ungueltige Eingabe");
 		return MODE;
@@ -367,7 +366,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 		// Figuren manuell setzen
 		if(set_figure_positions(figure) == -1)
 		{
-			return 0;
+			return 0;	// Wenn Figurensetzetn abgebrochen wurde
 		}
 	}
 	else
@@ -376,11 +375,13 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 		if(MODE == OPEN)
 		{
 			FILE  *fp;
+
+			// Aufstellung file öffnen
 			char *p; //path
 			fp = fopen(p=path_handler(AppPath, "\\maps\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
 			if(!(fp == NULL))
 			{
-				for(i = 0; i < ANZ_FIGURES; i++)
+				for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
 				{
 					fscanf(fp, "%u", &(figure[i].PLAYER));
 					fscanf(fp, "%u", &(figure[i].TYPE));
@@ -388,22 +389,24 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 					fscanf(fp, "%d", &(figure[i].Pos.x));
 					fscanf(fp, "%d", &(figure[i].Pos.y));
 				}
-				fclose(fp);
+				fclose(fp);	// File schliessen
 			}
 			else
 			{
+				// Meldung wenn File nicht geöffnet werden konnte
 				printf("Error: cannot open file");
-				return 0;
+				return 0;	// Fehlerwert zurückgeben
 			}
 
 		}
+		// Alle Figuren auf der Map "platzieren" und zeichnen
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
 			map[figure[i].Pos.x][figure[i].Pos.y] = &figure[i];
 			draw_figure(&figure[i]);
 		}
 	}
-	return 1;
+	return 1;	// Initialisierung erfolgreich
 }
 
 
@@ -426,12 +429,12 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 void clear_map_array(void)
 {
 	int x, y;
-
+	// Alle Felder der Map durchgehen
 	for(y = 0; y < PLAYGROUND_Y_MAX; y++)
 	{
 		for(x = 0; x < PLAYGROUND_X_MAX; x++)
 		{
-			map[x][y] = NULL;
+			map[x][y] = NULL;	// Mit Nullpointer initialisieren
 		}
 	}
 }
