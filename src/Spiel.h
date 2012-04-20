@@ -14,7 +14,7 @@
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
-/*  Email	   : bartm9@bfh.ch                                              */
+/*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 21.03.2012  File created                                    */
 /*                                                                           */
