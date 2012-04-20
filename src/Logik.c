@@ -163,8 +163,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
                         case 2:
                             // Reflektion um 90° nach rechts (CW):
-                        	// Reflection sound abspielen
-                        	play_sound(Reflection);
+                        	// Reflection sound wird erst in der Grafik abgespielt
                             // Linie zeichnen, angle = -1 (CW)
                             draw_angled_laser(next_pos, dir, CW);
                             ROTATE_RIGHT(dir);
@@ -177,8 +176,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
                         case 3:
                             // Reflektion um 90° nach links (CCW):
-                        	// Reflection sound abspielen
-                        	play_sound(Reflection);
+                        	// Reflection sound wird erst in der Grafik abgespielt
                             // Linie zeichnen, angle = +1 (CCW)
                             draw_angled_laser(next_pos, dir, CCW);
                             ROTATE_LEFT(dir);

@@ -492,6 +492,9 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	//Neue Direction nach Ablenkung
 	dir += angle; NORM(dir);
 
+	// Reflection sound abspielen
+	play_sound(Reflection);
+
 	//Von Feldmitte an zeichnen
 	draw_half_laser(start_pos, dir);
 
