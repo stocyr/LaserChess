@@ -713,32 +713,35 @@ void play_sound(enum Sound snd)
 {
 	char* path;		//Pointer auf Pfad
 
-	switch(snd)
+	if(Sound_On)	//Abfrage ob Sound On
 	{
-		case Laser:
-			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\laser.wav"));
-			if(path!=NULL)	free(path);
-			break;
+		switch(snd)
+		{
+			case Laser:
+				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\laser.wav"));
+				if(path!=NULL)	free(path);
+				break;
 
-		case Reflection:
-			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\reflection.wav"));
-			if(path!=NULL)	free(path);
-			break;
+			case Reflection:
+				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\reflection.wav"));
+				if(path!=NULL)	free(path);
+				break;
 
-		case Destruction:
-			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\destruction.wav"));
-			if(path!=NULL)	free(path);
-			break;
+			case Destruction:
+				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\destruction.wav"));
+				if(path!=NULL)	free(path);
+				break;
 
-		case Victory:
-			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\victory.wav"));
-			if(path!=NULL)	free(path);
-			break;
+			case Victory:
+				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\victory.wav"));
+				if(path!=NULL)	free(path);
+				break;
 
-		case Ignore:
-			PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\ignore.wav"));
-			if(path!=NULL)	free(path);
-			break;
+			case Ignore:
+				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\ignore.wav"));
+				if(path!=NULL)	free(path);
+				break;
+		}
 	}
 }
 
