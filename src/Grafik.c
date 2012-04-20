@@ -8,11 +8,10 @@
 /*  Function   : All the graphics functions                                  */
 /*                                                                           */
 /*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),          */
-/*				 draw_focus(), draw_empty_field(), draw_laser(),             */
-/* 				 draw_angled_laser(), init_figure_images(),                  */
-/* 				 destroy_figure_images(), draw_figure(),                     */
-/* 				 draw_mirror_destroyed(), draw_king_destroyed(),             */
-/* 				 draw_winner_text(), play_sound(), *path_handler()           */
+/*               draw_focus(), draw_empty_field(), draw_laser(),             */
+/*               draw_angled_laser(), init_figure_images(),                  */
+/*               destroy_figure_images(), draw_figure(),                     */
+/*               draw_figure_destroyed(), draw_winner_text(), play_sound()   */
 /*                                                                           */
 /*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
@@ -122,7 +121,7 @@ void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType C
 /*                                                                           */
 /*  Function   : Convert windowskoord. to mapposition                        */
 /*                                                                           */
-/*  Input Para : x and y as windowskoord.   	                             */
+/*  Input Para : x and y as windowskoord.                                    */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -225,7 +224,7 @@ void draw_playground()
 
 
 /*****************************************************************************/
-/*  Function   : draw_focus	                                    Version 1.0  */
+/*  Function   : draw_focus                                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws a focus in the selected field                         */
@@ -283,7 +282,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Help-function for draw_laser and draw_angled_laser.         */
-/*               Draws half the laser in the selected field   	             */
+/*               Draws half the laser in the selected field                  */
 /*               (V1.1: Laser now glowing)                                   */
 /*                                                                           */
 /*  Input Para : x and y as mapposition and direction                        */
@@ -665,38 +664,6 @@ void destroy_figure_images()
 
 
 /*****************************************************************************/
-/*  Function   : path_handler                                   Version 1.0  */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   : Combines the two strings path and file after checking       */
-/*               if there's enough memory available.                         */
-/*               Path has to be freed after use.                             */
-/*                                                                           */
-/*  Input Para : const char path[] - String with the path of file            */
-/*               char file[]       - String with the filename                */
-/*                                                                           */
-/*  Output     : returns string with the complete path                       */
-/*                                                                           */
-/*  Author     : N. Kaeser                                                   */
-/*                                                                           */
-/*  Email      : kasen1@bfh.ch                                               */
-/*                                                                           */
-/*****************************************************************************/
-
-char *path_handler(const char path[], char file[])
-{
-	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
-	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
-
-	char *buffer = malloc(size);
-	if(buffer == NULL) return NULL; //Nicht genuegend Speicher vorhanden
-
-	sprintf(buffer, "%s%s", path, file); //Kompletter Pfad in buffer speichern
-	return buffer;
-}
-
-
-/*****************************************************************************/
 /*  Function   : play_sound                                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -896,7 +863,7 @@ void draw_figure(pawn *figure)
 
 
 /*****************************************************************************/
-/*  Function   : draw_mirror_destroyed                          Version 1.3  */
+/*  Function   : draw_figure_destroyed                          Version 1.3  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws/animates the destruction of a mirror.                 */
@@ -915,7 +882,7 @@ void draw_figure(pawn *figure)
 /*                                                                           */
 /*****************************************************************************/
 
-void draw_mirror_destroyed(pawn *figure)
+void draw_figure_destroyed(pawn *figure)
 {
 	ColorType col_alpha_playground = PLAYGROUND_COL; col_alpha_playground.Alpha = 0x20;
 
@@ -1054,7 +1021,7 @@ void draw_mirror_destroyed(pawn *figure)
 }
 
 
-/* Beta Funktion, evtl. spaeter fuer draw_king_destroyed
+/*Beta Funktion, evtl. spaeter fuer draw_king_destroyed
 ColorType col_invert(ColorType color)
 {
 	ColorType col_out;
@@ -1064,29 +1031,6 @@ ColorType col_invert(ColorType color)
 	col_out.Alpha = color.Alpha;
 	return col_out;
 }*/
-
-
-/*****************************************************************************/
-/*  Function   : draw_king_destroyed                          Version 1.0    */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   : Draws/animates the destruction of the king.                 */
-/*               (V1.0, it draws the same as draw_mirror_destroyed)          */
-/*                                                                           */
-/*  Input Para : pawn *figure                                                */
-/*                                                                           */
-/*  Output     : -                                                           */
-/*                                                                           */
-/*  Author     : N. Kaeser                                                   */
-/*                                                                           */
-/*  Email      : kasen1@bfh.ch                                               */
-/*                                                                           */
-/*****************************************************************************/
-void draw_king_destroyed(pawn *figure)
-{
-	//Vorerst gleich wie Mirror
-	draw_mirror_destroyed(figure);
-}
 
 
 /*****************************************************************************/

@@ -1,18 +1,18 @@
 /*****************************************************************************/
-/*	o o o o      Berner Fachhochschule										 */
-/*		  :...o  Technik und Informatik										 */
+/*  o o o o      Berner Fachhochschule                                       */
+/*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
 /*  Module     : LaserChess/Logik                               Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Contains several logic and helper functions                 */
 /*                                                                           */
-/*  Procedures : laser(), is_inside_map(), is_figure, move_figure, 			 */
-/* 				 destroy_figure()										     */
+/*  Procedures : laser(), is_inside_map(), is_figure, move_figure,           */
+/*               destroy_figure()                                            */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
-/* 																			 */
-/*  Email	   : stolc2@bfh.ch  						                     */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
 /*                                                                           */
 /*  History    : 17.03.2012  File created                                    */
 /*                                                                           */
@@ -32,7 +32,7 @@
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws the laser from the cannon across the whole playground */
-/* 				 and calls all the other functions handling figure behavior  */
+/*               and calls all the other functions handling figure behavior  */
 /*                                                                           */
 /*  Input Para : receives the field from which the laser shoot is done. this */
 /*               field is not painted with laser anymore, but the field NEXT */
@@ -132,7 +132,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                     // König getroffen: Zerstörungssound
                 	play_sound(Destruction);
                 	//Zerstourung zeichnen
-                    draw_king_destroyed(next_pawn);
+                    draw_figure_destroyed(next_pawn);
 
                 	// (Player+1) negativ zurückgeben
                 	// -> -1 für Player_Red, -2 für Player_Blue
@@ -152,7 +152,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                         	//Zerstourungssound
                         	play_sound(Destruction);
                         	// Zerstörung: Zerstörung zeichnen
-                            draw_mirror_destroyed(next_pawn);
+                            draw_figure_destroyed(next_pawn);
                             // Spiegel aus der map löschen
                             destroy_figure(next_pawn);
                             WaitMs(LASER_FINISHED_WAIT_TIME);
