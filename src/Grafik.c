@@ -657,7 +657,7 @@ void destroy_figure_images()
 	if (Red_wall_img > 0)      DestroyImage(Red_wall_img);
 	if (Red_cannon_img > 0)    DestroyImage(Red_cannon_img);
 
-	if (Fig_error_img > 0)  DestroyImage(Fig_error_img);
+	if (Fig_error_img > 0)     DestroyImage(Fig_error_img);
 }
 
 
