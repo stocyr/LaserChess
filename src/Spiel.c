@@ -276,16 +276,13 @@ void spiel(pawn *figure)
 			{
 				GetKeyPress();
 			}
-			//[Spiel beenden] hier einfügen
+			//Spiel beenden
 			FIGURE_DEST = EXIT;
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
 	}
 	while(FIGURE_DEST > 2);
-
-	// Gewinnersound abspielen
-	play_sound(Victory);
 
 	// Gewinner anzeigen
 	draw_winner_text(&figure[(-destroyed_figure - 1)*(ANZ_FIGURES/2)]);
@@ -299,7 +296,7 @@ void spiel(pawn *figure)
 		break;
 	}
 
-	WaitMs(3000);
+	WaitMs(6000);	//6-sek-delay für Victorysound
 	CloseGraphic(); //Grafikfenster schliessen
 	// KeyPress Buffer löschen
 	while(IsKeyPressReady())

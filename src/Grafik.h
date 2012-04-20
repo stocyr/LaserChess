@@ -15,7 +15,7 @@
 /* 				 draw_angled_laser(), init_figure_images(),					 */
 /* 				 destroy_figure_images(), draw_figure(),					 */
 /* 				 draw_mirror_destroyed(), draw_king_destroyed(),			 */
-/* 				 draw_winner_text(), *path_handler()						 */
+/* 				 draw_winner_text(), play sound(), *path_handler()           */
 /*                                                                           */
 /*  Author     : J. Haldemann, N. Kaeser                                     */
 /*                                                                           */

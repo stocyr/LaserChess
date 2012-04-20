@@ -8,7 +8,7 @@
 /*  Function   : main()                                                      */
 /*																			 */
 /*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
-/*			     clear_map_array(), gfxmain()								 */
+/*			     clear_map_array(), easter_egg(), gfxmain()                  */
 /*                                                                           */
 /*  Author     : M. Bärtschi 												 */
 /* 																			 */
@@ -198,11 +198,11 @@ enum Spielmodus menu(void)
 			Sound_On = !Sound_On;
 			if(Sound_On)
 			{
-				printf("Sound ON");
+				printf("Sound ON\n");
 			}
 			else
 			{
-				printf("Sound OFF");
+				printf("Sound OFF\n");
 			}
 			MODE = INVALID_INPUT;
 			return MODE;
@@ -441,10 +441,10 @@ void clear_map_array(void)
 
 
 /*****************************************************************************/
-/*  Function   : vier_gewinnt                                   Version 1.0  */
+/*  Function   : easter_egg                                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : führt ein vier gewinnt spiel aus. (easter egg)    )         */
+/*  Function   : Führt ein zusätzliches Spiel aus. (easter egg)              */
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
@@ -521,6 +521,9 @@ void easter_egg(void)
 				draw_figure(actual_stone);
 				WaitMs(100);
 
+				// Ein Sound abspielen
+				play_sound(Laser);
+
 				// den stein von dort fallen lassen
 				for(i = 0; i < PLAYGROUND_Y_MAX - 1; i++)
 				{
@@ -550,6 +553,10 @@ void easter_egg(void)
 
 			//########################################################
 			// check here, if someone in map[][] has 4 stones in a row
+
+			// Victorysound abspielen
+			//play_sound(Victory);
+			//Delay von c.a 6sek
 			//########################################################
 
 			// spieler toggeln:
@@ -604,8 +611,11 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
+	//Intro abspielen
+	play_sound(Intro);
+
 	printf("\n"TITLE);
-	printf("\nWelcome to Laserchess");
+	printf("\nWelcome to Laserchess!");
 
 	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
@@ -615,7 +625,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 		do
 		{
-			MODE = menu();		// Bekommt einer der 3 Modes zurück
+			MODE = menu();		// Bekommt einen Mode zurück
 		}
 		while( MODE == INVALID_INPUT);
 
@@ -638,7 +648,10 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		create_figures(figure);
 		if(init_game(figure, MODE))
 		{
-			spiel(figure);
+			//Intro-Sound beenden
+			StopContinuousSound ();
+
+			spiel(figure);		//Spiel starten/ausführen
 		}
 	}
 
