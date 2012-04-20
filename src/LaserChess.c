@@ -214,8 +214,11 @@ enum Spielmodus menu(void)
 			MODE = EASTER_EGG2;
 			return MODE;
 		}
-		MODE = EXIT;
-		return MODE;
+		else
+		{
+			MODE = EXIT;
+			return MODE;
+		}
 	default:	// Wenn andere/ungültige Eingabe, -1 zurückgeben
 		MODE = INVALID_INPUT;
 		printf("Ungueltige Eingabe");
@@ -636,17 +639,21 @@ void easter_egg1(void)
 void easter_egg2(void)
 {
 	const int max_length = PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX;
-	location snake[max_length], new_pos, new_food_pos;
+	location new_food_pos, temp;
+	location snake[max_length];
 	int head = 0, tail = 0;
 	int queue_length = 1;
 	pawn food, old_snake;
-	enum Direction dir;
+	enum Direction dir, old_dir;
 	enum Angle snake_angle;
+
+	srand(dir); // dirty little trick: benutze uninitialisierte variable als seed für rand()
 
 	// snake initialisieren
 	snake[head].x = PLAYGROUND_X_MAX / 2;
 	snake[head].y = 0;
 	dir = UP;
+	snake_angle = 0;
 
 	// food initialisieren
 	food.TYPE = WALL;
@@ -668,52 +675,126 @@ void easter_egg2(void)
 	draw_playground();
 
 	// Food generieren: dazu position in sein struct geschrieben, dann wird er gezeichnet.
-	food.Pos.x = random;
-	food.Pos.y = random;
+	food.Pos.x = PLAYGROUND_X_MAX * rand() / RAND_MAX;
+	food.Pos.y = PLAYGROUND_Y_MAX * rand() / RAND_MAX;
 	map[food.Pos.x][food.Pos.y] = &food;
 	draw_figure(&food);
 
 	while(FOREVER)
 	{
-		// taste einlesen
-
-		if(was gedrückt)
+		// Linie zeichnen -> entweder abgewinkelt oder gerade
+		if(snake_angle != 0)
 		{
-			// taste auswerten
-			// taste speichern in snake_angle -> dir umschalten
-		}
-
-		// nächstes feld ausfindig machen
-		head = (head+1) % max_length;
-		tail = (head + (max_length - queue_length)) % max_length;
-
-		// dorthin gehen -> auswertung wie beim laser
-
-			// wenn wand: game over
-			// wenn cannon: game over
-
-		// wenn dort food:
-		if(is_figure(next_pos))
-		{
-			// wenn was gefressen wurde, schwanz verlängern und food verschieben
-			queue_length++;
-			// evtl hier schon tail neu setzen?
-			//(head + (max_length - queue_length)) % max_length;
-
-			new_food_pos.x = random;
-			new_food_pos.y = random;
-
-			move_figure(&food, new_food_pos);
-		}
-
-		// laser schlussendlich zeichnen
-		if(taste gedrückt)
-		{
-			draw_laser_angled(snake[head], dir, snake_angle);
+			// wenn nicht nur geradeaus:
+			draw_angled_laser(snake[head], old_dir, snake_angle);
+			// winkeländerung wieder zurücksetzen
+			snake_angle = 0;
 		}
 		else
 		{
+			// gerade linie zeichnen
 			draw_laser(snake[head], dir);
+		}
+
+		// taste einlesen
+		if(IsKeyPressReady())
+		{
+			// Taste einlesen
+			switch(GetKeyPress())
+			{
+			case W_KEY_CURSOR_LEFT:
+				// wenn nach links: nach links drehen
+				snake_angle = CCW;
+				break;
+
+			case W_KEY_CURSOR_RIGHT:
+				// wenn nach rechts: nach rechts drehen
+				snake_angle = CW;
+				break;
+			}
+		}
+
+		// nächstes feld ausfindig machen
+		temp = snake[head];
+
+		head = (head+1) % max_length;
+		tail = (head + (max_length - queue_length)) % max_length;
+
+		snake[head] = temp;
+
+	    switch(dir)
+	    {
+	        case RIGHT:
+	        	snake[head].x++;
+	            break;
+
+	        case UP:
+	        	snake[head].y++;
+	            break;
+
+	        case LEFT:
+	        	snake[head].x--;
+	            break;
+
+	        case DOWN:
+	        	snake[head].y--;
+	            break;
+	    }
+
+		// Zuerst fragen, ob das nächste Feld überhaupt noch im Spielfeld ist
+		if(!is_inside_map(snake[head]))
+		{
+			// wenn nicht mehr im spielfeld, in eine wand gefahren.
+			// ignore sound abspielen
+			play_sound(Ignore);
+			//############ GAME OVER #################
+			WaitMs(2000);
+			CloseGraphic(); //Grafikfenster schliessen
+			return;
+		}
+		else
+		{
+			pawn *new_field = map[snake[head].x][snake[head].y];
+
+			if(is_figure(snake[head]))
+			{
+				// wenn eine Figur da ist:
+				if(new_field->TYPE == CANNON)
+				{
+					// wenn in sich selber reingefahren:
+					// ignore sound abspielen
+					play_sound(Ignore);
+					//############ GAME OVER #################
+					WaitMs(2000);
+					CloseGraphic(); //Grafikfenster schliessen
+					return;
+				}
+				else if(new_field->TYPE == WALL)
+				{
+					// wenn was gefressen wurde, schwanz verlängern und food verschieben
+					queue_length++;
+					// evtl hier schon tail neu setzen?
+					//(head + (max_length - queue_length)) % max_length;
+
+					new_food_pos.x = PLAYGROUND_X_MAX * rand() / RAND_MAX;
+					new_food_pos.y = PLAYGROUND_Y_MAX * rand() / RAND_MAX;
+
+					move_figure(&food, new_food_pos);
+				}
+			}
+		}
+
+		// wenn vorhin eine rechts- oder linkstaste eingelesen wurde: jetzt <dir> drehen.
+		old_dir = dir;
+		switch(snake_angle)
+		{
+		case CW:
+			ROTATE_RIGHT(dir);
+			break;
+
+		case CCW:
+			ROTATE_LEFT(dir);
+			break;
 		}
 
 		// das gezeichnete Feld mit old_snake markieren:
