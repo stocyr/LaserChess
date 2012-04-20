@@ -733,7 +733,7 @@ char init_figure_images()
 	Red_wall_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_wall.png"));     if(p!=NULL)free(p); if(Red_wall_img<0)     test=error;
 	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=error;
 
-	Fig_error_img     = LoadImage(path_handler(AppPath, IMG_DIR"\\figure_error.png"));   if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
+	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)
