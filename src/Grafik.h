@@ -43,7 +43,7 @@
 #define LINE_COL COL_GREY                         //Linienfarbe
 #define PLAYGROUND_COL COL_BLACK                  //Spielfeldfarbe
 #define FOCUS_COL COL_GREEN                       //Fokusfarbe
-#define FOCUS_IDENT 3                             //Einzurückende Pixel der Focusfunktion
+#define FOCUS_IDENT 2                             //Einzurückende Pixel der Focusfunktion
 #define LASER_COL COL_GREEN                       //Laserfarbe
 #define LASER_DELAY 3                             //Verzoegerung beim Zeichnen des Lasers in ms
 #define LASER_WIDTH 2                             //Dicke des Laserstrahls
@@ -78,12 +78,14 @@ int Red_splitter_img;
 int Red_wall_img;
 int Red_cannon_img;
 int Fig_error_img;
+int Rot_focus_img;
 
 /*Prototypen*/
 location pixel_to_map(location Mapkoordinaten);
 location map_to_pixel(location Windowskoordinaten);
 void draw_playground();
 void draw_focus(location Field);
+void draw_rot_focus(location Field);
 void draw_empty_field(location pos);
 void draw_laser (location pos, enum Direction dir);
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle);

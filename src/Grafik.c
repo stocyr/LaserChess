@@ -248,6 +248,30 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 
 
 /*****************************************************************************/
+/*  Function   : draw_rot_focus                                 Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws a rotation-image on the selected field                */
+/*                                                                           */
+/*  Input Para : x and y as mappositon                                       */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void draw_rot_focus(location pos)
+{
+	location map_pos = map_to_pixel(pos); //Pixelkoordinaten
+	//Image zeichnen
+	DrawTransformedImage(map_pos.x+FIELD_SIZE/2, map_pos.y+FIELD_SIZE/2, 0, 100*PERCENT_FIELD_SIZE, 100*PERCENT_FIELD_SIZE, Rot_focus_img);
+}
+
+
+/*****************************************************************************/
 /*  Function   : draw_empty_field                               Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -767,6 +791,7 @@ char init_figure_images()
 	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=error;
 
 	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
+	Rot_focus_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\rot_focus.png"));    if(p!=NULL)free(p); if(Rot_focus_img<0)    test=error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)

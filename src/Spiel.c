@@ -72,6 +72,8 @@ void create_focus(location pos)
 	};
 	// Über die Figur selbst einen Rahmen zeichnen
 	draw_focus(pos);
+	// Falls Figur an pos rotierbar ist (kein King oder Wall), dann den Rotations-Fokus zeichnen
+	if(!(map[pos.x][pos.y]->TYPE == KING) && !(map[pos.x][pos.y]->TYPE == WALL)) draw_rot_focus(pos);
 	// Für alle Acht Felder um die Figur
 	for(k = 0; k < ANZ_FOCUS_FIELDS; k++)
 	{

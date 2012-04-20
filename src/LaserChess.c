@@ -8,13 +8,9 @@
 /*  Function   : main()                                                      */
 /*                                                                           */
 /*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
-<<<<<<< HEAD
-/*			     clear_map_array(), easter_egg(), gfxmain()                  */
-=======
 /*               clear_map_array(), gfxmain()                                */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
->>>>>>> 0e49a77306c1ed1bbec0247a1f5a8e3992bb8340
 /*                                                                           */
 /*  Email      : bartm9@bfh.ch                                               */
 /*                                                                           */
@@ -482,17 +478,10 @@ void clear_map_array(void)
 
 
 /*****************************************************************************/
-<<<<<<< HEAD
-/*  Function   : easter_egg                                     Version 1.0  */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   : Führt ein zusätzliches Spiel aus. (easter egg)              */
-=======
 /*  Function   : easter_egg1                                    Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : ??                                                          */
->>>>>>> 0e49a77306c1ed1bbec0247a1f5a8e3992bb8340
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
@@ -653,7 +642,7 @@ void easter_egg1(void)
 
 void easter_egg2(void)
 {
-	const int max_length = PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX;
+	/*const int max_length = PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX;
 	location snake[max_length], new_pos, new_food_pos;
 	int head = 0, tail = 0;
 	int queue_length = 1;
@@ -752,7 +741,7 @@ void easter_egg2(void)
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
-	}
+	}*/
 }
 
 
