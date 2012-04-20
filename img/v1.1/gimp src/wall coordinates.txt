@@ -1,0 +1,9 @@
+Start Farbverlauf
+49.5
+49.5
+
+Ende Farbverlauf
+100
+49.5
+
+(sonst nicht zentriert..)

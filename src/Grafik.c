@@ -1021,7 +1021,7 @@ void draw_figure_destroyed(pawn *figure)
 }
 
 
-/*Beta Funktion, evtl. spaeter fuer draw_king_destroyed
+/*//Beta Funktion, evtl. spaeter fuer draw_king_destroyed
 ColorType col_invert(ColorType color)
 {
 	ColorType col_out;
@@ -1030,6 +1030,20 @@ ColorType col_invert(ColorType color)
 	col_out.Blue = 0xFF - color.Blue;
 	col_out.Alpha = color.Alpha;
 	return col_out;
+}
+//Beta Funktion, evtl. spaeter fuer draw_king_destroyed; Zu langsam
+void draw_inverted_colors(int x, int y, int width, int height)
+{
+	ColorType color;
+
+	for(y=0; y<=height; y++)
+	{
+		for(x=0; x<=width; x++)
+		{
+			color = col_invert(GetPixel(x, y));
+			DrawPixel(x, y, color);
+		}
+	}
 }*/
 
 
