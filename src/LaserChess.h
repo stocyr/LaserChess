@@ -50,7 +50,7 @@ enum Direction {RIGHT, UP, LEFT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 
 // Spielmodus für Konsolen-Menu
-enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT};
+enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT, EASTER_EGG};
 
 // Modul-internes Enum
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};

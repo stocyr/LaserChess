@@ -24,6 +24,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 #include "Grafik.h"
 #include "window.h"
@@ -162,9 +164,17 @@ enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
 	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
+	char string[10];
 
 	printf("\nEnter command: ");
-	scanf("%d",&a);
+
+	// jetzt einen String einlesen, der optional auch aus "%d %s" bestehen kann
+	gets(string);
+	if(isdigit(string[0]))
+	{
+		a = string[0] - '0';
+	}
+
 	switch(a)
 	{
 	case 1:
@@ -177,17 +187,26 @@ enum Spielmodus menu(void)
 		MODE = OPEN;
 		return MODE;
 	case 4:
-		Sound_On = !Sound_On;
-		if(Sound_On)
+		if(strcmp(string, "\x034\x020\x067\x065\x077\x069\x06E\x06E\x074") == 0)
 		{
-			printf("Sound ON");
+			// Wenn "4 gewinnt" eingegeben wurde
+			MODE = EASTER_EGG;
+			return MODE;
 		}
 		else
 		{
-			printf("Sound OFF");
+			Sound_On = !Sound_On;
+			if(Sound_On)
+			{
+				printf("Sound ON");
+			}
+			else
+			{
+				printf("Sound OFF");
+			}
+			MODE = INVALID_INPUT;
+			return MODE;
 		}
-		MODE = INVALID_INPUT;
-		return MODE;
 	case 5:
 		MODE = EXIT;
 		return MODE;
@@ -419,6 +438,148 @@ void clear_map_array(void)
 
 
 /*****************************************************************************/
+/*  Function   : vier_gewinnt                                   Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : führt ein vier gewinnt spiel aus. (easter egg)    )         */
+/*                                                                           */
+/*  Input Para : -                                                           */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void easter_egg(void)
+{
+	MouseInfoType mouse_event;
+	location new_mouse_pos, new_stone_position;
+	int i;
+	int figure_counter;
+	enum Affiliation spieler = PLAYER_RED;
+	pawn *actual_stone;
+
+	// alle spielsteine generieren
+	pawn figuren[PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2][2];
+
+	// spielsteine auf typ [WALL] umsetzen
+	for(i = 0; i < PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2; i++)
+	{
+		// spieler rot:
+		figuren[i][PLAYER_RED].TYPE = WALL;
+		figuren[i][PLAYER_RED].PLAYER = PLAYER_RED;
+		figuren[i][PLAYER_RED].DIR = 0;
+		// spieler blau:
+		figuren[i][PLAYER_BLUE].TYPE = WALL;
+		figuren[i][PLAYER_BLUE].PLAYER = PLAYER_BLUE;
+		figuren[i][PLAYER_BLUE].DIR = 0;
+	}
+
+	// initialize graphics and load images:
+	if(init_figure_images() == -1)
+	{
+		// wenn image load failed: error
+		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		return;
+	}
+
+	//Spielfeld zeichnen
+	draw_playground();
+
+	figure_counter = 0;
+
+	while(FOREVER)
+	{
+		// Mausevent einlesen und auf map mappen
+		mouse_event = GetMouseEvent();
+		new_mouse_pos.x = mouse_event.MousePosX;
+		new_mouse_pos.y = mouse_event.MousePosY;
+		new_mouse_pos = pixel_to_map(new_mouse_pos);
+		new_mouse_pos.y = PLAYGROUND_Y_MAX - 1;		// schon auf dem obersten feld fixiert
+
+		if(mouse_event.ButtonState & W_BUTTON_PRESSED)
+		{
+			printf("mouse");
+			// wenn eine maustaste gedrückt wurde:
+			// der spieler hat zeile {new_mouse_pos.x} wurde angeklickt. -> dort ein stein setzen
+
+			actual_stone = &figuren[figure_counter][spieler];
+			printf("\nfigure: [%d][%d]", figure_counter, spieler);
+
+			if(!is_figure(new_mouse_pos))
+			{
+				// wenn auf dem obersten feld nicht schon ein stein ist, den stein setzen
+				// dazu wird zuerst seine position in sein struct geschrieben, dann wird er gezeichnet.
+				figuren[figure_counter][spieler].Pos.x = new_mouse_pos.x;
+				figuren[figure_counter][spieler].Pos.y = PLAYGROUND_Y_MAX - 1;
+				map[actual_stone->Pos.x][actual_stone->Pos.y] = actual_stone;
+
+				draw_figure(actual_stone);
+				WaitMs(100);
+
+				// den stein von dort fallen lassen
+				for(i = 0; i < PLAYGROUND_Y_MAX - 1; i++)
+				{
+					// von oben nach unten fallen lassen, bis er entweder ganz unten ist,
+					// oder dort schon eine figur steht ( -> is_figure() == 1)
+					new_stone_position.x = actual_stone->Pos.x;
+					new_stone_position.y = actual_stone->Pos.y - 1;
+
+					if(is_figure(new_stone_position) == 1)
+					{
+						// wenn dort schon ein stein ist, aufhören.
+						break;
+					}
+					else
+					{
+						// wenn nicht: figur nach unten verschieben, delay.
+						move_figure(actual_stone, new_stone_position);
+						WaitMs(100);
+					}
+				}
+			}
+			else
+			{
+				// wenn auf dem ersten Feld schon eine stein ist, darf nicht gemacht werden.
+				continue;
+			}
+
+			//########################################################
+			// check here, if someone in map[][] has 4 stones in a row
+			//########################################################
+
+			// spieler toggeln:
+			spieler = !spieler;
+			// jedes 2. mal, wen wieder spieler Rot dran ist, wird der figure counter erhöht
+			if(spieler == PLAYER_RED)
+			{
+				figure_counter++;
+			}
+
+			// schlussendlich wird noch der mouse event buffer gelöscht, damit während dem
+			// spielzug keine weiteren spielzüge im voraus getätigt werden können.
+			while(GetMouseEvent().ButtonState);
+		}
+
+		// will der user das spiel beenden?
+		if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
+		{
+			// KeyPress Buffer löschen
+			while(IsKeyPressReady())
+			{
+				GetKeyPress();
+			}
+			CloseGraphic(); //Grafikfenster schliessen
+			return;
+		}
+	}
+}
+
+
+/*****************************************************************************/
 /*  Function   : gfxmain                                        Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -464,6 +625,13 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 			//WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
+		}
+
+		if(MODE == EASTER_EGG)
+		{
+			// Vier Gewinnt wird hier ausgeführt
+			easter_egg();
+			continue;
 		}
 
 		create_figures(figure);
