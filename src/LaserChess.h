@@ -41,6 +41,7 @@ enum Direction {RIGHT, UP, LEFT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT};
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
+enum Sound {Laser, Reflexion, Destruction, Victory};
 
 #define FOREVER 1
 

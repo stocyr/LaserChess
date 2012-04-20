@@ -252,7 +252,7 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 /*  Function   : draw_empty_field		                        Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Deletes the selected field (reset)		   	                 */
+/*  Function   : Deletes the selected field (reset)                          */
 /*                                                                           */
 /*  Input Para : x and y as mapposiotn		   	                             */
 /*                                                                           */
@@ -693,6 +693,45 @@ char *path_handler(const char path[], char file[])
 
 
 /*****************************************************************************/
+/*  Function   : play_sound                                     Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Plays the sound of choosen enumeration                      */
+/*                                                                           */
+/*  Input Para : Laser, Reflexion, Destruction, Victory                      */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void play_sound(enum Sound snd)
+{
+	switch(snd)
+	{
+		case Laser:
+			PlaySoundOnce(path_handler(AppPath, SOUND_DIR"\\laser.wav"));		free(path_handler);
+			break;
+
+		case Reflexion:
+			PlaySoundOnce(path_handler(AppPath, SOUND_DIR"\\reflexion.wav"));	free(path_handler);
+			break;
+
+		case Destruction:
+			PlaySoundOnce(path_handler(AppPath, SOUND_DIR"\\destrucion.wav"));	free(path_handler);
+			break;
+
+		case Victory:
+			PlaySoundOnce(path_handler(AppPath, SOUND_DIR"\\victory.wav"));		free(path_handler);
+			break;
+	}
+}
+
+
+/*****************************************************************************/
 /*  Function   : init_figure_images                             Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -859,6 +898,11 @@ void draw_figure(pawn *figure)
 void draw_mirror_destroyed(pawn *figure)
 {
 	ColorType col_alpha_playground = PLAYGROUND_COL; col_alpha_playground.Alpha = 0x20;
+
+	//#########################################################
+	//Zerstourungssound
+	play_sound(Destruction);
+	//#########################################################
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
