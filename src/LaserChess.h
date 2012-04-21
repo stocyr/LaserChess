@@ -81,6 +81,9 @@ enum Sound {Laser, Reflection, Destruction, Victory, Ignore, Intro, Music};
 #define RED_FIG(i) (i/2)
 #define BLUE_FIG(i)	((i/2)+ (ANZ_FIGURES / 2))
 
+//Ordnerpfad zu den vordefinierten Maps (Pfad relativ zu *ApplicationPath)
+#define MAP_DIR "\\maps"
+
 // Map-Koordinatenstruct
 typedef struct {
 	int x;

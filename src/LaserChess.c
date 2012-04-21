@@ -192,7 +192,7 @@ enum Spielmodus menu(void)
 	case 4:
 		if(strcmp(string, "\x034\x067\x065\x077\x069\x06E\x06E\x074") == 0)
 		{
-			// Wenn "4 gewinnt" eingegeben wurde
+			// Wenn "4gewinnt" eingegeben wurde
 			MODE = EASTER_EGG1;
 			return MODE;
 		}
@@ -425,7 +425,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 
 			// Aufstellung file öffnen
 			char *p; //path
-			fp = fopen(p=path_handler(AppPath, "\\maps\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
+			fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
 			if(!(fp == NULL))
 			{
 				for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
@@ -597,7 +597,7 @@ void easter_egg1(void)
 			}
 			else
 			{
-				// wenn auf dem ersten Feld schon eine stein ist, darf nicht gemacht werden.
+				// wenn auf dem ersten Feld schon ein stein ist, darf nichts gemacht werden.
 				continue;
 			}
 
@@ -1060,7 +1060,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 			printf("\nBYEBYE!!!\n");
 
-			//WaitMs (2000);	// 2 Sekunden warten bis Fenster schliesst
+			WaitMs (1000);	// 1 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
 		else if(MODE == EASTER_EGG1)
