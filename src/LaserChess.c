@@ -733,7 +733,7 @@ void easter_egg1(void)
 			{
 				// Victorysound abspielen
 				play_sound(Victory);
-				WaitMs(6000);
+				WaitMs(4000);
 
 				// KeyPress Buffer löschen
 				while(IsKeyPressReady())
