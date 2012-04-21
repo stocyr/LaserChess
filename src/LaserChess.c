@@ -507,7 +507,7 @@ void easter_egg1(void)
 {
 	MouseInfoType mouse_event;
 	location new_mouse_pos, new_stone_position;
-	int i;
+	int i, row_counter, won;
 	int figure_counter;
 	enum Affiliation spieler = PLAYER_RED;
 	pawn *actual_stone;
@@ -604,9 +604,177 @@ void easter_egg1(void)
 			//########################################################
 			// check here, if someone in map[][] has 4 stones in a row
 
-			// Victorysound abspielen
-			//play_sound(Victory);
-			//Delay von c.a 6sek
+			// dafür wird immer gleich beim stein überprüft, ob dieser eine 4-er reihe ergibt.
+			// der aktuell gesetzte Stein ist: actual_stone
+
+			// zu zeit noch wüst: ab der zeile "check_pos.y = actual_stone->Pos.y;" sind eigentlich alle 4 for-loops identisch...
+
+			won = 0;
+			row_counter = 0;
+
+			// prüfen ob horizontal 4
+			// dazu bei x - 3 anfangen.
+			for(i = 0; i < 7; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x - 3 + i;
+				check_pos.y = actual_stone->Pos.y;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 4)
+						{
+							// wenn schon 4 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			row_counter = 0;
+
+			// prüfen ob vertikal 4
+			// dazu bei y - 3 anfangen
+			for(i = 0; i < 4; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x;
+				check_pos.y = actual_stone->Pos.y - 3 + i;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 4)
+						{
+							// wenn schon 4 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			row_counter = 0;
+
+			// prüfen ob diagonal / 4
+			for(i = 0; i < 7; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x - 3 + i;
+				check_pos.y = actual_stone->Pos.y - 3 + i;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 4)
+						{
+							// wenn schon 4 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			row_counter = 0;
+
+			// prüfen ob diagonal \ 4
+			for(i = 0; i < 7; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x - 3 + i;
+				check_pos.y = actual_stone->Pos.y + 3 - i;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 4)
+						{
+							// wenn schon 4 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			if(won)
+			{
+				// Victorysound abspielen
+				play_sound(Victory);
+				WaitMs(6000);
+
+				// KeyPress Buffer löschen
+				while(IsKeyPressReady())
+				{
+					GetKeyPress();
+				}
+				CloseGraphic(); //Grafikfenster schliessen
+				return;
+			}
+
 			//########################################################
 
 			// spieler toggeln:
