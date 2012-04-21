@@ -89,7 +89,6 @@ void draw_rot_focus(location Field);
 void draw_empty_field(location pos);
 void draw_laser (location pos, enum Direction dir);
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle);
-void play_sound(enum Sound snd);
 char init_figure_images();
 void destroy_figure_images();
 void draw_figure(pawn *figure);
