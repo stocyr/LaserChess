@@ -1,0 +1,28 @@
+Berechnet mit Trigo
+(Gerundet auf Werte in GIMP bei 100x100 img)
+GK = sin * H; AK = cos * H
+50 +- GK
+50 +- AK
+
+Grundpunkte 45°
+(H 10; GK&AK 7.1)
+42.9
+57.1
+
+Grosse Spitzen 45°
+(H 50; GK&AK 35.4)
+85.4
+14.6
+
+Kleine Spitzen 3/2 * 45°
+(H 30; GK&AK 11.5 & 27.7)
+22.3
+61.5
+77.7
+38.5
+
+Kreis 8x8
+56 36
+56 44 (farbe start)
+64 36 (farbe start)
+(dann für andere seite spiegeln)

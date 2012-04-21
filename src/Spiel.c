@@ -72,6 +72,8 @@ void create_focus(location pos)
 	};
 	// Über die Figur selbst einen Rahmen zeichnen
 	draw_focus(pos);
+	// Falls Figur an pos rotierbar ist (kein King oder Wall), dann den Rotations-Fokus zeichnen
+	if(!(map[pos.x][pos.y]->TYPE == KING) && !(map[pos.x][pos.y]->TYPE == WALL)) draw_rot_focus(pos);
 	// Für alle Acht Felder um die Figur
 	for(k = 0; k < ANZ_FOCUS_FIELDS; k++)
 	{
@@ -276,16 +278,13 @@ void spiel(pawn *figure)
 			{
 				GetKeyPress();
 			}
-			//[Spiel beenden] hier einfügen
+			//Spiel beenden
 			FIGURE_DEST = EXIT;
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
 	}
 	while(FIGURE_DEST > 2);
-
-	// Gewinnersound abspielen
-	play_sound(Victory);
 
 	// Gewinner anzeigen
 	draw_winner_text(&figure[(-destroyed_figure - 1)*(ANZ_FIGURES/2)]);
@@ -299,7 +298,7 @@ void spiel(pawn *figure)
 		break;
 	}
 
-	WaitMs(3000);
+	WaitMs(6000);	//6-sek-delay für Victorysound
 	CloseGraphic(); //Grafikfenster schliessen
 	// KeyPress Buffer löschen
 	while(IsKeyPressReady())

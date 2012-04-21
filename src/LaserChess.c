@@ -166,6 +166,9 @@ enum Spielmodus menu(void)
 	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
 	char string[80];
 
+	//Intro-Sound abspielen
+	play_sound(Intro);
+
 	printf("\nEnter command: ");
 
 	// jetzt einen String einlesen, der optional auch aus "%d %s" bestehen kann
@@ -187,7 +190,7 @@ enum Spielmodus menu(void)
 		MODE = OPEN;
 		return MODE;
 	case 4:
-		if(strcmp(string, "\x034\x020\x067\x065\x077\x069\x06E\x06E\x074") == 0)
+		if(strcmp(string, "\x034\x067\x065\x077\x069\x06E\x06E\x074") == 0)
 		{
 			// Wenn "4 gewinnt" eingegeben wurde
 			MODE = EASTER_EGG1;
@@ -198,17 +201,21 @@ enum Spielmodus menu(void)
 			Sound_On = !Sound_On;
 			if(Sound_On)
 			{
-				printf("Sound ON");
+				//Intro-Sound abspielen
+				play_sound(Intro);
+				printf("Sound ON\n");
 			}
 			else
 			{
-				printf("Sound OFF");
+				//Intro-Sound beenden
+				StopContinuousSound();
+				printf("Sound OFF\n");
 			}
 			MODE = INVALID_INPUT;
 			return MODE;
 		}
 	case 5:
-		if(strcmp(string, "5nake") == 0)
+		if(strcmp(string, "\x035\x06e\x061\x06B\x065") == 0)
 		{
 			// Wenn "5nake" eingegeben wurde
 			MODE = EASTER_EGG2;
@@ -221,7 +228,7 @@ enum Spielmodus menu(void)
 		}
 	default:	// Wenn andere/ungültige Eingabe, -1 zurückgeben
 		MODE = INVALID_INPUT;
-		printf("Ungueltige Eingabe");
+		printf("Ungueltige Eingabe\n");
 		return MODE;
 	}
 }
@@ -546,6 +553,10 @@ void easter_egg1(void)
 		if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 		{
 			// wenn eine maustaste gedrückt wurde:
+
+			// sound abspielen
+			play_sound(Reflection);
+
 			// der spieler hat zeile {new_mouse_pos.x} wurde angeklickt. -> dort ein stein setzen
 
 			actual_stone = &figuren[figure_counter][spieler];
@@ -581,6 +592,8 @@ void easter_egg1(void)
 						WaitMs(100);
 					}
 				}
+				// wenn unten angekommen: sound abspielen
+				play_sound(Ignore);
 			}
 			else
 			{
@@ -590,6 +603,10 @@ void easter_egg1(void)
 
 			//########################################################
 			// check here, if someone in map[][] has 4 stones in a row
+
+			// Victorysound abspielen
+			//play_sound(Victory);
+			//Delay von c.a 6sek
 			//########################################################
 
 			// spieler toggeln:
@@ -711,6 +728,16 @@ void easter_egg2(void)
 				// wenn nach rechts: nach rechts drehen
 				snake_angle = CW;
 				break;
+
+			case W_KEY_CLOSE_WINDOW:
+				// wenn der user beenden will
+				// KeyPress Buffer löschen
+				while(IsKeyPressReady())
+				{
+					GetKeyPress();
+				}
+				CloseGraphic(); //Grafikfenster schliessen
+				return;
 			}
 		}
 
@@ -773,11 +800,17 @@ void easter_egg2(void)
 				{
 					// wenn was gefressen wurde, schwanz verlängern und food verschieben
 					queue_length++;
-					// evtl hier schon tail neu setzen?
-					//(head + (max_length - queue_length)) % max_length;
 
-					new_food_pos.x = PLAYGROUND_X_MAX * rand() / RAND_MAX;
-					new_food_pos.y = PLAYGROUND_Y_MAX * rand() / RAND_MAX;
+					// sound abspielen
+					play_sound(Destruction);
+
+					// food an neue position verschieben: achtung: nicht auf die snake drauf!
+					do
+					{
+						new_food_pos.x = PLAYGROUND_X_MAX * rand() / RAND_MAX;
+						new_food_pos.y = PLAYGROUND_Y_MAX * rand() / RAND_MAX;
+					}
+					while(is_figure(new_food_pos)); // solange, bis new_food_pos auf leerem feld
 
 					move_figure(&food, new_food_pos);
 				}
@@ -803,18 +836,6 @@ void easter_egg2(void)
 		// laser-schwanz löschen:
 		draw_empty_field(snake[tail]);
 		map[snake[tail].x][snake[tail].y] = NULL;
-
-		// will der user das spiel beenden?
-		if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
-		{
-			// KeyPress Buffer löschen
-			while(IsKeyPressReady())
-			{
-				GetKeyPress();
-			}
-			CloseGraphic(); //Grafikfenster schliessen
-			return;
-		}
 	}
 }
 
@@ -844,7 +865,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
 	printf("\n"TITLE);
-	printf("\nWelcome to Laserchess");
+	printf("\nWelcome to Laserchess!");
 
 	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
@@ -854,9 +875,12 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 		do
 		{
-			MODE = menu();		// Bekommt einer der 3 Modes zurück
+			MODE = menu();		// Bekommt einen Mode zurück
 		}
 		while( MODE == INVALID_INPUT);
+
+		//Intro-Sound beenden
+		StopContinuousSound();
 
 		if(MODE == EXIT)
 		{
@@ -882,7 +906,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		create_figures(figure);
 		if(init_game(figure, MODE))
 		{
-			spiel(figure);
+			spiel(figure);		//Spiel starten/ausführen
 		}
 	}
 

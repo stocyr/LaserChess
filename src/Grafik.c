@@ -248,6 +248,30 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 
 
 /*****************************************************************************/
+/*  Function   : draw_rot_focus                                 Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Draws a rotation-image on the selected field                */
+/*                                                                           */
+/*  Input Para : x and y as mappositon                                       */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void draw_rot_focus(location pos)
+{
+	location map_pos = map_to_pixel(pos); //Pixelkoordinaten
+	//Image zeichnen
+	DrawTransformedImage(map_pos.x+FIELD_SIZE/2, map_pos.y+FIELD_SIZE/2, 0, 100*PERCENT_FIELD_SIZE, 100*PERCENT_FIELD_SIZE, Rot_focus_img);
+}
+
+
+/*****************************************************************************/
 /*  Function   : draw_empty_field                               Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -681,35 +705,45 @@ void destroy_figure_images()
 
 void play_sound(enum Sound snd)
 {
-	char* path;		//Pointer auf Pfad
+	char *p;		//path
 
 	if(Sound_On)	//Abfrage ob Sound On
 	{
 		switch(snd)
 		{
 			case Laser:
-				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\laser.wav"));
-				if(path!=NULL)	free(path);
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\laser.wav"));
+				if(p!=NULL)	free(p);
 				break;
 
 			case Reflection:
-				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\reflection.wav"));
-				if(path!=NULL)	free(path);
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\reflection.wav"));
+				if(p!=NULL)	free(p);
 				break;
 
 			case Destruction:
-				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\destruction.wav"));
-				if(path!=NULL)	free(path);
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\destruction.wav"));
+				if(p!=NULL)	free(p);
 				break;
 
 			case Victory:
-				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\victory.wav"));
-				if(path!=NULL)	free(path);
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\victory.wav"));
+				if(p!=NULL)	free(p);
 				break;
 
 			case Ignore:
-				PlaySoundOnce(path=path_handler(AppPath, SOUND_DIR"\\ignore.wav"));
-				if(path!=NULL)	free(path);
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\ignore.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Intro:
+				PlaySoundContinuous(p=path_handler(AppPath, SOUND_DIR"\\intro.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Music:
+				/*PlaySoundContinuous(p=path_handler(AppPath, SOUND_DIR"\\music.wav"));
+				if(p!=NULL)	free(p);*/
 				break;
 		}
 	}
@@ -757,6 +791,7 @@ char init_figure_images()
 	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=error;
 
 	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
+	Rot_focus_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\rot_focus.png"));    if(p!=NULL)free(p); if(Rot_focus_img<0)    test=error;
 
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)
@@ -1021,7 +1056,7 @@ void draw_figure_destroyed(pawn *figure)
 }
 
 
-/*Beta Funktion, evtl. spaeter fuer draw_king_destroyed
+/*//Beta Funktion, evtl. spaeter fuer draw_king_destroyed
 ColorType col_invert(ColorType color)
 {
 	ColorType col_out;
@@ -1030,6 +1065,20 @@ ColorType col_invert(ColorType color)
 	col_out.Blue = 0xFF - color.Blue;
 	col_out.Alpha = color.Alpha;
 	return col_out;
+}
+//Beta Funktion, evtl. spaeter fuer draw_king_destroyed; Zu langsam
+void draw_inverted_colors(int x, int y, int width, int height)
+{
+	ColorType color;
+
+	for(y=0; y<=height; y++)
+	{
+		for(x=0; x<=width; x++)
+		{
+			color = col_invert(GetPixel(x, y));
+			DrawPixel(x, y, color);
+		}
+	}
 }*/
 
 

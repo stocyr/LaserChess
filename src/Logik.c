@@ -133,6 +133,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                 	play_sound(Destruction);
                 	//Zerstourung zeichnen
                     draw_figure_destroyed(next_pawn);
+					//Victorysound abspielen
+                	play_sound(Victory);
 
                 	// (Player+1) negativ zurückgeben
                 	// -> -1 für Player_Red, -2 für Player_Blue
