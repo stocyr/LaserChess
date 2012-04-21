@@ -692,8 +692,13 @@ void easter_egg2(void)
 	draw_playground();
 
 	// Food generieren: dazu position in sein struct geschrieben, dann wird er gezeichnet.
-	food.Pos.x = PLAYGROUND_X_MAX * rand() / RAND_MAX;
-	food.Pos.y = PLAYGROUND_Y_MAX * rand() / RAND_MAX;
+	do
+	{
+		food.Pos.x = PLAYGROUND_X_MAX * rand() / RAND_MAX;
+		food.Pos.y = PLAYGROUND_Y_MAX * rand() / RAND_MAX;
+	}
+	while(food.Pos.x == snake[head].x && food.Pos.y == snake[head].y); // solange, bis food auf leerem feld
+
 	map[food.Pos.x][food.Pos.y] = &food;
 	draw_figure(&food);
 
