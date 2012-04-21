@@ -7,8 +7,9 @@
 /*                                                                           */
 /*  Function   : Contains several logic and helper functions                 */
 /*                                                                           */
-/*  Procedures : laser(), is_inside_map(), is_figure, move_figure,           */
-/*               destroy_figure()                                            */
+/*  Procedures : laser(), is_inside_map(), is_figure(), move_figure(),       */
+/*               destroy_figure(), mouseclick_to_map(), path_handler(),      */
+/*               play_sound()                                                */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /*                                                                           */

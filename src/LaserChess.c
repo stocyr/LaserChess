@@ -192,7 +192,6 @@ enum Spielmodus menu(void)
 	case 4:
 		if(strcmp(string, "\x034\x067\x065\x077\x069\x06E\x06E\x074") == 0)
 		{
-			// Wenn "4gewinnt" eingegeben wurde
 			MODE = EASTER_EGG1;
 			return MODE;
 		}
@@ -217,8 +216,12 @@ enum Spielmodus menu(void)
 	case 5:
 		if(strcmp(string, "\x035\x06e\x061\x06B\x065") == 0)
 		{
-			// Wenn "5nake" eingegeben wurde
 			MODE = EASTER_EGG2;
+			return MODE;
+		}
+		else if(strcmp(string, "\x035\x067\x065\x077\x069\x06E\x06E\x074") == 0)
+		{
+			MODE = EASTER_EGG3;
 			return MODE;
 		}
 		else
@@ -983,6 +986,305 @@ void easter_egg2(void)
 
 
 /*****************************************************************************/
+/*  Function   : easter_egg3                                    Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : ??                                                          */
+/*                                                                           */
+/*  Input Para : -                                                           */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : C. Stoller                                                  */
+/*                                                                           */
+/*  Email      : stolc2@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void easter_egg3(void)
+{
+	MouseInfoType mouse_event;
+	location new_mouse_pos;
+	int i, row_counter, won;
+	int figure_counter;
+	enum Affiliation spieler = PLAYER_RED;
+	pawn *actual_stone;
+
+	// alle spielsteine generieren
+	pawn figuren[PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2][2];
+
+	// spielsteine auf typ [WALL] umsetzen
+	for(i = 0; i < PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2; i++)
+	{
+		// spieler rot:
+		figuren[i][PLAYER_RED].TYPE = WALL;
+		figuren[i][PLAYER_RED].PLAYER = PLAYER_RED;
+		figuren[i][PLAYER_RED].DIR = 0;
+		// spieler blau:
+		figuren[i][PLAYER_BLUE].TYPE = WALL;
+		figuren[i][PLAYER_BLUE].PLAYER = PLAYER_BLUE;
+		figuren[i][PLAYER_BLUE].DIR = 0;
+	}
+
+	// initialize graphics and load images:
+	if(init_figure_images() == -1)
+	{
+		// wenn image load failed: error
+		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		return;
+	}
+
+	//Spielfeld zeichnen
+	draw_playground();
+
+	figure_counter = 0;
+
+	while(FOREVER)
+	{
+		// Mausevent einlesen und auf map mappen
+		mouse_event = GetMouseEvent();
+		new_mouse_pos.x = mouse_event.MousePosX;
+		new_mouse_pos.y = mouse_event.MousePosY;
+		new_mouse_pos = pixel_to_map(new_mouse_pos);
+
+		if(mouse_event.ButtonState & W_BUTTON_PRESSED)
+		{
+			// wenn eine maustaste gedrückt wurde:
+
+			// sound abspielen
+			play_sound(Reflection);
+
+			// der spieler hat zeile {new_mouse_pos.x} wurde angeklickt. -> dort ein stein setzen
+
+			actual_stone = &figuren[figure_counter][spieler];
+
+			if(!is_figure(new_mouse_pos))
+			{
+				// wenn auf dem obersten feld nicht schon ein stein ist, den stein setzen
+				// dazu wird zuerst seine position in sein struct geschrieben, dann wird er gezeichnet.
+				figuren[figure_counter][spieler].Pos.x = new_mouse_pos.x;
+				figuren[figure_counter][spieler].Pos.y = new_mouse_pos.y;
+				map[actual_stone->Pos.x][actual_stone->Pos.y] = actual_stone;
+
+				draw_figure(actual_stone);
+
+				// sound abspielen
+				play_sound(Ignore);
+			}
+			else
+			{
+				// wenn auf diesem Feld schon ein stein ist, darf nichts gemacht werden.
+				continue;
+			}
+
+			//########################################################
+			// check here, if someone in map[][] has 5 stones in a row
+
+			// dafür wird immer gleich beim stein überprüft, ob dieser eine 5-er reihe ergibt.
+			// der aktuell gesetzte Stein ist: actual_stone
+
+			// zu zeit noch wüst: ab der zeile "check_pos.y = actual_stone->Pos.y;" sind eigentlich alle 4 for-loops identisch...
+
+			won = 0;
+			row_counter = 0;
+
+			// prüfen ob horizontal 5
+			// dazu bei x - 4 anfangen.
+			for(i = 0; i < 9; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x - 4 + i;
+				check_pos.y = actual_stone->Pos.y;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 5)
+						{
+							// wenn schon 5 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			row_counter = 0;
+
+			// prüfen ob vertikal 5
+			// dazu bei y - 4 anfangen
+			for(i = 0; i < 9; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x;
+				check_pos.y = actual_stone->Pos.y - 4 + i;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 5)
+						{
+							// wenn schon 5 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			row_counter = 0;
+
+			// prüfen ob diagonal / 5
+			for(i = 0; i < 9; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x - 4 + i;
+				check_pos.y = actual_stone->Pos.y - 4 + i;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 5)
+						{
+							// wenn schon 5 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			row_counter = 0;
+
+			// prüfen ob diagonal \ 5
+			for(i = 0; i < 9; i++)
+			{
+				location check_pos;
+				pawn *check_stone;
+				check_pos.x = actual_stone->Pos.x - 4 + i;
+				check_pos.y = actual_stone->Pos.y + 4 - i;
+
+				if(!is_inside_map(check_pos))
+				{
+					// wenn gar nicht auf der map:
+					continue;
+				}
+				else
+				{
+					// wenn doch: beide zähler erhöhen
+					check_stone = map[check_pos.x][check_pos.y];
+					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					{
+						// wenn dort ein stein derselben Farbe ist:
+						if(++row_counter == 5)
+						{
+							// wenn schon 5 in einer reihe:
+							won = 1;
+							break;
+						}
+					}
+					else
+					{
+						// wenn entweder fremder stein oder gar keiner:
+						row_counter = 0;
+					}
+				}
+			}
+
+			if(won)
+			{
+				// Victorysound abspielen
+				play_sound(Victory);
+				WaitMs(4000);
+
+				// KeyPress Buffer löschen
+				while(IsKeyPressReady())
+				{
+					GetKeyPress();
+				}
+				CloseGraphic(); //Grafikfenster schliessen
+				return;
+			}
+
+			//########################################################
+
+			// spieler toggeln:
+			spieler = !spieler;
+			// jedes 2. mal, wen wieder spieler Rot dran ist, wird der figure counter erhöht
+			if(spieler == PLAYER_RED)
+			{
+				figure_counter++;
+			}
+
+			// schlussendlich wird noch der mouse event buffer gelöscht, damit während dem
+			// spielzug keine weiteren spielzüge im voraus getätigt werden können.
+			while(GetMouseEvent().ButtonState);
+		}
+
+		// will der user das spiel beenden?
+		if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
+		{
+			// KeyPress Buffer löschen
+			while(IsKeyPressReady())
+			{
+				GetKeyPress();
+			}
+			CloseGraphic(); //Grafikfenster schliessen
+			return;
+		}
+	}
+}
+
+
+
+
+
+/*****************************************************************************/
 /*  Function   : gfxmain                                        Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -1027,7 +1329,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		if(MODE == EXIT)
 		{
 			printf("\nBYEBYE!!!\n");
-
 			WaitMs (1000);	// 1 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
@@ -1043,6 +1344,12 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			easter_egg2();
 			continue;
 		}
+		else if(MODE == EASTER_EGG3)
+		{
+			// eater egg 3 wird ausgeführt
+			easter_egg3();
+			continue;
+		}
 
 		create_figures(figure);
 		if(init_game(figure, MODE))
@@ -1051,6 +1358,5 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		}
 	}
 
-	system("pause");
 	return EXIT_SUCCESS;
 }
