@@ -166,9 +166,6 @@ enum Spielmodus menu(void)
 	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
 	char string[80];
 
-	//Intro-Sound abspielen
-	play_sound(Intro);
-
 	printf("\nEnter command: ");
 
 	// jetzt einen String einlesen, der optional auch aus "%d %s" bestehen kann
@@ -1317,6 +1314,9 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	{
 		clear_map_array();
 
+		//Intro-Sound abspielen
+		play_sound(Intro);
+
 		do
 		{
 			MODE = menu();		// Bekommt einen Mode zurück
@@ -1340,13 +1340,13 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		}
 		else if(MODE == EASTER_EGG2)
 		{
-			// eater egg 2 wird ausgeführt
+			// Eater egg 2 wird ausgeführt
 			easter_egg2();
 			continue;
 		}
 		else if(MODE == EASTER_EGG3)
 		{
-			// eater egg 3 wird ausgeführt
+			// Eater egg 3 wird ausgeführt
 			easter_egg3();
 			continue;
 		}
