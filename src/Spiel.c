@@ -298,7 +298,7 @@ void spiel(pawn *figure)
 		break;
 	}
 
-	WaitMs(6000);	//6-sek-delay für Victorysound
+	WaitMs(4000);	//4-sek-delay für Victorysound
 	CloseGraphic(); //Grafikfenster schliessen
 	// KeyPress Buffer löschen
 	while(IsKeyPressReady())
