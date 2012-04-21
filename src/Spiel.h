@@ -5,7 +5,7 @@
 /*  o o o o      Berner Fachhochschule                                       */
 /*        :...o  Technik und Informatik                                      */
 /*****************************************************************************/
-/*  Module     : Spiel                                          Version 1.0  */
+/*  Header     : Spiel                                          Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Header for Spiel.c                                          */
@@ -26,6 +26,7 @@
 
 void spiel(pawn *figure);
 
+// Max Anzahl der Focusfelder
 #define ANZ_FOCUS_FIELDS 8
 
 #endif

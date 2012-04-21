@@ -1006,8 +1006,8 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
-	printf("\n"TITLE);
-	printf("\nWelcome to Laserchess!");
+	printf(""TITLE);
+	printf("Welcome to Laserchess!");
 
 	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
@@ -1026,7 +1026,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 		if(MODE == EXIT)
 		{
-
 			printf("\nBYEBYE!!!\n");
 
 			WaitMs (1000);	// 1 Sekunden warten bis Fenster schliesst

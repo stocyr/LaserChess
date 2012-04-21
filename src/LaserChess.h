@@ -26,6 +26,7 @@
 
 // TITLE in ASCII art:
 #define TITLE \
+"------------------------------------------------------------------------\n" \
 "#                                    #####                              \n" \
 "#         ##    ####  ###### #####  #     # #    # ######  ####   ####  \n" \
 "#        #  #  #      #      #    # #       #    # #      #      #      \n" \
@@ -33,6 +34,7 @@
 "#       ######      # #      #####  #       #    # #           #      # \n" \
 "#       #    # #    # #      #   #  #     # #    # #      #    # #    # \n" \
 "####### #    #  ####  ###### #    #  #####  #    # ######  ####   ####  \n" \
+"------------------------------------------------------------------------\n" \
 
 // Spielerzugehörtigkeit
 enum Affiliation {PLAYER_RED, PLAYER_BLUE}; //enum Affiliation {PLAYER_RED = 0, PLAYER_BLUE = 1}; //Weil in Spiel.c PLAYER = !PLAYER; Changed by kasen1
@@ -70,16 +72,15 @@ enum Sound {Laser, Reflection, Destruction, Victory, Ignore, Intro, Music, Pling
 #define ROTATE_LEFT(a) a++; NORM(a)
 #define ROTATE_RIGHT(a) a--; NORM(a)
 
-
 // Spiel-Logik / Grösse
-#define ANZ_FIGURES		14
+#define ANZ_FIGURES 14
 
 #define PLAYGROUND_X_MAX 8                        //Anzahl Felder - Breite
 #define PLAYGROUND_Y_MAX 6                        //Anzahl Felder - Höhe
 
 // Figurearray zuerst rot dann blau, umrechnen
 #define RED_FIG(i) (i/2)
-#define BLUE_FIG(i)	((i/2)+ (ANZ_FIGURES / 2))
+#define BLUE_FIG(i) ((i/2)+ (ANZ_FIGURES / 2))
 
 //Ordnerpfad zu den vordefinierten Maps (Pfad relativ zu *ApplicationPath)
 #define MAP_DIR "\\maps"
@@ -100,7 +101,6 @@ typedef struct {
 
 // Globale Variablen
 const char *AppPath;	//EXE-Pfad
-
 char Sound_On;			//On/Off Sound
 
 // Map, welche jede Figurposition "speichert"
