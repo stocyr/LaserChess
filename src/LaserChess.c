@@ -975,7 +975,7 @@ void easter_egg2(void)
 					queue_length++;
 
 					// sound abspielen
-					play_sound(Destruction);
+					play_sound(Pling);
 
 					// food an neue position verschieben: achtung: nicht auf die snake drauf!
 					do

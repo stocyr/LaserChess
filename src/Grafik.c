@@ -745,6 +745,11 @@ void play_sound(enum Sound snd)
 				/*PlaySoundContinuous(p=path_handler(AppPath, SOUND_DIR"\\music.wav"));
 				if(p!=NULL)	free(p);*/
 				break;
+
+			case Pling:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\pling.wav"));
+				if(p!=NULL)	free(p);
+				break;
 		}
 	}
 }
