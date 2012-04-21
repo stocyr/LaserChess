@@ -7,11 +7,13 @@
 /*                                                                           */
 /*  Function   : All the graphics functions                                  */
 /*                                                                           */
-/*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),          */
-/*               draw_focus(), draw_empty_field(), draw_laser(),             */
-/*               draw_angled_laser(), init_figure_images(),                  */
-/*               destroy_figure_images(), draw_figure(),                     */
-/*               draw_figure_destroyed(), draw_winner_text(), play_sound()   */
+/*  Procedures : DrawTransformedImage(), draw_sharp_empty_rectangle(),       */
+/*               pixel_to_map(), map_to_pixel(), draw_playground(),          */
+/*               draw_focus(), draw_rot_focus(), draw_empty_field(),         */
+/*               draw_half_laser(), draw_laser(), draw_angled_laser(),       */
+/*               destroy_figure_images(), init_figure_images(),              */
+/*               draw_figure(), draw_figure_destroyed(), draw_winner_text()  */
+/*                                                                           */
 /*                                                                           */
 /*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
