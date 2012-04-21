@@ -41,5 +41,7 @@ int is_figure(location pos);
 void move_figure(pawn *figure, location new_pos);
 void destroy_figure(pawn *figure);
 location mouseclick_to_map(void);
+char *path_handler(const char path[], char file[]);
+void play_sound(enum Sound snd);
 
 #endif

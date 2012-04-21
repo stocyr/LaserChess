@@ -444,3 +444,103 @@ location mouseclick_to_map(void)
 	}
 	return pixel_to_map(pos);
 }
+
+
+/*****************************************************************************/
+/*  Function   : path_handler                                   Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Combines the two strings path and file after checking       */
+/*               if there's enough memory available.                         */
+/*               Path has to be freed after use.                             */
+/*                                                                           */
+/*  Input Para : const char path[] - String with the path of file            */
+/*               char file[]       - String with the filename                */
+/*                                                                           */
+/*  Output     : returns string with the complete path                       */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+char *path_handler(const char path[], char file[])
+{
+	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
+	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
+
+	char *buffer = malloc(size);
+	if(buffer == NULL) return NULL; //Nicht genuegend Speicher vorhanden
+
+	sprintf(buffer, "%s%s", path, file); //Kompletter Pfad in buffer speichern
+	return buffer;
+}
+
+
+/*****************************************************************************/
+/*  Function   : play_sound                                     Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Plays the sound of choosen enumeration                      */
+/*                                                                           */
+/*  Input Para : Laser, Reflexion, Destruction, Victory                      */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : J. Haldemann                                                */
+/*                                                                           */
+/*  Email      : haldj3@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void play_sound(enum Sound snd)
+{
+	char *p;		//path
+
+	if(Sound_On)	//Abfrage ob Sound On
+	{
+		switch(snd)
+		{
+			case Laser:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\laser.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Reflection:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\reflection.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Destruction:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\destruction.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Victory:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\victory.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Ignore:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\ignore.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Intro:
+				PlaySoundContinuous(p=path_handler(AppPath, SOUND_DIR"\\intro.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Music:
+				/*PlaySoundContinuous(p=path_handler(AppPath, SOUND_DIR"\\music.wav"));
+				if(p!=NULL)	free(p);*/
+				break;
+
+			case Pling:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\pling.wav"));
+				if(p!=NULL)	free(p);
+				break;
+		}
+	}
+}
