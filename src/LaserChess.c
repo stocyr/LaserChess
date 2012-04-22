@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 
 #include "Grafik.h"
 #include "window.h"
@@ -457,41 +458,6 @@ void clear_map_array(void)
 
 
 /*****************************************************************************/
-/*  Function   : randseed                                       Version 1.0  */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   : Uses the mouseposition to create a seed number for rand()   */
-/*               Needs a graphic-window to get mousepositions!               */
-/*                                                                           */
-/*  Input Para : -                                                           */
-/*                                                                           */
-/*  Output     : -                                                           */
-/*                                                                           */
-/*  Author     : N. Kaeser                                                   */
-/*                                                                           */
-/*  Email      : kasen1@bfh.ch                                               */
-/*                                                                           */
-/*****************************************************************************/
-
-void randseed(void)
-{
-	MouseInfoType MouseInfo;
-	do
-	{
-		//Mausposition abrufen
-		MouseInfo = GetMouseState();
-		//printf("\rX:%5d Y:%5d Diff:%5d", MouseInfo.MousePosX, MouseInfo.MousePosY, ABS(MouseInfo.MousePosX-MouseInfo.MousePosY));
-		//WaitMs(100);
-	}while(MouseInfo.MousePosX + MouseInfo.MousePosY == 0); //Maus noch ausserhalb von Grafikfenster (X=0 Y=0)
-
-	//Seed erschaffen mit der Differenz der X- und Y-Koordinaten,
-	//somit sind zwei (mehr oder wehniger) zufaellige Zahlen verrechnet
-	srand(ABS(MouseInfo.MousePosX - MouseInfo.MousePosY));
-	//printf("\rX:%5d Y:%5d Diff:%5d", MouseInfo.MousePosX, MouseInfo.MousePosY, ABS(MouseInfo.MousePosX-MouseInfo.MousePosY));
-}
-
-
-/*****************************************************************************/
 /*  Function   : easter_egg1                                    Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -511,13 +477,16 @@ void easter_egg1(void)
 {
 	MouseInfoType mouse_event;
 	location new_mouse_pos, new_stone_position;
-	int i, row_counter, won;
+	int i, row_counter, check_loop;
 	int figure_counter;
 	enum Affiliation spieler = PLAYER_RED;
 	pawn *actual_stone;
 
 	// alle spielsteine generieren
 	pawn figuren[PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2][2];
+
+	// koeffizienten für die win_check schlaufe:
+	location win_check_koeffizienten[4][2] = { {{-3,0}, {+1,0}}, {{0,-3}, {0,+1}}, {{-3,-3}, {+1,+1}}, {{-3,+3}, {+1,-1}} };
 
 	// spielsteine auf typ [WALL] umsetzen
 	for(i = 0; i < PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2; i++)
@@ -597,7 +566,7 @@ void easter_egg1(void)
 					}
 				}
 				// wenn unten angekommen: sound abspielen
-				play_sound(Ignore);
+				play_sound(Pling);
 			}
 			else
 			{
@@ -611,172 +580,63 @@ void easter_egg1(void)
 			// dafür wird immer gleich beim stein überprüft, ob dieser eine 4-er reihe ergibt.
 			// der aktuell gesetzte Stein ist: actual_stone
 
-			// zu zeit noch wüst: ab der zeile "check_pos.y = actual_stone->Pos.y;" sind eigentlich alle 4 for-loops identisch...
-
-			won = 0;
-			row_counter = 0;
-
-			// prüfen ob horizontal 4
-			// dazu bei x - 3 anfangen.
-			for(i = 0; i < 7; i++)
+			for(check_loop = 0; check_loop < 4; check_loop++)
 			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x - 3 + i;
-				check_pos.y = actual_stone->Pos.y;
+				row_counter = 0;
+				for(i = 0; i < 7; i++)
+				{
+					location check_pos;
+					pawn *check_stone;
+					check_pos.x = actual_stone->Pos.x + win_check_koeffizienten[check_loop][0].x + win_check_koeffizienten[check_loop][1].x * i;
+					check_pos.y = actual_stone->Pos.y + win_check_koeffizienten[check_loop][0].y + win_check_koeffizienten[check_loop][1].y * i;
 
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					if(!is_inside_map(check_pos))
 					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 4)
-						{
-							// wenn schon 4 in einer reihe:
-							won = 1;
-							break;
-						}
+						// wenn gar nicht auf der map:
+						continue;
 					}
 					else
 					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
-				}
-			}
-
-			row_counter = 0;
-
-			// prüfen ob vertikal 4
-			// dazu bei y - 3 anfangen
-			for(i = 0; i < 4; i++)
-			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x;
-				check_pos.y = actual_stone->Pos.y - 3 + i;
-
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
-					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 4)
+						// wenn doch: beide zähler erhöhen
+						check_stone = map[check_pos.x][check_pos.y];
+						if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
 						{
-							// wenn schon 4 in einer reihe:
-							won = 1;
-							break;
+							// wenn dort ein stein derselben Farbe ist:
+							if(++row_counter == 4)
+							{
+								// wenn schon 4 in einer reihe:
+								// zuerst markieren:
+								int j;
+
+								// ich nehme einfach die gleiche routine wie fürs prüfen und laufe sie vom 4. Stein an rückwärts ab
+								for(j = i; j >= (i-3); j--)
+								{
+									location focus_pos;
+									focus_pos.x = actual_stone->Pos.x + win_check_koeffizienten[check_loop][0].x + win_check_koeffizienten[check_loop][1].x * j;
+									focus_pos.y = actual_stone->Pos.y + win_check_koeffizienten[check_loop][0].y + win_check_koeffizienten[check_loop][1].y * j;
+									draw_focus(focus_pos);
+								}
+
+								// Victorysound abspielen
+								play_sound(Victory);
+								WaitMs(4000);
+
+								// KeyPress Buffer löschen
+								while(IsKeyPressReady())
+								{
+									GetKeyPress();
+								}
+								CloseGraphic(); //Grafikfenster schliessen
+								return;
+							}
+						}
+						else
+						{
+							// wenn entweder fremder stein oder gar keiner:
+							row_counter = 0;
 						}
 					}
-					else
-					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
 				}
-			}
-
-			row_counter = 0;
-
-			// prüfen ob diagonal / 4
-			for(i = 0; i < 7; i++)
-			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x - 3 + i;
-				check_pos.y = actual_stone->Pos.y - 3 + i;
-
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
-					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 4)
-						{
-							// wenn schon 4 in einer reihe:
-							won = 1;
-							break;
-						}
-					}
-					else
-					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
-				}
-			}
-
-			row_counter = 0;
-
-			// prüfen ob diagonal \ 4
-			for(i = 0; i < 7; i++)
-			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x - 3 + i;
-				check_pos.y = actual_stone->Pos.y + 3 - i;
-
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
-					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 4)
-						{
-							// wenn schon 4 in einer reihe:
-							won = 1;
-							break;
-						}
-					}
-					else
-					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
-				}
-			}
-
-			if(won)
-			{
-				// Victorysound abspielen
-				play_sound(Victory);
-				WaitMs(4000);
-
-				// KeyPress Buffer löschen
-				while(IsKeyPressReady())
-				{
-					GetKeyPress();
-				}
-				CloseGraphic(); //Grafikfenster schliessen
-				return;
 			}
 
 			//########################################################
@@ -836,7 +696,7 @@ void easter_egg2(void)
 	enum Direction dir, old_dir;
 	enum Angle snake_angle;
 
-	//srand(dir); // dirty little trick: benutze uninitialisierte variable als seed für rand()
+	srand(time(NULL)); // benutze zeit in sekunden seit 01.01.1970 als seed für rand()
 
 	// snake initialisieren
 	snake[head].x = PLAYGROUND_X_MAX / 2;
@@ -862,9 +722,6 @@ void easter_egg2(void)
 
 	//Spielfeld zeichnen
 	draw_playground();
-
-	//Seed fuer rand() nach dem Erstellen des Playgroundes durch Mauskoordinaten erstellen
-	randseed();
 
 	// Food generieren: dazu position in sein struct geschrieben, dann wird er gezeichnet.
 	do
@@ -1040,13 +897,16 @@ void easter_egg3(void)
 {
 	MouseInfoType mouse_event;
 	location new_mouse_pos;
-	int i, row_counter, won;
+	int i, row_counter, check_loop;
 	int figure_counter;
 	enum Affiliation spieler = PLAYER_RED;
 	pawn *actual_stone;
 
 	// alle spielsteine generieren
 	pawn figuren[PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2][2];
+
+	// koeffizienten für die win_check schlaufe:
+	location win_check_koeffizienten[4][2] = { {{-4,0}, {+1,0}}, {{0,-4}, {0,+1}}, {{-4,-4}, {+1,+1}}, {{-4,+4}, {+1,-1}} };
 
 	// spielsteine auf typ [WALL] umsetzen
 	for(i = 0; i < PLAYGROUND_Y_MAX*PLAYGROUND_X_MAX / 2; i++)
@@ -1085,10 +945,6 @@ void easter_egg3(void)
 		if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 		{
 			// wenn eine maustaste gedrückt wurde:
-
-			// sound abspielen
-			play_sound(Reflection);
-
 			// der spieler hat zeile {new_mouse_pos.x} wurde angeklickt. -> dort ein stein setzen
 
 			actual_stone = &figuren[figure_counter][spieler];
@@ -1104,11 +960,12 @@ void easter_egg3(void)
 				draw_figure(actual_stone);
 
 				// sound abspielen
-				play_sound(Ignore);
+				play_sound(Pling);
 			}
 			else
 			{
 				// wenn auf diesem Feld schon ein stein ist, darf nichts gemacht werden.
+				play_sound(Ignore);
 				continue;
 			}
 
@@ -1118,172 +975,63 @@ void easter_egg3(void)
 			// dafür wird immer gleich beim stein überprüft, ob dieser eine 5-er reihe ergibt.
 			// der aktuell gesetzte Stein ist: actual_stone
 
-			// zu zeit noch wüst: ab der zeile "check_pos.y = actual_stone->Pos.y;" sind eigentlich alle 4 for-loops identisch...
-
-			won = 0;
-			row_counter = 0;
-
-			// prüfen ob horizontal 5
-			// dazu bei x - 4 anfangen.
-			for(i = 0; i < 9; i++)
+			for(check_loop = 0; check_loop < 5; check_loop++)
 			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x - 4 + i;
-				check_pos.y = actual_stone->Pos.y;
+				row_counter = 0;
+				for(i = 0; i < 9; i++)
+				{
+					location check_pos;
+					pawn *check_stone;
+					check_pos.x = actual_stone->Pos.x + win_check_koeffizienten[check_loop][0].x + win_check_koeffizienten[check_loop][1].x * i;
+					check_pos.y = actual_stone->Pos.y + win_check_koeffizienten[check_loop][0].y + win_check_koeffizienten[check_loop][1].y * i;
 
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
+					if(!is_inside_map(check_pos))
 					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 5)
-						{
-							// wenn schon 5 in einer reihe:
-							won = 1;
-							break;
-						}
+						// wenn gar nicht auf der map:
+						continue;
 					}
 					else
 					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
-				}
-			}
-
-			row_counter = 0;
-
-			// prüfen ob vertikal 5
-			// dazu bei y - 4 anfangen
-			for(i = 0; i < 9; i++)
-			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x;
-				check_pos.y = actual_stone->Pos.y - 4 + i;
-
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
-					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 5)
+						// wenn doch: beide zähler erhöhen
+						check_stone = map[check_pos.x][check_pos.y];
+						if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
 						{
-							// wenn schon 5 in einer reihe:
-							won = 1;
-							break;
+							// wenn dort ein stein derselben Farbe ist:
+							if(++row_counter == 5)
+							{
+								// wenn schon 5 in einer reihe:
+								// zuerst markieren:
+								int j;
+
+								// ich nehme einfach die gleiche routine wie fürs prüfen und laufe sie vom 5. Stein an rückwärts ab
+								for(j = i; j >= (i-4); j--)
+								{
+									location focus_pos;
+									focus_pos.x = actual_stone->Pos.x + win_check_koeffizienten[check_loop][0].x + win_check_koeffizienten[check_loop][1].x * j;
+									focus_pos.y = actual_stone->Pos.y + win_check_koeffizienten[check_loop][0].y + win_check_koeffizienten[check_loop][1].y * j;
+									draw_focus(focus_pos);
+								}
+
+								// Victorysound abspielen
+								play_sound(Victory);
+								WaitMs(4000);
+
+								// KeyPress Buffer löschen
+								while(IsKeyPressReady())
+								{
+									GetKeyPress();
+								}
+								CloseGraphic(); //Grafikfenster schliessen
+								return;
+							}
+						}
+						else
+						{
+							// wenn entweder fremder stein oder gar keiner:
+							row_counter = 0;
 						}
 					}
-					else
-					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
 				}
-			}
-
-			row_counter = 0;
-
-			// prüfen ob diagonal / 5
-			for(i = 0; i < 9; i++)
-			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x - 4 + i;
-				check_pos.y = actual_stone->Pos.y - 4 + i;
-
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
-					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 5)
-						{
-							// wenn schon 5 in einer reihe:
-							won = 1;
-							break;
-						}
-					}
-					else
-					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
-				}
-			}
-
-			row_counter = 0;
-
-			// prüfen ob diagonal \ 5
-			for(i = 0; i < 9; i++)
-			{
-				location check_pos;
-				pawn *check_stone;
-				check_pos.x = actual_stone->Pos.x - 4 + i;
-				check_pos.y = actual_stone->Pos.y + 4 - i;
-
-				if(!is_inside_map(check_pos))
-				{
-					// wenn gar nicht auf der map:
-					continue;
-				}
-				else
-				{
-					// wenn doch: beide zähler erhöhen
-					check_stone = map[check_pos.x][check_pos.y];
-					if(is_figure(check_pos) && check_stone->PLAYER == actual_stone->PLAYER)
-					{
-						// wenn dort ein stein derselben Farbe ist:
-						if(++row_counter == 5)
-						{
-							// wenn schon 5 in einer reihe:
-							won = 1;
-							break;
-						}
-					}
-					else
-					{
-						// wenn entweder fremder stein oder gar keiner:
-						row_counter = 0;
-					}
-				}
-			}
-
-			if(won)
-			{
-				// Victorysound abspielen
-				play_sound(Victory);
-				WaitMs(4000);
-
-				// KeyPress Buffer löschen
-				while(IsKeyPressReady())
-				{
-					GetKeyPress();
-				}
-				CloseGraphic(); //Grafikfenster schliessen
-				return;
 			}
 
 			//########################################################
@@ -1366,8 +1114,8 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 		if(MODE == EXIT)
 		{
-			printf("\nBYEBYE!!!\n");
-			WaitMs (1000);	// 1 Sekunden warten bis Fenster schliesst
+			//printf("\nBYEBYE!!!\n");
+			//WaitMs (1000);	// 1 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
 		else if(MODE == EASTER_EGG1)
