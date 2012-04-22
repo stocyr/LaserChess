@@ -280,6 +280,7 @@ int set_figure_positions(pawn *figure)
 					figure[RED_FIG(i)].Pos.x = mouse_pos.x;		// Mapkoordinaten in der Figur speichern
 					figure[RED_FIG(i)].Pos.y = mouse_pos.y;
 					draw_figure(&figure[RED_FIG(i)]);			// Figur zeichnen
+					draw_rot_focus(mouse_pos);                  // Rotationsfokus drüber, damit Rotationsmodus ersichtlich
 					map[mouse_pos.x][mouse_pos.y] = &figure[RED_FIG(i)];	// Figur auf Map setzen
 				}
 				else
@@ -287,6 +288,7 @@ int set_figure_positions(pawn *figure)
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
 					draw_figure(&figure[BLUE_FIG(i)]);
+					draw_rot_focus(mouse_pos);
 					map[mouse_pos.x][mouse_pos.y] = &figure[BLUE_FIG(i)];
 				}
 
@@ -305,6 +307,7 @@ int set_figure_positions(pawn *figure)
 				// Wenn ein 2. Mal gültig gecklickt wird, figur auf Maparray speichern, Player Wechseln
 				if(is_inside_map(mouse_pos))
 				{
+					draw_figure(map[figure_pos.x][figure_pos.y]); // Figur nochmals zeichnen, da Rotationsfokus noch darüber gezeichnet ist
 					PLAYER = !PLAYER;	// Player toggeln
 					STATE = READ_POS;
 					i++;				// Nächste Figur zum Setzen
@@ -326,6 +329,7 @@ int set_figure_positions(pawn *figure)
 					}
 					// Zeichnet die Figur neu, wenn sie gedreht wurde
 					draw_figure(map[figure_pos.x][figure_pos.y]);
+					draw_rot_focus(figure_pos);
 				}
 			}
 			break;
