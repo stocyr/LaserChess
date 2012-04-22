@@ -166,7 +166,7 @@ void spiel(pawn *figure)
 	enum Game {SELECT_FIGURE, CHOOSE_MOVE} SPIELZUG;
 	SPIELZUG = SELECT_FIGURE;
 	int destroyed_figure = 0;
-	int key_ready = 0, key_press = 0;
+	int key_press = 0;
 	MouseInfoType mouse_event;
 	location new_mouse_pos;
 	location old_mouse_pos;
@@ -290,7 +290,6 @@ void spiel(pawn *figure)
 			// Spielstand speichern
 			if(key_press == 's' || key_press == 'S')
 			{
-				printf("save");
 				char file[20];
 				FILE  *fp;
 				int i = 0;
