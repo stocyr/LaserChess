@@ -179,8 +179,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
                             // sich selbst ausführen
                             return_value = laser(next_pos, dir);
-                            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen
-                            draw_figure(next_pawn);
+                            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
+                            if(return_value >= 0)draw_figure(next_pawn);
                             return return_value;
 
                         case 3:
@@ -241,8 +241,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             break;
                     }
 
-                    // Jetzt erst wird der splitter wieder von den Laserlinien 'befreit'
-                    draw_figure(next_pawn);
+                    // Jetzt erst wird der splitter wieder von den Laserlinien 'befreit', ausser wenn King getroffen wurde
+                    if(return_value >= 0)draw_figure(next_pawn);
 
                     // und dannach der Wert zurückgegeben, der die höchste Priorität hat.
                     if(return_value < 0 || return_value_splitter < 0)
