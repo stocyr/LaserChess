@@ -12,8 +12,8 @@
 /*               draw_focus(), draw_rot_focus(), draw_empty_field(),         */
 /*               draw_half_laser(), draw_laser(), draw_angled_laser(),       */
 /*               destroy_figure_images(), init_figure_images(),              */
-/*               draw_figure(), draw_figure_destroyed(), draw_winner_text()  */
-/*                                                                           */
+/*               draw_figure(), draw_figure_destroyed(),                     */
+/*               draw_invert_colors(), draw_winner_text()                    */
 /*                                                                           */
 /*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
@@ -995,30 +995,31 @@ void draw_figure_destroyed(pawn *figure)
 }
 
 
-/*//Beta Funktion, evtl. spaeter fuer draw_king_destroyed
-ColorType col_invert(ColorType color)
-{
-	ColorType col_out;
-	col_out.Red = 0xFF - color.Red;
-	col_out.Green = 0xFF - color.Green;
-	col_out.Blue = 0xFF - color.Blue;
-	col_out.Alpha = color.Alpha;
-	return col_out;
-}
-//Beta Funktion, evtl. spaeter fuer draw_king_destroyed; Zu langsam
-void draw_inverted_colors(int x, int y, int width, int height)
-{
-	ColorType color;
+/*****************************************************************************/
+/*  Function   : draw_invert_colors                             Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Inverts the colors of the defined part.                     */
+/*                                                                           */
+/*  Input Para : x and y for startposition; width and height for the size    */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
 
-	for(y=0; y<=height; y++)
-	{
-		for(x=0; x<=width; x++)
-		{
-			color = col_invert(GetPixel(x, y));
-			DrawPixel(x, y, color);
-		}
-	}
-}*/
+void draw_invert_colors(int x, int y, int width, int height)
+{
+	//Im XOR-Modus ein weisses Rechteck ueber gesammten Playground zeichnen.
+	//Farbwerte werden somit mit OxFF XOR verknuepft -> invertiert
+	SetDrawMode(DM_XOR);
+	DrawFilledRectangle(x, y, width, height, COL_WHITE,0);
+	//Wieder normaler Modus
+	SetDrawMode(DM_OVER);
+}
 
 
 /*****************************************************************************/

@@ -113,8 +113,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
             draw_laser(next_pos, dir);
             // sich selbst ausführen
             return_value = laser(next_pos, dir);
-            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen
-            draw_empty_field(next_pos);
+            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
+            if(return_value >= 0)draw_empty_field(next_pos);
             return return_value;
         }
         else
@@ -130,10 +130,17 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                     return 0;
 
                 case KING:
-                    // König getroffen: Zerstörungssound
+                	// König getroffen: Zerstörungssound
                 	play_sound(Destruction);
                 	//Zerstourung zeichnen
                     draw_figure_destroyed(next_pawn);
+
+                    //Farben des gesamter Playgrounds invertieren
+					draw_invert_colors(0, 0, PG_WIDTH, PG_HEIGHT);
+					//Das letzte Stuendlein hat geschlagen :)
+					play_sound(Bell);
+					WaitMs(2100);
+
 					//Victorysound abspielen
                 	play_sound(Victory);
 
@@ -185,8 +192,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
                             // sich selbst ausführen
                             return_value = laser(next_pos, dir);
-                            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen
-                            draw_figure(next_pawn);
+                            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
+                            if(return_value >= 0)draw_figure(next_pawn);
                             return return_value;
                     }
                     break;
@@ -485,7 +492,8 @@ char *path_handler(const char path[], char file[])
 /*                                                                           */
 /*  Function   : Plays the sound of choosen enumeration                      */
 /*                                                                           */
-/*  Input Para : Laser, Reflexion, Destruction, Victory                      */
+/*  Input Para : Laser, Reflexion, Destruction, Victory, Ignore, Intro,      */
+/*               Music, Bling, Bell                                          */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -540,6 +548,11 @@ void play_sound(enum Sound snd)
 
 			case Pling:
 				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\pling.wav"));
+				if(p!=NULL)	free(p);
+				break;
+
+			case Bell:
+				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\bell.wav"));
 				if(p!=NULL)	free(p);
 				break;
 		}

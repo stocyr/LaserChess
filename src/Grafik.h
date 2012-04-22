@@ -10,19 +10,21 @@
 /*                                                                           */
 /*  Function   : Header for graphics functions                               */
 /*                                                                           */
-/*  Procedures : pixel_to_map(), map_to_pixel(), draw_playground(),          */
-/*               draw_focus(), draw_empty_field(), draw_laser(),             */
-/*               draw_angled_laser(), init_figure_images(),                  */
-/*               destroy_figure_images(), draw_figure(),                     */
-/*               draw_figure_destroyed(), draw_winner_text(), play_sound()   */
+/*  Procedures : DrawTransformedImage(), draw_sharp_empty_rectangle(),       */
+/*               pixel_to_map(), map_to_pixel(), draw_playground(),          */
+/*               draw_focus(), draw_rot_focus(), draw_empty_field(),         */
+/*               draw_half_laser(), draw_laser(), draw_angled_laser(),       */
+/*               destroy_figure_images(), init_figure_images(),              */
+/*               draw_figure(), draw_figure_destroyed(),                     */
+/*               draw_invert_colors(), draw_winner_text()                    */
 /*                                                                           */
-/*  Author     : J. Haldemann, N. Kaeser                                     */
+/*  Author     : J. Haldemann; N. Kaeser                                     */
 /*                                                                           */
-/*  Email      : haldj3@bfh.ch, kasen1@bfh.ch                                */
+/*  Email      : haldj3@bfh.ch; kasen1@bfh.ch                                */
 /*                                                                           */
 /*  Hystory    : 12.03.2012  File created                                    */
 /*                                                                           */
-/*  File       : Grafik.h                                                    */
+/*  File       : Grafik.c                                                    */
 /*                                                                           */
 /*****************************************************************************/
 /*  n00bSoft                                                                 */
@@ -93,6 +95,7 @@ char init_figure_images();
 void destroy_figure_images();
 void draw_figure(pawn *figure);
 void draw_figure_destroyed(pawn *figure);
+void draw_invert_colors(int x, int y, int width, int height);
 void draw_winner_text(pawn *figure);
 char *path_handler(const char path[], char file[]);
 

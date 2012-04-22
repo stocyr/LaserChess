@@ -457,6 +457,41 @@ void clear_map_array(void)
 
 
 /*****************************************************************************/
+/*  Function   : randseed                                       Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Uses the mouseposition to create a seed number for rand()   */
+/*               Needs a graphic-window to get mousepositions!               */
+/*                                                                           */
+/*  Input Para : -                                                           */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void randseed(void)
+{
+	MouseInfoType MouseInfo;
+	do
+	{
+		//Mausposition abrufen
+		MouseInfo = GetMouseState();
+		//printf("\rX:%5d Y:%5d Diff:%5d", MouseInfo.MousePosX, MouseInfo.MousePosY, ABS(MouseInfo.MousePosX-MouseInfo.MousePosY));
+		//WaitMs(100);
+	}while(MouseInfo.MousePosX + MouseInfo.MousePosY == 0); //Maus noch ausserhalb von Grafikfenster (X=0 Y=0)
+
+	//Seed erschaffen mit der Differenz der X- und Y-Koordinaten,
+	//somit sind zwei (mehr oder wehniger) zufaellige Zahlen verrechnet
+	srand(ABS(MouseInfo.MousePosX - MouseInfo.MousePosY));
+	//printf("\rX:%5d Y:%5d Diff:%5d", MouseInfo.MousePosX, MouseInfo.MousePosY, ABS(MouseInfo.MousePosX-MouseInfo.MousePosY));
+}
+
+
+/*****************************************************************************/
 /*  Function   : easter_egg1                                    Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -801,7 +836,7 @@ void easter_egg2(void)
 	enum Direction dir, old_dir;
 	enum Angle snake_angle;
 
-	srand(dir); // dirty little trick: benutze uninitialisierte variable als seed für rand()
+	//srand(dir); // dirty little trick: benutze uninitialisierte variable als seed für rand()
 
 	// snake initialisieren
 	snake[head].x = PLAYGROUND_X_MAX / 2;
@@ -827,6 +862,9 @@ void easter_egg2(void)
 
 	//Spielfeld zeichnen
 	draw_playground();
+
+	//Seed fuer rand() nach dem Erstellen des Playgroundes durch Mauskoordinaten erstellen
+	randseed();
 
 	// Food generieren: dazu position in sein struct geschrieben, dann wird er gezeichnet.
 	do
