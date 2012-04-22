@@ -478,10 +478,14 @@ char *path_handler(const char path[], char file[])
 	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
 	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
 
+	//Speicher mit Groesse size allozieren
 	char *buffer = malloc(size);
-	if(buffer == NULL) return NULL; //Nicht genuegend Speicher vorhanden
+	//Wenn nicht genuegend Speicher vorhanden, NULL zurueckgeben
+	if(buffer == NULL) return NULL;
 
-	sprintf(buffer, "%s%s", path, file); //Kompletter Pfad in buffer speichern
+	//Kompletter Pfad in buffer speichern
+	sprintf(buffer, "%s%s", path, file);
+
 	return buffer;
 }
 

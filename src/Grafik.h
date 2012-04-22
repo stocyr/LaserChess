@@ -12,9 +12,9 @@
 /*                                                                           */
 /*  Procedures : DrawTransformedImage(), draw_sharp_empty_rectangle(),       */
 /*               pixel_to_map(), map_to_pixel(), draw_playground(),          */
-/*               draw_focus(), draw_rot_focus(), draw_empty_field(),         */
-/*               draw_half_laser(), draw_laser(), draw_angled_laser(),       */
-/*               destroy_figure_images(), init_figure_images(),              */
+/*               scale_handler, draw_focus(), draw_rot_focus(),              */
+/*               draw_empty_field(), draw_half_laser(), draw_laser(),        */
+/*               draw_angled_laser(), destroy_images(), init_images(),       */
 /*               draw_figure(), draw_figure_destroyed(),                     */
 /*               draw_invert_colors(), draw_winner_text()                    */
 /*                                                                           */
@@ -24,7 +24,7 @@
 /*                                                                           */
 /*  Hystory    : 12.03.2012  File created                                    */
 /*                                                                           */
-/*  File       : Grafik.c                                                    */
+/*  File       : Grafik.h                                                    */
 /*                                                                           */
 /*****************************************************************************/
 /*  n00bSoft                                                                 */
@@ -59,8 +59,8 @@
 /*Grafik Definitionen berechnet aus anderen Definitionen*/
 #define PG_WIDTH PLAYGROUND_X_MAX*FIELD_SIZE      //Playground Breite
 #define PG_HEIGHT PLAYGROUND_Y_MAX*FIELD_SIZE     //Playground Hoehe
-#define DESTROY_DELAY (LASER_DELAY*5)             //Zerstoerungsverzoegerung
-#define WIN_TEXT_SIZE (FIELD_SIZE/5)              //Schriftgroesse in points/pixel. (FIELD_SIZE/5) ergibt gerade richtige Groesse
+#define DESTROY_DELAY (LASER_DELAY*5)             //Zerstoerungsverzoegerung, gleich schnell wie Laser waere zu schnell.
+#define WIN_TEXT_SIZE (FIELD_SIZE/5)              //Schriftgroesse in points/pixel. (FIELD_SIZE/5) ergibt gerade richtige Groesse.
 
 /*Rotations Definitionen*//*
 #define PI 3.14159265358979323846                 //Kopiert aus math.h
@@ -97,8 +97,8 @@ void draw_rot_focus(location Field);
 void draw_empty_field(location pos);
 void draw_laser (location pos, enum Direction dir);
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle);
-char init_figure_images();
-void destroy_figure_images();
+void destroy_images();
+char init_images();
 void draw_figure(pawn *figure);
 void draw_figure_destroyed(pawn *figure);
 void draw_invert_colors(int x, int y, int width, int height);

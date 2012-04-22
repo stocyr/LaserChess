@@ -9,9 +9,9 @@
 /*                                                                           */
 /*  Procedures : DrawTransformedImage(), draw_sharp_empty_rectangle(),       */
 /*               pixel_to_map(), map_to_pixel(), draw_playground(),          */
-/*               draw_focus(), draw_rot_focus(), draw_empty_field(),         */
-/*               draw_half_laser(), draw_laser(), draw_angled_laser(),       */
-/*               destroy_figure_images(), init_figure_images(),              */
+/*               scale_handler, draw_focus(), draw_rot_focus(),              */
+/*               draw_empty_field(), draw_half_laser(), draw_laser(),        */
+/*               draw_angled_laser(), destroy_images(), init_images(),       */
 /*               draw_figure(), draw_figure_destroyed(),                     */
 /*               draw_invert_colors(), draw_winner_text()                    */
 /*                                                                           */
@@ -72,7 +72,7 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
    /* Rotation in Grad */
    Rotate(Angle);
 
-   /* Scale and rotate the coordinatesystem */
+   /* Scale the coordinatesystem */
    Scale(ScaleX, ScaleY);
 
    /* Move coordinatesystem back to origin */
@@ -104,11 +104,15 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
 
 void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType Color, int LineWidth)
 {
-	SetQtOptions(Qt_PenCapStyle, 0x10); //Linie auf SquareCap einstellen
+	//Linie auf SquareCap einstellen
+	SetQtOptions(Qt_PenCapStyle, 0x10);
+
+	//Parameter berechnen
 	int left = x;
 	int right = x + Width;
 	int top = y;
 	int bottom = y + Height;
+
 	DrawLine(left, top, right, top, Color, LineWidth);       //Top
 	DrawLine(right, top, right, bottom, Color, LineWidth);   //Right
 	DrawLine(right, bottom, left, bottom, Color, LineWidth); //Bottom
@@ -226,6 +230,37 @@ void draw_playground()
 
 
 /*****************************************************************************/
+/*  Function   : scale_handler                                  Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Returns the percentage for scaling the image to fieldsize.  */
+/*                                                                           */
+/*  Input Para : Image_ID, a valid ID of a loaded Imagefile                  */
+/*                                                                           */
+/*  Output     : size scale, the x- and y-scalefactor                        */
+/*               in percentage of the fieldsize                              */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+size scale_handler(int Image_ID)
+{
+	//Bildgroesse ermitteln und vorlaeufig in scale speichern
+	size scale;
+	GetImageSize(Image_ID, &scale.Width, &scale.Height);
+
+	//Bildgroesse relativ zur Feldgroesse und in Prozent (damit float nicht noetig)
+	scale.Width = 100 * FIELD_SIZE / scale.Width;
+	scale.Height = 100 * FIELD_SIZE / scale.Height;
+
+	return scale;
+}
+
+
+/*****************************************************************************/
 /*  Function   : draw_focus                                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -246,37 +281,6 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 	location map_pos;				//initialisieren: struct location map_pos
 	map_pos = map_to_pixel(pos);	//Umwandlung der Mapkoordinaten in Windowskoordinaten
 	DrawEmptyRectangle(map_pos.x+FOCUS_IDENT, map_pos.y+FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FIELD_SIZE-2*FOCUS_IDENT, FOCUS_COL, 2*FOCUS_IDENT);	//um 5 Pixel einrücken (x-5,y-5,90,90,Grün,2*5)
-}
-
-
-/*****************************************************************************/
-/*  Function   : scale_handler                                  Version 1.0  */
-/*****************************************************************************/
-/*                                                                           */
-/*  Function   : Returns the percentage for scaling the image to fieldsize.  */
-/*                                                                           */
-/*  Input Para : Image_ID, a valid ID of a loaded Imagefile                  */
-/*                                                                           */
-/*  Output     : size scale, the x- and y-scalefactor                        */
-/*               in percentage of the fieldsize                              */
-/*                                                                           */
-/*  Author     : N. Kaeser                                                   */
-/*                                                                           */
-/*  Email      : kasen1@bfh.ch                                               */
-/*                                                                           */
-/*****************************************************************************/
-
-size scale_handler(int Image_ID)
-{
-	//Bildgroesse ermitteln
-	size scale;
-	GetImageSize(Image_ID, &scale.Width, &scale.Height);
-
-	//Bildgroesse relativ zur Feldgroesse
-	scale.Width = 100 * FIELD_SIZE / scale.Width;
-	scale.Height = 100 * FIELD_SIZE / scale.Height;
-
-	return scale;
 }
 
 
@@ -302,9 +306,9 @@ void draw_rot_focus(location pos)
 	location map_pos = map_to_pixel(pos);
 
 	//Skalierungsfaktor ermitteln, damit Bildgroesse relativ zur Feldgroesse gezeichnet wird
-	size scale = scale_handler(Rot_focus_img);
+	size scale = scale_handler(Rot_focus_img); //(in Prozent)
 
-	//Image zeichnen
+	//Image mit korrekt skalierter Groesse zeichnen
 	DrawTransformedImage(map_pos.x+FIELD_SIZE/2, map_pos.y+FIELD_SIZE/2, 0, scale.Width*PERCENT, scale.Height*PERCENT, Rot_focus_img);
 }
 
@@ -345,7 +349,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 /*                                                                           */
 /*  Function   : Help-function for draw_laser and draw_angled_laser.         */
 /*               Draws half the laser in the selected field                  */
-/*               (V1.1: Laser now glowing)                                   */
+/*               (v1.1: Laser now glowing)                                   */
 /*                                                                           */
 /*  Input Para : x and y as mapposition and direction                        */
 /*                                                                           */
@@ -359,9 +363,10 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 
 void draw_half_laser(location start_pos, enum Direction dir)
 {
-	SetQtOptions(Qt_PenCapStyle, 0x00);		//Linie auf FlatCap einstellen
-	int n;									//Aufzählvariable.
+	//Linie auf FlatCap einstellen
+	SetQtOptions(Qt_PenCapStyle, 0x00);
 
+	//Laserfarbe leicht transparent machen fuer Glow
 	ColorType glow_col = LASER_COL; glow_col.Alpha = 0x40;
 
 	//Directions fuer x
@@ -379,8 +384,11 @@ void draw_half_laser(location start_pos, enum Direction dir)
 	if(dir == 3) dir_y = 1;
 
 	//Pixelweise zeichnen bis FIELD_SIZE/2 erreicht
+	//Also wird immer ein 2-Pixel kleineres Rechteck gezeichnet, bis Kantenlaenge = 0
+	int n;
 	for(n=1; n<=FIELD_SIZE/2; n++)
 	{
+		//Glow zeichnen:
 		// --------                   -,
 		// --------         -,         |
 		// ======== =Laser   |Glow 1   |Glow 2
@@ -388,13 +396,13 @@ void draw_half_laser(location start_pos, enum Direction dir)
 		// --------                   -'
 
 		//Glow 1, zuerst
-		DrawLine(start_pos.x + dir_x*n, start_pos.y + dir_y*n, start_pos.x + dir_x*(n+1), start_pos.y + dir_y*(n+1), glow_col, 2*LASER_WIDTH);
-		//Laser, darueber
-		DrawLine(start_pos.x + dir_x*n, start_pos.y + dir_y*n, start_pos.x + dir_x*(n+1), start_pos.y + dir_y*(n+1), COL_WHITE, LASER_WIDTH);
-		//Glow 2, ueber beide, damit Laser auch einwehnig die Farbe hat
-		DrawLine(start_pos.x + dir_x*n, start_pos.y + dir_y*n, start_pos.x + dir_x*(n+1), start_pos.y + dir_y*(n+1), glow_col, 3*LASER_WIDTH);
+		DrawLine(start_pos.x+dir_x*n, start_pos.y+dir_y*n, start_pos.x+dir_x*(n+1), start_pos.y+dir_y*(n+1), glow_col, 2*LASER_WIDTH);
+		//Laser darueber, mit Farbe Weiss wegen Glow (Laserschwert effekt :) )
+		DrawLine(start_pos.x+dir_x*n, start_pos.y+dir_y*n, start_pos.x+dir_x*(n+1), start_pos.y+dir_y*(n+1), COL_WHITE, LASER_WIDTH);
+		//Glow 2 ueber beide, damit Laser auch einwehnig Farbe hat
+		DrawLine(start_pos.x+dir_x*n, start_pos.y+dir_y*n, start_pos.x+dir_x*(n+1), start_pos.y+dir_y*(n+1), glow_col, 3*LASER_WIDTH);
 
-		WaitMs(LASER_DELAY); //Wartet die gegebene Zeit in ms (Millisekunden) ab
+		WaitMs(LASER_DELAY);
 	}
 }
 
@@ -404,6 +412,7 @@ void draw_half_laser(location start_pos, enum Direction dir)
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws the laser in the selected field                       */
+/*               (v1.1 uses new function draw_angled_laser())                */
 /*                                                                           */
 /*  Input Para : x and y as mapposition and direction                        */
 /*                                                                           */
@@ -417,26 +426,26 @@ void draw_half_laser(location start_pos, enum Direction dir)
 
 void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und schreibt sie ins struct location pos und enum Direction dir
 {
-	location map_pos, start_pos;
-	map_pos = map_to_pixel (pos);
+	location map_pos = map_to_pixel(pos);
+	location start_pos;
 
 	//Start Position fuer x umrechnen
 	int start_x = dir;
-	if(dir == 3) start_x = 1;
+	if(dir == 3)start_x = 1;
 	// x+__1__
-	//  |     |
-	// 0|     |2
-	//  |_____|
+	//  |  |  |
+	// 0|  |  |2    *halbe Feldgroesse
+	//  |__|__|
 	//     1
 	start_pos.x = map_pos.x + start_x * FIELD_SIZE/2;
 
 	//Start Position fuer y umrechnen
 	int start_y = dir+1;
-	if(dir == 2) start_y = 1;
-	if(dir == 3) start_y = 0;
+	if(dir == 2)start_y = 1;
+	if(dir == 3)start_y = 0;
 	// y+__0__
 	//  |     |
-	// 1|     |1
+	// 1|-----|1    *halbe Feldgroesse
 	//  |_____|
 	//     2
 	start_pos.y = map_pos.y + start_y * FIELD_SIZE/2;
@@ -444,11 +453,11 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 	//Bis zur Feldmitte zeichnen
 	draw_half_laser(start_pos, dir);
 
-	//Feldmitte
+	//Feldmitte als neue Startposition
 	start_pos.x = map_pos.x + FIELD_SIZE/2;
 	start_pos.y = map_pos.y + FIELD_SIZE/2;
 
-	//Von Feldmitte an zeichnen
+	//Von Feldmitte an in gleicher Richtung zeichnen
 	draw_half_laser(start_pos, dir);
 
 /*Version 1.0*/
@@ -500,8 +509,11 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Draws the angled laser in the selected field                */
+/*               (v1.1 uses new function draw_angled_laser())                */
 /*                                                                           */
-/*  Input Para : x and y as mapposition, direction and angle                 */
+/*  Input Para : pos in map-coordinates, direction and angle;                */
+/*               dir, the direction of the laser                             */
+/*               angle, for the reflection (-1 right, 1 left                 */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -511,21 +523,18 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 /*                                                                           */
 /*****************************************************************************/
 
-void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bekommt Mapkoordinaten und schreibt sie ins struct location pos,
-//eine Richtung (enum Direction dir) und einen 90° Winkel (entweder -1 = rechts oder 1 = links)
+void draw_angled_laser(location pos, enum Direction dir, enum Angle angle)
 {
-	ColorType glow_col = LASER_COL; glow_col.Alpha = 0x80;
-
-	location map_pos, start_pos;
-	map_pos = map_to_pixel (pos);
+	location map_pos = map_to_pixel(pos);
+	location start_pos;
 
 	//Start Position fuer x umrechnen
 	int start_x = dir;
 	if(dir == 3) start_x = 1;
 	// x+__1__
-	//  |     |
-	// 0|     |2
-	//  |_____|
+	//  |  |  |
+	// 0|  |  |2    *halbe Feldgroesse
+	//  |__|__|
 	//     1
 	start_pos.x = map_pos.x + start_x * FIELD_SIZE/2;
 
@@ -535,7 +544,7 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	if(dir == 3) start_y = 0;
 	// y+__0__
 	//  |     |
-	// 1|     |1
+	// 1|-----|1    *halbe Feldgroesse
 	//  |_____|
 	//     2
 	start_pos.y = map_pos.y + start_y * FIELD_SIZE/2;
@@ -543,20 +552,23 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	//Bis zur Feldmitte zeichnen
 	draw_half_laser(start_pos, dir);
 
-	// Reflection sound abspielen
+	//Reflection sound abspielen
 	play_sound(Reflection);
 
-	//Feldmitte
+	//Laserfarbe halbtransparent machen fuer Ecke
+	ColorType glow_col = LASER_COL; glow_col.Alpha = 0x80;
+
+	//Ecke mit gefuelltem Kreis abrunden. (Nicht moeglich mit Qt-Optionen, da einzelne Linien gezeichnet werden)
+	DrawFilledCircle(start_pos.x-LASER_WIDTH, start_pos.y-LASER_WIDTH, 2*LASER_WIDTH, 2*LASER_WIDTH, glow_col, 1);
+
+	//Feldmitte als neue Startposition
 	start_pos.x = map_pos.x + FIELD_SIZE/2;
 	start_pos.y = map_pos.y + FIELD_SIZE/2;
-
-	//Ecke mit gefülltem Kreis rund zeichnen. (Nicht möglich mit Qt-Optionen, da einzelne Linien gezeichnet werden)
-	DrawFilledCircle(start_pos.x-LASER_WIDTH, start_pos.y-LASER_WIDTH, 2*LASER_WIDTH, 2*LASER_WIDTH, glow_col, 1);
 
 	//Neue Direction nach Ablenkung
 	dir += angle; NORM(dir);
 
-	//Von Feldmitte an zeichnen
+	//Von Feldmitte an in neuer Richtung zeichnen
 	draw_half_laser(start_pos, dir);
 
 /*Version 1.0*/
@@ -690,11 +702,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 	}*/
 }
 
+
 /*****************************************************************************/
-/*  Function   : destroy_figure_images                          Version 1.0  */
+/*  Function   : destroy_images                                 Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Deletes with init_figure_images() loaded images from memory */
+/*  Function   : Deletes with init_images() loaded images from memory        */
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
@@ -706,30 +719,31 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle) //bek
 /*                                                                           */
 /*****************************************************************************/
 
-void destroy_figure_images()
+void destroy_images()
 {
-	/*Nur Images die wirklich geladen waren (also ID>0) entfernen*/
-	if (Blue_king_img > 0)     DestroyImage(Blue_king_img);
-	if (Blue_mirror_img > 0)   DestroyImage(Blue_mirror_img);
-	if (Blue_splitter_img > 0) DestroyImage(Blue_splitter_img);
-	if (Blue_wall_img > 0)     DestroyImage(Blue_wall_img);
-	if (Blue_cannon_img > 0)   DestroyImage(Blue_cannon_img);
+	/*Nur Images die wirklich geladen waren (also ID>=0) entfernen*/
+	if(Blue_king_img >= 0)     DestroyImage(Blue_king_img);
+	if(Blue_mirror_img >= 0)   DestroyImage(Blue_mirror_img);
+	if(Blue_splitter_img >= 0) DestroyImage(Blue_splitter_img);
+	if(Blue_wall_img >= 0)     DestroyImage(Blue_wall_img);
+	if(Blue_cannon_img >= 0)   DestroyImage(Blue_cannon_img);
 
-	if (Red_king_img > 0)      DestroyImage(Red_king_img);
-	if (Red_mirror_img > 0)    DestroyImage(Red_mirror_img);
-	if (Red_splitter_img > 0)  DestroyImage(Red_splitter_img);
-	if (Red_wall_img > 0)      DestroyImage(Red_wall_img);
-	if (Red_cannon_img > 0)    DestroyImage(Red_cannon_img);
+	if(Red_king_img >= 0)      DestroyImage(Red_king_img);
+	if(Red_mirror_img >= 0)    DestroyImage(Red_mirror_img);
+	if(Red_splitter_img >= 0)  DestroyImage(Red_splitter_img);
+	if(Red_wall_img >= 0)      DestroyImage(Red_wall_img);
+	if(Red_cannon_img >= 0)    DestroyImage(Red_cannon_img);
 
-	if (Fig_error_img > 0)     DestroyImage(Fig_error_img);
+	if(Fig_error_img >= 0)     DestroyImage(Fig_error_img);
+	if(Rot_focus_img >= 0)     DestroyImage(Rot_focus_img);
 }
 
 
 /*****************************************************************************/
-/*  Function   : init_figure_images                             Version 1.0  */
+/*  Function   : init_images                                    Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Loads images of figures from files into memory              */
+/*  Function   : Loads images from files into memory                         */
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
@@ -741,7 +755,7 @@ void destroy_figure_images()
 /*                                                                           */
 /*****************************************************************************/
 
-char init_figure_images()
+char init_images()
 {
 	char *p; //path
 	char error = -1;
@@ -771,7 +785,7 @@ char init_figure_images()
 	//Check, ob Alle korrekt geladen wurden.
 	if(test == error)
 	{
-		destroy_figure_images(); //Falls einige Images trotzdem erfolgreich geladen wurden, korrekt entfernen.
+		destroy_images(); //Falls einige Images trotzdem erfolgreich geladen wurden, korrekt entfernen.
 		return error;
 	}
 	else
@@ -798,13 +812,16 @@ char init_figure_images()
 /*****************************************************************************/
 void draw_figure(pawn *figure)
 {
-	int figure_img; //Fuer Image ID der figur
-	float angle = DIR_TO_DEG(figure->DIR); //Rotation in Grad
+	//Fuer Image ID der figur
+	int figure_img;
+	//Rotation in Grad
+	float angle = DIR_TO_DEG(figure->DIR);
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
 
-	draw_empty_field(figure->Pos); //Feld erstmal leeren
+	//Feld erstmal leeren
+	draw_empty_field(figure->Pos);
 
 	/*figure_img die richtigen Image ID zuweisen.*/
 	if(figure->PLAYER == PLAYER_RED)
@@ -868,12 +885,6 @@ void draw_figure(pawn *figure)
 
 	//Den dazugehoerigen Rahmen wieder zeichnen
 	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);
-
-	/*
-	//Platzhalter/Test-Rectangle
-	if(figure->PLAYER == PLAYER_RED) DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_RED, 2*FIELD_LINE_WIDTH);
-	else DrawEmptyRectangle(fig_pos.x+25, fig_pos.y+25, 50, 50, COL_BLUE, 2*FIELD_LINE_WIDTH);
-	*/
 }
 
 
@@ -884,8 +895,8 @@ void draw_figure(pawn *figure)
 /*  Function   : Draws/animates the destruction of a mirror.                 */
 /*               (V1.0, it only draws an empty field)                        */
 /*               (V1.1, "Melting"-animation with rectangles)                 */
-/*               (V1.2, offset increases allways 1 pixel)                    */
-/*               (V1.3, New animation, with glow                             */
+/*               (V1.2, offset increases allways 1 pixel, not laserwidth)    */
+/*               (V1.3, New animation, with glow)                            */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
 /*                                                                           */
@@ -899,10 +910,12 @@ void draw_figure(pawn *figure)
 
 void draw_figure_destroyed(pawn *figure)
 {
+	//Farbe erstellen, Playground-Farbe aber mit leichter Transparenz
 	ColorType col_alpha_playground = PLAYGROUND_COL; col_alpha_playground.Alpha = 0x20;
 
 	//Figur Position in Pixelkoordinaten, uebersichtlicher
 	location fig_pos = map_to_pixel(figure->Pos);
+
 	int offset, start_offset, size, space_width, space_offset;
 	int destroy_line_width = 2; //Bei Aenderung, nur zu geradem Wert, da Ungerade zur Leserlichkeit nicht umgerechnet werden!
 
@@ -937,7 +950,7 @@ void draw_figure_destroyed(pawn *figure)
 		WaitMs(DESTROY_DELAY);
 	}
 
-	draw_empty_field(figure->Pos); //Feld loeschen
+	draw_empty_field(figure->Pos); //Feld noch komplett loeschen
 
 /*Version 1.2*/
 /*
@@ -1089,11 +1102,11 @@ void draw_winner_text(pawn *hit_king)
 	//Position in Playgroundmitte
 	location fig_pos = {PG_WIDTH/2, PG_HEIGHT/2};
 
-	//Fenster
+	//Popup-Flaeche mit Rahmen
 	DrawFilledRectangle(fig_pos.x-FIELD_SIZE, fig_pos.y-FIELD_SIZE, FIELD_SIZE*2, FIELD_SIZE*2, COL_BLACK, FIELD_LINE_WIDTH);
 	DrawEmptyRectangle(fig_pos.x-FIELD_SIZE, fig_pos.y-FIELD_SIZE, FIELD_SIZE*2, FIELD_SIZE*2, LASER_COL, FIELD_LINE_WIDTH);
 
-	//Schrift Obtionen
+	//Schrift Optionen
 	SelectFont(WIN_TEXT_FONT, WIN_TEXT_SIZE, FONT_BOLD);
 
 	//Text-Informationen erhalten
