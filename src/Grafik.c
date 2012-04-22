@@ -69,11 +69,11 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
    /* Move coordinatesystem in the (assumed) centre of the immage */
    Translate(x, y);
 
+   /* Rotation in Grad */
+   Rotate(Angle);
+
    /* Scale and rotate the coordinatesystem */
    Scale(ScaleX, ScaleY);
-
-   //Rotation in Grad
-   Rotate(Angle);
 
    /* Move coordinatesystem back to origin */
    Translate(-ImageWidth/2.0, -ImageHeight/2.0);
@@ -250,6 +250,37 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 
 
 /*****************************************************************************/
+/*  Function   : scale_handler                                  Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Returns the percentage for scaling the image to fieldsize.  */
+/*                                                                           */
+/*  Input Para : Image_ID, a valid ID of a loaded Imagefile                  */
+/*                                                                           */
+/*  Output     : size scale, the x- and y-scalefactor                        */
+/*               in percentage of the fieldsize                              */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+size scale_handler(int Image_ID)
+{
+	//Bildgroesse ermitteln
+	size scale;
+	GetImageSize(Image_ID, &scale.Width, &scale.Height);
+
+	//Bildgroesse relativ zur Feldgroesse
+	scale.Width = 100 * FIELD_SIZE / scale.Width;
+	scale.Height = 100 * FIELD_SIZE / scale.Height;
+
+	return scale;
+}
+
+
+/*****************************************************************************/
 /*  Function   : draw_rot_focus                                 Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -267,9 +298,14 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 
 void draw_rot_focus(location pos)
 {
-	location map_pos = map_to_pixel(pos); //Pixelkoordinaten
+	//Position in Pixelkoordinaten
+	location map_pos = map_to_pixel(pos);
+
+	//Skalierungsfaktor ermitteln, damit Bildgroesse relativ zur Feldgroesse gezeichnet wird
+	size scale = scale_handler(Rot_focus_img);
+
 	//Image zeichnen
-	DrawTransformedImage(map_pos.x+FIELD_SIZE/2, map_pos.y+FIELD_SIZE/2, 0, 100*PERCENT_FIELD_SIZE, 100*PERCENT_FIELD_SIZE, Rot_focus_img);
+	DrawTransformedImage(map_pos.x+FIELD_SIZE/2, map_pos.y+FIELD_SIZE/2, 0, scale.Width*PERCENT, scale.Height*PERCENT, Rot_focus_img);
 }
 
 
@@ -824,9 +860,14 @@ void draw_figure(pawn *figure)
 		}
 	}
 
+	//Bildgroesse relativ zur Feldgroesse
+	size scale = scale_handler(figure_img);
+
 	//Image mit ID figure_img an fig_pos mit Rotation angle und scale auf Bildschirm zeichnen
-	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, 100*PERCENT_FIELD_SIZE, 100*PERCENT_FIELD_SIZE, figure_img);
-	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH); //Zeichnet den dazugehoerigen Rahmen
+	DrawTransformedImage(fig_pos.x+FIELD_SIZE/2, fig_pos.y+FIELD_SIZE/2, angle, scale.Width*PERCENT, scale.Height*PERCENT, figure_img);
+
+	//Den dazugehoerigen Rahmen wieder zeichnen
+	DrawEmptyRectangle(fig_pos.x, fig_pos.y, FIELD_SIZE, FIELD_SIZE, LINE_COL, FIELD_LINE_WIDTH);
 
 	/*
 	//Platzhalter/Test-Rectangle

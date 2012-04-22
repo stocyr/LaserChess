@@ -54,9 +54,9 @@
 #define WIN_TEXT_FONT "Impact"                    //Schriftart des Gewinnner-Textes
 #define WIN_TEXT_TOP "PLAYER"                     //Erste Zeile des Gewinner-Textes, naechste Zeile wird "RED" oder "BLUE" sein
 #define WIN_TEXT_BOTTOM "WINS!"                   //Dritte/Letzte Zeile des Gewinner-Textes vorherige Zeile wird "RED" oder "BLUE" sein
+#define PERCENT 0.01                              //Fuer die umrechnung Faktor <-> Prozent
 
 /*Grafik Definitionen berechnet aus anderen Definitionen*/
-#define PERCENT_FIELD_SIZE (FIELD_SIZE/10000.0)   //Feldbreite in Prozent (.0, damit als float interpretiert)
 #define PG_WIDTH PLAYGROUND_X_MAX*FIELD_SIZE      //Playground Breite
 #define PG_HEIGHT PLAYGROUND_Y_MAX*FIELD_SIZE     //Playground Hoehe
 #define DESTROY_DELAY (LASER_DELAY*5)             //Zerstoerungsverzoegerung
@@ -67,6 +67,12 @@
 #define RAD_TO_DEG(x) ((x) * 360/(2*PI))          //Radiant zu Grad umwandeln
 #define DEG_TO_RAD(x) ((x) * (2*PI)/360)          //Grad zu Radiant umwandeln*/
 #define DIR_TO_DEG(x) ((x) * -90.0)               //Dir in Grad CW und float umwandeln
+
+//Groesse
+typedef struct {
+	int Width;
+	int Height;
+} size;
 
 /*Image ID's*/
 int Blue_king_img;
