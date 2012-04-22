@@ -376,10 +376,11 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 		return 0;
 	}
 
-	draw_playground();		//Spielfeld zeichnen
+
 
 	if(MODE == SETMODE)
 	{
+		draw_playground();		//Spielfeld zeichnen
 		// Figuren manuell setzen
 		if(set_figure_positions(figure) == -1)
 		{
@@ -391,11 +392,16 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 		// Figuren nach vordefinierter Aufstellung setzen
 		if(MODE == OPEN)
 		{
+			char file[20];
 			FILE  *fp;
+			printf("Enter Filename: ");
+			scanf("%s", file);
+			while(getchar() != '\n'); // Eingabebuffer löschen
 
 			// Aufstellung file öffnen
-			char *p; //path
-			fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
+			char *p, *q; //path
+			//fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
+			fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "r"); if(p!=NULL)free(p);if(q!=NULL)free(q);
 			if(!(fp == NULL))
 			{
 				for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
@@ -416,6 +422,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 			}
 
 		}
+		draw_playground();		//Spielfeld zeichnen
 		// Alle Figuren auf der Map "platzieren" und zeichnen
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
