@@ -986,7 +986,7 @@ void easter_egg3(void)
 			// dafür wird immer gleich beim stein überprüft, ob dieser eine 5-er reihe ergibt.
 			// der aktuell gesetzte Stein ist: actual_stone
 
-			for(check_loop = 0; check_loop < 5; check_loop++)
+			for(check_loop = 0; check_loop < 4; check_loop++)
 			{
 				row_counter = 0;
 				for(i = 0; i < 9; i++)
