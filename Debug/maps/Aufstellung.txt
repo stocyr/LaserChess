@@ -1,3 +1,4 @@
+L	Kontroll-char
 0     	PLAYER
 0	SPECIES
 3	DIRECTION

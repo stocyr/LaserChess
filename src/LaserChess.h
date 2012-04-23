@@ -52,7 +52,7 @@ enum Direction {RIGHT, UP, LEFT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 
 // Spielmodus für Konsolen-Menu
-enum Spielmodus {NORMALMODE, SETMODE, OPEN, EXIT, INVALID_INPUT, EASTER_EGG1, EASTER_EGG2, EASTER_EGG3};
+enum Spielmodus {NORMALMODE, SETMODE, STARTOPEN, OPEN, EXIT, INVALID_INPUT, EASTER_EGG1, EASTER_EGG2, EASTER_EGG3};
 
 // Modul-internes Enum
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
@@ -102,6 +102,7 @@ typedef struct {
 // Globale Variablen
 const char *AppPath;	//EXE-Pfad
 char Sound_On;			//On/Off Sound
+const char *MapPath;	//Pfad der Map, falls direkt Map geoeffnet wurde
 
 // Map, welche jede Figurposition "speichert"
 pawn *map[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
