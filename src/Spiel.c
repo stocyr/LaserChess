@@ -291,10 +291,10 @@ void spiel(pawn *figure)
 	switch(-destroyed_figure - 1)
 	{
 	case PLAYER_RED:
-		printf("\n\nPLAYER BLUE WINS!\n");
+		printf("\nPLAYER BLUE WINS!\n");
 		break;
 	case PLAYER_BLUE:
-		printf("\n\nPLAYER RED WINS!\n");
+		printf("\nPLAYER RED WINS!\n");
 		break;
 	}
 
