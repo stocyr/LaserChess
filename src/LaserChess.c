@@ -280,6 +280,7 @@ int set_figure_positions(pawn *figure)
 					figure[RED_FIG(i)].Pos.x = mouse_pos.x;		// Mapkoordinaten in der Figur speichern
 					figure[RED_FIG(i)].Pos.y = mouse_pos.y;
 					draw_figure(&figure[RED_FIG(i)]);			// Figur zeichnen
+					draw_rot_focus(mouse_pos);                  // Rotationsfokus drüber, damit Rotationsmodus ersichtlich
 					map[mouse_pos.x][mouse_pos.y] = &figure[RED_FIG(i)];	// Figur auf Map setzen
 				}
 				else
@@ -287,6 +288,7 @@ int set_figure_positions(pawn *figure)
 					figure[BLUE_FIG(i)].Pos.x = mouse_pos.x;
 					figure[BLUE_FIG(i)].Pos.y = mouse_pos.y;
 					draw_figure(&figure[BLUE_FIG(i)]);
+					draw_rot_focus(mouse_pos);
 					map[mouse_pos.x][mouse_pos.y] = &figure[BLUE_FIG(i)];
 				}
 
@@ -305,6 +307,7 @@ int set_figure_positions(pawn *figure)
 				// Wenn ein 2. Mal gültig gecklickt wird, figur auf Maparray speichern, Player Wechseln
 				if(is_inside_map(mouse_pos))
 				{
+					draw_figure(map[figure_pos.x][figure_pos.y]); // Figur nochmals zeichnen, da Rotationsfokus noch darüber gezeichnet ist
 					PLAYER = !PLAYER;	// Player toggeln
 					STATE = READ_POS;
 					i++;				// Nächste Figur zum Setzen
@@ -326,6 +329,7 @@ int set_figure_positions(pawn *figure)
 					}
 					// Zeichnet die Figur neu, wenn sie gedreht wurde
 					draw_figure(map[figure_pos.x][figure_pos.y]);
+					draw_rot_focus(figure_pos);
 				}
 			}
 			break;
@@ -369,17 +373,18 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 	int i = 0;
 
 	// initialize graphics and load images:
-	if(init_figure_images() == -1)
+	if(init_images() == -1)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
 		return 0;
 	}
 
-	draw_playground();		//Spielfeld zeichnen
+
 
 	if(MODE == SETMODE)
 	{
+		draw_playground();		//Spielfeld zeichnen
 		// Figuren manuell setzen
 		if(set_figure_positions(figure) == -1)
 		{
@@ -391,11 +396,16 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 		// Figuren nach vordefinierter Aufstellung setzen
 		if(MODE == OPEN)
 		{
+			char file[20];
 			FILE  *fp;
+			printf("Enter Filename: ");
+			scanf("%s", file);
+			while(getchar() != '\n'); // Eingabebuffer löschen
 
 			// Aufstellung file öffnen
-			char *p; //path
-			fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
+			char *p, *q; //path
+			//fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
+			fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "r"); if(p!=NULL)free(p);if(q!=NULL)free(q);
 			if(!(fp == NULL))
 			{
 				for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
@@ -416,6 +426,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 			}
 
 		}
+		draw_playground();		//Spielfeld zeichnen
 		// Alle Figuren auf der Map "platzieren" und zeichnen
 		for(i = 0; i < ANZ_FIGURES; i++)
 		{
@@ -502,7 +513,7 @@ void easter_egg1(void)
 	}
 
 	// initialize graphics and load images:
-	if(init_figure_images() == -1)
+	if(init_images() == -1)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -713,7 +724,7 @@ void easter_egg2(void)
 	old_snake.TYPE = CANNON;
 
 	// initialize graphics and load images:
-	if(init_figure_images() == -1)
+	if(init_images() == -1)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -922,7 +933,7 @@ void easter_egg3(void)
 	}
 
 	// initialize graphics and load images:
-	if(init_figure_images() == -1)
+	if(init_images() == -1)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -975,7 +986,7 @@ void easter_egg3(void)
 			// dafür wird immer gleich beim stein überprüft, ob dieser eine 5-er reihe ergibt.
 			// der aktuell gesetzte Stein ist: actual_stone
 
-			for(check_loop = 0; check_loop < 5; check_loop++)
+			for(check_loop = 0; check_loop < 4; check_loop++)
 			{
 				row_counter = 0;
 				for(i = 0; i < 9; i++)

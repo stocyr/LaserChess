@@ -166,6 +166,7 @@ void spiel(pawn *figure)
 	enum Game {SELECT_FIGURE, CHOOSE_MOVE} SPIELZUG;
 	SPIELZUG = SELECT_FIGURE;
 	int destroyed_figure = 0;
+	int key_press = 0;
 	MouseInfoType mouse_event;
 	location new_mouse_pos;
 	location old_mouse_pos;
@@ -268,21 +269,52 @@ void spiel(pawn *figure)
 				}
 			}
 		}
-
-
-		// Grafikfenster schliessen
-		if(IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
+		//key_press = GetKeyPress();
+		if(IsKeyPressReady())
 		{
-			// KeyPress Buffer löschen
-			while(IsKeyPressReady())
+			key_press = GetKeyPress();
+			// Grafikfenster schliessen
+			if((key_press == W_KEY_CLOSE_WINDOW)) //Fenster schliessen geklickt
 			{
-				GetKeyPress();
+				// KeyPress Buffer löschen
+				while(IsKeyPressReady())
+				{
+					GetKeyPress();
+				}
+				//Spiel beenden
+				FIGURE_DEST = EXIT;
+				CloseGraphic(); //Grafikfenster schliessen
+				return;
 			}
-			//Spiel beenden
-			FIGURE_DEST = EXIT;
-			CloseGraphic(); //Grafikfenster schliessen
-			return;
+
+			// Spielstand speichern
+			if(key_press == 's' || key_press == 'S')
+			{
+				char file[20];
+				FILE  *fp;
+				int i = 0;
+				printf("Enter Filename: ");
+				scanf("%s", file);
+				while(getchar() != '\n'); // Eingabebuffer löschen
+
+				// Aufstellung file öffnen
+				char *p, *q; //path
+				fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "w"); if(p!=NULL)free(p);if(q!=NULL)free(q);
+				if(!(fp == NULL))
+				{
+					for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
+					{
+						fprintf(fp, "%u\n", (figure[i].PLAYER));
+						fprintf(fp, "%u\n", (figure[i].TYPE));
+						fprintf(fp, "%u\n", (figure[i].DIR));
+						fprintf(fp, "%d\n", (figure[i].Pos.x));
+						fprintf(fp, "%d\n", (figure[i].Pos.y));
+					}
+					fclose(fp);	// File schliessen
+				}
+			}
 		}
+
 	}
 	while(FIGURE_DEST > 2);
 

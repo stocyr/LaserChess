@@ -179,8 +179,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 
                             // sich selbst ausführen
                             return_value = laser(next_pos, dir);
-                            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen
-                            draw_figure(next_pawn);
+                            // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
+                            if(return_value >= 0)draw_figure(next_pawn);
                             return return_value;
 
                         case 3:
@@ -241,8 +241,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             break;
                     }
 
-                    // Jetzt erst wird der splitter wieder von den Laserlinien 'befreit'
-                    draw_figure(next_pawn);
+                    // Jetzt erst wird der splitter wieder von den Laserlinien 'befreit', ausser wenn King getroffen wurde
+                    if(return_value >= 0)draw_figure(next_pawn);
 
                     // und dannach der Wert zurückgegeben, der die höchste Priorität hat.
                     if(return_value < 0 || return_value_splitter < 0)
@@ -478,10 +478,14 @@ char *path_handler(const char path[], char file[])
 	//Komplete Laenge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
 	int size = snprintf(NULL, 0, "%s%s", path, file) + 1;
 
+	//Speicher mit Groesse size allozieren
 	char *buffer = malloc(size);
-	if(buffer == NULL) return NULL; //Nicht genuegend Speicher vorhanden
+	//Wenn nicht genuegend Speicher vorhanden, NULL zurueckgeben
+	if(buffer == NULL) return NULL;
 
-	sprintf(buffer, "%s%s", path, file); //Kompletter Pfad in buffer speichern
+	//Kompletter Pfad in buffer speichern
+	sprintf(buffer, "%s%s", path, file);
+
 	return buffer;
 }
 
