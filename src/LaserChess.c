@@ -164,16 +164,16 @@ void create_figures(pawn *figure)
 enum Spielmodus menu(void)
 {
 	enum Spielmodus MODE = NORMALMODE;
-	int a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
+	char a = 0; // Auswahlvariable, wird mit 0 initialisiert, dass wenn scanf nichts in a schreibt, der default zweig ausgeführt wird
 	char string[80];
 
 	printf("\nEnter command: ");
 
 	// jetzt einen String einlesen, der optional auch aus "%d %s" bestehen kann
 	gets(string);
-	if(isdigit(string[0]))
+	if(isdigit(string[0]))		// Estes Zeichen eine Zahl?
 	{
-		a = string[0] - '0';
+		a = string[0] - '0';	// String in Zahlenwert umrechnen
 	}
 
 	switch(a)					// Eingabe unterscheiden
@@ -187,7 +187,7 @@ enum Spielmodus menu(void)
 	case 3:
 		MODE = OPEN;
 		return MODE;
-	case 4:
+	case 4:		// Zum ein und ausschalten des Sounds
 		if(strcmp(string, "\x034\x067\x065\x077\x069\x06E\x06E\x074") == 0)
 		{
 			MODE = EASTER_EGG1;
@@ -400,14 +400,13 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 			//File durch eingabe anfordern
 			if(MODE == OPEN)
 			{
-				char file[20];
+				char file[100];
 				printf("Enter Filename: ");
 				scanf("%s", file);
 				while(getchar() != '\n'); // Eingabebuffer löschen
 
 				// Aufstellung file öffnen
 				char *p, *q; //path
-				//fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
 				fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "r"); if(p!=NULL)free(p);if(q!=NULL)free(q);
 			}
 			//File wurde direkt mit LaserChess.exe geoeffnet
@@ -1161,8 +1160,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 		if(MODE == EXIT)
 		{
-			//printf("\nBYEBYE!!!\n");
-			//WaitMs (1000);	// 1 Sekunden warten bis Fenster schliesst
 			return EXIT_SUCCESS;
 		}
 		else if(MODE == EASTER_EGG1)
@@ -1184,7 +1181,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			continue;
 		}
 
-		create_figures(figure);
+		create_figures(figure);		// Figuren hier erstellen und initialisieren
 		if(init_game(figure, MODE))
 		{
 			spiel(figure);		//Spiel starten/ausführen

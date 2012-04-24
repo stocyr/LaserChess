@@ -176,12 +176,14 @@ void spiel(pawn *figure)
 		switch (SPIELZUG)
 		{
 		case SELECT_FIGURE:
+			// Neuer Mouseklick einlesen
 			new_mouse_pos = mouseclick_to_map();
+			// Innerhalb der Map gecklickt, es ist eine Figur der momentanen Farbean der Position
 			if(is_inside_map(new_mouse_pos) && is_figure(new_mouse_pos) &&
 			  (map[new_mouse_pos.x][new_mouse_pos.y]->PLAYER == PLAYER))
 			{
-				create_focus(new_mouse_pos);
-				old_mouse_pos = new_mouse_pos;
+				create_focus(new_mouse_pos);	// Fokus zeichnen
+				old_mouse_pos = new_mouse_pos;	// Position der gewählten Figur zwischenspeichern
 				SPIELZUG = CHOOSE_MOVE;
 			}
 			break;
@@ -194,11 +196,6 @@ void spiel(pawn *figure)
 
 			if(mouse_event.ButtonState & W_BUTTON_PRESSED)
 			{
-				// DEBUG PIXEL <-> MAP
-				//printf("\n\nMousePos = %d/%d", mouse_event.MousePosX, mouse_event.MousePosY);
-				//printf("\nMapPos = %d/%d", new_mouse_pos.x, new_mouse_pos.y);
-				//printf("\nPixelPos = %d/%d", map_to_pixel(new_mouse_pos).x, map_to_pixel(new_mouse_pos).y);
-
 				if(is_inside_map(new_mouse_pos))
 				{
 					// Selbe Figur geklickt --> Figur abwählen
@@ -207,42 +204,40 @@ void spiel(pawn *figure)
 						clear_focus(new_mouse_pos);
 						SPIELZUG = SELECT_FIGURE;
 					}
-					else
-					{
+
 						// Andere Figur angeklickt --> Fokus wechseln
-						if(is_figure(new_mouse_pos) && (map[new_mouse_pos.x][new_mouse_pos.y]->PLAYER == PLAYER))
-						{
-							clear_focus(old_mouse_pos);
-							create_focus(new_mouse_pos);
-							old_mouse_pos = new_mouse_pos;		// Bug beheben
-						}
-						else
-						{
-							// Wenn an Figur anliegendes Feld geklickt --> Figur verschieben
-							if((map[new_mouse_pos.x][new_mouse_pos.y] == NULL) &&
-							  ((ABS(new_mouse_pos.x - old_mouse_pos.x)) <  2)  &&
-							  ((ABS(new_mouse_pos.y - old_mouse_pos.y)) <  2))
-							{
-								clear_focus(old_mouse_pos);
-								move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
-
-								// Abschuss sound abspielen
-								play_sound(Laser);
-
-								destroyed_figure = laser(figure[PLAYER*(ANZ_FIGURES/2) + 1].Pos, figure[PLAYER*(ANZ_FIGURES/2) + 1].DIR);
-								FIGURE_DEST = destroyed_figure + 3;
-								SPIELZUG = SELECT_FIGURE;
-								PLAYER = !PLAYER;
-
-							}
-						}
+					else if(is_figure(new_mouse_pos) && (map[new_mouse_pos.x][new_mouse_pos.y]->PLAYER == PLAYER))
+					{
+						clear_focus(old_mouse_pos);
+						create_focus(new_mouse_pos);
+						old_mouse_pos = new_mouse_pos;		// Position der angeklickten Figur zwischenspeichern
 					}
+
+						// Wenn an Figur anliegendes Feld geklickt --> Figur verschieben
+					else if((map[new_mouse_pos.x][new_mouse_pos.y] == NULL) &&
+						  ((ABS(new_mouse_pos.x - old_mouse_pos.x)) <  2)  &&
+						  ((ABS(new_mouse_pos.y - old_mouse_pos.y)) <  2))
+					{
+						clear_focus(old_mouse_pos);
+						move_figure(map[old_mouse_pos.x][old_mouse_pos.y], new_mouse_pos);
+
+						// Abschuss sound abspielen
+						play_sound(Laser);
+
+						destroyed_figure = laser(figure[PLAYER*(ANZ_FIGURES/2) + 1].Pos, figure[PLAYER*(ANZ_FIGURES/2) + 1].DIR);
+						FIGURE_DEST = destroyed_figure + 3;
+						SPIELZUG = SELECT_FIGURE;
+						PLAYER = !PLAYER;
+
+					}
+
+
 				}
 			}
-			else
-			{
+
+
 				// Kein Button geklickt, aber Mausrad gedreht, Figure drehen (König und Mauer können nicht gedreht werden)
-				if((mouse_event.ButtonState & W_MOUSE_WHEEL_CHANGE) &&
+			else if((mouse_event.ButtonState & W_MOUSE_WHEEL_CHANGE) &&
 				   !(map[old_mouse_pos.x][old_mouse_pos.y]->TYPE == KING) &&
 				   !(map[old_mouse_pos.x][old_mouse_pos.y]->TYPE == WALL))
 				{
@@ -267,7 +262,7 @@ void spiel(pawn *figure)
 					PLAYER = !PLAYER;
 
 				}
-			}
+
 		}
 		//key_press = GetKeyPress();
 		if(IsKeyPressReady())
