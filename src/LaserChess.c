@@ -394,34 +394,56 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 	else
 	{
 		// Figuren nach vordefinierter Aufstellung setzen
-		if(MODE == OPEN)
+		if((MODE == OPEN) || MODE == STARTOPEN)
 		{
-			char file[20];
 			FILE  *fp;
-			printf("Enter Filename: ");
-			scanf("%s", file);
-			while(getchar() != '\n'); // Eingabebuffer löschen
+			//File durch eingabe anfordern
+			if(MODE == OPEN)
+			{
+				char file[20];
+				printf("Enter Filename: ");
+				scanf("%s", file);
+				while(getchar() != '\n'); // Eingabebuffer löschen
 
-			// Aufstellung file öffnen
-			char *p, *q; //path
-			//fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
-			fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "r"); if(p!=NULL)free(p);if(q!=NULL)free(q);
+				// Aufstellung file öffnen
+				char *p, *q; //path
+				//fp = fopen(p=path_handler(AppPath, MAP_DIR"\\Aufstellung.txt"), "r"); if(p!=NULL)free(p);
+				fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "r"); if(p!=NULL)free(p);if(q!=NULL)free(q);
+			}
+			//File wurde direkt mit LaserChess.exe geoeffnet
+			else if(MODE == STARTOPEN)
+			{
+				fp = fopen(MapPath, "r");
+			}
 			if(!(fp == NULL))
 			{
-				for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
+				//Erstes Zeichen/Zeile lesen, ob Kontrollzeichen
+				char MapControl = 'L';
+				fscanf(fp, "%c", &MapControl);
+
+				if(MapControl == 'L')
 				{
-					fscanf(fp, "%u", &(figure[i].PLAYER));
-					fscanf(fp, "%u", &(figure[i].TYPE));
-					fscanf(fp, "%u", &(figure[i].DIR));
-					fscanf(fp, "%d", &(figure[i].Pos.x));
-					fscanf(fp, "%d", &(figure[i].Pos.y));
+					printf("Successful.\n");
+					for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
+					{
+						fscanf(fp, "%u", &(figure[i].PLAYER));
+						fscanf(fp, "%u", &(figure[i].TYPE));
+						fscanf(fp, "%u", &(figure[i].DIR));
+						fscanf(fp, "%d", &(figure[i].Pos.x));
+						fscanf(fp, "%d", &(figure[i].Pos.y));
+					}
+					fclose(fp);	// File schliessen
 				}
-				fclose(fp);	// File schliessen
+				else
+				{
+					printf("Not a mapfile.\n");
+					return 0;
+				}
 			}
 			else
 			{
 				// Meldung wenn File nicht geöffnet werden konnte
-				printf("Error: cannot open file");
+				printf("Error: cannot open file\n");
 				return 0;	// Fehlerwert zurückgeben
 			}
 
@@ -1106,6 +1128,20 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	printf("Welcome to Laserchess!");
 
 	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
+
+	//Falls ein weiteres Argument als AppPath vorhanden ist,
+	//und Laenge davon >=10, Annahme dass Map direkt geoeffnet wurde: Argument ist Pfad
+	if((argc>1) && (strlen(argv[1]) >= 10))
+	{
+		printf("\nTrying to open file..\n");
+		MapPath = argv[1];
+
+		create_figures(figure);
+		if(init_game(figure, STARTOPEN))
+		{
+			spiel(figure);		//Spiel starten/ausführen
+		}
+	}
 
 	while(FOREVER)
 	{

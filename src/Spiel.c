@@ -302,6 +302,9 @@ void spiel(pawn *figure)
 				fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "w"); if(p!=NULL)free(p);if(q!=NULL)free(q);
 				if(!(fp == NULL))
 				{
+					//Kontrollbuchstaben auf erste Zeile schreiben
+					fprintf(fp, "L\n");
+
 					for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
 					{
 						fprintf(fp, "%u\n", (figure[i].PLAYER));
