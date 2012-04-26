@@ -1100,7 +1100,7 @@ void easter_egg3(void)
 /*****************************************************************************/
 /*                                                                           */
 /*  Function   : Reads the start-arguments. If the EXE was started by        */
-/*               opening a file(map), we try to load the map and start a game*/
+/*               opening a mapfile, we try to load it and start a game.      */
 /*               If there are start-variables defined we set them.           */
 /*               Unknown arguments are printed to screen.                    */
 /*                                                                           */
