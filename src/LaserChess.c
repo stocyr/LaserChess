@@ -188,7 +188,7 @@ enum Spielmodus menu(void)
 		MODE = OPEN;
 		return MODE;
 	case 4:		// Zum ein und ausschalten des Sounds
-		if(strcmp(string, "\x034\x067\x065\x077\x069\x06E\x06E\x074") == 0)
+		if(STRINGS_EQUAL(string, "\x034\x067\x065\x077\x069\x06E\x06E\x074"))
 		{
 			MODE = EASTER_EGG1;
 			return MODE;
@@ -212,12 +212,12 @@ enum Spielmodus menu(void)
 			return MODE;
 		}
 	case 5:
-		if(strcmp(string, "\x035\x06e\x061\x06B\x065") == 0)
+		if(STRINGS_EQUAL(string, "\x035\x06e\x061\x06B\x065"))
 		{
 			MODE = EASTER_EGG2;
 			return MODE;
 		}
-		else if(strcmp(string, "\x035\x067\x065\x077\x069\x06E\x06E\x074") == 0)
+		else if(STRINGS_EQUAL(string, "\x035\x067\x065\x077\x069\x06E\x06E\x074"))
 		{
 			MODE = EASTER_EGG3;
 			return MODE;
@@ -1096,9 +1096,6 @@ void easter_egg3(void)
 }
 
 
-
-
-
 /*****************************************************************************/
 /*  Function   : gfxmain                                        Version 1.0  */
 /*****************************************************************************/
@@ -1126,13 +1123,13 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	printf(""TITLE);
 	printf("Welcome to Laserchess!");
 
-	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
-
-	//Falls ein weiteres Argument als AppPath vorhanden ist,
-	//und Laenge davon >=10, Annahme dass Map direkt geoeffnet wurde: Argument ist Pfad
-	if((argc>1) && (strlen(argv[1]) >= 10))
+	//Argument 0 = AppPath (Standardmaessig immer so)
+	//Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
+	//Also: Prueffen ob mehr als ein Argument vorhanden,
+	//      und ob dieses wirklich ein Pfad beinhaltet (2. Buchstabe ':', z.B. "C:Map1.txt")
+	if((argc>1) && (argv[1][1] == ':'))
 	{
-		printf("\nTrying to open file..\n");
+		printf("\n\n\nTrying to open file..\n");
 		MapPath = argv[1];
 
 		create_figures(figure);
@@ -1141,6 +1138,18 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 			spiel(figure);		//Spiel starten/ausführen
 		}
 	}
+	//"%*" Argument von Eclipse/CarmeIDE, andere Argumente (noch) unbekannt
+	else if(!STRINGS_EQUAL(argv[1], "%*"))
+	{
+		int i;
+		printf("\n\n\n%d unknown arguments:\n", argc-1);
+		for(i = 1; i<argc; i++)
+		{
+			printf("\"%s\"\n", argv[i]);
+		}
+	}
+
+	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
 	while(FOREVER)
 	{

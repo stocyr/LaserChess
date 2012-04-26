@@ -64,6 +64,7 @@ enum Sound {Laser, Reflection, Destruction, Victory, Ignore, Intro, Music, Pling
 #define FOREVER 1
 #define IS_EVEN(x) (!((x)%2))
 #define ABS(a) (a<0 ? -(a) : a)
+#define STRINGS_EQUAL(a,b) (strcmp(a,b)==0 ? 1 : 0)
 
 // Normierung für das Enum "Direction"
 #define NORM(a) (a<0 ? a+=4 : (a>3 ? a%=4 : a))
