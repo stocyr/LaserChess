@@ -34,7 +34,6 @@
 #include "Spiel.h"
 #include "Logik.h"
 
-
 /*****************************************************************************/
 /*  Function   : create_figures                                 Version 1.0  */
 /*****************************************************************************/
@@ -1097,6 +1096,86 @@ void easter_egg3(void)
 
 
 /*****************************************************************************/
+/*  Function   : argument_handler                               Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Reads the start-arguments. If the EXE was started by        */
+/*               opening a file(map), we try to load the map and start a game*/
+/*               If there are start-variables defined we set them.           */
+/*               Unknown arguments are printed to screen.                    */
+/*                                                                           */
+/*  Input Para : int argn, number of arguments; char* args[], arguments;     */
+/*               pawn *figure, figure-array needed to start a game           */
+/*                                                                           */
+/*  Output     : -                                                           */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+void argument_handler(int argn, char* args[], pawn *figure)
+{
+	//Argument 0 = AppPath (Standardmaessig immer so)
+	//Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
+	//Also: Prueffen ob mehr als ein Argument vorhanden,
+	//      und ob das Argument 1 einen Pfad beinhaltet (2. Buchstabe ':', z.B. "C:Map1.txt")
+	if((argn>1) && (args[1][1] == ':'))
+	{
+		printf("\n\n\nTrying to open file..\n");
+		MapPath = args[1];
+
+		create_figures(figure);
+		if(init_game(figure, STARTOPEN))
+		{
+			spiel(figure); //Spiel starten/ausführen
+		}
+	}
+	//Wenn nicht im Eclipse gestartet (Argument 1 != %*), dann sind weitere Argumente moeglich
+	else if((argn>1) && !STRINGS_EQUAL(args[1], "%*"))
+	{
+		//Kontrollvariable fuer Fehler
+		char err = 0;
+
+		int i;
+		for(i = 1; i<argn; i++)
+		{
+			/*Vorlage fuer Variablen (Bsp mit Test_var)
+			//Bekannte Variable?
+			if(STRINGS_EQUAL(args[i], "-Test_var"))
+			{
+				//Wert (naechstes Argument) vorhanden und keine variable ?
+				if((i+1<argn) && (args[i+1][0] != '-'))
+				{
+					Test_var = atoi(args[i+1]);
+
+					//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben.
+					i++;
+				}
+				else
+				{
+					//Bevor das erste mal ein Fehler ausgegeben wird 3x neue Zeile
+					if(err == 0) printf("\n\n\n");
+					err = 1;
+
+					printf("Invalid parameter for %s\n", args[i]);
+				}
+			}
+			else*/
+			{
+				//Bevor das erste mal ein Fehler ausgegeben wird 3x neue Zeile
+				if(err == 0) printf("\n\n\n");
+				err = 1;
+
+				printf("Unknown argument: \"%s\"\n", args[i]);
+			}
+		}
+	}
+}
+
+
+/*****************************************************************************/
 /*  Function   : gfxmain                                        Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
@@ -1123,31 +1202,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	printf(""TITLE);
 	printf("Welcome to Laserchess!");
 
-	//Argument 0 = AppPath (Standardmaessig immer so)
-	//Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
-	//Also: Prueffen ob mehr als ein Argument vorhanden,
-	//      und ob dieses wirklich ein Pfad beinhaltet (2. Buchstabe ':', z.B. "C:Map1.txt")
-	if((argc>1) && (argv[1][1] == ':'))
-	{
-		printf("\n\n\nTrying to open file..\n");
-		MapPath = argv[1];
-
-		create_figures(figure);
-		if(init_game(figure, STARTOPEN))
-		{
-			spiel(figure);		//Spiel starten/ausführen
-		}
-	}
-	//"%*" Argument von Eclipse/CarmeIDE, andere Argumente (noch) unbekannt
-	else if(!STRINGS_EQUAL(argv[1], "%*"))
-	{
-		int i;
-		printf("\n\n\n%d unknown arguments:\n", argc-1);
-		for(i = 1; i<argc; i++)
-		{
-			printf("\"%s\"\n", argv[i]);
-		}
-	}
+	argument_handler(argc, argv, figure);
 
 	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
