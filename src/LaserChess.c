@@ -1117,6 +1117,9 @@ void easter_egg3(void)
 
 void argument_handler(int argn, char* args[], pawn *figure)
 {
+	//Standardwerte der Variablen
+	FIELD_SIZE = 100;
+
 	//Argument 0 = AppPath (Standardmaessig immer so)
 	//Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
 	//Also: Prueffen ob mehr als ein Argument vorhanden,
@@ -1132,8 +1135,13 @@ void argument_handler(int argn, char* args[], pawn *figure)
 			spiel(figure); //Spiel starten/ausführen
 		}
 	}
-	//Wenn nicht im Eclipse gestartet (Argument 1 != %*), dann sind weitere Argumente moeglich
-	else if((argn>1) && !STRINGS_EQUAL(args[1], "%*"))
+	//Wenn im Eclipse gestartet (Argument 1 != %*)
+	else if((argn>1) && STRINGS_EQUAL(args[1], "%*"))
+	{
+		printf("\n\n\nStarted in Eclipse\n");
+	}
+	//Sonstige Argumente
+	else if((argn>1))
 	{
 		//Kontrollvariable fuer Fehler
 		char err = 0;
@@ -1141,14 +1149,18 @@ void argument_handler(int argn, char* args[], pawn *figure)
 		int i;
 		for(i = 1; i<argn; i++)
 		{
-			/*Vorlage fuer Variablen (Bsp mit Test_var)
+			/*Vorlage fuer Variablen (Bsp mit Test_var)*/
 			//Bekannte Variable?
-			if(STRINGS_EQUAL(args[i], "-Test_var"))
+			if(STRINGS_EQUAL(args[i], "-Field_size"))
 			{
 				//Wert (naechstes Argument) vorhanden und keine variable ?
 				if((i+1<argn) && (args[i+1][0] != '-'))
 				{
-					Test_var = atoi(args[i+1]);
+					//Abfrage ob im ASCII-Bereich der Zahlen noch hier einfügen
+					if(atoi(args[i+1]) > 200) FIELD_SIZE = 200;
+					else if(atoi(args[i+1]) < 20) FIELD_SIZE = 20;
+					else if((atoi(args[i+1]) >= 20) && (atoi(args[i+1]) <= 200)) FIELD_SIZE = atoi(args[i+1]);
+					else printf("err");
 
 					//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben.
 					i++;
@@ -1162,7 +1174,7 @@ void argument_handler(int argn, char* args[], pawn *figure)
 					printf("Invalid parameter for %s\n", args[i]);
 				}
 			}
-			else*/
+			else
 			{
 				//Bevor das erste mal ein Fehler ausgegeben wird 3x neue Zeile
 				if(err == 0) printf("\n\n\n");

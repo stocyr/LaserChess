@@ -40,7 +40,7 @@
 #include "Spiel.h"
 
 /*Grundsätzliche Grafik Definitionen*/
-#define FIELD_SIZE 100                            //Feldbreite in Pixel
+//#define FIELD_SIZE 100                            //Feldbreite in Pixel
 #define FIELD_LINE_WIDTH 3                        //Breite der Spielfeldlinien in Pixel
 #define LINE_COL COL_GREY                         //Linienfarbe
 #define PLAYGROUND_COL COL_BLACK                  //Spielfeldfarbe
@@ -67,6 +67,10 @@
 #define RAD_TO_DEG(x) ((x) * 360/(2*PI))          //Radiant zu Grad umwandeln
 #define DEG_TO_RAD(x) ((x) * (2*PI)/360)          //Grad zu Radiant umwandeln*/
 #define DIR_TO_DEG(x) ((x) * -90.0)               //Dir in Grad CW und float umwandeln
+
+/*Definitionen die mit Argumenten geaendert werden koennen*/
+/*Standardwerte werden in argument_handler() in LaserChess.c gesetzt.*/
+int FIELD_SIZE;
 
 //Groesse
 typedef struct {
