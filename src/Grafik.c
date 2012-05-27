@@ -57,7 +57,6 @@
 static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float ScaleY, int Image)
 {
 
-
    int ImageWidth;
    int ImageHeight;
 
@@ -117,7 +116,6 @@ void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType C
 	DrawLine(right, top, right, bottom, Color, LineWidth);   //Right
 	DrawLine(right, bottom, left, bottom, Color, LineWidth); //Bottom
 	DrawLine(left, bottom, left, top, Color, LineWidth);     //Left
-
 }
 
 
