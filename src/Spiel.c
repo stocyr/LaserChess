@@ -312,8 +312,8 @@ void spiel(pawn *figure)
 				}
 			}
 		}
-
 	}
+
 	while(FIGURE_DEST > 2);
 
 	// Gewinner anzeigen
