@@ -1158,7 +1158,7 @@ void argument_handler(int argn, char* args[], pawn *figure)
 				if((i+1<argn) && (args[i+1][0] != '-'))
 				{
 					//Falls Argument eine Zahl ist, wird diese hier in buffer kopiert
-					//(Werte groesser als 2^32 geben einen Ueberlauf)
+					//(Werte groesser als (2^32 - 1) geben einen Ueberlauf, 2^32 gibt also wieder 0)
 					sscanf(args[i+1], "%u", &buffer);
 
 					//Pruefen ob Argument eine gueltige Zahl war
@@ -1171,11 +1171,11 @@ void argument_handler(int argn, char* args[], pawn *figure)
 
 						FIELD_SIZE = buffer;
 						printf("\nField_size set to %u", buffer);
-
-						//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben.
-						i++;
 					}
-					else printf("\nInvalid parameter for %s", args[i]);
+					else printf("\nInvalid parameter for %s: \"%s\"", args[i], args[i+1]);
+
+					//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben (oder versucht).
+					i++;
 				}
 				else printf("\nParameter for %s not found", args[i]);
 			}
