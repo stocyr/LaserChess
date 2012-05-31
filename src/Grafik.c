@@ -745,7 +745,7 @@ void destroy_images()
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
-/*  Output     : returns SUCCESS if successful, otherwise ERROR                        */
+/*  Output     : returns SUCCESS if successful, otherwise ERROR              */
 /*                                                                           */
 /*  Author     : N. Kaeser                                                   */
 /*                                                                           */
