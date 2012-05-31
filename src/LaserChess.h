@@ -52,7 +52,7 @@ enum Direction {RIGHT, UP, LEFT, DOWN};
 enum Angle {CCW = 1, CW = -1};
 
 // Spielmodus für Konsolen-Menu
-enum Spielmodus {NORMALMODE, SETMODE, STARTOPEN, OPEN, EXIT, INVALID_INPUT, EASTER_EGG1, EASTER_EGG2, EASTER_EGG3};
+enum Spielmodus {NORMALMODE, SETMODE, STARTOPEN, OPEN, EXIT, INVALID_INPUT, EASTER_EGG1, EASTER_EGG2, EASTER_EGG3, EASTER_EGG4};
 
 // Modul-internes Enum
 enum Gamecontrol {EXIT_GAME, KING_RED_DEST, KING_BLUE_DEST, NONE, MIRROR_RED_DEST, MIRROR_BLUE_DIST};
@@ -76,8 +76,8 @@ enum Sound {Laser, Reflection, Destruction, Victory, Ignore, Intro, Music, Pling
 // Spiel-Logik / Grösse
 #define ANZ_FIGURES 14
 
-#define PLAYGROUND_X_MAX 8                        //Anzahl Felder - Breite
-#define PLAYGROUND_Y_MAX 6                        //Anzahl Felder - Höhe
+#define PLAYGROUND_X_MAX 9                        //Anzahl Felder - Breite
+#define PLAYGROUND_Y_MAX 7                        //Anzahl Felder - Höhe
 
 // Figurearray zuerst rot dann blau, umrechnen
 #define RED_FIG(i) (i/2)

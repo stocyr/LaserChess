@@ -184,7 +184,14 @@ enum Spielmodus menu(void)
 		MODE = SETMODE;
 		return MODE;
 	case 3:
-		MODE = OPEN;
+		if(STRINGS_EQUAL(string, "\x33\x6f\x6d\x62\x65\x72\x6d\x61\x6e"))
+		{
+			MODE = EASTER_EGG4;
+		}
+		else
+		{
+			MODE = OPEN;
+		}
 		return MODE;
 	case 4:		// Zum ein und ausschalten des Sounds
 		if(STRINGS_EQUAL(string, "\x034\x067\x065\x077\x069\x06E\x06E\x074"))
@@ -1095,6 +1102,377 @@ void easter_egg3(void)
 }
 
 
+void easter_egg4(void)
+{
+	enum Affiliation PLAYER;
+	PLAYER = PLAYER_RED;
+	location new_pos[2] = {
+			[0].x = 0,
+			[0].y = PLAYGROUND_Y_MAX - 1,
+			[1].x = PLAYGROUND_X_MAX - 1,
+			[1].y = 0};
+	location old_pos[2] = {
+			[0].x = 0,
+			[0].y = PLAYGROUND_Y_MAX - 1,
+			[1].x = PLAYGROUND_X_MAX - 1,
+			[1].y = 0};
+	int kill_pos[PLAYGROUND_X_MAX][PLAYGROUND_Y_MAX];
+
+	int i = 0, k = 0;
+	for(i = 0; i < PLAYGROUND_X_MAX; i++)	// Array auf 0 initialisieren
+	{
+		for(k = 0; k < PLAYGROUND_Y_MAX; k++)
+		{
+			kill_pos[i][k] = 0;
+		}
+	}
+	typedef struct {
+		int on, explod;
+		time_t sec;
+		pawn *Bomb;
+	}tnt;
+
+	tnt bomb[3][2];
+
+	// alle spielsteine generieren
+	pawn figuren[20];
+
+	// initialize graphics and load images:
+	if(init_images() == -1)
+	{
+		// wenn image load failed: error
+		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		return;
+	}
+
+	//Spielfeld zeichnen
+	draw_playground();
+	// Spielfiguren auf wall initialisieren und zeichenen
+		for(i = 0; i < 3; i++)
+		{
+			for(k = 0; k < 4; k++)
+			{
+				figuren[i].TYPE = WALL;
+				figuren[i].PLAYER = PLAYER_BLUE;
+				figuren[i].DIR = 0;
+				figuren[i].Pos.x = (k * 2 + 1);
+				figuren[i].Pos.y = (i * 2 + 1);
+				map[k*2+1][i*2+1] = &figuren[i];
+				draw_figure(&figuren[i]);
+
+			}
+		}
+		// Könige initialisieren
+		figuren[12].TYPE = KING;
+		figuren[12].PLAYER = PLAYER_RED;
+		figuren[12].DIR = 0;
+		figuren[12].Pos.x = 0;
+		figuren[12].Pos.y = PLAYGROUND_Y_MAX-1;
+		figuren[13].TYPE = KING;
+		figuren[13].PLAYER = PLAYER_BLUE;
+		figuren[13].DIR = 0;
+		figuren[13].Pos.x = PLAYGROUND_X_MAX-1;
+		figuren[13].Pos.y = 0;
+		draw_figure(&figuren[12]);
+		draw_figure(&figuren[13]);
+		// Bombenfiguren initialisieren
+		for(i = 0; i < 3; i++)
+		{
+			figuren[14 + i].TYPE = CANNON;
+			figuren[14 + i].PLAYER = PLAYER_RED;
+			figuren[14 + i].DIR = 0;
+			figuren[14 + i].Pos.x = -1;
+			figuren[14 + i].Pos.y = -1;
+			figuren[17 + i].TYPE = CANNON;
+			figuren[17 + i].PLAYER = PLAYER_BLUE;
+			figuren[17 + i].DIR = 0;
+			figuren[17 + i].Pos.x = -1;
+			figuren[17 + i].Pos.y = -1;
+		}
+		// Bomben Hilfsvariablen initialisierne
+		bomb[0][0].on = 0;
+		bomb[0][0].explod = 0;
+		bomb[0][0].sec = 0;
+		bomb[0][0].Bomb = &figuren[14];
+
+		bomb[1][0].on = 0;
+		bomb[1][0].explod = 0;
+		bomb[1][0].sec = 0;
+		bomb[1][0].Bomb = &figuren[15];
+
+		bomb[2][0].on = 0;
+		bomb[2][0].explod = 0;
+		bomb[2][0].sec = 0;
+		bomb[2][0].Bomb = &figuren[16];
+
+		bomb[0][1].on = 0;
+		bomb[0][1].explod = 0;
+		bomb[0][1].sec = 0;
+		bomb[0][1].Bomb = &figuren[17];
+
+		bomb[1][1].on = 0;
+		bomb[1][1].explod = 0;
+		bomb[1][1].sec = 0;
+		bomb[1][1].Bomb = &figuren[18];
+
+		bomb[2][1].on = 0;
+		bomb[2][1].explod = 0;
+		bomb[2][1].sec = 0;
+		bomb[2][1].Bomb = &figuren[19];
+
+	while(FOREVER)
+	{
+		if(IsKeyPressReady())
+		{
+			// Taste einlesen
+			switch(GetKeyPress())
+			{
+			case W_KEY_CURSOR_LEFT:
+			case W_KEY_CURSOR_LEFT | W_KEY_AUTOREPEAT:
+				// wenn nach links: nach links drehen
+				new_pos[0].x--;
+				figuren[12].DIR = WEST;
+				PLAYER = PLAYER_RED;
+				break;
+
+			case W_KEY_CURSOR_RIGHT:
+			case W_KEY_CURSOR_RIGHT | W_KEY_AUTOREPEAT:
+				// wenn nach rechts: nach rechts drehen
+				new_pos[0].x++;
+				figuren[12].DIR = EAST;
+				PLAYER = PLAYER_RED;
+				break;
+			case W_KEY_CURSOR_DOWN:
+			case W_KEY_CURSOR_DOWN | W_KEY_AUTOREPEAT:
+				// wenn nach rechts: nach rechts drehen
+				new_pos[0].y--;
+				figuren[12].DIR = SOUTH;
+				PLAYER = PLAYER_RED;
+				break;
+			case W_KEY_CURSOR_UP:
+			case W_KEY_CURSOR_UP | W_KEY_AUTOREPEAT:
+				// wenn nach rechts: nach rechts drehen
+				new_pos[0].y++;
+				figuren[12].DIR = NORTH;
+				PLAYER = PLAYER_RED;
+				break;
+			case '-':
+				PLAYER = PLAYER_RED;
+				for(i = 0; i < 3; i++)
+				{
+					if(!bomb[i][PLAYER].on)
+					{
+						bomb[i][PLAYER].on = 1;
+						bomb[i][PLAYER].sec = time(NULL);
+						bomb[i][PLAYER].Bomb->Pos = new_pos[PLAYER];
+						draw_figure(bomb[i][PLAYER].Bomb);
+						i = 4; 	// schlaufe abbrechen
+					}
+				}
+				break;
+			case 'a':
+			case 'a' | W_KEY_AUTOREPEAT:
+				// wenn nach links: nach links drehen
+				new_pos[1].x--;
+				figuren[13].DIR = WEST;
+				PLAYER = PLAYER_BLUE;
+				break;
+
+			case 'd':
+			case 'd'| W_KEY_AUTOREPEAT:
+				// wenn nach rechts: nach rechts drehen
+				new_pos[1].x++;
+				figuren[13].DIR = EAST;
+				PLAYER = PLAYER_BLUE;
+				break;
+			case 's':
+			case 's' | W_KEY_AUTOREPEAT:
+				// wenn nach rechts: nach rechts drehen
+				new_pos[1].y--;
+				figuren[13].DIR = SOUTH;
+				PLAYER = PLAYER_BLUE;
+				break;
+			case 'w':
+			case 'w' | W_KEY_AUTOREPEAT:
+				// wenn nach rechts: nach rechts drehen
+				new_pos[1].y++;
+				figuren[13].DIR = NORTH;
+				PLAYER = PLAYER_BLUE;
+				break;
+			case W_KEY_TAB:
+				PLAYER = PLAYER_BLUE;
+				for(i = 0; i < 3; i++)
+				{
+					if(!bomb[i][PLAYER].on)
+					{
+						bomb[i][PLAYER].on = 1;
+						bomb[i][PLAYER].sec = time(NULL);
+						bomb[i][PLAYER].Bomb->Pos = new_pos[PLAYER];
+						draw_figure(bomb[i][PLAYER].Bomb);
+						i = 4; 	// schlaufe abbrechen
+					}
+				}
+
+				break;
+			case W_KEY_CLOSE_WINDOW:
+				// wenn der user beenden will
+				// KeyPress Buffer löschen
+				while(IsKeyPressReady())
+				{
+					GetKeyPress();
+				}
+				CloseGraphic(); //Grafikfenster schliessen
+				clear_map_array();
+				return;
+			}
+			// Figur entwprechend den Eingaben verschieben
+			if(is_inside_map(new_pos[PLAYER]) && (!is_figure(new_pos[PLAYER]) ||
+			   (new_pos[PLAYER].x == new_pos[!PLAYER].x && new_pos[PLAYER].y == new_pos[!PLAYER].y)))
+			{
+				move_figure(&figuren[12+PLAYER], new_pos[PLAYER]);
+				// Wenn die Figuren übereinander lagen, und nun wieder andere positionen haben, beide figuren zeichnen
+				if(old_pos[PLAYER].x == new_pos[!PLAYER].x && old_pos[PLAYER].y == new_pos[!PLAYER].y)
+				{
+					draw_figure(&figuren[12 + !PLAYER]);
+				}
+
+				// Wenn Figur über bombe läuft, Bombe wieder zeichnen
+				for(i = 0; i < 3; i++)
+				{
+					if((old_pos[PLAYER].x == bomb[i][0].Bomb->Pos.x) && (old_pos[PLAYER].y == bomb[i][0].Bomb->Pos.y) && bomb[i][0].on)
+					{
+						draw_figure(bomb[i][0].Bomb);
+					}
+				}
+				for(i = 0; i < 3; i++)
+				{
+					if((old_pos[PLAYER].x == bomb[i][1].Bomb->Pos.x) && (old_pos[PLAYER].y == bomb[i][1].Bomb->Pos.y) && bomb[i][1].on)
+					{
+						draw_figure(bomb[i][1].Bomb);
+					}
+				}
+
+				//Position zwischenspeichern
+				old_pos[PLAYER] = new_pos[PLAYER];
+
+			}
+			else
+			{
+				// Wenn gewünschte Position ausserhalb der Map, oder eine Mauer dort ist,
+				// nicht verschieben und Position wieder auf die Figur legen
+				new_pos[PLAYER] = old_pos[PLAYER];
+			}
+
+
+		}
+
+		/* Abfrage ob Spieler von Bombe getroffen*/
+		if(kill_pos[new_pos[PLAYER].x][new_pos[PLAYER].y] > 0)
+		{
+			printf("%d",kill_pos[new_pos[PLAYER].x][new_pos[PLAYER].y]);
+			draw_winner_text(&figuren[12+PLAYER]);
+			switch(PLAYER)
+			{
+			case PLAYER_RED:
+				printf("\nPLAYER BLUE WINS!\n");
+				break;
+			case PLAYER_BLUE:
+				printf("\nPLAYER RED WINS!\n");
+				break;
+			}
+
+			WaitMs(4000);	//4-sek-delay für Victorysound
+			CloseGraphic(); //Grafikfenster schliessen
+			// KeyPress Buffer löschen
+			while(IsKeyPressReady())
+			{
+				GetKeyPress();
+			}
+			return;
+		}
+		// Hier warten, und explodieren einfügen...
+		//PLAYER = PLAYER_BLUE;
+		//printf("%d\n",bomb[bomb[PLAYER]][PLAYER].on);
+		PLAYER = PLAYER_RED;
+		time_t now = time(NULL);
+		location hlp;
+		int c = 0;
+
+		for(c = 0; c < 2; c++)
+		{
+			PLAYER = c;
+			for(i = 0; i < 3; i++)		// Alle Bomben durchgehen und schauen ob Zeit schon abgelaufen ist, wenn abgelaufen ist, schauen ob ein Spieler von der Bombe getroffen ist
+		{								// Nach dem Setzen der Bomben 3 sec warten, danach 1 sec die bombe explodieren lassen
+				if(bomb[i][PLAYER].on)
+				{
+					if(((now - bomb[i][PLAYER].sec) == 3) && !bomb[i][PLAYER].explod)		// Zeit der bombe abgelaufen-->explodieren
+					{
+						bomb[i][PLAYER].explod = 1;
+					//	draw_focus(bomb[i][PLAYER].Bomb->Pos);
+
+						for(k = -2; k < 3; k++) // bombe ist 5 felder lang und breit
+						{
+							if(bomb[i][PLAYER].Bomb->Pos.x + k > -1 && bomb[i][PLAYER].Bomb->Pos.x + k < 9 && (IS_EVEN(bomb[i][PLAYER].Bomb->Pos.y))) // Schauen ob position innerhalb der map und keine wall dort ist
+							{																	//in x richtung kann die bombe nur explodieren, wenn keine wall ist. dies ist immer der fall wenn y gerade ist.
+								kill_pos[bomb[i][PLAYER].Bomb->Pos.x + k][bomb[i][PLAYER].Bomb->Pos.y] = (i + 1) + (3 * PLAYER);	// Damit man weis welche bombe den fokus gesetzt hat.
+								hlp.x = bomb[i][PLAYER].Bomb->Pos.x + k;		// Wert in eine hilfs location variable speichern um sie der draw_focus funktion übergeben zu können
+								hlp.y = bomb[i][PLAYER].Bomb->Pos.y;
+								draw_focus(hlp);
+
+							}
+							// Dasselbe für v richtung
+							if(bomb[i][PLAYER].Bomb->Pos.y + k > -1 && bomb[i][PLAYER].Bomb->Pos.y + k < 7 && (IS_EVEN(bomb[i][PLAYER].Bomb->Pos.x)))
+							{
+								kill_pos[bomb[i][PLAYER].Bomb->Pos.x][bomb[i][PLAYER].Bomb->Pos.y + k] = (i + 1) + (3 * PLAYER);
+								hlp.x = bomb[i][PLAYER].Bomb->Pos.x;
+								hlp.y = bomb[i][PLAYER].Bomb->Pos.y + k;
+								draw_focus(hlp);
+							}
+						}
+
+					}
+					if((now - bomb[i][PLAYER].sec) > 4) // Wenn Bombe explodiert, bombe wieder löschen
+					{
+						bomb[i][PLAYER].on = 0;
+						bomb[i][PLAYER].explod = 0;
+
+						for(k = -2; k < 3; k++)		// Alle grün gemalten felder löschen
+						{
+							if(bomb[i][PLAYER].Bomb->Pos.x + k > -1 && bomb[i][PLAYER].Bomb->Pos.x + k < 9 && (IS_EVEN(bomb[i][PLAYER].Bomb->Pos.y)))
+							{
+								if(kill_pos[bomb[i][PLAYER].Bomb->Pos.x + k][bomb[i][PLAYER].Bomb->Pos.y] == (i + 1) + (3 * PLAYER))
+								{
+									kill_pos[bomb[i][PLAYER].Bomb->Pos.x + k][bomb[i][PLAYER].Bomb->Pos.y] = 0;
+									hlp.x = bomb[i][PLAYER].Bomb->Pos.x + k;
+									hlp.y = bomb[i][PLAYER].Bomb->Pos.y;
+									draw_empty_field(hlp);
+								}
+
+
+							}
+							if(bomb[i][PLAYER].Bomb->Pos.y + k > -1 && bomb[i][PLAYER].Bomb->Pos.y + k < 7 && (IS_EVEN(bomb[i][PLAYER].Bomb->Pos.x)))
+							{
+								if(kill_pos[bomb[i][PLAYER].Bomb->Pos.x][bomb[i][PLAYER].Bomb->Pos.y + k] == (i + 1) + (3 * PLAYER))
+								{
+									kill_pos[bomb[i][PLAYER].Bomb->Pos.x][bomb[i][PLAYER].Bomb->Pos.y + k] = 0;
+									hlp.x = bomb[i][PLAYER].Bomb->Pos.x;
+									hlp.y = bomb[i][PLAYER].Bomb->Pos.y + k;
+									draw_empty_field(hlp);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+
+	}
+
+}
+
+
 /*****************************************************************************/
 /*  Function   : argument_handler                               Version 1.0  */
 /*****************************************************************************/
@@ -1242,6 +1620,12 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		{
 			// Eater egg 3 wird ausgeführt
 			easter_egg3();
+			continue;
+		}
+		else if(MODE == EASTER_EGG4)
+		{
+			// Eater egg 4 wird ausgeführt
+			easter_egg4();
 			continue;
 		}
 
