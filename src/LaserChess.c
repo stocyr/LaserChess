@@ -421,7 +421,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 
 				if(MapControl == 'L')
 				{
-					printf("Successful.\n");
+					printf("\nSuccessful.");
 					for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
 					{
 						fscanf(fp, "%u", &(figure[i].PLAYER));
@@ -1119,6 +1119,7 @@ void argument_handler(int argn, char* args[], pawn *figure)
 {
 	//Standardwerte der Variablen
 	FIELD_SIZE = 100;
+	//Ende der Startwerte
 
 	//Argument 0 = AppPath (Standardmaessig immer so)
 	//Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
@@ -1126,7 +1127,7 @@ void argument_handler(int argn, char* args[], pawn *figure)
 	//      und ob das Argument 1 einen Pfad beinhaltet (2. Buchstabe ':', z.B. "C:Map1.txt")
 	if((argn>1) && (args[1][1] == ':'))
 	{
-		printf("\n\n\nTrying to open file..\n");
+		printf("\nTrying to open file..");
 		MapPath = args[1];
 
 		create_figures(figure);
@@ -1135,55 +1136,53 @@ void argument_handler(int argn, char* args[], pawn *figure)
 			spiel(figure); //Spiel starten/ausführen
 		}
 	}
-	//Wenn im Eclipse gestartet (Argument 1 != %*)
+	//Wenn im Eclipse gestartet (Argument 1 ist %*)
 	else if((argn>1) && STRINGS_EQUAL(args[1], "%*"))
 	{
-		printf("\n\n\nStarted in Eclipse\n");
+		printf("\nStarted in Eclipse");
 	}
 	//Sonstige Argumente
 	else if((argn>1))
 	{
-		//Kontrollvariable fuer Fehler
-		char err = 0;
+		//Buffer fuer Werte
+		unsigned int buffer = 0;
 
 		int i;
 		for(i = 1; i<argn; i++)
 		{
-			/*Vorlage fuer Variablen (Bsp mit Test_var)*/
+			/*Vorlage fuer Variablen (Bsp mit Field_size)*/
 			//Bekannte Variable?
 			if(STRINGS_EQUAL(args[i], "-Field_size"))
 			{
-				//Wert (naechstes Argument) vorhanden und keine variable ?
+				//Wert (naechstes Argument) vorhanden und keine variable?
 				if((i+1<argn) && (args[i+1][0] != '-'))
 				{
-					//Abfrage ob im ASCII-Bereich der Zahlen noch hier einfügen
-					if(atoi(args[i+1]) > 200) FIELD_SIZE = 200;
-					else if(atoi(args[i+1]) < 20) FIELD_SIZE = 20;
-					else if((atoi(args[i+1]) >= 20) && (atoi(args[i+1]) <= 200)) FIELD_SIZE = atoi(args[i+1]);
-					else printf("err");
+					//Falls Argument eine Zahl ist, wird diese hier in buffer kopiert
+					//(Werte groesser als 2^32 geben einen Ueberlauf)
+					sscanf(args[i+1], "%u", &buffer);
 
-					//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben.
-					i++;
+					//Pruefen ob Argument eine gueltige Zahl war
+					//(wenn nicht, dann hat buffer noch startwert 0)
+					if(buffer != 0)
+					{
+						//Feldgroesse maximal 200 und minimal 20
+						if(buffer > 200) buffer = 200;
+						else if(buffer < 20) buffer = 20;
+
+						FIELD_SIZE = buffer;
+						printf("\nField_size set to %u", buffer);
+
+						//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben.
+						i++;
+					}
+					else printf("\nInvalid parameter for %s", args[i]);
 				}
-				else
-				{
-					//Bevor das erste mal ein Fehler ausgegeben wird 3x neue Zeile
-					if(err == 0) printf("\n\n\n");
-					err = 1;
-
-					printf("Invalid parameter for %s\n", args[i]);
-				}
+				else printf("\nParameter for %s not found", args[i]);
 			}
-			else
-			{
-				//Bevor das erste mal ein Fehler ausgegeben wird 3x neue Zeile
-				if(err == 0) printf("\n\n\n");
-				err = 1;
-
-				printf("Unknown argument: \"%s\"\n", args[i]);
-			}
+			else printf("\nUnknown argument: \"%s\"", args[i]);
 		}
 	}
+	printf("\n");
 }
 
 
@@ -1212,7 +1211,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
 	printf(""TITLE);
-	printf("Welcome to Laserchess!");
+	printf("Welcome to Laserchess!\n\n");
 
 	argument_handler(argc, argv, figure);
 

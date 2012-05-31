@@ -102,7 +102,7 @@ void draw_empty_field(location pos);
 void draw_laser (location pos, enum Direction dir);
 void draw_angled_laser(location pos, enum Direction dir, enum Angle angle);
 void destroy_images();
-char init_images();
+int init_images();
 void draw_figure(pawn *figure);
 void draw_figure_destroyed(pawn *figure);
 void draw_invert_colors(int x, int y, int width, int height);

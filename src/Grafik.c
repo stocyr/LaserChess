@@ -753,15 +753,15 @@ void destroy_images()
 /*                                                                           */
 /*****************************************************************************/
 
-char init_images()
+int init_images()
 {
 	char *p; //path
-	char error = -1;
-	char success = 1;
+	int error = -1;
+	int success = 1;
 
 	//Variable mit der Errors uebertragen werden
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
-	char test = 0;
+	int test = 0;
 
 	//Image laden und ID uebergeben. Pfad wieder freigeben. Wuerde eine nicht gefunden error setzten.
 	Blue_king_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_king.png"));    if(p!=NULL)free(p); if(Blue_king_img<0)    test=error;
