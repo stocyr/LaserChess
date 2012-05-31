@@ -141,8 +141,8 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 
 	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
-		Mapkoordinaten.x = -1;
-		Mapkoordinaten.y = -1;
+		Mapkoordinaten.x = ERROR;
+		Mapkoordinaten.y = ERROR;
 		return Mapkoordinaten;
 	}
 
@@ -151,8 +151,8 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 
 	if(!is_inside_map(Mapkoordinaten)) //errorhandling (wenn x >= 800 oder y >= 600)
 	{
-		Mapkoordinaten.x = -1;
-		Mapkoordinaten.y = -1;
+		Mapkoordinaten.x = ERROR;
+		Mapkoordinaten.y = ERROR;
 	}
 
 	return Mapkoordinaten;
@@ -181,8 +181,8 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 
 	if((Mapkoordinaten.x < 0) && (Mapkoordinaten.y < 0)) //Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
-		Windowskoordinaten.x = -1;
-		Windowskoordinaten.y = -1;
+		Windowskoordinaten.x = ERROR;
+		Windowskoordinaten.y = ERROR;
 		return Windowskoordinaten;
 	}
 
@@ -511,7 +511,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 /*                                                                           */
 /*  Input Para : pos in map-coordinates, direction and angle;                */
 /*               dir, the direction of the laser                             */
-/*               angle, for the reflection (-1 right, 1 left                 */
+/*               angle, for the reflection (-1 right, 1 left)                */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -745,7 +745,7 @@ void destroy_images()
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
-/*  Output     : returns 1 if successful, otherwise 0                        */
+/*  Output     : returns SUCCESS if successful, otherwise ERROR                        */
 /*                                                                           */
 /*  Author     : N. Kaeser                                                   */
 /*                                                                           */
@@ -756,39 +756,37 @@ void destroy_images()
 int init_images()
 {
 	char *p; //path
-	int error = -1;
-	int success = 1;
 
 	//Variable mit der Errors uebertragen werden
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
 	int test = 0;
 
-	//Image laden und ID uebergeben. Pfad wieder freigeben. Wuerde eine nicht gefunden error setzten.
-	Blue_king_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_king.png"));    if(p!=NULL)free(p); if(Blue_king_img<0)    test=error;
-	Blue_mirror_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));  if(p!=NULL)free(p); if(Blue_mirror_img<0)  test=error;
+	//Image laden und ID uebergeben. Pfad wieder freigeben. Wuerde eine nicht gefunden ERROR setzten.
+	Blue_king_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_king.png"));    if(p!=NULL)free(p); if(Blue_king_img<0)    test=ERROR;
+	Blue_mirror_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));  if(p!=NULL)free(p); if(Blue_mirror_img<0)  test=ERROR;
 
-	Blue_splitter_img = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_splitter.png"));if(p!=NULL)free(p); if(Blue_splitter_img<0)test=error;
-	Blue_wall_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_wall.png"));    if(p!=NULL)free(p); if(Blue_wall_img<0)    test=error;
-	Blue_cannon_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));  if(p!=NULL)free(p); if(Blue_cannon_img<0)  test=error;
+	Blue_splitter_img = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_splitter.png"));if(p!=NULL)free(p); if(Blue_splitter_img<0)test=ERROR;
+	Blue_wall_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_wall.png"));    if(p!=NULL)free(p); if(Blue_wall_img<0)    test=ERROR;
+	Blue_cannon_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));  if(p!=NULL)free(p); if(Blue_cannon_img<0)  test=ERROR;
 
-	Red_king_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_king.png"));     if(p!=NULL)free(p); if(Red_king_img<0)     test=error;
-	Red_mirror_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_mirror.png"));   if(p!=NULL)free(p); if(Red_mirror_img<0)   test=error;
-	Red_splitter_img  = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_splitter.png")); if(p!=NULL)free(p); if(Red_splitter_img<0) test=error;
-	Red_wall_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_wall.png"));     if(p!=NULL)free(p); if(Red_wall_img<0)     test=error;
-	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=error;
+	Red_king_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_king.png"));     if(p!=NULL)free(p); if(Red_king_img<0)     test=ERROR;
+	Red_mirror_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_mirror.png"));   if(p!=NULL)free(p); if(Red_mirror_img<0)   test=ERROR;
+	Red_splitter_img  = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_splitter.png")); if(p!=NULL)free(p); if(Red_splitter_img<0) test=ERROR;
+	Red_wall_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_wall.png"));     if(p!=NULL)free(p); if(Red_wall_img<0)     test=ERROR;
+	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=ERROR;
 
-	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
-	Rot_focus_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\rot_focus.png"));    if(p!=NULL)free(p); if(Rot_focus_img<0)    test=error;
+	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=ERROR;
+	Rot_focus_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\rot_focus.png"));    if(p!=NULL)free(p); if(Rot_focus_img<0)    test=ERROR;
 
 	//Check, ob Alle korrekt geladen wurden.
-	if(test == error)
+	if(test == ERROR)
 	{
 		destroy_images(); //Falls einige Images trotzdem erfolgreich geladen wurden, korrekt entfernen.
-		return error;
+		return ERROR;
 	}
 	else
 	{
-		return success;
+		return SUCCESS;
 	}
 }
 

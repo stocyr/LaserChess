@@ -297,8 +297,6 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 int is_inside_map(location pos)
 {
     // wenn innerhalb der definierten Array-grenzen:
-    /*if((pos.x < PLAYGROUND_X_MAX-FIELD_LINE_WIDTH/2 && pos.x >= 0) &&
-       (pos.y < PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH/2 && pos.y >= 0))*/ //Geaendert von kasen1
     if((pos.x < PLAYGROUND_X_MAX && pos.x >= 0) &&
        (pos.y < PLAYGROUND_Y_MAX && pos.y >= 0))
     {
@@ -419,7 +417,7 @@ void destroy_figure(pawn *figure)
 /*                                                                           */
 /*  Input Para :                                                             */
 /*                                                                           */
-/*  Output     : Returns location struct, of the field who was hit or -1     */
+/*  Output     : Returns location struct, of the field who was hit or ERROR  */
 /*               when the click was beyond the map or there was no click.    */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -447,8 +445,8 @@ location mouseclick_to_map(void)
 	}
 	else
 	{
-		pos.x = -1;
-		pos.y = -1;
+		pos.x = ERROR;
+		pos.y = ERROR;
 	}
 	return pixel_to_map(pos);
 }

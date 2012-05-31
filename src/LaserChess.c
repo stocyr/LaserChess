@@ -372,7 +372,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 	int i = 0;
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -533,7 +533,7 @@ void easter_egg1(void)
 	}
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -744,7 +744,7 @@ void easter_egg2(void)
 	old_snake.TYPE = CANNON;
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -953,7 +953,7 @@ void easter_egg3(void)
 	}
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
