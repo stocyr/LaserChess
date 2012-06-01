@@ -416,12 +416,14 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 			if(!(fp == NULL))
 			{
 				//Erstes Zeichen/Zeile lesen, ob Kontrollzeichen
-				char MapControl = 'L';
+				char MapControl;
 				fscanf(fp, "%c", &MapControl);
 
 				if(MapControl == 'L')
 				{
-					printf("\nSuccessful.");
+					StopContinuousSound();
+
+					if(MODE == STARTOPEN) printf("\n"); printf("Successful"); if(MODE == OPEN) printf("\n");
 					for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
 					{
 						fscanf(fp, "%u", &(figure[i].PLAYER));
@@ -434,7 +436,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 				}
 				else
 				{
-					printf("Not a mapfile.\n");
+					printf("\nNot a mapfile");
 					return 0;
 				}
 			}
@@ -1127,7 +1129,7 @@ void argument_handler(int argn, char* args[], pawn *figure)
 	//      und ob das Argument 1 einen Pfad beinhaltet (2. Buchstabe ':', z.B. "C:Map1.txt")
 	if((argn>1) && (args[1][1] == ':'))
 	{
-		printf("\nTrying to open file..");
+		printf("\nTrying to open file...");
 		MapPath = args[1];
 
 		create_figures(figure);
@@ -1182,7 +1184,8 @@ void argument_handler(int argn, char* args[], pawn *figure)
 			else printf("\nUnknown argument: \"%s\"", args[i]);
 		}
 	}
-	printf("\n");
+	else return; //Nur ein Argument
+	printf("\n\n");
 }
 
 
@@ -1215,7 +1218,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 
 	argument_handler(argc, argv, figure);
 
-	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
+	printf("\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
 	while(FOREVER)
 	{
@@ -1231,7 +1234,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		while( MODE == INVALID_INPUT);
 
 		//Intro-Sound beenden
-		StopContinuousSound();
+		if(MODE != OPEN) StopContinuousSound();
 
 		if(MODE == EXIT)
 		{
