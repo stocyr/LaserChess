@@ -340,6 +340,7 @@ int set_figure_positions(pawn *figure)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return -1;
 		}
@@ -659,6 +660,7 @@ void easter_egg1(void)
 								{
 									GetKeyPress();
 								}
+								destroy_images(); //Geladene Images aus Speicher loeschen
 								CloseGraphic(); //Grafikfenster schliessen
 								return;
 							}
@@ -695,6 +697,7 @@ void easter_egg1(void)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -806,6 +809,7 @@ void easter_egg2(void)
 				{
 					GetKeyPress();
 				}
+				destroy_images(); //Geladene Images aus Speicher loeschen
 				CloseGraphic(); //Grafikfenster schliessen
 				return;
 			}
@@ -846,6 +850,7 @@ void easter_egg2(void)
 			play_sound(Ignore);
 			//############ GAME OVER #################
 			WaitMs(2000);
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -863,6 +868,7 @@ void easter_egg2(void)
 					play_sound(Ignore);
 					//############ GAME OVER #################
 					WaitMs(2000);
+					destroy_images(); //Geladene Images aus Speicher loeschen
 					CloseGraphic(); //Grafikfenster schliessen
 					return;
 				}
@@ -1054,6 +1060,7 @@ void easter_egg3(void)
 								{
 									GetKeyPress();
 								}
+								destroy_images(); //Geladene Images aus Speicher loeschen
 								CloseGraphic(); //Grafikfenster schliessen
 								return;
 							}
@@ -1090,6 +1097,7 @@ void easter_egg3(void)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}

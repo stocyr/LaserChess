@@ -719,21 +719,25 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle)
 
 void destroy_images()
 {
+	//printf("\n\nDestroyed Images: ");
+
 	/*Nur Images die wirklich geladen waren (also ID>=0) entfernen*/
-	if(Blue_king_img >= 0)     DestroyImage(Blue_king_img);
-	if(Blue_mirror_img >= 0)   DestroyImage(Blue_mirror_img);
-	if(Blue_splitter_img >= 0) DestroyImage(Blue_splitter_img);
-	if(Blue_wall_img >= 0)     DestroyImage(Blue_wall_img);
-	if(Blue_cannon_img >= 0)   DestroyImage(Blue_cannon_img);
+	if(Blue_king_img >= 0)     DestroyImage(Blue_king_img);     //printf(" %d,", Blue_king_img);
+	if(Blue_mirror_img >= 0)   DestroyImage(Blue_mirror_img);   //printf(" %d,", Blue_mirror_img);
+	if(Blue_splitter_img >= 0) DestroyImage(Blue_splitter_img); //printf(" %d,", Blue_splitter_img);
+	if(Blue_wall_img >= 0)     DestroyImage(Blue_wall_img);     //printf(" %d,", Blue_wall_img);
+	if(Blue_cannon_img >= 0)   DestroyImage(Blue_cannon_img);   //printf(" %d,", Blue_cannon_img);
 
-	if(Red_king_img >= 0)      DestroyImage(Red_king_img);
-	if(Red_mirror_img >= 0)    DestroyImage(Red_mirror_img);
-	if(Red_splitter_img >= 0)  DestroyImage(Red_splitter_img);
-	if(Red_wall_img >= 0)      DestroyImage(Red_wall_img);
-	if(Red_cannon_img >= 0)    DestroyImage(Red_cannon_img);
+	if(Red_king_img >= 0)      DestroyImage(Red_king_img);      //printf(" %d,", Red_king_img);
+	if(Red_mirror_img >= 0)    DestroyImage(Red_mirror_img);    //printf(" %d,", Red_mirror_img);
+	if(Red_splitter_img >= 0)  DestroyImage(Red_splitter_img);  //printf(" %d,", Red_splitter_img);
+	if(Red_wall_img >= 0)      DestroyImage(Red_wall_img);      //printf(" %d,", Red_wall_img);
+	if(Red_cannon_img >= 0)    DestroyImage(Red_cannon_img);    //printf(" %d,", Red_cannon_img);
 
-	if(Fig_error_img >= 0)     DestroyImage(Fig_error_img);
-	if(Rot_focus_img >= 0)     DestroyImage(Rot_focus_img);
+	if(Fig_error_img >= 0)     DestroyImage(Fig_error_img);     //printf(" %d,", Fig_error_img);
+	if(Rot_focus_img >= 0)     DestroyImage(Rot_focus_img);     //printf(" %d,", Rot_focus_img);
+
+	//printf("\b \n\n");
 }
 
 
@@ -786,6 +790,10 @@ int init_images()
 	}
 	else
 	{
+		/*printf("\n\nImageID's: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n\n",
+				Blue_king_img, Blue_mirror_img, Blue_splitter_img, Blue_wall_img,
+				Blue_cannon_img, Red_king_img, Red_mirror_img, Red_splitter_img,
+				Red_wall_img, Red_cannon_img, Fig_error_img, Rot_focus_img);*/
 		return SUCCESS;
 	}
 }
