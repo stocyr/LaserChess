@@ -293,6 +293,8 @@ void spiel(pawn *figure)
 				scanf("%s", file);
 				while(getchar() != '\n'); // Eingabebuffer löschen
 
+				if(map_extension_handler(file) == ERROR) fp = NULL;
+
 				// Aufstellung file öffnen
 				char *p, *q; //path
 				fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "w"); if(p!=NULL)free(p);if(q!=NULL)free(q);
@@ -310,6 +312,7 @@ void spiel(pawn *figure)
 						fprintf(fp, "%d\n", (figure[i].Pos.y));
 					}
 					fclose(fp);	// File schliessen
+					printf("Saved\n");
 				}
 			}
 		}

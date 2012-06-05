@@ -7,8 +7,8 @@
 /*                                                                           */
 /*  Function   : main()                                                      */
 /*                                                                           */
-/*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
-/*               clear_map_array(), gfxmain()                                */
+/*  Procedures : create_figures(), menu(), set_figure_positons(),            */
+/*               init game(), clear_map_array(), argument_handler, gfxmain() */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -24,8 +24,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
+#include <string.h>
 #include <time.h>
 
 #include "Grafik.h"
@@ -418,25 +418,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 				scanf("%s", file);
 				while(getchar() != '\n'); // Eingabebuffer löschen
 
-				//Nach letztem '.' im eingegebenen Filename suchen
-				char *pchar = strrchr(file, '.');
-				//Wenn nicht vorhanden, Pointer auf NULL
-				if(pchar != NULL)
-				{
-					if(strstr(file, MAP_EXT) != pchar)
-					{
-						//Wird ausgeführt, wenn MAP_EXT in file nicht gefunden wurde (NULL), also andere Endung besitzt,
-						//oder nicht an gleicher Adresse wie pchar ist (also nicht die Endung ist, sondern irgendwo sonst in file enthalten)
-
-						printf("Error: Not a \""MAP_EXT"\" file\n");
-						return 0;	// Fehlerwert zurückgeben
-					}
-				}
-				else //Gar keine Endung eingegeben
-				{
-					//Eingabe mit Mapendung erweitern
-					strcat(file, MAP_EXT);
-				}
+				if(map_extension_handler(file) == ERROR) return 0;
 
 				// Aufstellung file öffnen
 				char *p, *q; //path
