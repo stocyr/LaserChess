@@ -278,6 +278,7 @@ void spiel(pawn *figure)
 				}
 				//Spiel beenden
 				FIGURE_DEST = EXIT;
+				destroy_images(); //Geladene Images aus Speicher loeschen
 				CloseGraphic(); //Grafikfenster schliessen
 				return;
 			}
@@ -329,6 +330,7 @@ void spiel(pawn *figure)
 	}
 
 	WaitMs(4000);	//4-sek-delay für Victorysound
+	destroy_images(); //Geladene Images aus Speicher loeschen
 	CloseGraphic(); //Grafikfenster schliessen
 	// KeyPress Buffer löschen
 	while(IsKeyPressReady())

@@ -87,6 +87,8 @@ enum Sound {Laser, Reflection, Destruction, Victory, Ignore, Intro, Music, Pling
 
 //Ordnerpfad zu den vordefinierten Maps (Pfad relativ zu *ApplicationPath)
 #define MAP_DIR "\\maps"
+//Mapfile-Endung
+#define MAP_EXT ".map"
 
 // Map-Koordinatenstruct
 typedef struct {
