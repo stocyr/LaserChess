@@ -340,6 +340,7 @@ int set_figure_positions(pawn *figure)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return -1;
 		}
@@ -404,6 +405,26 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 				scanf("%s", file);
 				while(getchar() != '\n'); // Eingabebuffer löschen
 
+				//Nach letztem '.' im eingegebenen Filename suchen
+				char *pchar = strrchr(file, '.');
+				//Wenn nicht vorhanden, Pointer auf NULL
+				if(pchar != NULL)
+				{
+					if(strstr(file, MAP_EXT) != pchar)
+					{
+						//Wird ausgeführt, wenn MAP_EXT in file nicht gefunden wurde (NULL), also andere Endung besitzt,
+						//oder nicht an gleicher Adresse wie pchar ist (also nicht die Endung ist, sondern irgendwo sonst in file enthalten)
+
+						printf("Error: Not a \""MAP_EXT"\" file\n");
+						return 0;	// Fehlerwert zurückgeben
+					}
+				}
+				else //Gar keine Endung eingegeben
+				{
+					//Eingabe mit Mapendung erweitern
+					strcat(file, MAP_EXT);
+				}
+
 				// Aufstellung file öffnen
 				char *p, *q; //path
 				fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "r"); if(p!=NULL)free(p);if(q!=NULL)free(q);
@@ -419,7 +440,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 				char MapControl;
 				fscanf(fp, "%c", &MapControl);
 
-				if(MapControl == 'L')
+				if(MapControl == 'L') //Evtl erweitern zu LASERCHESSMAP
 				{
 					StopContinuousSound();
 
@@ -443,7 +464,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 			else
 			{
 				// Meldung wenn File nicht geöffnet werden konnte
-				printf("Error: cannot open file\n");
+				printf("Error: Cannot open file\n");
 				return 0;	// Fehlerwert zurückgeben
 			}
 
@@ -659,6 +680,7 @@ void easter_egg1(void)
 								{
 									GetKeyPress();
 								}
+								destroy_images(); //Geladene Images aus Speicher loeschen
 								CloseGraphic(); //Grafikfenster schliessen
 								return;
 							}
@@ -695,6 +717,7 @@ void easter_egg1(void)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -806,6 +829,7 @@ void easter_egg2(void)
 				{
 					GetKeyPress();
 				}
+				destroy_images(); //Geladene Images aus Speicher loeschen
 				CloseGraphic(); //Grafikfenster schliessen
 				return;
 			}
@@ -846,6 +870,7 @@ void easter_egg2(void)
 			play_sound(Ignore);
 			//############ GAME OVER #################
 			WaitMs(2000);
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -863,6 +888,7 @@ void easter_egg2(void)
 					play_sound(Ignore);
 					//############ GAME OVER #################
 					WaitMs(2000);
+					destroy_images(); //Geladene Images aus Speicher loeschen
 					CloseGraphic(); //Grafikfenster schliessen
 					return;
 				}
@@ -1054,6 +1080,7 @@ void easter_egg3(void)
 								{
 									GetKeyPress();
 								}
+								destroy_images(); //Geladene Images aus Speicher loeschen
 								CloseGraphic(); //Grafikfenster schliessen
 								return;
 							}
@@ -1090,6 +1117,7 @@ void easter_egg3(void)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -1125,9 +1153,12 @@ void argument_handler(int argn, char* args[], pawn *figure)
 
 	//Argument 0 = AppPath (Standardmaessig immer so)
 	//Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
-	//Also: Prueffen ob mehr als ein Argument vorhanden,
-	//      und ob das Argument 1 einen Pfad beinhaltet (2. Buchstabe ':', z.B. "C:Map1.txt")
-	if((argn>1) && (args[1][1] == ':'))
+
+	//Falls es nicht mehr als ein Argument (AppPath) gibt, abbrechen
+	if(!(argn>1)) return;
+
+	//Ist Argument 1 ein Pfad? (Ist 2. Buchstabe ':', wie z.B. in "C:Map1.txt"?)
+	if(args[1][1] == ':')
 	{
 		printf("\nTrying to open file...");
 		MapPath = args[1];
@@ -1139,12 +1170,12 @@ void argument_handler(int argn, char* args[], pawn *figure)
 		}
 	}
 	//Wenn im Eclipse gestartet (Argument 1 ist %*)
-	else if((argn>1) && STRINGS_EQUAL(args[1], "%*"))
+	else if(STRINGS_EQUAL(args[1], "%*"))
 	{
 		printf("\nStarted in Eclipse");
 	}
 	//Sonstige Argumente
-	else if((argn>1))
+	else
 	{
 		//Buffer fuer Werte
 		unsigned int buffer = 0;
@@ -1184,7 +1215,6 @@ void argument_handler(int argn, char* args[], pawn *figure)
 			else printf("\nUnknown argument: \"%s\"", args[i]);
 		}
 	}
-	else return; //Nur ein Argument
 	printf("\n\n");
 }
 

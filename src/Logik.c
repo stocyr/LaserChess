@@ -66,6 +66,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 		{
 			GetKeyPress();
 		}
+		destroy_images(); //Geladene Images aus Speicher loeschen
 		CloseGraphic(); //Grafikfenster schliessen
 		return -3;	// -3 zurückgeben, dass Gamecontrol enum auf Exit gesetzt wird
 	}
