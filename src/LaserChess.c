@@ -262,6 +262,8 @@ int set_figure_positions(pawn *figure)
 	enum Zustand {READ_POS, ROTATE} STATE;
 	STATE = READ_POS;
 
+	printf("Next Figure: %s", "King");
+
 	while(i < ANZ_FIGURES)					// Das ganze Figurearray durchgehen
 	{
 		switch (STATE)
@@ -289,6 +291,15 @@ int set_figure_positions(pawn *figure)
 					draw_figure(&figure[BLUE_FIG(i)]);
 					draw_rot_focus(mouse_pos);
 					map[mouse_pos.x][mouse_pos.y] = &figure[BLUE_FIG(i)];
+				}
+
+				if(i+1 < ANZ_FIGURES)
+				{
+					if(figure[(i+1)/2].TYPE == KING)     printf("\r                     \rNext Figure: King");
+					if(figure[(i+1)/2].TYPE == MIRROR)   printf("\r                     \rNext Figure: Mirror");
+					if(figure[(i+1)/2].TYPE == SPLITTER) printf("\r                     \rNext Figure: Splitter");
+					if(figure[(i+1)/2].TYPE == WALL)     printf("\r                     \rNext Figure: Wall");
+					if(figure[(i+1)/2].TYPE == CANNON)   printf("\r                     \rNext Figure: Cannon");
 				}
 
 				STATE = ROTATE;
@@ -340,11 +351,13 @@ int set_figure_positions(pawn *figure)
 			{
 				GetKeyPress();
 			}
+			printf("\r                     \r"); //Ganze Zeile wieder loeschen
 			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return -1;
 		}
 	}
+	printf("\r                     \r"); //Ganze Zeile wieder loeschen
 	return 0;
 }
 
