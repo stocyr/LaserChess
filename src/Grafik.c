@@ -35,7 +35,7 @@
 /*  Procedure   : DrawTransformedImage                                       */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function    : Draws the given Image skaled and rotated at the given      */
+/*  Function    : Draws the given Image scaled and rotated at the given      */
 /*                position into the current image                            */
 /*                                                                           */
 /*  Type        : Global                                                     */
@@ -90,7 +90,7 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
 /*                                                                           */
 /*  Function   : Draws empty rectangle with sharp edges                      */
 /*                                                                           */
-/*  Input Para : x and y koord. as windowskoord.                             */
+/*  Input Para : x and y koord. in windowskoord.                             */
 /*               int Width, int Height, ColorType Color, int LineWidth       */
 /*                                                                           */
 /*  Output     : -                                                           */
@@ -123,7 +123,7 @@ void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType C
 /*  Function   : pixel_to_map                                   Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Convert windowskoord. to mapposition                        */
+/*  Function   : Convert windowskoord. to map position                       */
 /*                                                                           */
 /*  Input Para : x and y as windowskoord.                                    */
 /*                                                                           */
@@ -163,9 +163,9 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 /*  Function   : map_to_pixel                                   Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Convert mapposiiton to windowskoord. -> Point upper left!   */
+/*  Function   : Convert mappositon to windowskoord. -> Point upper left!    */
 /*                                                                           */
-/*  Input Para : x and y as mappositon                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -231,12 +231,12 @@ void draw_playground()
 /*  Function   : scale_handler                                  Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Returns the percentage for scaling the image to fieldsize.  */
+/*  Function   : Returns the percentage for scaling the image to field size. */
 /*                                                                           */
-/*  Input Para : Image_ID, a valid ID of a loaded Imagefile                  */
+/*  Input Para : Image_ID, a valid ID of a loaded Image file                 */
 /*                                                                           */
 /*  Output     : size scale, the x- and y-scalefactor                        */
-/*               in percentage of the fieldsize                              */
+/*               in percentage of the field size                             */
 /*                                                                           */
 /*  Author     : N. Kaeser                                                   */
 /*                                                                           */
@@ -264,7 +264,7 @@ size scale_handler(int Image_ID)
 /*                                                                           */
 /*  Function   : Draws a focus in the selected field                         */
 /*                                                                           */
-/*  Input Para : x and y as mappositon                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -288,7 +288,7 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 /*                                                                           */
 /*  Function   : Draws a rotation-image on the selected field                */
 /*                                                                           */
-/*  Input Para : x and y as mappositon                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -317,7 +317,7 @@ void draw_rot_focus(location pos)
 /*                                                                           */
 /*  Function   : Deletes the selected field (reset)                          */
 /*                                                                           */
-/*  Input Para : x and y as mapposiotn                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -349,7 +349,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 /*               Draws half the laser in the selected field                  */
 /*               (v1.1: Laser now glowing)                                   */
 /*                                                                           */
-/*  Input Para : x and y as mapposition and direction                        */
+/*  Input Para : x and y as map position and direction                       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -412,7 +412,7 @@ void draw_half_laser(location start_pos, enum Direction dir)
 /*  Function   : Draws the laser in the selected field                       */
 /*               (v1.1 uses new function draw_angled_laser())                */
 /*                                                                           */
-/*  Input Para : x and y as mapposition and direction                        */
+/*  Input Para : x and y as map position and direction                       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -895,7 +895,7 @@ void draw_figure(pawn *figure)
 /*  Function   : Draws/animates the destruction of a mirror.                 */
 /*               (V1.0, it only draws an empty field)                        */
 /*               (V1.1, "Melting"-animation with rectangles)                 */
-/*               (V1.2, offset increases allways 1 pixel, not laserwidth)    */
+/*               (V1.2, offset increases always 1 pixel, not laser width)    */
 /*               (V1.3, New animation, with glow)                            */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
@@ -1056,7 +1056,7 @@ void draw_figure_destroyed(pawn *figure)
 /*                                                                           */
 /*  Function   : Inverts the colors of the defined part.                     */
 /*                                                                           */
-/*  Input Para : x and y for startposition; width and height for the size    */
+/*  Input Para : x and y for start position; width and height for the size   */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
