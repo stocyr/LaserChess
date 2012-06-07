@@ -1,0 +1,11 @@
+draw_half_laser
+{
+    Farbe und Linie einstellen
+    Direction für x umrechnen
+    Direction für y umrechnen
+    for ( Pixelweise bis zur Feldmitte )
+    {
+        Linie zeichnen
+        Bestimmte Zeit warten
+    }
+}

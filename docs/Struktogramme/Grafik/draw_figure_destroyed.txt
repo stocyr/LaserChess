@@ -1,0 +1,16 @@
+draw_figure_destroyed
+{
+    Neue Farbe erstellen: Playground-Farbe aber mit leichter Transparenz
+    Koordinaten in Pixelkoordinaten umrechnen
+    Startoffset für Rechteck berechnen, so dass dieses genau innerhalb
+    des Feldes an die Feldkannte gezeichnet werden kann
+    for ( Offset pixelweise vergrössern, bis zur Feldmitte )
+    {
+        Aktuelle Groesse des Rechtecks berechnen
+        Rechteck mit aktuellem Offset und Grösse in Laserfarbe zeichnen
+        Offset und Breite der Flaeche zwischen Feld- und Rechteckkannte berechnen
+        Flaeche mit leicht transparentem Rechteck uebermalen
+        Bestimmte Zeit warten
+    }
+    Feld komplett loeschen
+}
