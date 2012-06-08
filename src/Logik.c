@@ -23,6 +23,8 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
+#include <string.h>
+
 #include "Grafik.h"
 #include "Logik.h"
 #include "LaserChess.h"
@@ -486,6 +488,51 @@ char *path_handler(const char path[], char file[])
 	sprintf(buffer, "%s%s", path, file);
 
 	return buffer;
+}
+
+
+/*****************************************************************************/
+/*  Function   : map_extension_handler                          Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Reads the extension of a filename (input string). If there  */
+/*               is one, checks if it's MAP_EXT (return 0 if not). If there  */
+/*               is no extension, MAP_EXT is added to the end.               */
+/*                                                                           */
+/*  Input Para : char file[]                                                 */
+/*               (Has to be long enough to add MAP_EXT at the end!)          */
+/*                                                                           */
+/*  Output     : -1 ERROR, 1 SUCCESS                                         */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+int map_extension_handler(char file[])
+{
+	//Nach letztem '.' im Filename suchen
+	char *pchar = strrchr(file, '.');
+
+	//Wenn nicht vorhanden, Pointer auf NULL
+	if(pchar != NULL)
+	{
+		if(strstr(file, MAP_EXT) != pchar)
+		{
+			//Wird ausgeführt, wenn MAP_EXT in file nicht gefunden wurde (NULL), also andere Endung besitzt,
+			//oder nicht an gleicher Adresse wie pchar ist (also nicht die Endung ist, sondern irgendwo sonst in file enthalten)
+
+			printf("Error: Not a \""MAP_EXT"\" file\n");
+			return ERROR;	// Fehlerwert zurückgeben
+		}
+	}
+	else //Gar keine Endung eingegeben
+	{
+		//Eingabe mit Mapendung erweitern
+		strcat(file, MAP_EXT);
+	}
+	return SUCCESS;
 }
 
 
