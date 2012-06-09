@@ -1,0 +1,155 @@
+int is_inside_map(location pos)
+{    
+    if ( wenn innerhalb der definierten Array-grenzen )
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int is_figure(location pos)
+{    
+    if ( wenn NULL pointer dort (= keine figur) )
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+void move_figure(pawn *figure, location new_pos)
+{
+    alte Position auf der Map löschen
+    an der neuen Position den figure-Pointer hinschreiben
+    auf dem Spielfeld das alte Feld löschen
+    Position der figure im Struct auf die neue Position umschreiben
+    Neue figure an der neuen Position zeichnen
+}
+
+void destroy_figure(pawn *figure)
+{
+    Figur in der map[][] auf NULL setzen
+}
+
+location mouseclick_to_map(void)
+{
+    Mausevent abholen und in mouse_event speichern
+    while ( Solange irgend eine Maustaste gedrückt )
+    {
+        old_mouse_event = mouse_event
+        Mausevent abholen und in mouse_event speichern
+    }
+    if ( wenn old_mouse_event ein Mausklick war )
+    {
+        pos.x   = X Position der Maus
+        pos.y   = Y Position der Maus
+    }
+    else
+    {
+        pos.x = ERROR;
+        pos.y = ERROR;
+    }
+    return in map-Koordinaten umgewandeltes pos;
+}
+
+char *path_handler(const char path[], char file[])
+{
+    Komplete Länge des Pfades ermitteln (+1 wegen Abschlusszeichen '\0')
+    Speicher "buffer" mit entsprechender Grösse allozieren
+    if ( Wenn nicht genuegend Speicher vorhanden )
+    {
+        return NULL;
+    }
+    Kompletter Pfad in buffer speichern
+    return buffer;
+}
+
+int map_extension_handler(char file[])
+{
+    Nach letztem '.' im Filename suchen
+    if ( Wenn Punkt vorhanden )
+    {
+        if ( Wenn Endung nicht = MAP_EXT )
+        {
+            Ausgabe: "Error: Not a <MAP_EXT> file"
+            return ERROR;
+        }
+    }
+    else
+    {
+        Eingabe mit Mapendung erweitern
+    }
+    return SUCCESS;
+}
+
+void play_sound(enum Sound snd)
+{
+    Pfad Variable erstellen
+    if ( Sound eingeschaltet )
+    {
+        switch ( snd )
+        {
+        case Laser :
+            Sound laser.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        case Reflection :
+            Sound reflection.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        case Destruction :
+            Sound destruction.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        case Victory :
+            Sound victory.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        case Ignore :
+            Sound ignore.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        case Intro :
+            Sound intro.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        case Pling :
+            Sound pling.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        case Bell :
+            Sound bell.wav abspielen
+            if ( wenn Pfad gefunden )
+            {
+                Pfad Variable wieder freigeben (free())
+            }
+            break;
+        }
+    }
+}
