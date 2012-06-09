@@ -39,7 +39,7 @@ Git
 
 * Vereinfachte schematische Darstellung des Git Version Control Systems:
 
-![Git system 1](http://de.whygitisbetterthanx.com/images/local-remote.png)
+![Git workflow](http://www.terminus-notfallmedizin.de/blog/wp-content/uploads/2011/01/local-remote.png)
 
 Hier ist zu beachten: Anstatt mit `git fetch` das Repository herunter zu laden und dann mit `git merge` mit dem Arbeitsverzeichnis zu synchronisieren,
 nutzen wir den Befehl `git pull`, der macht das auf einmal.
