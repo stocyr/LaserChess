@@ -9,7 +9,7 @@
 /*                                                                           */
 /*  Procedures : laser(), is_inside_map(), is_figure(), move_figure(),       */
 /*               destroy_figure(), mouseclick_to_map(), path_handler(),      */
-/*               play_sound()                                                */
+/*               extension_handler(), play_sound()                           */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /*                                                                           */
@@ -360,7 +360,7 @@ int is_figure(location pos)
 /*                                                                           */
 /*  Function   : moves a figure to the given location                        */
 /*                                                                           */
-/*  Input Para :                                                             */
+/*  Input Para : figure pointer, new playground location                     */
 /*                                                                           */
 /*  Output     : none                                                        */
 /*                                                                           */
