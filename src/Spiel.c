@@ -278,6 +278,7 @@ void spiel(pawn *figure)
 				}
 				//Spiel beenden
 				FIGURE_DEST = EXIT;
+				destroy_images(); //Geladene Images aus Speicher loeschen
 				CloseGraphic(); //Grafikfenster schliessen
 				return;
 			}
@@ -291,6 +292,8 @@ void spiel(pawn *figure)
 				printf("Enter Filename: ");
 				scanf("%s", file);
 				while(getchar() != '\n'); // Eingabebuffer löschen
+
+				if(map_extension_handler(file) == ERROR) fp = NULL;
 
 				// Aufstellung file öffnen
 				char *p, *q; //path
@@ -309,6 +312,7 @@ void spiel(pawn *figure)
 						fprintf(fp, "%d\n", (figure[i].Pos.y));
 					}
 					fclose(fp);	// File schliessen
+					printf("Saved\n");
 				}
 			}
 		}
@@ -329,6 +333,7 @@ void spiel(pawn *figure)
 	}
 
 	WaitMs(4000);	//4-sek-delay für Victorysound
+	destroy_images(); //Geladene Images aus Speicher loeschen
 	CloseGraphic(); //Grafikfenster schliessen
 	// KeyPress Buffer löschen
 	while(IsKeyPressReady())

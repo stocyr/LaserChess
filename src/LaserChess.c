@@ -7,8 +7,8 @@
 /*                                                                           */
 /*  Function   : main()                                                      */
 /*                                                                           */
-/*  Procedures : create_figures(), menu(), set_figure_positons(), init game()*/
-/*               clear_map_array(), gfxmain()                                */
+/*  Procedures : create_figures(), menu(), set_figure_positons(),            */
+/*               init game(), clear_map_array(), argument_handler, gfxmain() */
 /*                                                                           */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -24,8 +24,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
+#include <string.h>
 #include <time.h>
 
 #include "Grafik.h"
@@ -262,6 +262,8 @@ int set_figure_positions(pawn *figure)
 	enum Zustand {READ_POS, ROTATE} STATE;
 	STATE = READ_POS;
 
+	printf("Next Figure: %s", "King");
+
 	while(i < ANZ_FIGURES)					// Das ganze Figurearray durchgehen
 	{
 		switch (STATE)
@@ -289,6 +291,15 @@ int set_figure_positions(pawn *figure)
 					draw_figure(&figure[BLUE_FIG(i)]);
 					draw_rot_focus(mouse_pos);
 					map[mouse_pos.x][mouse_pos.y] = &figure[BLUE_FIG(i)];
+				}
+
+				if(i+1 < ANZ_FIGURES)
+				{
+					if(figure[(i+1)/2].TYPE == KING)     printf("\r                     \rNext Figure: King");
+					if(figure[(i+1)/2].TYPE == MIRROR)   printf("\r                     \rNext Figure: Mirror");
+					if(figure[(i+1)/2].TYPE == SPLITTER) printf("\r                     \rNext Figure: Splitter");
+					if(figure[(i+1)/2].TYPE == WALL)     printf("\r                     \rNext Figure: Wall");
+					if(figure[(i+1)/2].TYPE == CANNON)   printf("\r                     \rNext Figure: Cannon");
 				}
 
 				STATE = ROTATE;
@@ -340,10 +351,13 @@ int set_figure_positions(pawn *figure)
 			{
 				GetKeyPress();
 			}
+			printf("\r                     \r"); //Ganze Zeile wieder loeschen
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return -1;
 		}
 	}
+	printf("\r                     \r"); //Ganze Zeile wieder loeschen
 	return 0;
 }
 
@@ -372,7 +386,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 	int i = 0;
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -404,6 +418,8 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 				scanf("%s", file);
 				while(getchar() != '\n'); // Eingabebuffer löschen
 
+				if(map_extension_handler(file) == ERROR) return 0;
+
 				// Aufstellung file öffnen
 				char *p, *q; //path
 				fp = fopen(p = path_handler(AppPath, q = path_handler(MAP_DIR"\\", file)), "r"); if(p!=NULL)free(p);if(q!=NULL)free(q);
@@ -416,12 +432,14 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 			if(!(fp == NULL))
 			{
 				//Erstes Zeichen/Zeile lesen, ob Kontrollzeichen
-				char MapControl = 'L';
+				char MapControl;
 				fscanf(fp, "%c", &MapControl);
 
-				if(MapControl == 'L')
+				if(MapControl == 'L') //Evtl erweitern zu LASERCHESSMAP
 				{
-					printf("Successful.\n");
+					StopContinuousSound();
+
+					if(MODE == STARTOPEN) printf("\n"); printf("Successful"); if(MODE == OPEN) printf("\n");
 					for(i = 0; i < ANZ_FIGURES; i++)	// Solange einlesen, bis alle Figuren Werte haben
 					{
 						fscanf(fp, "%u", &(figure[i].PLAYER));
@@ -434,14 +452,14 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 				}
 				else
 				{
-					printf("Not a mapfile.\n");
+					printf("\nNot a mapfile");
 					return 0;
 				}
 			}
 			else
 			{
 				// Meldung wenn File nicht geöffnet werden konnte
-				printf("Error: cannot open file\n");
+				printf("Error: Cannot open file\n");
 				return 0;	// Fehlerwert zurückgeben
 			}
 
@@ -533,7 +551,7 @@ void easter_egg1(void)
 	}
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -657,6 +675,7 @@ void easter_egg1(void)
 								{
 									GetKeyPress();
 								}
+								destroy_images(); //Geladene Images aus Speicher loeschen
 								CloseGraphic(); //Grafikfenster schliessen
 								return;
 							}
@@ -693,6 +712,7 @@ void easter_egg1(void)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -744,7 +764,7 @@ void easter_egg2(void)
 	old_snake.TYPE = CANNON;
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -804,6 +824,7 @@ void easter_egg2(void)
 				{
 					GetKeyPress();
 				}
+				destroy_images(); //Geladene Images aus Speicher loeschen
 				CloseGraphic(); //Grafikfenster schliessen
 				return;
 			}
@@ -844,6 +865,7 @@ void easter_egg2(void)
 			play_sound(Ignore);
 			//############ GAME OVER #################
 			WaitMs(2000);
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -861,6 +883,7 @@ void easter_egg2(void)
 					play_sound(Ignore);
 					//############ GAME OVER #################
 					WaitMs(2000);
+					destroy_images(); //Geladene Images aus Speicher loeschen
 					CloseGraphic(); //Grafikfenster schliessen
 					return;
 				}
@@ -953,7 +976,7 @@ void easter_egg3(void)
 	}
 
 	// initialize graphics and load images:
-	if(init_images() == -1)
+	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
 		printf("Image loading failed. Exiting\n");	//Exiting? xD
@@ -1052,6 +1075,7 @@ void easter_egg3(void)
 								{
 									GetKeyPress();
 								}
+								destroy_images(); //Geladene Images aus Speicher loeschen
 								CloseGraphic(); //Grafikfenster schliessen
 								return;
 							}
@@ -1088,6 +1112,7 @@ void easter_egg3(void)
 			{
 				GetKeyPress();
 			}
+			destroy_images(); //Geladene Images aus Speicher loeschen
 			CloseGraphic(); //Grafikfenster schliessen
 			return;
 		}
@@ -1119,14 +1144,18 @@ void argument_handler(int argn, char* args[], pawn *figure)
 {
 	//Standardwerte der Variablen
 	FIELD_SIZE = 100;
+	//Ende der Startwerte
 
 	//Argument 0 = AppPath (Standardmaessig immer so)
 	//Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
-	//Also: Prueffen ob mehr als ein Argument vorhanden,
-	//      und ob das Argument 1 einen Pfad beinhaltet (2. Buchstabe ':', z.B. "C:Map1.txt")
-	if((argn>1) && (args[1][1] == ':'))
+
+	//Falls es nicht mehr als ein Argument (AppPath) gibt, abbrechen
+	if(!(argn>1)) return;
+
+	//Ist Argument 1 ein Pfad? (Ist 2. Buchstabe ':', wie z.B. in "C:Map1.txt"?)
+	if(args[1][1] == ':')
 	{
-		printf("\n\n\nTrying to open file..\n");
+		printf("\nTrying to open file...");
 		MapPath = args[1];
 
 		create_figures(figure);
@@ -1135,55 +1164,53 @@ void argument_handler(int argn, char* args[], pawn *figure)
 			spiel(figure); //Spiel starten/ausführen
 		}
 	}
-	//Wenn im Eclipse gestartet (Argument 1 != %*)
-	else if((argn>1) && STRINGS_EQUAL(args[1], "%*"))
+	//Wenn im Eclipse gestartet (Argument 1 ist %*)
+	else if(STRINGS_EQUAL(args[1], "%*"))
 	{
-		printf("\n\n\nStarted in Eclipse\n");
+		printf("\nStarted in Eclipse");
 	}
 	//Sonstige Argumente
-	else if((argn>1))
+	else
 	{
-		//Kontrollvariable fuer Fehler
-		char err = 0;
+		//Buffer fuer Werte
+		unsigned int buffer = 0;
 
 		int i;
 		for(i = 1; i<argn; i++)
 		{
-			/*Vorlage fuer Variablen (Bsp mit Test_var)*/
+			/*Vorlage fuer Variablen (Bsp mit Field_size)*/
 			//Bekannte Variable?
 			if(STRINGS_EQUAL(args[i], "-Field_size"))
 			{
-				//Wert (naechstes Argument) vorhanden und keine variable ?
+				//Wert (naechstes Argument) vorhanden und keine variable?
 				if((i+1<argn) && (args[i+1][0] != '-'))
 				{
-					//Abfrage ob im ASCII-Bereich der Zahlen noch hier einfügen
-					if(atoi(args[i+1]) > 200) FIELD_SIZE = 200;
-					else if(atoi(args[i+1]) < 20) FIELD_SIZE = 20;
-					else if((atoi(args[i+1]) >= 20) && (atoi(args[i+1]) <= 200)) FIELD_SIZE = atoi(args[i+1]);
-					else printf("err");
+					//Falls Argument eine Zahl ist, wird diese hier in buffer kopiert
+					//(Werte groesser als (2^32 - 1) geben einen Ueberlauf, 2^32 gibt also wieder 0)
+					sscanf(args[i+1], "%u", &buffer);
 
-					//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben.
+					//Pruefen ob Argument eine gueltige Zahl war
+					//(wenn nicht, dann hat buffer noch startwert 0)
+					if(buffer != 0)
+					{
+						//Feldgroesse maximal 200 und minimal 20
+						if(buffer > 200) buffer = 200;
+						else if(buffer < 20) buffer = 20;
+
+						FIELD_SIZE = buffer;
+						printf("\nField_size set to %u", buffer);
+					}
+					else printf("\nInvalid parameter for %s: \"%s\"", args[i], args[i+1]);
+
+					//Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben (oder versucht).
 					i++;
 				}
-				else
-				{
-					//Bevor das erste mal ein Fehler ausgegeben wird 3x neue Zeile
-					if(err == 0) printf("\n\n\n");
-					err = 1;
-
-					printf("Invalid parameter for %s\n", args[i]);
-				}
+				else printf("\nParameter for %s not found", args[i]);
 			}
-			else
-			{
-				//Bevor das erste mal ein Fehler ausgegeben wird 3x neue Zeile
-				if(err == 0) printf("\n\n\n");
-				err = 1;
-
-				printf("Unknown argument: \"%s\"\n", args[i]);
-			}
+			else printf("\nUnknown argument: \"%s\"", args[i]);
 		}
 	}
+	printf("\n\n");
 }
 
 
@@ -1212,11 +1239,11 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 
 	printf(""TITLE);
-	printf("Welcome to Laserchess!");
+	printf("Welcome to Laserchess!\n\n");
 
 	argument_handler(argc, argv, figure);
 
-	printf("\n\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
+	printf("\nPress\n1 - To start normal mode\n2 - To start placing mode\n3 - Open Existing\n4 - Sound [ON/OFF]\n5 - Exit\n");
 
 	while(FOREVER)
 	{
@@ -1232,7 +1259,7 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 		while( MODE == INVALID_INPUT);
 
 		//Intro-Sound beenden
-		StopContinuousSound();
+		if(MODE != OPEN) StopContinuousSound();
 
 		if(MODE == EXIT)
 		{

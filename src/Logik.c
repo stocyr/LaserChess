@@ -23,6 +23,8 @@
 /*  n00bSoft                                                                 */
 /*****************************************************************************/
 
+#include <string.h>
+
 #include "Grafik.h"
 #include "Logik.h"
 #include "LaserChess.h"
@@ -66,6 +68,7 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 		{
 			GetKeyPress();
 		}
+		destroy_images(); //Geladene Images aus Speicher loeschen
 		CloseGraphic(); //Grafikfenster schliessen
 		return -3;	// -3 zurückgeben, dass Gamecontrol enum auf Exit gesetzt wird
 	}
@@ -297,8 +300,6 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
 int is_inside_map(location pos)
 {
     // wenn innerhalb der definierten Array-grenzen:
-    /*if((pos.x < PLAYGROUND_X_MAX-FIELD_LINE_WIDTH/2 && pos.x >= 0) &&
-       (pos.y < PLAYGROUND_Y_MAX-FIELD_LINE_WIDTH/2 && pos.y >= 0))*/ //Geaendert von kasen1
     if((pos.x < PLAYGROUND_X_MAX && pos.x >= 0) &&
        (pos.y < PLAYGROUND_Y_MAX && pos.y >= 0))
     {
@@ -419,7 +420,7 @@ void destroy_figure(pawn *figure)
 /*                                                                           */
 /*  Input Para :                                                             */
 /*                                                                           */
-/*  Output     : Returns location struct, of the field who was hit or -1     */
+/*  Output     : Returns location struct, of the field who was hit or ERROR  */
 /*               when the click was beyond the map or there was no click.    */
 /*  Author     : M. Bärtschi                                                 */
 /*                                                                           */
@@ -447,8 +448,8 @@ location mouseclick_to_map(void)
 	}
 	else
 	{
-		pos.x = -1;
-		pos.y = -1;
+		pos.x = ERROR;
+		pos.y = ERROR;
 	}
 	return pixel_to_map(pos);
 }
@@ -487,6 +488,51 @@ char *path_handler(const char path[], char file[])
 	sprintf(buffer, "%s%s", path, file);
 
 	return buffer;
+}
+
+
+/*****************************************************************************/
+/*  Function   : map_extension_handler                          Version 1.0  */
+/*****************************************************************************/
+/*                                                                           */
+/*  Function   : Reads the extension of a filename (input string). If there  */
+/*               is one, checks if it's MAP_EXT (return 0 if not). If there  */
+/*               is no extension, MAP_EXT is added to the end.               */
+/*                                                                           */
+/*  Input Para : char file[]                                                 */
+/*               (Has to be long enough to add MAP_EXT at the end!)          */
+/*                                                                           */
+/*  Output     : -1 ERROR, 1 SUCCESS                                         */
+/*                                                                           */
+/*  Author     : N. Kaeser                                                   */
+/*                                                                           */
+/*  Email      : kasen1@bfh.ch                                               */
+/*                                                                           */
+/*****************************************************************************/
+
+int map_extension_handler(char file[])
+{
+	//Nach letztem '.' im Filename suchen
+	char *pchar = strrchr(file, '.');
+
+	//Wenn nicht vorhanden, Pointer auf NULL
+	if(pchar != NULL)
+	{
+		if(strstr(file, MAP_EXT) != pchar)
+		{
+			//Wird ausgeführt, wenn MAP_EXT in file nicht gefunden wurde (NULL), also andere Endung besitzt,
+			//oder nicht an gleicher Adresse wie pchar ist (also nicht die Endung ist, sondern irgendwo sonst in file enthalten)
+
+			printf("Error: Not a \""MAP_EXT"\" file\n");
+			return ERROR;	// Fehlerwert zurückgeben
+		}
+	}
+	else //Gar keine Endung eingegeben
+	{
+		//Eingabe mit Mapendung erweitern
+		strcat(file, MAP_EXT);
+	}
+	return SUCCESS;
 }
 
 

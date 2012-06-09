@@ -37,7 +37,7 @@
 "------------------------------------------------------------------------\n" \
 
 // Spielerzugehörtigkeit
-enum Affiliation {PLAYER_RED, PLAYER_BLUE}; //enum Affiliation {PLAYER_RED = 0, PLAYER_BLUE = 1}; //Weil in Spiel.c PLAYER = !PLAYER; Changed by kasen1
+enum Affiliation {PLAYER_RED, PLAYER_BLUE};
 
 // Verschiedene Figur-Typen
 enum Species {KING, MIRROR, SPLITTER, WALL, CANNON};
@@ -62,6 +62,8 @@ enum Sound {Laser, Reflection, Destruction, Victory, Ignore, Intro, Music, Pling
 
 // usability Makros
 #define FOREVER 1
+#define ERROR -1
+#define SUCCESS 1
 #define IS_EVEN(x) (!((x)%2))
 #define ABS(a) (a<0 ? -(a) : a)
 #define STRINGS_EQUAL(a,b) (strcmp(a,b)==0 ? 1 : 0)
@@ -85,6 +87,8 @@ enum Sound {Laser, Reflection, Destruction, Victory, Ignore, Intro, Music, Pling
 
 //Ordnerpfad zu den vordefinierten Maps (Pfad relativ zu *ApplicationPath)
 #define MAP_DIR "\\maps"
+//Mapfile-Endung
+#define MAP_EXT ".map"
 
 // Map-Koordinatenstruct
 typedef struct {

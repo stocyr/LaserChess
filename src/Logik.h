@@ -11,7 +11,8 @@
 /*  Function   : Header for Logik.c                                          */
 /*                                                                           */
 /*  Procedures : laser(), is_inside_map(), is_figure, move_figure,           */
-/*               destroy_figure()                                            */
+/*               destroy_figure(), mouseclick_to_map, path_handler,          */
+/*               map_extension_handler, play_sound                           */
 /*                                                                           */
 /*  Author     : C. Stoller                                                  */
 /*                                                                           */
@@ -42,6 +43,7 @@ void move_figure(pawn *figure, location new_pos);
 void destroy_figure(pawn *figure);
 location mouseclick_to_map(void);
 char *path_handler(const char path[], char file[]);
+int map_extension_handler(char file[]);
 void play_sound(enum Sound snd);
 
 #endif

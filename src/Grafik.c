@@ -35,7 +35,7 @@
 /*  Procedure   : DrawTransformedImage                                       */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function    : Draws the given Image skaled and rotated at the given      */
+/*  Function    : Draws the given Image scaled and rotated at the given      */
 /*                position into the current image                            */
 /*                                                                           */
 /*  Type        : Global                                                     */
@@ -90,7 +90,7 @@ static void DrawTransformedImage(int x, int y, float Angle, float ScaleX, float 
 /*                                                                           */
 /*  Function   : Draws empty rectangle with sharp edges                      */
 /*                                                                           */
-/*  Input Para : x and y koord. as windowskoord.                             */
+/*  Input Para : x and y koord. in windowskoord.                             */
 /*               int Width, int Height, ColorType Color, int LineWidth       */
 /*                                                                           */
 /*  Output     : -                                                           */
@@ -123,7 +123,7 @@ void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType C
 /*  Function   : pixel_to_map                                   Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Convert windowskoord. to mapposition                        */
+/*  Function   : Convert windowskoord. to map position                       */
 /*                                                                           */
 /*  Input Para : x and y as windowskoord.                                    */
 /*                                                                           */
@@ -141,8 +141,8 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 
 	if((Windowskoordinaten.x < 0) && (Windowskoordinaten.y < 0))	//Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
-		Mapkoordinaten.x = -1;
-		Mapkoordinaten.y = -1;
+		Mapkoordinaten.x = ERROR;
+		Mapkoordinaten.y = ERROR;
 		return Mapkoordinaten;
 	}
 
@@ -151,8 +151,8 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 
 	if(!is_inside_map(Mapkoordinaten)) //errorhandling (wenn x >= 800 oder y >= 600)
 	{
-		Mapkoordinaten.x = -1;
-		Mapkoordinaten.y = -1;
+		Mapkoordinaten.x = ERROR;
+		Mapkoordinaten.y = ERROR;
 	}
 
 	return Mapkoordinaten;
@@ -163,9 +163,9 @@ location pixel_to_map(location Windowskoordinaten)	//bekommt windowskoordinaten 
 /*  Function   : map_to_pixel                                   Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Convert mapposiiton to windowskoord. -> Point upper left!   */
+/*  Function   : Convert mappositon to windowskoord. -> Point upper left!    */
 /*                                                                           */
-/*  Input Para : x and y as mappositon                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -181,8 +181,8 @@ location map_to_pixel(location Mapkoordinaten)	//bekommt mapkoordinaten gibt win
 
 	if((Mapkoordinaten.x < 0) && (Mapkoordinaten.y < 0)) //Errorhandling (wenn falsche Koordinaten uebergeben wurden)
 	{
-		Windowskoordinaten.x = -1;
-		Windowskoordinaten.y = -1;
+		Windowskoordinaten.x = ERROR;
+		Windowskoordinaten.y = ERROR;
 		return Windowskoordinaten;
 	}
 
@@ -231,12 +231,12 @@ void draw_playground()
 /*  Function   : scale_handler                                  Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Returns the percentage for scaling the image to fieldsize.  */
+/*  Function   : Returns the percentage for scaling the image to field size. */
 /*                                                                           */
-/*  Input Para : Image_ID, a valid ID of a loaded Imagefile                  */
+/*  Input Para : Image_ID, a valid ID of a loaded Image file                 */
 /*                                                                           */
 /*  Output     : size scale, the x- and y-scalefactor                        */
-/*               in percentage of the fieldsize                              */
+/*               in percentage of the field size                             */
 /*                                                                           */
 /*  Author     : N. Kaeser                                                   */
 /*                                                                           */
@@ -264,7 +264,7 @@ size scale_handler(int Image_ID)
 /*                                                                           */
 /*  Function   : Draws a focus in the selected field                         */
 /*                                                                           */
-/*  Input Para : x and y as mappositon                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -288,7 +288,7 @@ void draw_focus(location pos) //bekommt Mapkoordinaten und schreibt sie ins stru
 /*                                                                           */
 /*  Function   : Draws a rotation-image on the selected field                */
 /*                                                                           */
-/*  Input Para : x and y as mappositon                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -317,7 +317,7 @@ void draw_rot_focus(location pos)
 /*                                                                           */
 /*  Function   : Deletes the selected field (reset)                          */
 /*                                                                           */
-/*  Input Para : x and y as mapposiotn                                       */
+/*  Input Para : x and y as map position                                     */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -349,7 +349,7 @@ void draw_empty_field(location pos)	//bekommt Mapkoordinaten und schreibt sie in
 /*               Draws half the laser in the selected field                  */
 /*               (v1.1: Laser now glowing)                                   */
 /*                                                                           */
-/*  Input Para : x and y as mapposition and direction                        */
+/*  Input Para : x and y as map position and direction                       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -412,7 +412,7 @@ void draw_half_laser(location start_pos, enum Direction dir)
 /*  Function   : Draws the laser in the selected field                       */
 /*               (v1.1 uses new function draw_angled_laser())                */
 /*                                                                           */
-/*  Input Para : x and y as mapposition and direction                        */
+/*  Input Para : x and y as map position and direction                       */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -511,7 +511,7 @@ void draw_laser (location pos, enum Direction dir)	//bekommt Mapkoordinaten und 
 /*                                                                           */
 /*  Input Para : pos in map-coordinates, direction and angle;                */
 /*               dir, the direction of the laser                             */
-/*               angle, for the reflection (-1 right, 1 left                 */
+/*               angle, for the reflection (-1 right, 1 left)                */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
@@ -720,20 +720,20 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle)
 void destroy_images()
 {
 	/*Nur Images die wirklich geladen waren (also ID>=0) entfernen*/
-	if(Blue_king_img >= 0)     DestroyImage(Blue_king_img);
-	if(Blue_mirror_img >= 0)   DestroyImage(Blue_mirror_img);
-	if(Blue_splitter_img >= 0) DestroyImage(Blue_splitter_img);
-	if(Blue_wall_img >= 0)     DestroyImage(Blue_wall_img);
-	if(Blue_cannon_img >= 0)   DestroyImage(Blue_cannon_img);
+	if(Blue_king_img >= 0)     DestroyImage(Blue_king_img);     Blue_king_img = -1;
+	if(Blue_mirror_img >= 0)   DestroyImage(Blue_mirror_img);   Blue_mirror_img = -1;
+	if(Blue_splitter_img >= 0) DestroyImage(Blue_splitter_img); Blue_splitter_img = -1;
+	if(Blue_wall_img >= 0)     DestroyImage(Blue_wall_img);     Blue_wall_img = -1;
+	if(Blue_cannon_img >= 0)   DestroyImage(Blue_cannon_img);   Blue_cannon_img = -1;
 
-	if(Red_king_img >= 0)      DestroyImage(Red_king_img);
-	if(Red_mirror_img >= 0)    DestroyImage(Red_mirror_img);
-	if(Red_splitter_img >= 0)  DestroyImage(Red_splitter_img);
-	if(Red_wall_img >= 0)      DestroyImage(Red_wall_img);
-	if(Red_cannon_img >= 0)    DestroyImage(Red_cannon_img);
+	if(Red_king_img >= 0)      DestroyImage(Red_king_img);      Red_king_img = -1;
+	if(Red_mirror_img >= 0)    DestroyImage(Red_mirror_img);    Red_mirror_img = -1;
+	if(Red_splitter_img >= 0)  DestroyImage(Red_splitter_img);  Red_splitter_img = -1;
+	if(Red_wall_img >= 0)      DestroyImage(Red_wall_img);      Red_wall_img = -1;
+	if(Red_cannon_img >= 0)    DestroyImage(Red_cannon_img);    Red_cannon_img = -1;
 
-	if(Fig_error_img >= 0)     DestroyImage(Fig_error_img);
-	if(Rot_focus_img >= 0)     DestroyImage(Rot_focus_img);
+	if(Fig_error_img >= 0)     DestroyImage(Fig_error_img);     Fig_error_img = -1;
+	if(Rot_focus_img >= 0)     DestroyImage(Rot_focus_img);     Rot_focus_img = -1;
 }
 
 
@@ -745,7 +745,7 @@ void destroy_images()
 /*                                                                           */
 /*  Input Para : -                                                           */
 /*                                                                           */
-/*  Output     : returns 1 if successful, otherwise 0                        */
+/*  Output     : returns SUCCESS if successful, otherwise ERROR              */
 /*                                                                           */
 /*  Author     : N. Kaeser                                                   */
 /*                                                                           */
@@ -753,42 +753,44 @@ void destroy_images()
 /*                                                                           */
 /*****************************************************************************/
 
-char init_images()
+int init_images()
 {
 	char *p; //path
-	char error = -1;
-	char success = 1;
 
 	//Variable mit der Errors uebertragen werden
 	//(Damit nur am Schluss einmal destroy_figure_images() aufgerufen werden muss)
-	char test = 0;
+	int test = 0;
 
-	//Image laden und ID uebergeben. Pfad wieder freigeben. Wuerde eine nicht gefunden error setzten.
-	Blue_king_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_king.png"));    if(p!=NULL)free(p); if(Blue_king_img<0)    test=error;
-	Blue_mirror_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));  if(p!=NULL)free(p); if(Blue_mirror_img<0)  test=error;
+	//Image laden und ID uebergeben. Pfad wieder freigeben. Wuerde eine nicht gefunden ERROR setzten.
+	Blue_king_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_king.png"));    if(p!=NULL)free(p); if(Blue_king_img<0)    test=ERROR;
+	Blue_mirror_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_mirror.png"));  if(p!=NULL)free(p); if(Blue_mirror_img<0)  test=ERROR;
 
-	Blue_splitter_img = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_splitter.png"));if(p!=NULL)free(p); if(Blue_splitter_img<0)test=error;
-	Blue_wall_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_wall.png"));    if(p!=NULL)free(p); if(Blue_wall_img<0)    test=error;
-	Blue_cannon_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));  if(p!=NULL)free(p); if(Blue_cannon_img<0)  test=error;
+	Blue_splitter_img = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_splitter.png"));if(p!=NULL)free(p); if(Blue_splitter_img<0)test=ERROR;
+	Blue_wall_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_wall.png"));    if(p!=NULL)free(p); if(Blue_wall_img<0)    test=ERROR;
+	Blue_cannon_img   = LoadImage(p=path_handler(AppPath, IMG_DIR"\\blue_cannon.png"));  if(p!=NULL)free(p); if(Blue_cannon_img<0)  test=ERROR;
 
-	Red_king_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_king.png"));     if(p!=NULL)free(p); if(Red_king_img<0)     test=error;
-	Red_mirror_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_mirror.png"));   if(p!=NULL)free(p); if(Red_mirror_img<0)   test=error;
-	Red_splitter_img  = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_splitter.png")); if(p!=NULL)free(p); if(Red_splitter_img<0) test=error;
-	Red_wall_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_wall.png"));     if(p!=NULL)free(p); if(Red_wall_img<0)     test=error;
-	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=error;
+	Red_king_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_king.png"));     if(p!=NULL)free(p); if(Red_king_img<0)     test=ERROR;
+	Red_mirror_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_mirror.png"));   if(p!=NULL)free(p); if(Red_mirror_img<0)   test=ERROR;
+	Red_splitter_img  = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_splitter.png")); if(p!=NULL)free(p); if(Red_splitter_img<0) test=ERROR;
+	Red_wall_img      = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_wall.png"));     if(p!=NULL)free(p); if(Red_wall_img<0)     test=ERROR;
+	Red_cannon_img    = LoadImage(p=path_handler(AppPath, IMG_DIR"\\red_cannon.png"));   if(p!=NULL)free(p); if(Red_cannon_img<0)   test=ERROR;
 
-	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=error;
-	Rot_focus_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\rot_focus.png"));    if(p!=NULL)free(p); if(Rot_focus_img<0)    test=error;
+	Fig_error_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\figure_error.png")); if(p!=NULL)free(p); if(Fig_error_img<0)    test=ERROR;
+	Rot_focus_img     = LoadImage(p=path_handler(AppPath, IMG_DIR"\\rot_focus.png"));    if(p!=NULL)free(p); if(Rot_focus_img<0)    test=ERROR;
 
 	//Check, ob Alle korrekt geladen wurden.
-	if(test == error)
+	if(test == ERROR)
 	{
 		destroy_images(); //Falls einige Images trotzdem erfolgreich geladen wurden, korrekt entfernen.
-		return error;
+		return ERROR;
 	}
 	else
 	{
-		return success;
+		/*printf("\n\nImageID's: %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n\n",
+				Blue_king_img, Blue_mirror_img, Blue_splitter_img, Blue_wall_img,
+				Blue_cannon_img, Red_king_img, Red_mirror_img, Red_splitter_img,
+				Red_wall_img, Red_cannon_img, Fig_error_img, Rot_focus_img);*/
+		return SUCCESS;
 	}
 }
 
@@ -893,7 +895,7 @@ void draw_figure(pawn *figure)
 /*  Function   : Draws/animates the destruction of a mirror.                 */
 /*               (V1.0, it only draws an empty field)                        */
 /*               (V1.1, "Melting"-animation with rectangles)                 */
-/*               (V1.2, offset increases allways 1 pixel, not laserwidth)    */
+/*               (V1.2, offset increases always 1 pixel, not laser width)    */
 /*               (V1.3, New animation, with glow)                            */
 /*                                                                           */
 /*  Input Para : pawn *figure                                                */
@@ -948,7 +950,8 @@ void draw_figure_destroyed(pawn *figure)
 		WaitMs(DESTROY_DELAY);
 	}
 
-	draw_empty_field(figure->Pos); //Feld noch komplett loeschen
+	//Feld noch komplett loeschen
+	draw_empty_field(figure->Pos);
 
 /*Version 1.2*/
 /*
@@ -1053,7 +1056,7 @@ void draw_figure_destroyed(pawn *figure)
 /*                                                                           */
 /*  Function   : Inverts the colors of the defined part.                     */
 /*                                                                           */
-/*  Input Para : x and y for startposition; width and height for the size    */
+/*  Input Para : x and y for start position; width and height for the size   */
 /*                                                                           */
 /*  Output     : -                                                           */
 /*                                                                           */
