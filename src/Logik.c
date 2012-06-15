@@ -556,55 +556,152 @@ int map_extension_handler(char file[])
 void play_sound(enum Sound snd)
 {
 	char *p;		//path
+	FILE *datei;    //für fopen
 
-	if(Sound_On)	//Abfrage ob Sound On
+	if(!Sound_On) return;	//Wenn Sounds off, abbrechen
+
+	switch(snd)
 	{
-		switch(snd)
-		{
-			case Laser:
-				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\laser.wav"));
-				if(p!=NULL)	free(p);
-				break;
+		case Laser:
+			p=path_handler(AppPath, SOUND_DIR"\\laser.wav");
 
-			case Reflection:
-				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\reflection.wav"));
-				if(p!=NULL)	free(p);
-				break;
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundOnce(p);
+			}
 
-			case Destruction:
-				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\destruction.wav"));
-				if(p!=NULL)	free(p);
-				break;
+			if(p!=NULL)	free(p);
+			break;
 
-			case Victory:
-				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\victory.wav"));
-				if(p!=NULL)	free(p);
-				break;
+		case Reflection:
+			p=path_handler(AppPath, SOUND_DIR"\\reflection.wav");
 
-			case Ignore:
-				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\ignore.wav"));
-				if(p!=NULL)	free(p);
-				break;
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundOnce(p);
+			}
 
-			case Intro:
-				PlaySoundContinuous(p=path_handler(AppPath, SOUND_DIR"\\intro.wav"));
-				if(p!=NULL)	free(p);
-				break;
+			if(p!=NULL)	free(p);
+			break;
 
-			case Music:
-				/*PlaySoundContinuous(p=path_handler(AppPath, SOUND_DIR"\\music.wav"));
-				if(p!=NULL)	free(p);*/
-				break;
+		case Destruction:
+			p=path_handler(AppPath, SOUND_DIR"\\destruction.wav");
 
-			case Pling:
-				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\pling.wav"));
-				if(p!=NULL)	free(p);
-				break;
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundOnce(p);
+			}
 
-			case Bell:
-				PlaySoundOnce(p=path_handler(AppPath, SOUND_DIR"\\bell.wav"));
-				if(p!=NULL)	free(p);
-				break;
-		}
+			if(p!=NULL)	free(p);
+			break;
+
+		case Victory:
+			p=path_handler(AppPath, SOUND_DIR"\\victory.wav");
+
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundOnce(p);
+			}
+
+			if(p!=NULL)	free(p);
+			break;
+
+		case Ignore:
+			p=path_handler(AppPath, SOUND_DIR"\\ignore.wav");
+
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundOnce(p);
+			}
+
+			if(p!=NULL)	free(p);
+			break;
+
+		case Intro:
+			p=path_handler(AppPath, SOUND_DIR"\\intro.wav");
+
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundContinuous(p);
+			}
+
+			if(p!=NULL)	free(p);
+			break;
+
+		case Music:
+			/*p=path_handler(AppPath, SOUND_DIR"\\music.wav");
+
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundContinuous(p);
+			}
+
+			if(p!=NULL)	free(p);*/
+			break;
+
+		case Pling:
+			p=path_handler(AppPath, SOUND_DIR"\\pling.wav");
+
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundOnce(p);
+			}
+
+			if(p!=NULL)	free(p);
+			break;
+
+		case Bell:
+			p=path_handler(AppPath, SOUND_DIR"\\bell.wav");
+
+			//Testen ob Datei vorhanden mit file-open
+			datei = fopen(p,"r");
+			if(datei!=NULL)
+			{
+				//Datei ist vorhanden, schliessen und Sound abspielen
+				fclose(datei);
+				PlaySoundOnce(p);
+			}
+
+			if(p!=NULL)	free(p);
+			break;
+	}
+
+	//Datei war nicht vorhanden, alle Sounds ausschalten und Meldung ausgeben
+	if(datei == NULL)
+	{
+		Sound_On = 0;
+		printf("\nSoundfile not found\nSound OFF\n");
 	}
 }
