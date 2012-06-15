@@ -197,15 +197,15 @@ enum Spielmodus menu(void)
 			Sound_On = !Sound_On;
 			if(Sound_On)
 			{
+				printf("Sound ON\n");
 				//Intro-Sound abspielen
 				play_sound(Intro);
-				printf("Sound ON\n");
 			}
 			else
 			{
+				printf("Sound OFF\n");
 				//Intro-Sound beenden
 				StopContinuousSound();
-				printf("Sound OFF\n");
 			}
 			MODE = INVALID_INPUT;
 			return MODE;
@@ -389,7 +389,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
-		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		printf("Image loading failed\n");
 		return 0;
 	}
 
@@ -554,7 +554,7 @@ void easter_egg1(void)
 	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
-		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		printf("Image loading failed\n");
 		return;
 	}
 
@@ -767,7 +767,7 @@ void easter_egg2(void)
 	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
-		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		printf("Image loading failed\n");
 		return;
 	}
 
@@ -979,7 +979,7 @@ void easter_egg3(void)
 	if(init_images() == ERROR)
 	{
 		// wenn image load failed: error
-		printf("Image loading failed. Exiting\n");	//Exiting? xD
+		printf("Image loading failed\n");
 		return;
 	}
 
