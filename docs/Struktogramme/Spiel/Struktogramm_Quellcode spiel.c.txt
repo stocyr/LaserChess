@@ -1,0 +1,33 @@
+void create_focus(location pos)
+{
+    Rotations-Vektor für CCW erstellen
+    Über die Figur selbst einen Rahmen zeichnen
+    if ( Falls Figur an pos rotierbar ist )
+    {
+        den Rotations-Fokus zeichnen
+    }
+    for ( Für alle Acht Felder um die Figur )
+    {
+        Fokus um Gewählte Figur drehen lassen
+        if ( dort keine Figur UND dennoch innerhalb der Map )
+        {
+            Fokus zeichnen
+        }
+    }
+}
+
+void clear_focus(location pos)
+{
+    Rotations-Vektor für CCW erstellen
+    Die Figur neu ohne Rahmen Zeichnen 
+    for ( Für alle Acht Felder um die Figur )
+    {
+        Fokus um Gewählte Figur drehen lassen
+        if ( Dort keine Figur Und dennoch innerhalb der Map )
+        {
+            Leeres Feld zeichnen
+        }
+    }
+}
+
+
