@@ -1,6 +1,0 @@
-Arbeitsjournal
-==============
-
-24.02.2012:	Gruppe gebildet, Game definiert (Khet-Clone), Analyse begonnen, GitHub aufgesetzt
-02.03.2012:	Pflichtenheft geschrieben, Git installiert, Spielumfang und Regeln definiert
-09.03.2012:	Zeitplanung und Modulbeschreibungsliste erstellt, Grobe Arbeitsaufteilung bestimmt
