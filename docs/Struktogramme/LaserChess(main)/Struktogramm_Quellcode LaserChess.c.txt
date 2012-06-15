@@ -1,0 +1,139 @@
+int gfxmain(int argc, char* argv[], const char *ApplicationPath)
+{
+    EXE-Pfad uebergeben, damit global verwendbar
+    Structarray für die Figuren definieren
+    Begrüssungstitel und Befehlseingaben ausgeben
+    while ( Endlosschlaufe )
+    {
+        Map löschen
+        Intro-Sound abspielen
+        do{
+            Spielmodus einlesen
+        }while ( ungültige Eingabe );
+        Intro-Sound beenden
+        if ( Spiel abgebrochen )
+        {
+            return Spiel beenden;
+        }
+        else
+        {
+            if ( Token für EasterEgg1 eingegeben )
+            {
+                Easter egg 1 wird ausgeführt
+                continue;
+            }
+            else
+            {
+                if ( Token für EasterEgg2 eingegeben )
+                {
+                    Eater egg 2 wird ausgeführt
+                    continue;
+                }
+                else
+                {
+                    if ( Token für EasterEgg3 eingegeben )
+                    {
+                        Eater egg 3 wird ausgeführt
+                        continue;
+                    }
+                }
+            }
+        }
+         Figuren erstellen und initialisieren
+         Spiel initialisieren
+        if ( erfogreich initialisiert )
+        {
+            Spiel starten
+        }
+    }
+    return Spiel beenden;
+}
+
+void argument_handler(int argn, char* args[], pawn *figure)
+{    
+    //Standardwerte der Variablen
+    FIELD_SIZE = 100;
+    //Ende der Startwerte
+    
+    //Argument 0 = AppPath (Standardmaessig immer so)
+    //Argument 1 = Dateipfad (Falls eine Datei mit LaserChess geoffnet wird)
+    
+    //Falls es nicht mehr als ein Argument (AppPath) gibt, abbrechen
+    if ( nicht mehr als ein Argument übergeben )
+    {
+        return abbrechen;
+    }
+    //Ist Argument 1 ein Pfad? (Ist 2. Buchstabe ':', wie z.B. in "C:Map1.txt"?)
+    if ( ist Argument 1 ein Pfad' )
+    {
+        Anzeige, dass es geöffnet wird
+        Figuren erstellen und initialisieren
+        Spiel initialisierne
+        if ( Initialisieren erfolgreich )
+        {
+            Spiel starten
+        }
+        //Wenn im Eclipse gestartet (Argument 1 ist %*)
+    }
+    else
+    {
+        if ( Program aus dem Eclipse gestartet )
+        {
+            Anzeige: aus Eclipse geöffnet
+            Sonstige Argumente behandeln
+        }
+        else
+        {
+            Buffer fuer Werte erstellen
+            for ( alle Argumente )
+            {
+                /*Vorlage fuer Variablen (Bsp mit Field_size)*/
+                //Bekannte Variable?
+                if ( Argument ist "-Field_size") )
+                {
+                    //Wert (naechstes Argument) vorhanden und keine variable?
+                    if ( nächstes Argument vorhanden UND es ist keine Variable )
+                    {
+                        Falls Argument eine Zahl ist, wird diese hier in buffer kopiert
+                        //(Werte groesser als (2^32 - 1) geben einen Ueberlauf, 2^32 gibt also wieder 0)
+                        sscanf(args[i+1], "%u", &buffer);
+                        
+                        //Pruefen ob Argument eine gueltige Zahl war
+                        //(wenn nicht, dann hat buffer noch startwert 0)
+                        if ( gültige Zahl im Buffer )
+                        {
+                            //Feldgroesse maximal 200 und minimal 20
+                            if ( Buffer grösser als Maximumgrösse )
+                            {
+                                Buffer auf maximum begrenzen
+                            }
+                            else
+                            {
+                                if ( Buffer kleiner als Minimumgrösse )
+                                {
+                                    Buffer auf minimum begrenzen
+                                }
+                            }
+                            Feldgrösse auf Bufferwert festlegen
+                            Ausgabe: Feldgrösse ist ....
+                        }
+                        else
+                        {
+                            Ausgabe: Ungültige Zahl im Buffer
+                        }
+                        Naechstes Argument ueberspringen, da wir das soeben als Wert gelesen haben (oder versucht)
+                    }
+                    else
+                    {
+                        Ausgabe: Parameter nicht gefunden;
+                    }
+                }
+                else
+                {
+                    Ausgabe: Unbekanntes Argument
+                }
+            }
+        }
+    }
+    printf("\n\n");
+}
