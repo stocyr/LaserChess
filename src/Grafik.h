@@ -40,7 +40,7 @@
 #include "Spiel.h"
 
 /*Grundsätzliche Grafik Definitionen*/
-//#define FIELD_SIZE 100                            //Feldbreite in Pixel
+#define FIELD_SIZE 100                            //Feldbreite in Pixel
 #define FIELD_LINE_WIDTH 3                        //Breite der Spielfeldlinien in Pixel
 #define LINE_COL COL_GREY                         //Linienfarbe
 #define PLAYGROUND_COL COL_BLACK                  //Spielfeldfarbe
@@ -70,7 +70,7 @@
 
 /*Definitionen die mit Argumenten geaendert werden koennen*/
 /*Standardwerte werden in argument_handler() in LaserChess.c gesetzt.*/
-int FIELD_SIZE;
+//int FIELD_SIZE;
 
 //Groesse
 typedef struct {

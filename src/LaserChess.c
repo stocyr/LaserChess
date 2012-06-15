@@ -1143,7 +1143,7 @@ void easter_egg3(void)
 void argument_handler(int argn, char* args[], pawn *figure)
 {
 	//Standardwerte der Variablen
-	FIELD_SIZE = 100;
+	//Beispiel: FIELD_SIZE = 100;
 	//Ende der Startwerte
 
 	//Argument 0 = AppPath (Standardmaessig immer so)
@@ -1152,7 +1152,8 @@ void argument_handler(int argn, char* args[], pawn *figure)
 	//Falls es nicht mehr als ein Argument (AppPath) gibt, abbrechen
 	if(!(argn>1)) return;
 
-	//Ist Argument 1 ein Pfad? (Ist 2. Buchstabe ':', wie z.B. in "C:Map1.txt"?)
+	//Ist Argument 1 ein Pfad? (Datei wurde geoeffnet mit LaserChess.exe)
+	//Also: Ist 2. Buchstabe ':', wie z.B. in "C:Map1.txt"?
 	if(args[1][1] == ':')
 	{
 		printf("\nTrying to open file...");
@@ -1173,12 +1174,12 @@ void argument_handler(int argn, char* args[], pawn *figure)
 	else
 	{
 		//Buffer fuer Werte
-		unsigned int buffer = 0;
+		//unsigned int buffer = 0;
 
 		int i;
 		for(i = 1; i<argn; i++)
 		{
-			/*Vorlage fuer Variablen (Bsp mit Field_size)*/
+			/*Vorlage fuer Variablen (Bsp mit Field_size)
 			//Bekannte Variable?
 			if(STRINGS_EQUAL(args[i], "-Field_size"))
 			{
@@ -1207,7 +1208,9 @@ void argument_handler(int argn, char* args[], pawn *figure)
 				}
 				else printf("\nParameter for %s not found", args[i]);
 			}
-			else printf("\nUnknown argument: \"%s\"", args[i]);
+			Ende der Vorlage fuer Variablen
+
+			else*/ printf("\nUnknown argument: \"%s\"", args[i]);
 		}
 	}
 	printf("\n\n");
