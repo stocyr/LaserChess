@@ -540,7 +540,8 @@ int map_extension_handler(char file[])
 /*  Function   : play_sound                                     Version 1.0  */
 /*****************************************************************************/
 /*                                                                           */
-/*  Function   : Plays the sound of choosen enumeration                      */
+/*  Function   : Plays the sound of chosen enumeration. Switches all sounds  */
+/*               off, if a sound was not found.                              */
 /*                                                                           */
 /*  Input Para : Laser, Reflexion, Destruction, Victory, Ignore, Intro,      */
 /*               Music, Bling, Bell                                          */
