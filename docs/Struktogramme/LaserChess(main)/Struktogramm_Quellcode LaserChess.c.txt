@@ -216,88 +216,55 @@ int set_figure_positions(pawn *figure)
                 Figur zeichnen
                 Rotationsfokus drüber, damit Rotationsmodus ersichtlich
                 Status zu Rotieren wechseln
-                if ( i+1 < ANZ_FIGURES )
-                {
-                    if ( figure[(i+1)/2].TYPE == KING )
-                    {
-                        printf("\r                     \rNext Figure: King");
-                    }
-                    if ( figure[(i+1)/2].TYPE == MIRROR )
-                    {
-                        printf("\r                     \rNext Figure: Mirror");
-                    }
-                    if ( figure[(i+1)/2].TYPE == SPLITTER )
-                    {
-                        printf("\r                     \rNext Figure: Splitter");
-                    }
-                    if ( figure[(i+1)/2].TYPE == WALL )
-                    {
-                        printf("\r                     \rNext Figure: Wall");
-                    }
-                    if ( figure[(i+1)/2].TYPE == CANNON )
-                    {
-                        printf("\r                     \rNext Figure: Cannon");
-                    }
-                }
-                STATE = ROTATE;
+                Nächste Figur in der Konsole ausgeben
             }
             break;
-        case ROTATE :
-            // Wenn 2. Mal auf die Figur gedrückt wird, ist der Zug beendet, wenn am mouserad gedreht wird, wird die Figur gedreht
-            	MouseEvent = GetMouseEvent();	// Holt Mouseevent
-            if ( MouseEvent.ButtonState & W_BUTTON_PRESSED )
+        case Figur drehen :
+            Mouseklick einlesen
+            if ( Innerhalb der Map geklickt )
             {
-                mouse_pos.x = MouseEvent.MousePosX;
-                mouse_pos.y = MouseEvent.MousePosY;
-                mouse_pos = pixel_to_map(mouse_pos);
-                // Wenn ein 2. Mal gültig gecklickt
-                 wird, figur auf Maparray speichern, Player Wechseln
-                if ( is_inside_map(mouse_pos) )
-                {
-                    draw_figure(map[figure_pos.x][figure_pos.y]); 
-                    // Figur nochmals zeichnen, da Rotationsfokus 
-                    noch darüber gezeichnet ist
-                    PLAYER = !PLAYER;	// Player toggeln
-                    STATE = READ_POS;
-                    i++;				// Nächste Figur zum Setzen
-                }
+                Figur nochmals zeichnen
+                Spieler wechseln
+                Status zu Figur setzen wechseln
+                Nächste Figur setzen
             }
             else
             {
-                // Man kann so lange drehen, bis ein 2. mal geklickt wird
-                if ( MouseEvent.ButtonState & W_MOUSE_WHEEL_CHANGE )
+                if ( Mausrad gedreht )
                 {
-                    if ( MouseEvent.MouseWheelDelta > 0 )
+                    if ( Nach oben gedreht )
                     {
-                        // Figur solange drehen bis Taste gedrückt
-                        ROTATE_LEFT(map[figure_pos.x][figure_pos.y]->DIR);
+                        Figur links drehen
                     }
                     else
                     {
-                        ROTATE_RIGHT(map[figure_pos.x][figure_pos.y]->DIR);
+                        Figur rechts drehen
                     }
-                    // Zeichnet die Figur neu, wenn sie gedreht wurde
-                    draw_figure(map[figure_pos.x][figure_pos.y]);
-                    draw_rot_focus(figure_pos);
+                    Figur neu zeichnen
                 }
             }
             break;
         }
-        if ( IsKeyPressReady() && (GetKeyPress() == W_KEY_CLOSE_WINDOW) )
+        if ( Spiel abgebrochen )
         {
-            //Fenster schliessen geklickt
-            // KeyPress Buffer löschen
-            while ( IsKeyPressReady() )
-            {
-                GetKeyPress();
-            }
-            printf("\r                     \r"); //Ganze Zeile wieder loeschen
-            destroy_images(); //Geladene Images aus Speicher loeschen
-            CloseGraphic(); //Grafikfenster schliessen
-            return -1;
+            KeyPress Buffer löschen
+            Grafikfenster schliessen
+            Bilder aus dem Speicher löschen
+            return Abbruch zurückgeben;
         }
     }
-    printf("\r                     \r"); //Ganze Zeile wieder loeschen
-    return 0;
+    return Figuren erfolgreich platziert;
 }
+
+void clear_map_array(void)
+{
+    for ( Alle Y-Werte durchgehen )
+    {
+        for ( Alle X-Werte durchgehen )
+        {
+            Feld mit Nullpointer initialisieren
+        }
+    }
+}
+
 

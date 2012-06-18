@@ -31,3 +31,59 @@ void clear_focus(location pos)
 }
 
 
+int set_figure_positions(pawn *figure)
+{
+    Zwei Position Structs, wo die letdzten zwei Mousecklicks gespeichert werden definieren
+    Struct wo Mouseevents gespeicert werden definieren
+    while ( bis alle Figuren gesetzt sind )
+    {
+        switch ( Status )
+        {
+        case Figur setzen :
+            Mausklick einlesen
+            if ( Innerhalb der Map und nicht auf eine Andere Figur geklickt )
+            {
+                Mapkoordinaten in der Figur speichern
+                Figur auf Map setzen
+                Figur zeichnen
+                Rotationsfokus drüber, damit Rotationsmodus ersichtlich
+                Status zu Rotieren wechseln
+                Nächste Figur in der Konsole ausgeben
+            }
+            break;
+        case Figur drehen :
+            Mouseklick einlesen
+            if ( Innerhalb der Map geklickt )
+            {
+                Figur nochmals zeichnen
+                Spieler wechseln
+                Status zu Figur setzen wechseln
+                Nächste Figur setzen
+            }
+            else
+            {
+                if ( Mausrad gedreht )
+                {
+                    if ( Nach oben gedreht )
+                    {
+                        Figur links drehen
+                    }
+                    else
+                    {
+                        Figur rechts drehen
+                    }
+                    Figur neu zeichnen
+                }
+            }
+            break;
+        }
+        if ( Spiel abgebrochen )
+        {
+            KeyPress Buffer löschen
+            Grafikfenster schliessen
+            Bilder aus dem Speicher löschen
+            return Abbruch zurückgeben;
+        }
+    }
+    return Figuren erfolgreich platziert;
+}
