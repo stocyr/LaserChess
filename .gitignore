@@ -2,6 +2,7 @@
 *.project
 ./libs*
 *~$*
+*.tmp
 Release/*
 *.o
 .settings

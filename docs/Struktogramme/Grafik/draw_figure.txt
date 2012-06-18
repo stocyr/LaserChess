@@ -1,0 +1,10 @@
+void draw_figure(pawn *figure)
+{
+    Rotation in Grad umwandeln
+    Position in Pixelkoordinaten umwandeln
+    Feld erstmal leeren (Funktion: draw_empty_field)
+    Das richtigen Bild für die aktuelle Figur ermitteln
+    Bildgroesse relativ zur Feldgroesse umrechnen (Funktion: scale_handler)
+    Bild mit diesen ermittelten Werten zeichnen
+    Den Rahmen wieder darüber zeichnen
+}

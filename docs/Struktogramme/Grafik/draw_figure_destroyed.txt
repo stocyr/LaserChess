@@ -1,4 +1,4 @@
-draw_figure_destroyed
+void draw_figure_destroyed(pawn *figure)
 {
     Neue Farbe erstellen: Playground-Farbe aber mit leichter Transparenz
     Koordinaten in Pixelkoordinaten umrechnen

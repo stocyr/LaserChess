@@ -1,0 +1,6 @@
+size scale_handler(int Image_ID)
+{
+    Bildgrösse ermitteln und vorlaeufig abspeichern
+    Bildgrösse relativ zur Feldgroesse in Prozent umwandeln
+    return Bildgrösse;
+}
