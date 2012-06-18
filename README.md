@@ -17,6 +17,7 @@ Release history:
 
 * **v1.1**: *Bugfix von v1.0*
 
+* **v1.2**: *Finale Version, Bugfix von v1.1*
 
 Links
 -----------
