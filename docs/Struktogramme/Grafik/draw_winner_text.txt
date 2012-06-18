@@ -1,0 +1,20 @@
+void draw_winner_text(pawn *hit_king)
+{
+    Position in Playgroundmitte bestimmen
+    Popup-Flaeche mit Rahmen zeichnen
+    Schrift Optionen einstellen
+    Von jeder Zeile Text-Dimensionen ermitteln
+    Mit Stringlaenge und Schriftgroesse Abstände fürs Zentrieren berechnen
+    Erste Zeile mit berechnetem Abstand zeichnen
+    if ( Getroffener König ist blau? )
+    {
+        Zweite Zeile mit Text für ROT und
+        berechnetem Abstand zeichnen
+    }
+    else
+    {
+        Zweite Zeile mit Text für BLAU und
+        berechnetem Abstand zeichnen
+    }
+    Dritte Zeile mit berechnetem Abstand zeichnen
+}

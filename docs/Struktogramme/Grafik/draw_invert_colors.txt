@@ -1,0 +1,7 @@
+void draw_invert_colors(int x, int y, int width, int height)
+{
+    Zeichnungmodus zu XOR umschalten
+    Weisses Rechteck zeichnen
+    (XOR-Verknüpfung mit 0xFF ergibt Invertierung)
+    Wieder zum normalen Zeichnungsmodus umschalten
+}

@@ -1,0 +1,8 @@
+void draw_sharp_empty_rectangle(int x, int y, int Width, int Height, ColorType Color, int LineWidth)
+{
+    Linie auf SquareCap einstellen
+    Linie oben zeichnen
+    Linie rechts zeichnen
+    Linie unten zeichnen
+    Linie links zeichnen
+}

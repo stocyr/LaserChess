@@ -1,0 +1,7 @@
+void draw_rot_focus(location pos)
+{
+    Position in Pixelkoordinaten umwandeln (Funktion: "map_to_pixel")
+    Skalierungsfaktor ermitteln, damit Bildgroesse relativ
+    zur Feldgroesse gezeichnet wird (Funktion: "scale_handler")
+    Fokusbild mit korrekt skalierter Groesse zeichnen
+}

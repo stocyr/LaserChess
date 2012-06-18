@@ -1,0 +1,5 @@
+void destroy_images()
+{
+    Für jedes Bild prüfen ob es geladen war,
+    wenn dem so ist aus speicher löschen und variable zurücksetzen
+}
