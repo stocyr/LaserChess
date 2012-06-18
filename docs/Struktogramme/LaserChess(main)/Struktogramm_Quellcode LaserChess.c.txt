@@ -267,4 +267,39 @@ void clear_map_array(void)
     }
 }
 
-
+void argument_handler(int argn, char* args[], pawn *figure)
+{
+    if ( Nur ein Argument (Argument 0: AppPath) vorhanden )
+    {
+        return ;
+    }
+    if ( Argument 1 ein Pfad? )
+    {
+        Text ausgeben "Trying to open file..."
+        
+        Argument 1 als Map-Pfad speichern
+        
+        Figuren initialisieren
+        if ( Spiel mit information STARTOPEN
+             initialisieren und prüeffen ob alles ok )
+        {
+            Spiel starten/ausführen
+        }
+    }
+    else
+    {
+        if ( Argument 1 ist von Eclipse? )
+        {
+            Text ausgeben:
+            "Started in Eclipse"
+        }
+        else
+        {
+            for ( jedes Argument )
+            {
+                Text ausgeben:
+                "Unknown argument: <Aktuelles Argument>"
+            }
+        }
+    }
+}
