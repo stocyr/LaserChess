@@ -1,4 +1,4 @@
-draw_half_laser
+void draw_half_laser(location start_pos, enum Direction dir)
 {
     Farbe und Linie einstellen
     Direction für x umrechnen

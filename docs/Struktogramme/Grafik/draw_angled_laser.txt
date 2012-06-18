@@ -1,12 +1,12 @@
-draw_laser
+void draw_angled_laser(location pos, enum Direction dir, enum Angle angle)
 {
     Koordinaten umrechnen in Pixelkoordinaten
     Startposition für x umrechnen
     Startposition für y umrechnen
     Bis zur Feldmitte zeichnen (Funktion "draw_half_laser")
     Reflection sound abspielen
-    Abgerundete Ecke zeichnen
     Feldmitte als neue Startposition zuweisen
+    Abgerundete Ecke zeichnen
     Von Feldmitte aus in neuer Richtung zeichnen
     (Funktion "draw_half_laser")
 }
