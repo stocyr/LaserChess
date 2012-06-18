@@ -418,6 +418,7 @@ int init_game(pawn *figure, enum Spielmodus MODE)
 				scanf("%s", file);
 				while(getchar() != '\n'); // Eingabebuffer löschen
 
+				//Korrekte Endung
 				if(map_extension_handler(file) == ERROR) return 0;
 
 				// Aufstellung file öffnen

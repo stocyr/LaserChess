@@ -556,12 +556,12 @@ void draw_angled_laser(location pos, enum Direction dir, enum Angle angle)
 	//Laserfarbe halbtransparent machen fuer Ecke
 	ColorType glow_col = LASER_COL; glow_col.Alpha = 0x80;
 
-	//Ecke mit gefuelltem Kreis abrunden. (Nicht moeglich mit Qt-Optionen, da einzelne Linien gezeichnet werden)
-	DrawFilledCircle(start_pos.x-LASER_WIDTH, start_pos.y-LASER_WIDTH, 2*LASER_WIDTH, 2*LASER_WIDTH, glow_col, 1);
-
 	//Feldmitte als neue Startposition
 	start_pos.x = map_pos.x + FIELD_SIZE/2;
 	start_pos.y = map_pos.y + FIELD_SIZE/2;
+
+	//Ecke mit gefuelltem Kreis abrunden. (Nicht moeglich mit Qt-Optionen, da einzelne Linien gezeichnet werden)
+	DrawFilledCircle(start_pos.x-LASER_WIDTH, start_pos.y-LASER_WIDTH, 2*LASER_WIDTH, 2*LASER_WIDTH, glow_col, 1);
 
 	//Neue Direction nach Ablenkung
 	dir += angle; NORM(dir);
