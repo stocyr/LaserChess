@@ -223,7 +223,7 @@ void spiel(pawn *figure)
 
 						// Abschuss sound abspielen
 						play_sound(Laser);
-
+						// übergibt der Laserfunktion den ort der Cannon, das nicht gesucht werden muss, wird aus dem Figurearray gelesen wo sie steht
 						destroyed_figure = laser(figure[PLAYER*(ANZ_FIGURES/2) + 1].Pos, figure[PLAYER*(ANZ_FIGURES/2) + 1].DIR);
 						FIGURE_DEST = destroyed_figure + 3;
 						SPIELZUG = SELECT_FIGURE;
@@ -264,7 +264,7 @@ void spiel(pawn *figure)
 				}
 
 		}
-		//key_press = GetKeyPress();
+		//Wenn eine Taste gedrückt wurde, oder der Schliess Button gecklickt
 		if(IsKeyPressReady())
 		{
 			key_press = GetKeyPress();
