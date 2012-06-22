@@ -2,7 +2,7 @@
 ==========
 
 This is a game for our programming class.
-It's written in C and is a clone of the game Khet (http://www.khet.com/).
+It's written in C and it's a clone of the game *Khet* (http://www.khet.com/).
 
 Release Notes
 -------------
@@ -28,9 +28,9 @@ Links
 
 * set up *git*: http://help.github.com/win-set-up-git/
 
-* short introduction: http://spheredev.org/wiki/Git_for_the_lazy
+* short introduction to *git*: http://spheredev.org/wiki/Git_for_the_lazy
 
-* the git book: http://progit.org/book/
+* the *git book*: http://progit.org/book/
 
 
 Git
@@ -45,6 +45,6 @@ Git
 Hier ist zu beachten: Anstatt mit `git fetch` das Repository herunter zu laden und dann mit `git merge` mit dem Arbeitsverzeichnis zu synchronisieren,
 nutzen wir den Befehl `git pull`, der macht das auf einmal.
 
-* Mit `git add .` koennen saemtliche aenderungen (ausser Files loeschen und hinzuf�gen) auf einmal zur *staging area* hinzugefuegt werden.
+* Mit `git add .` koennen saemtliche aenderungen (ausser Files loeschen und hinzufuegen) auf einmal zur *staging area* hinzugefuegt werden.
 
 * Mit `git commit -a -m 'bemerkung zu diesem commit'` kann direkt vom Arbeitsverzeichnis ein commit gemacht werden (ohne `git add`).
