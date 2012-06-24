@@ -1,0 +1,17 @@
+location pixel_to_map(location Windowskoordinaten)
+{
+    Variable für Mapkoorinaten definieren
+    if ( Input sind ungültige Windowskoorinaten? )
+    {
+        return Fehler;
+    }
+    X- und Y-Werte der Mapkoordinaten mit Hilfe der Feldgrösse und Anzahl Felder berechnen
+    if ( Berechnete Mapkoordinaten sind ausserhalb des Spielfelds? )
+    {
+        return Fehler;
+    }
+    else
+    {
+        return Mapkoordinaten;
+    }
+}

@@ -1,0 +1,6 @@
+void draw_focus(location pos)
+{
+    Variable für Position in Windowskoordinaten definieren
+    Position in Windowskoordinaten umrechnen (Funktion: map_to_pixel)
+    Umrandung zeichnen in Farbe FOCUS_COL (Funktion DrawEmptyRectangle
+}

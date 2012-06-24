@@ -1,0 +1,7 @@
+void draw_empty_field(location pos)
+{
+    Variable für Position in Windowskoordinaten definieren
+    Position in Windowskoordinaten umrechnen (Funkton: map_to_pixel)
+    Ganzes Feld in Farbe PLAYGROUND_COL übermalen (Funktion: DrawFilledRectangle)
+    Umrandung zeichnen in Farbe LINE_COL (Funktion: DrawEmptyRectangle)
+}
