@@ -24,7 +24,6 @@
 /*****************************************************************************/
 
 #include <string.h>
-
 #include "Grafik.h"
 #include "Logik.h"
 #include "LaserChess.h"
@@ -164,6 +163,8 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                         case 1:
                         	//Zerstourungssound
                         	play_sound(Destruction);
+                        	// Position des getroffenen Mirrors global speichern (da rekursion)
+                        	Hit_mirror = next_pawn->Pos;
                         	// Zerstörung: Zerstörung zeichnen
                             draw_figure_destroyed(next_pawn);
                             // Spiegel aus der map löschen
@@ -183,7 +184,11 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             // sich selbst ausführen
                             return_value = laser(next_pos, dir);
                             // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
-                            if(return_value >= 0)draw_figure(next_pawn);
+                            if(return_value >= 0)
+                            {
+                            	draw_figure(next_pawn);
+                            	draw_empty_field(Hit_mirror); // Notlösung wenn getroffener Mirror beim Laser-Löschen wieder gezeichnet wird
+                            }
                             return return_value;
 
                         case 3:
@@ -196,7 +201,11 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             // sich selbst ausführen
                             return_value = laser(next_pos, dir);
                             // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
-                            if(return_value >= 0)draw_figure(next_pawn);
+                            if(return_value >= 0)
+                            {
+                            	draw_figure(next_pawn);
+                            	draw_empty_field(Hit_mirror); // Notlösung wenn getroffener Mirror beim Laser-Löschen wieder gezeichnet wird
+                            }
                             return return_value;
                     }
                     break;

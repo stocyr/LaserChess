@@ -35,6 +35,9 @@
 // Wie lange nach abschluss des Laserschusses gewartet wird (ms)
 #define LASER_FINISHED_WAIT_TIME 1000
 
+// Globale Variable für Logik
+location Hit_mirror;
+
 // Prototypen
 int laser(location pos, enum Direction dir);	//enum Direction dir
 int is_inside_map(location pos);
