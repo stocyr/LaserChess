@@ -1,0 +1,10 @@
+location map_to_pixel(location Mapkoordinaten)
+{
+    Variable für Windowskoordinaten definieren
+    if ( Input sind ungültige Mapkoordinaten? )
+    {
+        return Fehler;
+    }
+    X- und Y-Werte der Windowskoordinaten mit Hilfe der Feldgrösse und Anzahl Felder berechnen
+    return Windowskoordinaten;
+}

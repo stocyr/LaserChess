@@ -1,0 +1,14 @@
+void draw_playground()
+{
+    Mit Hilfe der Feldgrösse, Spielfeldgrösse und Feldliniendicke ein Grafikfenster initialisieren (Funktion: InitGraphic)
+    Spielfeld in Farbe PLAYGROUND_COL färben (Funktion: DrawFilledRectangle)
+    Umrandung des Spielfeldes zeichnen in Farbe LINE_COL (Funktion: DrawEmptyRectangle)
+    for ( jedes Feld in Y-Richtung )
+    {
+        Horizontale Linie zeichnen zwischen den Feldern in Farbe LINE_COL
+    }
+    for ( jedes Feld in X-Richtung )
+    {
+        Vertikale Linie zeichnen zwischen den Feldern in Farbe LINE_COL
+    }
+}
