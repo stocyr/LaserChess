@@ -1238,8 +1238,6 @@ int gfxmain(int argc, char* argv[], const char *ApplicationPath)
 {
 	AppPath = ApplicationPath;	// EXE-Pfad uebergeben, damit global verwendbar
 	Sound_On = 1;
-	Hit_mirror.x = -1;			// Globale Variable für getroffenen Spiegel initialisieren
-	Hit_mirror.y = -1;
 	enum Spielmodus MODE;
 	pawn figure[ANZ_FIGURES];	// Structarray für die Figuren
 

@@ -184,7 +184,11 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             // sich selbst ausführen
                             return_value = laser(next_pos, dir);
                             // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
-                            if(return_value >= 0)
+                            if(return_value == 0) // Wall
+                            {
+                            	draw_figure(next_pawn);
+                            }
+                            if(return_value > 0) // Mirror
                             {
                             	draw_figure(next_pawn);
                             	draw_empty_field(Hit_mirror); // Notlösung wenn getroffener Mirror beim Laser-Löschen wieder gezeichnet wird
@@ -201,11 +205,15 @@ int laser(location pos, enum Direction dir)	//enum Direction dir
                             // sich selbst ausführen
                             return_value = laser(next_pos, dir);
                             // nachdem der Laser irgendwo angestossen ist, linie wieder löschen, ausser wenn King getroffen wurde
-                            if(return_value >= 0)
-                            {
-                            	draw_figure(next_pawn);
-                            	draw_empty_field(Hit_mirror); // Notlösung wenn getroffener Mirror beim Laser-Löschen wieder gezeichnet wird
-                            }
+                            if(return_value == 0) // Wall
+							{
+								draw_figure(next_pawn);
+							}
+							if(return_value > 0) // Mirror
+							{
+								draw_figure(next_pawn);
+								draw_empty_field(Hit_mirror); // Notlösung wenn getroffener Mirror beim Laser-Löschen wieder gezeichnet wird
+							}
                             return return_value;
                     }
                     break;
