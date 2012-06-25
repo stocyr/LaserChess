@@ -4,6 +4,8 @@
 This is a game for our programming class.
 It's written in C and it's a clone of the game *Khet* (http://www.khet.com/).
 
+![Ingame screenshot](/stocyr/LaserChess/raw/master/docs/img/in-game.png)
+
 Release Notes
 -------------
 
